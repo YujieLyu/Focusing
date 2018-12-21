@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".MainActivity"
+    tools:showIn="@layout/app_bar_main">
+
+    <Button
+        android:id="@+id/btn_lock_app"
+        android:layout_width="130dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="450dp"
+        android:layout_marginLeft="50dp"
+        android:background="@color/colorAccent"
+        android:text="Lock Apps"
+        android:textAlignment="center"
+
+        android:textColor="@color/text_white"
+        android:textSize="17sp"
+        android:textStyle="bold|italic" />
+
+    <Button
+        android:id="@+id/btn_start"
+        android:layout_width="130dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="450dp"
+        android:layout_marginLeft="50dp"
+        android:layout_toRightOf="@id/btn_lock_app"
+        android:background="@color/colorPrimary"
+        android:textAlignment="center"
+        android:text="Start"
+
+        android:textColor="@color/text_white"
+        android:textSize="17sp"
+        android:textStyle="bold|italic"/>
+
+
+</RelativeLayout>

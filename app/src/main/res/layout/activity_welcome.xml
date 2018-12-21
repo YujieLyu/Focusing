@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".WelcomeActivity"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/img_welcome"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
+        android:src="@drawable/welcome"
+        />
+
+    <TextView
+        android:id="@+id/tv_welcome"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:lineSpacingExtra="15sp"
+        android:padding="10dp"
+        android:text="Be Focusing Enjoy Efficiency"
+        android:textColor="@color/text_white"
+        android:textSize="30dp"
+        android:textStyle="bold" />
+
+
+</RelativeLayout>

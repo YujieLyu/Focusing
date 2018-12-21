@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="text_white">#FFFFFF</color>
+    <color name="bg_pink">#b34d88</color>
+    <color name="bg_blue_normal">#5677FC</color>
+    <color name="bg_blue_toolbar">#3F51B5</color>
+    <color name="bg_blue_dark">#303F9F</color>
+    <color name="bg_white">#FFFFFF</color>
+    <color name="grey">#49494a</color>
+    <color name="font_deep_gray">#5b5b5b</color>  <!--字体深灰色-->
+</resources>
