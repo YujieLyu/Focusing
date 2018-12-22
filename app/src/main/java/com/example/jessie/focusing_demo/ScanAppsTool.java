@@ -17,6 +17,7 @@ public class ScanAppsTool {
 
     static final String TAG="ScanAppsTool";
 
+
     public static List<AppLockInfo> scanAppsList(PackageManager packageManager) {
 
         List<AppLockInfo> mAppInfos = new ArrayList<AppLockInfo>();
@@ -24,13 +25,15 @@ public class ScanAppsTool {
             List<PackageInfo> packageInfos = packageManager.getInstalledPackages(0);
             for (int i = 0; i < packageInfos.size(); i++) {
                 PackageInfo packageInfo = packageInfos.get(i);
-                //过滤掉系统app
+                //todo:保留一定的系统应用
+                // 过滤掉系统app
+
             if ((ApplicationInfo.FLAG_SYSTEM & packageInfo.applicationInfo.flags) != 0) {
                 continue;
             }
 
                 AppLockInfo appLockInfo = new AppLockInfo();
-                appLockInfo.setAppName(packageInfo.packageName);
+                appLockInfo.setAppName(packageInfo.applicationInfo.loadLabel(packageManager).toString());
                 appLockInfo.setAppImg(packageInfo.applicationInfo.loadIcon(packageManager));
                 mAppInfos.add(appLockInfo);
 

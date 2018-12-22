@@ -10,5 +10,6 @@
     <color name="bg_blue_dark">#303F9F</color>
     <color name="bg_white">#FFFFFF</color>
     <color name="grey">#49494a</color>
+    <color name="light_grey">#9f9f9f</color>
     <color name="font_deep_gray">#5b5b5b</color>  <!--字体深灰色-->
 </resources>

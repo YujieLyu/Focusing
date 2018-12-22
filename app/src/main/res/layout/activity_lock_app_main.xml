@@ -8,10 +8,11 @@
 
     <android.support.v7.widget.SearchView
         android:id="@+id/search_bar"
-        android:layout_width="match_parent"
+        android:layout_width="360dp"
         android:layout_margin="10dp"
+        android:layout_gravity="center"
         android:layout_height="wrap_content"
-        android:background="@drawable/grey_border_bottom">
+        android:background="@drawable/bg_search">
 
     </android.support.v7.widget.SearchView>
 
