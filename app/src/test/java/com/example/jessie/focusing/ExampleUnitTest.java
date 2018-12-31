@@ -1,4 +1,4 @@
-package com.example.jessie.focusing_demo;
+package com.example.jessie.focusing;
 
 import org.junit.Test;
 

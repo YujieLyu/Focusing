@@ -32,7 +32,7 @@
     	</list>
     -->
     <list>
-        <mapping class="com.example.jessie.focusing_demo.model.AppInfo" />
+        <mapping class="com.example.jessie.focusing.model.AppInfo" />
     </list>
 
     <!--

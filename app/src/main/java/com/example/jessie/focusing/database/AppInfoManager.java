@@ -1,14 +1,12 @@
-package com.example.jessie.focusing_demo.database;
+package com.example.jessie.focusing.database;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
 
-import com.example.jessie.focusing_demo.model.AppInfo;
+import com.example.jessie.focusing.model.AppInfo;
 
 import org.litepal.LitePal;
-import org.litepal.exceptions.DataSupportException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -31,7 +29,7 @@ public class AppInfoManager {
      */
     public synchronized List<AppInfo> insertAppLockInfo(List<AppInfo> appInfos) {
         //        List<AppInfo> appInfosToShow=new ArrayList<>();
-        List<AppInfo> appInfosDatabase=LitePal.findAll(AppInfo.class);
+        List<AppInfo> appInfosDatabase = LitePal.findAll(AppInfo.class);
 //        for (AppInfo infoDB : appInfosDatabase) {
 //            if(appInfos.contains(infoDB)){
 //                appInfosToShow.add(infoDB);
@@ -50,16 +48,16 @@ public class AppInfoManager {
         }
 
         for (AppInfo appInfoDB : appInfosDatabase) {
-            if (!appInfos.contains(appInfoDB)){
-                LitePal.delete(AppInfo.class,appInfoDB.getId());
+            if (!appInfos.contains(appInfoDB)) {
+                LitePal.delete(AppInfo.class, appInfoDB.getId());
             }
 
         }
         for (AppInfo appInfo : appInfos) {
             for (AppInfo infoDB : appInfosDatabase) {
-                if (appInfo.getPackageName().equals(infoDB.getPackageName())){
-                    appInfo.setId(infoDB.getId());
+                if (appInfo.getPackageName().equals(infoDB.getPackageName())) {
                     appInfo.setLocked(infoDB.isLocked());
+//                    infoDB.setAppName(appInfo.getAppName());
                 }
             }
 
@@ -68,7 +66,14 @@ public class AppInfoManager {
     }
 
     public void saveInfos(List<AppInfo> appInfos) {
+        List<AppInfo> appInfosDatabase = LitePal.findAll(AppInfo.class);
         for (AppInfo info : appInfos) {
+            for (AppInfo infoDB : appInfosDatabase) {
+                if(info.getPackageName().equals(infoDB.getPackageName())){
+                    infoDB.setLocked(info.isLocked());
+                    infoDB.save();
+                }
+            }
             info.save();
         }
     }
@@ -84,9 +89,9 @@ public class AppInfoManager {
         }
     }
 
-    public boolean checkIsLocked(String packageName){
-        AppInfo appInfo=LitePal.where("packageName=?",packageName).findFirst(AppInfo.class);
-        if(appInfo==null){
+    public boolean checkIsLocked(String packageName) {
+        AppInfo appInfo = LitePal.where("packageName=?", packageName).findFirst(AppInfo.class);
+        if (appInfo == null) {
             return false;
         }
         return appInfo.isLocked();

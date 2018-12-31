@@ -1,4 +1,4 @@
-package com.example.jessie.focusing_demo.model;
+package com.example.jessie.focusing.model;
 
 import android.graphics.drawable.Drawable;
 

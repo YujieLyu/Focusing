@@ -1,24 +1,15 @@
-package com.example.jessie.focusing_demo.view;
+package com.example.jessie.focusing.view;
 
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import com.example.jessie.focusing_demo.R;
-import com.example.jessie.focusing_demo.adapter.AppListAdapter;
-import com.example.jessie.focusing_demo.utils.ScanAppsTool;
-import com.example.jessie.focusing_demo.model.AppInfo;
+import com.example.jessie.focusing.R;
+import com.example.jessie.focusing.adapter.AppListAdapter;
+import com.example.jessie.focusing.utils.ScanAppsTool;
+import com.example.jessie.focusing.model.AppInfo;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

@@ -1,4 +1,4 @@
-package com.example.jessie.focusing_demo;
+package com.example.jessie.focusing;
 
 import android.app.AppOpsManager;
 import android.content.ComponentName;

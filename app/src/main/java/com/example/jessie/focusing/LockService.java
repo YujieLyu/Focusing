@@ -1,4 +1,4 @@
-package com.example.jessie.focusing_demo;
+package com.example.jessie.focusing;
 
 import android.app.ActivityManager;
 import android.app.IntentService;
@@ -10,8 +10,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 
-import com.example.jessie.focusing_demo.database.AppInfoManager;
-import com.example.jessie.focusing_demo.view.LockScreenActivity;
+import com.example.jessie.focusing.database.AppInfoManager;
+import com.example.jessie.focusing.view.LockScreenActivity;
 
 import java.util.ArrayList;
 import java.util.List;

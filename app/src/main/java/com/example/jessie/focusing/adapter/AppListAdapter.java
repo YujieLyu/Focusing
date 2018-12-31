@@ -1,9 +1,6 @@
-package com.example.jessie.focusing_demo.adapter;
+package com.example.jessie.focusing.adapter;
 
 import android.content.Context;
-import android.content.pm.PackageManager;
-import android.support.v7.widget.AppCompatCheckBox;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,13 +8,9 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.example.jessie.focusing_demo.R;
-import com.example.jessie.focusing_demo.database.AppInfoManager;
-import com.example.jessie.focusing_demo.model.AppInfo;
-
-import org.litepal.LitePal;
-
+import com.example.jessie.focusing.R;
+import com.example.jessie.focusing.database.AppInfoManager;
+import com.example.jessie.focusing.model.AppInfo;
 import java.util.ArrayList;
 import java.util.List;
 

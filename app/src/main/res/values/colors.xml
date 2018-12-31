@@ -12,4 +12,5 @@
     <color name="grey">#49494a</color>
     <color name="light_grey">#9f9f9f</color>
     <color name="font_deep_gray">#5b5b5b</color>  <!--字体深灰色-->
+    <color name="transparent">#00000000</color>
 </resources>

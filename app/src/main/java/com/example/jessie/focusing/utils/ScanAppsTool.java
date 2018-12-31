@@ -1,11 +1,12 @@
-package com.example.jessie.focusing_demo.utils;
+package com.example.jessie.focusing.utils;
 
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.util.Log;
 
-import com.example.jessie.focusing_demo.model.AppInfo;
+import com.example.jessie.focusing.AppConstants;
+import com.example.jessie.focusing.model.AppInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.List;
  */
 public class ScanAppsTool {
 
-    static final String TAG="ScanAppsTool";
+    static final String TAG = "ScanAppsTool";
 
 
     public static List<AppInfo> scanAppsList(PackageManager packageManager) {
@@ -30,9 +31,11 @@ public class ScanAppsTool {
                 //todo:保留一定的系统应用:电话闹钟一类的
                 // 过滤掉系统app
 
-            if ((ApplicationInfo.FLAG_SYSTEM & packageInfo.applicationInfo.flags) != 0) {
-                continue;
-            }
+                if ((ApplicationInfo.FLAG_SYSTEM & packageInfo.applicationInfo.flags) != 0
+                        ||packageInfo.packageName.equals(AppConstants.APP_PACKAGE_NAME)) {
+                    continue;
+                }
+
 //            if (!packageInfo.packageName.equals(AppConstants.APP_PACKAGE_NAME) && !packageInfo.packageName.equals("com.android.settings")
 //                        && !packageInfo.packageName.equals("com.google.android.googlequicksearchbox"))) {
 //                    continue;

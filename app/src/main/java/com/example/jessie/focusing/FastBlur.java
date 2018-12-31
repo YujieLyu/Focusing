@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package com.example.jessie.focusing_demo;
+package com.example.jessie.focusing;
 
 import android.graphics.Bitmap;
 

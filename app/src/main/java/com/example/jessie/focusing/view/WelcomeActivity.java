@@ -1,4 +1,4 @@
-package com.example.jessie.focusing_demo.view;
+package com.example.jessie.focusing.view;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -11,13 +11,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.example.jessie.focusing_demo.AppConstants;
-import com.example.jessie.focusing_demo.DialogPermission;
-import com.example.jessie.focusing_demo.LoadAppListService;
-import com.example.jessie.focusing_demo.LockService;
-import com.example.jessie.focusing_demo.LockUtil;
-import com.example.jessie.focusing_demo.R;
-import com.example.jessie.focusing_demo.SPUtil;
+import com.example.jessie.focusing.AppConstants;
+import com.example.jessie.focusing.DialogPermission;
+import com.example.jessie.focusing.LockService;
+import com.example.jessie.focusing.LockUtil;
+import com.example.jessie.focusing.R;
+import com.example.jessie.focusing.SPUtil;
 
 public class WelcomeActivity extends AppCompatActivity {
     private ImageView imgWelcome;
@@ -50,12 +49,10 @@ public class WelcomeActivity extends AppCompatActivity {
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
                 boolean isFirstLock = SPUtil.getInstance().getBoolean(AppConstants.LOCK_IS_FIRST_LOCK, true);
-                if (isFirstLock) { //如果第一次
+                if (isFirstLock) { //如果第一次//todo:更改第一次的判断机制，现在的是不太懂这个sputil
                     showDialog();
                 } else {
                     Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
-//                    intent.putExtra(AppConstants.LOCK_PACKAGE_NAME, AppConstants.APP_PACKAGE_NAME); //传自己的包名
-//                    intent.putExtra(AppConstants.LOCK_FROM, AppConstants.LOCK_FROM_LOCK_MAIN_ACITVITY);
                     startActivity(intent);
                     finish();
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
