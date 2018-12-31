@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".WelcomeActivity"
+    tools:context=".view.WelcomeActivity"
     android:orientation="horizontal">
 
     <ImageView
@@ -20,8 +20,7 @@
         android:id="@+id/tv_welcome"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
+        android:layout_centerInParent="true"
         android:gravity="center"
         android:lineSpacingExtra="15sp"
         android:padding="10dp"

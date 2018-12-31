@@ -9,11 +9,15 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimary"
+        android:elevation="4dp"
         app:titleTextColor="@color/bg_white"
         android:theme="@style/ThemeOverlay.AppCompat.Light"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
-    <!--app:navigationIcon="@drawable/ic_back_white"-->
+    </android.support.v7.widget.Toolbar>
+
+
+
 
 </android.support.design.widget.AppBarLayout>
 

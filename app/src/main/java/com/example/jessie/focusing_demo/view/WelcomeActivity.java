@@ -1,13 +1,23 @@
-package com.example.jessie.focusing_demo;
+package com.example.jessie.focusing_demo.view;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
+import android.graphics.Color;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
+
+import com.example.jessie.focusing_demo.AppConstants;
+import com.example.jessie.focusing_demo.DialogPermission;
+import com.example.jessie.focusing_demo.LoadAppListService;
+import com.example.jessie.focusing_demo.LockService;
+import com.example.jessie.focusing_demo.LockUtil;
+import com.example.jessie.focusing_demo.R;
+import com.example.jessie.focusing_demo.SPUtil;
 
 public class WelcomeActivity extends AppCompatActivity {
     private ImageView imgWelcome;
@@ -19,15 +29,19 @@ public class WelcomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
+        //沉浸式状态栏
+        View decorView = getWindow().getDecorView();
+        int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+        decorView.setSystemUiVisibility(option);
+        getWindow().setStatusBarColor(Color.TRANSPARENT);
+
         SPUtil.getInstance().init(this);
         initData();
     }
 
     protected void initData(){
-        startService(new Intent(this,LoadAppListService.class) );
-        if(SPUtil.getInstance().getBoolean(AppConstants.LOCK_STATE, false)){
-            startService(new Intent(this, LockService.class));
-        }
+        startService(new Intent(this, LockService.class));
         animator = ObjectAnimator.ofFloat(imgWelcome, "alpha", 0.5f, 1);
         animator.setDuration(1500);
         animator.start();

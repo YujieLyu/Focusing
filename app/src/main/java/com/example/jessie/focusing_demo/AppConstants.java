@@ -5,7 +5,7 @@ package com.example.jessie.focusing_demo;
  * @date : 12-12-2018
  * @time : 23:39
  */
-class AppConstants {
+public class AppConstants {
 
     public static final String LOCK_STATE = "app_lock_state"; //应用锁开关(状态，true开，false关)
     public static final String LOCK_IS_FIRST_LOCK = "is_locked"; //是否加过锁

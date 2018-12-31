@@ -1,11 +1,10 @@
-package com.example.jessie.focusing_demo;
+package com.example.jessie.focusing_demo.model;
 
-import android.content.pm.ApplicationInfo;
 import android.graphics.drawable.Drawable;
-import android.os.Parcel;
-import android.os.Parcelable;
 
-import org.litepal.crud.DataSupport;
+import org.litepal.annotation.Column;
+import org.litepal.crud.LitePalSupport;
+
 
 /**
  * @author : Yujie Lyu
@@ -14,22 +13,44 @@ import org.litepal.crud.DataSupport;
  * 表示获取到的应用
  */
 //
-class AppLockInfo {
+public class AppInfo extends LitePalSupport {
+
+    @Column(unique = true)
+    private long id;
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof AppInfo) {
+            AppInfo appInfo = (AppInfo) obj;
+            return packageName.equals(appInfo.getPackageName());
+        }
+        return false;
+    }
+
+    @Column(unique = true, nullable = false)
+    private String packageName;
+
 
     private Drawable appImg;
+
+
     private String appName;
 
-    public AppLockInfo(Drawable appImg,String appName){
-        this.appImg=appImg;
-        this.appName=appName;
+    private boolean isLocked;//是否已加锁
+
+
+    public AppInfo(Drawable appImg, String appName, Boolean isLocked) {
+        this.appImg = appImg;
+        this.appName = appName;
+        this.isLocked = isLocked;
     }
 
 
-    public AppLockInfo(){
+    public AppInfo() {
 
     }
 
-    public Drawable getAppImg(){
+    public Drawable getAppImg() {
         return appImg;
     }
 
@@ -45,28 +66,50 @@ class AppLockInfo {
         this.appName = appName;
     }
 
+    public boolean isLocked() {
+        return isLocked;
+    }
 
-    //    private long id;
-//    private String packageName;
+    public void setLocked(boolean locked) {
+        isLocked = locked;
+    }
 
-//    private boolean isLocked;//是否已加锁
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    //
+
+
 ////    todo:推荐加锁的应用
 //    private ApplicationInfo appInfo;
 ////    todo:区分系统应用和用户应用；
 //    private String topTitle;
 ////    todo:private boolean isSetUnlocked;
 
-//    public AppLockInfo(){
+//    public AppInfo(){
 //
 //    }
 //
-//    public AppLockInfo(String packageName,boolean isLocked){
+//    public AppInfo(String packageName,boolean isLocked){
 //        this.packageName=packageName;
 //        this.isLocked=isLocked;
 //
 //    }
 //
-//    protected AppLockInfo(Parcel in) {
+//    protected AppInfo(Parcel in) {
 //        this.id=in.readLong();
 //        this.packageName=in.readString();
 //        this.appName=in.readString();
@@ -77,15 +120,15 @@ class AppLockInfo {
 //
 //    }
 //
-//    public static final Creator<AppLockInfo> CREATOR = new Creator<AppLockInfo>() {
+//    public static final Creator<AppInfo> CREATOR = new Creator<AppInfo>() {
 //        @Override
-//        public AppLockInfo createFromParcel(Parcel in) {
-//            return new AppLockInfo(in);
+//        public AppInfo createFromParcel(Parcel in) {
+//            return new AppInfo(in);
 //        }
 //
 //        @Override
-//        public AppLockInfo[] newArray(int size) {
-//            return new AppLockInfo[size];
+//        public AppInfo[] newArray(int size) {
+//            return new AppInfo[size];
 //        }
 //    };
 //

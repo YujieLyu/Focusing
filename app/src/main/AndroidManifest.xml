@@ -15,6 +15,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
+        android:name="org.litepal.LitePalApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -22,7 +23,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <activity
-            android:name=".WelcomeActivity"
+            android:name=".view.WelcomeActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -31,12 +32,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
-        <activity android:name=".Lock_App_Activity"/>
+        <activity android:name=".view.MainActivity" />
+        <activity android:name=".view.Lock_App_Activity"/>
+        <activity android:name=".view.LockScreenActivity" />
+
         <service
             android:name=".LoadAppListService"
             android:enabled="true"
             android:exported="true" />
+        <service android:name=".LockService" />
 
     </application>
 

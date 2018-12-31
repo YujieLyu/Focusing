@@ -1,4 +1,4 @@
-package com.example.jessie.focusing_demo;
+package com.example.jessie.focusing_demo.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +14,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+
+import com.example.jessie.focusing_demo.R;
+import com.example.jessie.focusing_demo.model.AppInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -120,10 +123,10 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void loadAppInfoSuccess(List<AppLockInfo> list) {
+    public void loadAppInfoSuccess(List<AppInfo> list) {
         int appNum = 0;
 
-        for (AppLockInfo info : list) {
+        for (AppInfo info : list) {
             appNum++;
         }
         titles = new ArrayList<>();

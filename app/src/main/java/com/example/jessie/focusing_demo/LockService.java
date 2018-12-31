@@ -1,7 +1,6 @@
 package com.example.jessie.focusing_demo;
 
 import android.app.ActivityManager;
-import android.app.AlertDialog;
 import android.app.IntentService;
 import android.app.usage.UsageEvents;
 import android.app.usage.UsageStatsManager;
@@ -10,9 +9,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.os.Build;
-import android.support.annotation.Nullable;
-import android.text.TextUtils;
+
+import com.example.jessie.focusing_demo.database.AppInfoManager;
+import com.example.jessie.focusing_demo.view.LockScreenActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,49 +28,70 @@ public class LockService extends IntentService implements DialogInterface.OnClic
      * @param name Used to name the worker thread, important only for debugging.
      */
 
-    private boolean lockState;
-    private ActivityManager activityManager;
 
-    public LockService(String name) {
-        super(name);
+    private ActivityManager activityManager;
+    private AppInfoManager appInfoManager;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        appInfoManager = new AppInfoManager(this);
+        activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+
+    }
+
+    public LockService() {
+        super("LockService");
     }
 
     @Override
-    protected void onHandleIntent(Intent intent) { checkData(); }
+    protected void onHandleIntent(Intent intent) {
+        while (true){
+            checkData();
+            try {
+                Thread.sleep(1000);//todo:时间设置更改
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
     private void checkData() {
 
         //获取栈顶app的包名
         String packageName = getLauncherTopApp(LockService.this, activityManager);
+        boolean lockStatus = appInfoManager.checkIsLocked(packageName);
 
-//        //判断包名打开解锁页面
-//        if (lockState && !inWhiteList(packageName) && !TextUtils.isEmpty(packageName)) {
+        //判断包名打开解锁页面
+        if (lockStatus) {
+            Intent intent = new Intent(LockService.this, LockScreenActivity.class);
+            startActivity(intent);
 //            AlertDialog.Builder builder = new AlertDialog.Builder(this)
 //                    .setMessage("过会再来")
 //                    .setPositiveButton("好的", this);
 //            builder.create().show();
-//            if (!ignore) {
-//                continue;
-//            }
-//        }
+        }
     }
+
     public String getLauncherTopApp(Context context, ActivityManager activityManager) {
 
-            //5.0以后需要用这方法
-            UsageStatsManager sUsageStatsManager = (UsageStatsManager) context.getSystemService(Context.USAGE_STATS_SERVICE);
-            long endTime = System.currentTimeMillis();
-            long beginTime = endTime - 10000;
-            String result = "";
-            UsageEvents.Event event = new UsageEvents.Event();
-            UsageEvents usageEvents = sUsageStatsManager.queryEvents(beginTime, endTime);
-            while (usageEvents.hasNextEvent()) {
-                usageEvents.getNextEvent(event);
-                if (event.getEventType() == UsageEvents.Event.MOVE_TO_FOREGROUND) {
-                    result = event.getPackageName();
-                }
+        //5.0以后需要用这方法
+        UsageStatsManager usageStatsManager = (UsageStatsManager) context.getSystemService(Context.USAGE_STATS_SERVICE);
+        long endTime = System.currentTimeMillis();
+        long beginTime = endTime - 10000;
+        String result = "";
+        UsageEvents.Event event = new UsageEvents.Event();
+        UsageEvents usageEvents = usageStatsManager.queryEvents(beginTime, endTime);
+        while (usageEvents.hasNextEvent()) {
+            usageEvents.getNextEvent(event);
+            if (event.getEventType() == UsageEvents.Event.MOVE_TO_FOREGROUND) {
+                result = event.getPackageName();
             }
-            if (!android.text.TextUtils.isEmpty(result)) {
-                return result;
-            }
+        }
+        if (!android.text.TextUtils.isEmpty(result)) {
+            return result;
+        }
 
         return "";
     }
@@ -82,7 +102,7 @@ public class LockService extends IntentService implements DialogInterface.OnClic
     private boolean inWhiteList(String packageName) {
         return packageName.equals(AppConstants.APP_PACKAGE_NAME)
                 || packageName.equals("com.android.settings")
-                ||packageName.equals("com.google.android.apps.nexuslauncher");
+                || packageName.equals("com.google.android.apps.nexuslauncher");
     }
 
     /**
