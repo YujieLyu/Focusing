@@ -44,43 +44,43 @@ public class LockScreenActivity extends AppCompatActivity {
         decorView.setSystemUiVisibility(option);
         getWindow().setStatusBarColor(Color.TRANSPARENT);
 
-//        initData();
-//        try {
-//            initLayoutBackground();
-//        } catch (PackageManager.NameNotFoundException e) {
-//            e.printStackTrace();
-//        }
+        initData();
+        try {
+            initLayoutBackground();
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
 
 
     }
 
-//    protected void initData() {
-//        //获取解锁应用的包名
-//        pkgName = getIntent().getStringExtra(AppConstants.LOCK_PACKAGE_NAME);
-//
-//        //初始化
-//        packageManager = getPackageManager();
-//
-//
-//    }
+    protected void initData() {
+        //获取解锁应用的包名
+        pkgName = getIntent().getStringExtra(AppConstants.LOCK_PACKAGE_NAME);
 
-//    private void initLayoutBackground() throws PackageManager.NameNotFoundException {
-//        appInfo = packageManager.getApplicationInfo(pkgName, PackageManager.GET_UNINSTALLED_PACKAGES);
-//        suggestInfo.setText("You cannot open the App /n Please keep focusing");
-//        unLockLayout.getViewTreeObserver().addOnPreDrawListener(
-//                new ViewTreeObserver.OnPreDrawListener() {
-//                    @Override
-//                    public boolean onPreDraw() {
-//                        unLockLayout.getViewTreeObserver().removeOnPreDrawListener(this);
-//                        unLockLayout.buildDrawingCache();
-//                        final Drawable icon = packageManager.getApplicationIcon(appInfo);
-//                        unLockLayout.setBackgroundDrawable(icon);
-//                        Bitmap bmp = LockUtil.drawableToBitmap(icon, unLockLayout);
-//                        LockUtil.blur(LockScreenActivity.this, LockUtil.big(bmp), unLockLayout);  //高斯模糊
-//                        return true;
-//                    }
-//                });
-//    }
+        //初始化
+        packageManager = getPackageManager();
+
+
+    }
+
+    private void initLayoutBackground() throws PackageManager.NameNotFoundException {
+        appInfo = packageManager.getApplicationInfo(pkgName, PackageManager.GET_UNINSTALLED_PACKAGES);
+        suggestInfo.setText("You cannot open the App /n Please keep focusing");
+        unLockLayout.getViewTreeObserver().addOnPreDrawListener(
+                new ViewTreeObserver.OnPreDrawListener() {
+                    @Override
+                    public boolean onPreDraw() {
+                        unLockLayout.getViewTreeObserver().removeOnPreDrawListener(this);
+                        unLockLayout.buildDrawingCache();
+                        final Drawable icon = packageManager.getApplicationIcon(appInfo);
+                        unLockLayout.setBackgroundDrawable(icon);
+                        Bitmap bmp = LockUtil.drawableToBitmap(icon, unLockLayout);
+                        LockUtil.blur(LockScreenActivity.this, LockUtil.big(bmp), unLockLayout);  //高斯模糊
+                        return true;
+                    }
+                });
+    }
 
 
 }
