@@ -13,10 +13,10 @@ import android.widget.ImageView;
 
 import com.example.jessie.focusing.AppConstants;
 import com.example.jessie.focusing.DialogPermission;
-import com.example.jessie.focusing.LockService;
-import com.example.jessie.focusing.LockUtil;
+import com.example.jessie.focusing.service.LockService;
+import com.example.jessie.focusing.utils.LockUtil;
 import com.example.jessie.focusing.R;
-import com.example.jessie.focusing.SPUtil;
+import com.example.jessie.focusing.utils.SPUtil;
 
 public class WelcomeActivity extends AppCompatActivity {
     private ImageView imgWelcome;

@@ -1,4 +1,4 @@
-package com.example.jessie.focusing;
+package com.example.jessie.focusing.service;
 
 import android.app.ActivityManager;
 import android.app.IntentService;
@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 
+import com.example.jessie.focusing.AppConstants;
 import com.example.jessie.focusing.database.AppInfoManager;
 import com.example.jessie.focusing.view.LockScreenActivity;
 
@@ -98,6 +99,7 @@ public class LockService extends IntentService implements DialogInterface.OnClic
     private void lockScreen(String packageName) {
 //        LockApplication.getInstance().clearAllActivity();
         Intent intent = new Intent(this, LockScreenActivity.class);
+        intent.putExtra(AppConstants.PRESS_BACK,AppConstants.BACK_TO_FINISH);
         intent.putExtra(AppConstants.LOCK_PACKAGE_NAME, packageName);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);//todo:不懂这个操作
         startActivity(intent);

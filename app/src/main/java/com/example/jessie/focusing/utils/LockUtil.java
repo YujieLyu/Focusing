@@ -1,5 +1,6 @@
-package com.example.jessie.focusing;
+package com.example.jessie.focusing.utils;
 
+import android.app.Activity;
 import android.app.AppOpsManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -22,6 +23,8 @@ import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.RelativeLayout;
+
+import com.example.jessie.focusing.FastBlur;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -171,12 +174,12 @@ public class LockUtil {
     /**
      * Home键操作
      */
-//    public static void goHome(BaseActivity activity) {
-//        Intent homeIntent = new Intent(Intent.ACTION_MAIN);
-//        homeIntent.addCategory(Intent.CATEGORY_HOME);
-//        activity.startActivity(homeIntent);
-//        activity.finish();
-//    }
+    public static void goHome(Activity activity) {
+        Intent homeIntent = new Intent(Intent.ACTION_MAIN);
+        homeIntent.addCategory(Intent.CATEGORY_HOME);
+        activity.startActivity(homeIntent);
+        activity.finish();
+    }
 
 
 }

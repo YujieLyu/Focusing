@@ -1,5 +1,6 @@
 package com.example.jessie.focusing.view;
 
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -14,7 +15,7 @@ import android.widget.TextView;
 
 
 import com.example.jessie.focusing.AppConstants;
-import com.example.jessie.focusing.LockUtil;
+import com.example.jessie.focusing.utils.LockUtil;
 import com.example.jessie.focusing.R;
 
 /**
@@ -27,6 +28,7 @@ public class LockScreenActivity extends AppCompatActivity {
     private ApplicationInfo appInfo;
     private PackageManager packageManager;
     private String pkgName; //解锁应用的包名
+    private String clickBack;//按返回键
     private TextView suggestInfo;
     private RelativeLayout lockLayout;
 
@@ -47,15 +49,12 @@ public class LockScreenActivity extends AppCompatActivity {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-
-
-
-
     }
 
     protected void initData() throws PackageManager.NameNotFoundException {
         //获取解锁应用的包名
         pkgName = getIntent().getStringExtra(AppConstants.LOCK_PACKAGE_NAME);
+        clickBack=getIntent().getStringExtra(AppConstants.PRESS_BACK);
 
         //初始化
         packageManager = getPackageManager();
@@ -67,7 +66,7 @@ public class LockScreenActivity extends AppCompatActivity {
     private void initLayoutBackground() throws PackageManager.NameNotFoundException {
         appInfo = packageManager.getApplicationInfo(pkgName, PackageManager.MATCH_UNINSTALLED_PACKAGES);
         if (appInfo != null) {
-            suggestInfo.setText("You cannot open the App /n Please keep focusing");
+            suggestInfo.setText("You cannot open the App  Please keep focusing");
             final Drawable icon=packageManager.getApplicationIcon(appInfo);
             lockLayout.setBackground(icon);
             lockLayout.getViewTreeObserver().addOnPreDrawListener(
@@ -81,6 +80,13 @@ public class LockScreenActivity extends AppCompatActivity {
                             return true;
                         }
                     });
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (clickBack.equals(AppConstants.BACK_TO_FINISH)) {
+            LockUtil.goHome(this);
         }
     }
 
