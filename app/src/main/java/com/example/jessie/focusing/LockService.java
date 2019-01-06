@@ -65,8 +65,7 @@ public class LockService extends IntentService implements DialogInterface.OnClic
 
         //判断包名打开解锁页面
         if (lockStatus) {
-            Intent intent = new Intent(LockService.this, LockScreenActivity.class);
-            startActivity(intent);
+            lockScreen(packageName);
 //            AlertDialog.Builder builder = new AlertDialog.Builder(this)
 //                    .setMessage("过会再来")
 //                    .setPositiveButton("好的", this);
@@ -94,6 +93,14 @@ public class LockService extends IntentService implements DialogInterface.OnClic
         }
 
         return "";
+    }
+
+    private void lockScreen(String packageName) {
+//        LockApplication.getInstance().clearAllActivity();
+        Intent intent = new Intent(this, LockScreenActivity.class);
+        intent.putExtra(AppConstants.LOCK_PACKAGE_NAME, packageName);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);//todo:不懂这个操作
+        startActivity(intent);
     }
 
     /**
