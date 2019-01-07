@@ -108,6 +108,7 @@ public class LockService extends IntentService implements DialogInterface.OnClic
     /**
      * 白名单
      */
+    //todo:考虑是否保留
     private boolean inWhiteList(String packageName) {
         return packageName.equals(AppConstants.APP_PACKAGE_NAME)
                 || packageName.equals("com.android.settings")
@@ -117,6 +118,7 @@ public class LockService extends IntentService implements DialogInterface.OnClic
     /**
      * 获得属于桌面的应用的应用包名称
      */
+    //todo:考虑是否保留
     private List<String> getHomes() {
         List<String> names = new ArrayList<>();
         PackageManager packageManager = this.getPackageManager();
