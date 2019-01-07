@@ -2,8 +2,10 @@ package com.example.jessie.focusing.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -21,15 +23,19 @@ import com.example.jessie.focusing.model.AppInfo;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.iwgang.countdownview.CountdownView;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private List<String> titles;
+    private CountdownView countdownViewMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        countdownViewMain=findViewById(R.id.cdv_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
 
@@ -64,8 +70,15 @@ public class MainActivity extends AppCompatActivity
         //侧边栏--个人中心
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        initData();
     }
 
+    public void initData(){
+        long timeTest = (long)30 * 60 * 1000;//todo:仅用作测试，随后传参数
+        countdownViewMain.start(timeTest);
+
+    }
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -123,22 +136,13 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void loadAppInfoSuccess(List<AppInfo> list) {
-        int appNum = 0;
-
-        for (AppInfo info : list) {
-            appNum++;
-        }
-        titles = new ArrayList<>();
-        titles.add("Total"+"("+appNum + ")");
-
-//        SysAppFragment sysAppFragment = SysAppFragment.newInstance(list);
-//        UserAppFragment userAppFragment = UserAppFragment.newInstance(list);
-//        fragmentList = new ArrayList<>();
-//        fragmentList.add(sysAppFragment);
-//        fragmentList.add(userAppFragment);
-//        mPagerAdapter = new CommentPagerAdapter(getSupportFragmentManager(), fragmentList, titles);
-//        mViewPager.setAdapter(mPagerAdapter);
-//        mTabLayout.setupWithViewPager(mViewPager);
-    }
+//    public void loadAppInfoSuccess(List<AppInfo> list) {
+//        int appNum = 0;
+//
+//        for (AppInfo info : list) {
+//            appNum++;
+//        }
+//        titles = new ArrayList<>();
+//        titles.add("Total"+"("+appNum + ")");
+//    }
 }

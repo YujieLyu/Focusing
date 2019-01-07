@@ -32,7 +32,7 @@ public class LockScreenActivity extends AppCompatActivity {
     private String clickBack;//按返回键
     private TextView suggestInfo;
     private RelativeLayout lockLayout;
-    private CountdownView countdownView;
+    private CountdownView countdownViewLockScreen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +40,7 @@ public class LockScreenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_locked_screeen);
         suggestInfo=findViewById(R.id.tv_suggestInfo);
         lockLayout =findViewById(R.id.lock_layout);
-        countdownView =findViewById(R.id.cv_countdownView);
+        countdownViewLockScreen =findViewById(R.id.cdv_lockScreen);
         View decorView = getWindow().getDecorView();
         int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
@@ -62,7 +62,7 @@ public class LockScreenActivity extends AppCompatActivity {
         //初始化
         packageManager = getPackageManager();
         long timeTest = (long)30 * 60 * 1000;//todo:仅用作测试，随后传参数
-        countdownView.start(timeTest);
+        countdownViewLockScreen.start(timeTest);
 
         initLayoutBackground();
 
