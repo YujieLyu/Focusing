@@ -9,12 +9,22 @@
     tools:context=".view.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
+    <TextView
+        android:layout_marginTop="100dp"
+        android:layout_centerHorizontal="true"
+        android:textSize="25sp"
+        android:id="@+id/time_text"
+        android:text="Choose your time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
     <cn.iwgang.countdownview.CountdownView
         android:id="@+id/cdv_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="250dp"
         android:layout_centerHorizontal="true"
         app:isHideTimeBackground="false"
         app:isShowDay="false"
@@ -58,8 +68,8 @@
         android:layout_width="130dp"
         android:layout_height="50dp"
         android:layout_marginTop="450dp"
-        android:layout_marginLeft="50dp"
-        android:layout_toRightOf="@id/btn_lock_app"
+        android:layout_marginStart="50dp"
+        android:layout_toEndOf="@id/btn_lock_app"
         android:background="@color/colorPrimary"
         android:textAlignment="center"
         android:text="Start"

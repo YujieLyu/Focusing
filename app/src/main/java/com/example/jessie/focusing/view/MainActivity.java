@@ -2,10 +2,9 @@ package com.example.jessie.focusing.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.util.Log;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,26 +15,44 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.TextView;
 
+import com.example.jessie.focusing.DataCallBack;
 import com.example.jessie.focusing.R;
-import com.example.jessie.focusing.model.AppInfo;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import cn.iwgang.countdownview.CountdownView;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,DataCallBack {
 
     private List<String> titles;
     private CountdownView countdownViewMain;
+    private TextView timeText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         countdownViewMain=findViewById(R.id.cdv_main);
+        timeText = (TextView) findViewById(R.id.time_text);
+        //为TextView设置点击事件
+        timeText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               //todo:设置点击事件
+                //实例化对象
+                TimePickerFragment timePicker = new TimePickerFragment();
+                timePicker.show(getSupportFragmentManager(),"time_picker");
+                //调用show方法弹出对话框
+                // 第一个参数为FragmentManager对象
+                // 第二个为调用该方法的fragment的标签
+
+
+            }
+        });
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
 
@@ -73,6 +90,7 @@ public class MainActivity extends AppCompatActivity
 
         initData();
     }
+
 
     public void initData(){
         long timeTest = (long)30 * 60 * 1000;//todo:仅用作测试，随后传参数
@@ -134,6 +152,12 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void getData(String data) {
+        //data即为fragment调用该函数传回的日期时间
+        timeText.setText(data);
     }
 
 //    public void loadAppInfoSuccess(List<AppInfo> list) {
