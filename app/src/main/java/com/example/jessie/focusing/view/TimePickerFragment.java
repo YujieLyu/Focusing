@@ -42,8 +42,4 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
         }
 
     }
-    //todo:用途未知
-//    public void setTime(String date){
-//        time += date;
-//    }
 }
