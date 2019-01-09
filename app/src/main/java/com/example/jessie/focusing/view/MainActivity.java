@@ -16,10 +16,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.example.jessie.focusing.DataCallBack;
 import com.example.jessie.focusing.R;
 
+import java.util.Calendar;
 import java.util.List;
 
 import cn.iwgang.countdownview.CountdownView;
@@ -29,27 +31,39 @@ public class MainActivity extends AppCompatActivity
 
     private List<String> titles;
     private CountdownView countdownViewMain;
-    private TextView timeText;
-
+    private TextView timeText1,timeText2;
+    private TimePickerFragment timePicker1,timePicker2 ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         countdownViewMain=findViewById(R.id.cdv_main);
-        timeText = (TextView) findViewById(R.id.time_text);
+        timeText1 = findViewById(R.id.tx_time1);
+
+        timeText2=findViewById(R.id.tx_time2);
+
         //为TextView设置点击事件
-        timeText.setOnClickListener(new View.OnClickListener() {
+        timeText1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                //todo:设置点击事件
                 //实例化对象
-                TimePickerFragment timePicker = new TimePickerFragment();
-                timePicker.show(getSupportFragmentManager(),"time_picker");
+                timePicker1 = new TimePickerFragment();
                 //调用show方法弹出对话框
                 // 第一个参数为FragmentManager对象
                 // 第二个为调用该方法的fragment的标签
+                timePicker1.show(getSupportFragmentManager(),"time_picker");
 
-
+            }
+        });
+        timeText2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                timePicker2 = new TimePickerFragment();
+                //调用show方法弹出对话框
+                // 第一个参数为FragmentManager对象
+                // 第二个为调用该方法的fragment的标签
+                timePicker2.show(getSupportFragmentManager(),"time_picker");
             }
         });
 
@@ -89,6 +103,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         initData();
+        initView();
     }
 
 
@@ -96,7 +111,33 @@ public class MainActivity extends AppCompatActivity
         long timeTest = (long)30 * 60 * 1000;//todo:仅用作测试，随后传参数
         countdownViewMain.start(timeTest);
 
+
     }
+
+    public void initView(){
+
+//        long time=System.currentTimeMillis();
+        final Calendar calendar = Calendar.getInstance();
+//        calendar.setTimeInMillis(time);
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+        timeText1.setText(hour+":"+minute);//todo:显示当前时间
+
+        timeText2.setText(hour+":"+minute);
+
+    }
+
+    @Override
+    public void getData(TimePickerFragment tp,String data) {
+        //data即为fragment调用该函数传回的日期时间
+        if(tp.equals(timePicker1)){
+            timeText1.setText(data);
+        }else {
+            timeText2.setText(data);
+        }
+
+    }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -154,11 +195,6 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    @Override
-    public void getData(String data) {
-        //data即为fragment调用该函数传回的日期时间
-        timeText.setText(data);
-    }
 
 //    public void loadAppInfoSuccess(List<AppInfo> list) {
 //        int appNum = 0;

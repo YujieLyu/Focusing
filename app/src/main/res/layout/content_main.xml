@@ -11,13 +11,23 @@
 
     <TextView
         android:layout_marginTop="100dp"
-        android:layout_centerHorizontal="true"
+        android:layout_marginStart="60dp"
         android:textSize="25sp"
-        android:id="@+id/time_text"
-        android:text="Choose your time"
+        android:id="@+id/tx_time1"
+        android:text="StartTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+    
 
+
+    <TextView
+        android:layout_marginTop="100dp"
+        android:layout_marginStart="250dp"
+        android:textSize="25sp"
+        android:id="@+id/tx_time2"
+        android:text="EndTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <cn.iwgang.countdownview.CountdownView
         android:id="@+id/cdv_main"
