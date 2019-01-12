@@ -15,6 +15,7 @@ import com.example.jessie.focusing.database.AppInfoManager;
 import com.example.jessie.focusing.view.LockScreenActivity;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -48,7 +49,7 @@ public class LockService extends IntentService implements DialogInterface.OnClic
     @Override
     protected void onHandleIntent(Intent intent) {
         while (true){
-            checkData();
+            checkData(intent);
             try {
                 Thread.sleep(1000);//todo:时间设置更改
             } catch (InterruptedException e) {
@@ -56,21 +57,28 @@ public class LockService extends IntentService implements DialogInterface.OnClic
             }
         }
 
+
     }
 
-    private void checkData() {
+    private void checkData(Intent intent) {
+        long startTime=intent.getLongExtra("startTime",0);
+        long endTime=intent.getLongExtra("endTime",0);
+        long currTime=System.currentTimeMillis();
 
         //获取栈顶app的包名
         String packageName = getLauncherTopApp(LockService.this, activityManager);
         boolean lockStatus = appInfoManager.checkIsLocked(packageName);
 
         //判断包名打开解锁页面
-        if (lockStatus) {
-            lockScreen(packageName);
+        if ((currTime-startTime>0&&endTime-currTime>0)) {
+            if (lockStatus) {
+                lockScreen(packageName);
 //            AlertDialog.Builder builder = new AlertDialog.Builder(this)
 //                    .setMessage("过会再来")
 //                    .setPositiveButton("好的", this);
 //            builder.create().show();
+            }
+
         }
     }
 

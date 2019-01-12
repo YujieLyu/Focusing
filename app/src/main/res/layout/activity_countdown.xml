@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <cn.iwgang.countdownview.CountdownView
+        android:id="@+id/cdv_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="250dp"
+        android:layout_centerHorizontal="true"
+        app:isHideTimeBackground="false"
+        app:isShowDay="false"
+        app:isShowHour="true"
+        app:isShowMillisecond="false"
+        app:isShowMinute="true"
+        app:isShowSecond="true"
+        app:isShowTimeBgBorder="true"
+        app:suffixGravity="center"
+        app:suffixLRMargin="5dp"
+        app:suffixTextColor="@color/text_orange"
+        app:suffixTextSize="20sp"
+        app:timeBgBorderColor="@color/transparent"
+        app:timeBgBorderRadius="3dp"
+        app:timeBgBorderSize="2dp"
+        app:timeBgColor="@color/transparent"
+        app:timeBgDivisionLineSize="0dp"
+        app:timeBgRadius="3dp"
+        app:timeBgSize="100dp"
+        app:timeTextColor="@color/text_orange"
+        app:timeTextSize="50sp"
+        android:textAlignment="center"
+        />
+
+</RelativeLayout>

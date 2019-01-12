@@ -29,35 +29,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <cn.iwgang.countdownview.CountdownView
-        android:id="@+id/cdv_main"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="250dp"
-        android:layout_centerHorizontal="true"
-        app:isHideTimeBackground="false"
-        app:isShowDay="false"
-        app:isShowHour="true"
-        app:isShowMillisecond="false"
-        app:isShowMinute="true"
-        app:isShowSecond="true"
-        app:isShowTimeBgBorder="true"
-        app:suffixGravity="center"
-        app:suffixLRMargin="5dp"
-        app:suffixTextColor="@color/text_orange"
-        app:suffixTextSize="20sp"
-        app:timeBgBorderColor="@color/transparent"
-        app:timeBgBorderRadius="3dp"
-        app:timeBgBorderSize="2dp"
-        app:timeBgColor="@color/transparent"
-        app:timeBgDivisionLineSize="0dp"
-        app:timeBgRadius="3dp"
-        app:timeBgSize="100dp"
-        app:timeTextColor="@color/text_orange"
-        app:timeTextSize="50sp"
-        android:textAlignment="center"
-        />
 
     <Button
         android:id="@+id/btn_lock_app"

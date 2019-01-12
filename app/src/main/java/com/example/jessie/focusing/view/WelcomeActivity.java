@@ -40,7 +40,6 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     protected void initData(){
-        startService(new Intent(this, LockService.class));
         animator = ObjectAnimator.ofFloat(imgWelcome, "alpha", 0.5f, 1);
         animator.setDuration(1500);
         animator.start();

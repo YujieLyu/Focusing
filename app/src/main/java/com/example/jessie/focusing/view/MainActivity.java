@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,54 +15,49 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
-import com.example.jessie.focusing.DataCallBack;
+import com.example.jessie.focusing.TimeCallBack;
 import com.example.jessie.focusing.R;
 
 import java.util.Calendar;
 import java.util.List;
 
-import cn.iwgang.countdownview.CountdownView;
-
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,DataCallBack {
+        implements NavigationView.OnNavigationItemSelectedListener, TimeCallBack {
 
     private List<String> titles;
-    private CountdownView countdownViewMain;
-    private TextView timeText1,timeText2;
-    private TimePickerFragment timePicker1,timePicker2 ;
+    private TextView timeText1, timeText2;
+    private TimePickerFragment timePicker1, timePicker2;
+    private Calendar time1;
+    private Calendar time2;
+    private String displayCurrTime;
+    private String countTime;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        countdownViewMain=findViewById(R.id.cdv_main);
         timeText1 = findViewById(R.id.tx_time1);
 
-        timeText2=findViewById(R.id.tx_time2);
+        timeText2 = findViewById(R.id.tx_time2);
 
-        //为TextView设置点击事件
+        //First time picker
         timeText1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               //todo:设置点击事件
+                //todo:设置点击事件
                 //实例化对象
                 timePicker1 = new TimePickerFragment();
-                //调用show方法弹出对话框
-                // 第一个参数为FragmentManager对象
-                // 第二个为调用该方法的fragment的标签
-                timePicker1.show(getSupportFragmentManager(),"time_picker");
+                timePicker1.show(getSupportFragmentManager(), "time_picker");
 
             }
         });
+        //Second time picker
         timeText2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 timePicker2 = new TimePickerFragment();
-                //调用show方法弹出对话框
-                // 第一个参数为FragmentManager对象
-                // 第二个为调用该方法的fragment的标签
-                timePicker2.show(getSupportFragmentManager(),"time_picker");
+                timePicker2.show(getSupportFragmentManager(), "time_picker");
             }
         });
 
@@ -71,12 +65,23 @@ public class MainActivity extends AppCompatActivity
 //        setSupportActionBar(toolbar);
 
         //两个按钮
-        Button btnStart=findViewById(R.id.btn_start);
-        Button btnLockApp=findViewById(R.id.btn_lock_app);
+        Button btnStart = findViewById(R.id.btn_start);
+        btnStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                countTime();
+                Intent intent = new Intent(MainActivity.this, Countdown_Activity.class);
+                intent.putExtra("endTime", time2.getTimeInMillis());
+                intent.putExtra("startTime", time1.getTimeInMillis());
+                intent.putExtra("countTime", countTime);
+                startActivity(intent);
+            }
+        });
+        Button btnLockApp = findViewById(R.id.btn_lock_app);
         btnLockApp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(MainActivity.this,Lock_App_Activity.class);
+                Intent intent = new Intent(MainActivity.this, Lock_App_Activity.class);
                 startActivity(intent);
             }
         });
@@ -102,38 +107,78 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        initData();
         initView();
     }
 
-
-    public void initData(){
-        long timeTest = (long)30 * 60 * 1000;//todo:仅用作测试，随后传参数
-        countdownViewMain.start(timeTest);
-
+    public void initData() {
 
     }
 
-    public void initView(){
+    public void initView() {
 
 //        long time=System.currentTimeMillis();
         final Calendar calendar = Calendar.getInstance();
 //        calendar.setTimeInMillis(time);
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minute = calendar.get(Calendar.MINUTE);
-        timeText1.setText(hour+":"+minute);//todo:显示当前时间
-
-        timeText2.setText(hour+":"+minute);
+        displayCurrTime = String.format("%02d:%02d", hour, minute);
+        timeText1.setText(displayCurrTime);//todo:显示当前时间
+        timeText2.setText(displayCurrTime);
 
     }
 
     @Override
-    public void getData(TimePickerFragment tp,String data) {
+    public void getTime(TimePickerFragment tp, Calendar chosenCalendar) {
         //data即为fragment调用该函数传回的日期时间
-        if(tp.equals(timePicker1)){
-            timeText1.setText(data);
-        }else {
-            timeText2.setText(data);
+        int chosenHour = chosenCalendar.get(Calendar.HOUR_OF_DAY);
+        int chosenMin = chosenCalendar.get(Calendar.MINUTE);
+        String displayTime =String.format("%02d:%02d",chosenHour,chosenMin);
+        if (tp.equals(timePicker1)) {
+            timeText1.setText(displayTime);
+            time1 = chosenCalendar;
+        } else {
+            timeText2.setText(displayTime);
+            time2 = chosenCalendar;
+        }
+    }
+
+    public void countTime() {
+        //todo:判断过了0点的时间计算；是否做成只选第二个时间？
+        //todo:need to optimize the calculate,do it later
+        int hours;
+        int mins;
+        String[] curr = displayCurrTime.split(":");
+        int currHour = Integer.parseInt(curr[0]);
+        int currMin = Integer.parseInt(curr[1]);
+        if (time2 == null) {
+            //todo:处理time2时间未改变的问题.是否弹窗提示用户选择正确时间
+            time2=Calendar.getInstance();
+            time2.setTimeInMillis(System.currentTimeMillis());
+            countTime = "00:00";
+        } else if (time1 == null) {
+            time1=Calendar.getInstance();
+            time1.setTimeInMillis(System.currentTimeMillis());
+            hours=time2.get(Calendar.HOUR_OF_DAY)-currHour;
+            mins=time2.get(Calendar.MINUTE)-currMin;
+//            String[] parts2 = time2.split(":");
+//            hours = Integer.parseInt(parts2[0]) - currHour;
+//            mins = Integer.parseInt(parts2[1]) - currMin;
+            countTime = hours + ":" + mins;
+        } else {
+            hours=time2.get(Calendar.HOUR_OF_DAY)-time1.get(Calendar.HOUR_OF_DAY);
+            mins=time2.get(Calendar.MINUTE)-time1.get(Calendar.MINUTE);
+//            String[] parts1 = time1.split(":");
+//            String[] parts2 = time2.split(":");
+//            hours = Integer.parseInt(parts2[0]) - Integer.parseInt(parts1[0]);
+//            mins = Integer.parseInt(parts2[1]) - Integer.parseInt(parts1[1]);
+            if (hours < 0 && mins >= 0) {
+                countTime = (24 + hours) + ":" + mins;
+            } else if (hours > 0 && mins < 0) {
+                countTime = (hours - 1) + ":" + (60 + mins);
+
+            } else if (hours < 0 && mins < 0) {
+                countTime = (24 + hours) + ":" + (60 + mins);
+            }
         }
 
     }
@@ -195,14 +240,4 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-
-//    public void loadAppInfoSuccess(List<AppInfo> list) {
-//        int appNum = 0;
-//
-//        for (AppInfo info : list) {
-//            appNum++;
-//        }
-//        titles = new ArrayList<>();
-//        titles.add("Total"+"("+appNum + ")");
-//    }
 }

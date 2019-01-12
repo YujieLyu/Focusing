@@ -3,11 +3,14 @@ package com.example.jessie.focusing;
 
 import com.example.jessie.focusing.view.TimePickerFragment;
 
+import java.util.Calendar;
+
 /**
  * @author : Yujie Lyu
  * @date : 09-01-2019
  * @time : 00:52
  */
-public interface DataCallBack {
-    void getData(TimePickerFragment tp1,String data);
+public interface TimeCallBack {
+    void getTime(TimePickerFragment tp,Calendar displayTime);
+
 }

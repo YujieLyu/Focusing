@@ -35,6 +35,9 @@
         <activity android:name="com.example.jessie.focusing.view.MainActivity" />
         <activity android:name="com.example.jessie.focusing.view.Lock_App_Activity"/>
         <activity android:name="com.example.jessie.focusing.view.LockScreenActivity" />
+        <activity android:name=".view.Countdown_Activity">
+            
+        </activity>
 
         <service
             android:name="com.example.jessie.focusing.LoadAppListService"
