@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity
         int currHour = Integer.parseInt(curr[0]);
         int currMin = Integer.parseInt(curr[1]);
         if (time2 == null) {
-            //todo:处理time2时间未改变的问题.是否弹窗提示用户选择正确时间
+            //todo:处理time2时间未选择的问题.是否弹窗提示用户选择正确时间
             time2=Calendar.getInstance();
             time2.setTimeInMillis(System.currentTimeMillis());
             countTime = "00:00";

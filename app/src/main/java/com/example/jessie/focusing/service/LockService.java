@@ -33,6 +33,7 @@ public class LockService extends IntentService implements DialogInterface.OnClic
 
     private ActivityManager activityManager;
     private AppInfoManager appInfoManager;
+    private long endTime;
 
     @Override
     public void onCreate() {
@@ -62,8 +63,9 @@ public class LockService extends IntentService implements DialogInterface.OnClic
 
     private void checkData(Intent intent) {
         long startTime=intent.getLongExtra("startTime",0);
-        long endTime=intent.getLongExtra("endTime",0);
-        long currTime=System.currentTimeMillis();
+        endTime=intent.getLongExtra("endTime",0);
+        long currTime=System.currentTimeMillis();//TODO：calculate time by itself,no get the real
+                                                //countdown time
 
         //获取栈顶app的包名
         String packageName = getLauncherTopApp(LockService.this, activityManager);
@@ -109,6 +111,7 @@ public class LockService extends IntentService implements DialogInterface.OnClic
         Intent intent = new Intent(this, LockScreenActivity.class);
         intent.putExtra(AppConstants.PRESS_BACK,AppConstants.BACK_TO_FINISH);
         intent.putExtra(AppConstants.LOCK_PACKAGE_NAME, packageName);
+        intent.putExtra("endTime",endTime);//todo:类似的数据传递的要写成常量吧
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);//todo:不懂这个操作
         startActivity(intent);
     }
