@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity
                 Intent intent = new Intent(MainActivity.this, Countdown_Activity.class);
                 intent.putExtra("endTime", time2.getTimeInMillis());
                 intent.putExtra("startTime", time1.getTimeInMillis());
-                intent.putExtra("countTime", countTime);
+                intent.putExtra("countTime", countTime);//todo:lockScreen删除则此条没用
                 startActivity(intent);
             }
         });

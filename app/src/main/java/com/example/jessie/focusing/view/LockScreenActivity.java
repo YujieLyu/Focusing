@@ -17,13 +17,12 @@ import com.example.jessie.focusing.AppConstants;
 import com.example.jessie.focusing.utils.LockUtil;
 import com.example.jessie.focusing.R;
 
-import java.util.Calendar;
-
 import cn.iwgang.countdownview.CountdownView;
 
 /**
  * @author : Yujie Lyu
  * @date : 30-12-2018
+ * TODO：现在基本没用了，可以删掉了
  * @time : 16:05
  */
 public class LockScreenActivity extends AppCompatActivity {

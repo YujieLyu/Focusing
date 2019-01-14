@@ -12,6 +12,7 @@ import android.content.pm.ResolveInfo;
 
 import com.example.jessie.focusing.AppConstants;
 import com.example.jessie.focusing.database.AppInfoManager;
+import com.example.jessie.focusing.view.Countdown_Activity;
 import com.example.jessie.focusing.view.LockScreenActivity;
 
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ public class LockService extends IntentService implements DialogInterface.OnClic
     private ActivityManager activityManager;
     private AppInfoManager appInfoManager;
     private long endTime;
+    private long startTime;
 
     @Override
     public void onCreate() {
@@ -52,7 +54,7 @@ public class LockService extends IntentService implements DialogInterface.OnClic
         while (true){
             checkData(intent);
             try {
-                Thread.sleep(1000);//todo:时间设置更改
+                Thread.sleep(100);//todo:时间设置更改.考虑冲突，延迟等问题
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -62,7 +64,7 @@ public class LockService extends IntentService implements DialogInterface.OnClic
     }
 
     private void checkData(Intent intent) {
-        long startTime=intent.getLongExtra("startTime",0);
+        startTime=intent.getLongExtra("startTime",0);
         endTime=intent.getLongExtra("endTime",0);
         long currTime=System.currentTimeMillis();//TODO：calculate time by itself,no get the real
                                                 //countdown time
@@ -108,9 +110,10 @@ public class LockService extends IntentService implements DialogInterface.OnClic
 
     private void lockScreen(String packageName) {
 //        LockApplication.getInstance().clearAllActivity();
-        Intent intent = new Intent(this, LockScreenActivity.class);
+        Intent intent = new Intent(this, Countdown_Activity.class);
         intent.putExtra(AppConstants.PRESS_BACK,AppConstants.BACK_TO_FINISH);
         intent.putExtra(AppConstants.LOCK_PACKAGE_NAME, packageName);
+        intent.putExtra("startTime",startTime);
         intent.putExtra("endTime",endTime);//todo:类似的数据传递的要写成常量吧
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);//todo:不懂这个操作
         startActivity(intent);
