@@ -25,11 +25,10 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, TimeCallBack {
 
-    private List<String> titles;
-    private TextView timeText1, timeText2;
+//    private List<String> titles;
+    private TextView tv_time1, tv_time2;
     private TimePickerFragment timePicker1, timePicker2;
-    private Calendar time1;
-    private Calendar time2;
+    private Calendar time1,time2;
     private String displayCurrTime;
     private String countTime;
 
@@ -37,12 +36,12 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        timeText1 = findViewById(R.id.tx_time1);
+        tv_time1 = findViewById(R.id.tx_time1);
 
-        timeText2 = findViewById(R.id.tx_time2);
+        tv_time2 = findViewById(R.id.tx_time2);
 
         //First time picker
-        timeText1.setOnClickListener(new View.OnClickListener() {
+        tv_time1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //todo:设置点击事件
@@ -53,7 +52,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
         //Second time picker
-        timeText2.setOnClickListener(new View.OnClickListener() {
+        tv_time2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 timePicker2 = new TimePickerFragment();
@@ -122,8 +121,8 @@ public class MainActivity extends AppCompatActivity
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minute = calendar.get(Calendar.MINUTE);
         displayCurrTime = String.format("%02d:%02d", hour, minute);
-        timeText1.setText(displayCurrTime);//todo:显示当前时间
-        timeText2.setText(displayCurrTime);
+        tv_time1.setText(displayCurrTime);//todo:显示当前时间
+        tv_time2.setText(displayCurrTime);
 
     }
 
@@ -134,10 +133,10 @@ public class MainActivity extends AppCompatActivity
         int chosenMin = chosenCalendar.get(Calendar.MINUTE);
         String displayTime =String.format("%02d:%02d",chosenHour,chosenMin);
         if (tp.equals(timePicker1)) {
-            timeText1.setText(displayTime);
+            tv_time1.setText(displayTime);
             time1 = chosenCalendar;
         } else {
-            timeText2.setText(displayTime);
+            tv_time2.setText(displayTime);
             time2 = chosenCalendar;
         }
     }

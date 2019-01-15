@@ -19,17 +19,17 @@ import java.util.List;
  */
 public class Lock_App_Activity extends AppCompatActivity {
 
-    private ListView lv_app_list;
+    private ListView lv_appList;
     private AppListAdapter appListAdapter;
-    public Handler handler = new Handler();
+//    public Handler handler = new Handler();
 
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lock_app_main);
-        lv_app_list = findViewById(R.id.lv_app_list);
+        lv_appList = findViewById(R.id.lv_app_list);
         appListAdapter = new AppListAdapter(this);
-        lv_app_list.setAdapter(appListAdapter);
+        lv_appList.setAdapter(appListAdapter);
         initData();
     }
 

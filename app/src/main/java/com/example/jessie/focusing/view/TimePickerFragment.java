@@ -18,14 +18,14 @@ import java.util.Calendar;
  * @time : 00:48
  */
 public class TimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
-    private long displayTime;
+//    private long displayTime;
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         //新建日历类用于获取当前时间
         Calendar calendar = Calendar.getInstance();
-        displayTime=calendar.getTimeInMillis();
+//        displayTime=calendar.getTimeInMillis();
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minute = calendar.get(Calendar.MINUTE);
         //返回TimePickerDialog对象

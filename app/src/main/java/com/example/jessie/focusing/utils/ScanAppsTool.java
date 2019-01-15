@@ -5,7 +5,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.util.Log;
 
-import com.example.jessie.focusing.AppConstants;
 import com.example.jessie.focusing.model.AppInfo;
 
 import java.util.ArrayList;

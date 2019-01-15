@@ -10,13 +10,11 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 
-import com.example.jessie.focusing.AppConstants;
+import com.example.jessie.focusing.utils.AppConstants;
 import com.example.jessie.focusing.database.AppInfoManager;
 import com.example.jessie.focusing.view.Countdown_Activity;
-import com.example.jessie.focusing.view.LockScreenActivity;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**

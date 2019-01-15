@@ -82,5 +82,7 @@
 
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="focusing_suggestion">Please keep focusing</string>
+    <string name="focus_summary">Well done!\nYou have focused for</string>
+    <string name="keep_it_up">Keep it up</string>
 
 </resources>

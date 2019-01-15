@@ -1,4 +1,4 @@
-package com.example.jessie.focusing;
+package com.example.jessie.focusing.utils;
 
 import java.util.jar.Manifest;
 
