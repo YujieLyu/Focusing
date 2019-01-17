@@ -1,7 +1,7 @@
-package com.example.jessie.focusing;
+package com.example.jessie.focusing.Interface;
 
 
-import com.example.jessie.focusing.view.TimePickerFragment;
+import com.example.jessie.focusing.Module.TimePickerFragment;
 
 import java.util.Calendar;
 

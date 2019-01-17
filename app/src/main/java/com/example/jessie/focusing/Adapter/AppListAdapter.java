@@ -1,42 +1,57 @@
-package com.example.jessie.focusing.adapter;
+package com.example.jessie.focusing.Adapter;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.jessie.focusing.Module.Lock_App_Activity;
 import com.example.jessie.focusing.R;
-import com.example.jessie.focusing.database.AppInfoManager;
-import com.example.jessie.focusing.model.AppInfo;
+import com.example.jessie.focusing.Controller.AppInfoManager;
+import com.example.jessie.focusing.Model.AppInfo;
+import com.example.jessie.focusing.utils.SearchFilter;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * @author : Yujie Lyu
  * @date : 29-12-2018
  * @time : 19:48
  */
-public class AppListAdapter extends BaseAdapter implements View.OnClickListener {
+public class AppListAdapter extends BaseAdapter implements View.OnClickListener,Filterable {
 
 
-    List<AppInfo> appInfos = new ArrayList<>();
+    List<AppInfo> appInfos,temp;
     private final Context context;
     private final AppInfoManager infoManager;
+    private LayoutInflater myLayoutInflater;
+    private SearchFilter searchFilter;
 
     public AppListAdapter(Context context) {
         this.context = context;
+//        myLayoutInflater = LayoutInflater.from(context);
+//        appInfos = getAppInfos();
+//        temp = new ArrayList<>(appInfos);
         infoManager = new AppInfoManager(context);
 
     }
 //        private AppInfoManager appLockInfoManager;
 
 
+
     public void setData(List<AppInfo> appInfos) {
 //        LitePal.deleteAll(AppInfo.class);//TODO:临时的
-
+        temp=appInfos;
         this.appInfos = infoManager.insertAppLockInfo(appInfos);
 //        this.appInfos=appInfos;
         notifyDataSetChanged();
@@ -46,6 +61,11 @@ public class AppListAdapter extends BaseAdapter implements View.OnClickListener 
     public List<AppInfo> getData() {
         return appInfos;
     }
+
+    public void setTemp(List<AppInfo> temp) {
+        this.temp = temp;
+    }
+
 
 
     @Override
@@ -77,6 +97,14 @@ public class AppListAdapter extends BaseAdapter implements View.OnClickListener 
 
     public void saveInfos() {
         infoManager.saveInfos(appInfos);
+    }
+
+    @Override
+    public Filter getFilter() {
+        if (searchFilter == null) {
+            searchFilter = new SearchFilter(this);
+        }
+        return searchFilter;
     }
 
     class ViewHolder {

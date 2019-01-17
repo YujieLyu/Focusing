@@ -1,4 +1,4 @@
-package com.example.jessie.focusing.view;
+package com.example.jessie.focusing.Module;
 
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;

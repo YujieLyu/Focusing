@@ -1,4 +1,4 @@
-package com.example.jessie.focusing.view;
+package com.example.jessie.focusing.Module;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
@@ -7,9 +7,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.widget.TimePicker;
 
-import com.example.jessie.focusing.TimeCallBack;
+import com.example.jessie.focusing.Interface.TimeCallBack;
 
-import java.time.LocalTime;
 import java.util.Calendar;
 
 /**

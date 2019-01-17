@@ -1,4 +1,4 @@
-package com.example.jessie.focusing.view;
+package com.example.jessie.focusing.Module;
 
 import android.content.Intent;
 import android.content.res.Resources;
@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.example.jessie.focusing.utils.AppConstants;
 import com.example.jessie.focusing.R;
-import com.example.jessie.focusing.service.LockService;
+import com.example.jessie.focusing.Service.LockService;
 import com.example.jessie.focusing.utils.LockUtil;
 
 import cn.iwgang.countdownview.CountdownView;

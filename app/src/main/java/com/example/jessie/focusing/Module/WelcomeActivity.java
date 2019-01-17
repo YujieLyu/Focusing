@@ -1,4 +1,4 @@
-package com.example.jessie.focusing.view;
+package com.example.jessie.focusing.Module;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;

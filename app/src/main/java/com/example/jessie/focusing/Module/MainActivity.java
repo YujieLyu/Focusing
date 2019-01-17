@@ -1,4 +1,4 @@
-package com.example.jessie.focusing.view;
+package com.example.jessie.focusing.Module;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,11 +16,10 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.jessie.focusing.TimeCallBack;
+import com.example.jessie.focusing.Interface.TimeCallBack;
 import com.example.jessie.focusing.R;
 
 import java.util.Calendar;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, TimeCallBack {

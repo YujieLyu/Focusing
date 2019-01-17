@@ -1,9 +1,9 @@
-package com.example.jessie.focusing.database;
+package com.example.jessie.focusing.Controller;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
 
-import com.example.jessie.focusing.model.AppInfo;
+import com.example.jessie.focusing.Model.AppInfo;
 
 import org.litepal.LitePal;
 
