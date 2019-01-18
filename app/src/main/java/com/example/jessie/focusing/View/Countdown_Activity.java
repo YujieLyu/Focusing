@@ -1,21 +1,24 @@
-package com.example.jessie.focusing.view;
+package com.example.jessie.focusing.View;
 
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.jessie.focusing.utils.AppConstants;
+import com.example.jessie.focusing.Utils.AppConstants;
 import com.example.jessie.focusing.R;
-import com.example.jessie.focusing.service.LockService;
-import com.example.jessie.focusing.utils.LockUtil;
+import com.example.jessie.focusing.Service.LockService;
+import com.example.jessie.focusing.Utils.LockUtil;
 
 import cn.iwgang.countdownview.CountdownView;
 
@@ -41,13 +44,7 @@ public class Countdown_Activity extends AppCompatActivity implements CountdownVi
         cdv_count.setOnCountdownEndListener(this);
         tv_suggestInfo = findViewById(R.id.tv_suggestInfo);
         countLayout = findViewById(R.id.cd_main_view);
-        //沉浸式状态栏
-        View decorView = getWindow().getDecorView();
-        int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-        decorView.setSystemUiVisibility(option);
-        getWindow().setStatusBarColor(Color.TRANSPARENT);
-
+        setStatusTransparent();
         initData();
         Intent intent = new Intent(this, LockService.class);
         intent.putExtra("startTime", startTime);
@@ -72,6 +69,20 @@ public class Countdown_Activity extends AppCompatActivity implements CountdownVi
         cdv_count.start(countTime);
         initLayoutBackground();
 
+    }
+
+    protected void setStatusTransparent() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            // 5.0+ 实现
+            Window window = getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.TRANSPARENT);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            // 4.4 实现
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
     }
 
     private void initLayoutBackground() {

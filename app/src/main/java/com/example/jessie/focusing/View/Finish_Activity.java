@@ -1,4 +1,4 @@
-package com.example.jessie.focusing.view;
+package com.example.jessie.focusing.View;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -12,7 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.jessie.focusing.R;
-import com.example.jessie.focusing.utils.LockUtil;
+import com.example.jessie.focusing.Utils.LockUtil;
 
 import java.util.Calendar;
 

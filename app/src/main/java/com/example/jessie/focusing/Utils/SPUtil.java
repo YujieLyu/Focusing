@@ -1,4 +1,4 @@
-package com.example.jessie.focusing.utils;
+package com.example.jessie.focusing.Utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;

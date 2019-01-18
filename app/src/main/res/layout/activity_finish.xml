@@ -2,8 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/finish_layout"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:id="@+id/finish_layout">
 
     <TextView
         android:id="@+id/tv_welldone"

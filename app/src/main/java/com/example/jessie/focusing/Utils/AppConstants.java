@@ -1,6 +1,4 @@
-package com.example.jessie.focusing.utils;
-
-import java.util.jar.Manifest;
+package com.example.jessie.focusing.Utils;
 
 /**
  * @author : Yujie Lyu

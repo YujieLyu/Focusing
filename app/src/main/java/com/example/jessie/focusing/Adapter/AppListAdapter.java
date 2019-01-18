@@ -1,4 +1,4 @@
-package com.example.jessie.focusing.adapter;
+package com.example.jessie.focusing.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,8 +9,8 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.jessie.focusing.R;
-import com.example.jessie.focusing.database.AppInfoManager;
-import com.example.jessie.focusing.model.AppInfo;
+import com.example.jessie.focusing.Controller.AppInfoManager;
+import com.example.jessie.focusing.Model.AppInfo;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.example.jessie.focusing.utils;
+package com.example.jessie.focusing.Utils;
 
 import android.app.Activity;
 import android.app.AppOpsManager;
@@ -23,8 +23,6 @@ import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.RelativeLayout;
-
-import com.example.jessie.focusing.FastBlur;
 
 import java.util.ArrayList;
 import java.util.List;

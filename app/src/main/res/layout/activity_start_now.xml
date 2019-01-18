@@ -6,15 +6,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".view.MainActivity"
+    tools:context=".View.Main_Activity"
     tools:showIn="@layout/app_bar_main">
 
     <TextView
         android:layout_marginTop="100dp"
-        android:layout_marginStart="60dp"
-        android:textSize="25sp"
+        android:layout_marginStart="70dp"
+        android:textSize="30sp"
         android:id="@+id/tx_time1"
         android:text="StartTime"
+        android:textColor="@color/font_deep_gray"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     
@@ -23,9 +24,10 @@
     <TextView
         android:layout_marginTop="100dp"
         android:layout_marginStart="250dp"
-        android:textSize="25sp"
+        android:textSize="30sp"
         android:id="@+id/tx_time2"
         android:text="EndTime"
+        android:textColor="@color/font_deep_gray"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
@@ -48,16 +50,16 @@
         android:id="@+id/btn_start"
         android:layout_width="130dp"
         android:layout_height="50dp"
-        android:layout_marginTop="450dp"
         android:layout_marginStart="50dp"
+        android:layout_marginTop="450dp"
         android:layout_toEndOf="@id/btn_lock_app"
         android:background="@color/colorPrimary"
-        android:textAlignment="center"
         android:text="Start"
+        android:textAlignment="center"
 
         android:textColor="@color/text_white"
         android:textSize="17sp"
-        android:textStyle="bold|italic"/>
+        android:textStyle="bold|italic" />
 
 
 </RelativeLayout>
