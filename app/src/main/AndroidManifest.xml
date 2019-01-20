@@ -45,6 +45,10 @@
             android:exported="true" />
         <service android:name="com.example.jessie.focusing.Service.LockService" />
 
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+
     </application>
 
 </manifest>

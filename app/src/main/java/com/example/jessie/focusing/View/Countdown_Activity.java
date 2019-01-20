@@ -20,6 +20,9 @@ import com.example.jessie.focusing.R;
 import com.example.jessie.focusing.Service.LockService;
 import com.example.jessie.focusing.Utils.LockUtil;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import cn.iwgang.countdownview.CountdownView;
 
 /**
@@ -54,13 +57,16 @@ public class Countdown_Activity extends AppCompatActivity implements CountdownVi
 
     protected void initData() {
 //        String timeInput = getIntent().getStringExtra("countTime");
+        final long DAY=86400000;
         clickBackFromLock = getIntent().getStringExtra(AppConstants.PRESS_BACK);
-        startTime = getIntent().getLongExtra("startTime", 0);
         endTime = getIntent().getLongExtra("endTime", 0);
+
 //        clickBackFromMain=AppConstants.BACK_TO_FINISH;
         long currTime = System.currentTimeMillis();
-        if (startTime < currTime && currTime < endTime) {
+        if (currTime < endTime) {
             countTime = endTime - currTime;
+        }else {
+            countTime=endTime-currTime+DAY;
         }
 //        String[] count = timeInput.split(":");
 //        int hour = Integer.parseInt(count[0]);

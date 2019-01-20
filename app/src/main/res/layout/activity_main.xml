@@ -17,10 +17,18 @@
         />
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="100dp"
+        android:fontFamily="monospace"
+        android:text="Welcome to Focusing!\nWhich way would you like? "
+        android:textSize="30dp" />
+    <TextView
         android:id="@+id/tv_start_now"
         android:layout_width="match_parent"
         android:layout_height="75dp"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="300dp"
         android:background="@color/bg_white"
         android:gravity="center"
         android:text="Start Now!"
