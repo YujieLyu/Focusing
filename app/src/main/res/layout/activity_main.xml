@@ -13,17 +13,19 @@
         android:layout_height="match_parent"
         android:scaleType="fitXY"
         android:adjustViewBounds="true"
-        android:src="@drawable/bg_keyview"
+        android:src="@drawable/fish1"
         />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="130dp"
         android:fontFamily="monospace"
-        android:text="Welcome to Focusing!\nWhich way would you like? "
-        android:textSize="30dp" />
+        android:text="Welcome to Focusing!"
+        android:textSize="30dp"
+        android:textColor="@color/text_white"
+        android:textStyle="bold"/>
     <TextView
         android:id="@+id/tv_start_now"
         android:layout_width="match_parent"
@@ -33,7 +35,7 @@
         android:gravity="center"
         android:text="Start Now!"
         android:contextClickable="true"
-        android:textColor="@color/grey"
+        android:textColor="@color/black"
         android:textSize="25sp"
         android:textStyle="bold"
         />
@@ -47,7 +49,7 @@
         android:gravity="center"
         android:text="Profile"
         android:contextClickable="true"
-        android:textColor="@color/grey"
+        android:textColor="@color/black"
         android:textSize="25sp"
         android:textStyle="bold"
 
@@ -64,7 +66,7 @@
         android:text="Schedule"
         android:contextClickable="true"
         android:textAlignment="center"
-        android:textColor="@color/grey"
+        android:textColor="@color/black"
         android:textSize="25sp"
         android:textStyle="bold"
 

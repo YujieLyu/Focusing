@@ -15,7 +15,7 @@
         android:layout_height="match_parent"
         android:scaleType="fitXY"
         android:adjustViewBounds="true"
-        android:src="@drawable/bg_aurora"
+        android:src="@drawable/snow_tree"
         />
 
     <com.example.jessie.focusing.widget.CirclePicker
@@ -33,7 +33,7 @@
         android:layout_marginTop="370dp"
         android:text="00:00"
         android:textColor="@color/black"
-        android:textSize="25dp"
+        android:textSize="25sp"
         />
 
     <LinearLayout
@@ -63,56 +63,6 @@
             android:gravity="center" />
     </LinearLayout>
 
-    <!--<TextView-->
-        <!--android:id="@+id/tv_background"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:background="@color/bg_white"-->
-        <!--android:textColor="@color/transparent" />-->
-
-    <!--<TextView-->
-        <!--android:id="@+id/tx_start"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginStart="100dp"-->
-        <!--android:layout_marginTop="100dp"-->
-        <!--android:fontFamily="@font/basic"-->
-        <!--android:text="Start from:"-->
-        <!--android:textColor="@color/bg_white"-->
-        <!--android:textSize="25sp" />-->
-
-    <!--<TextView-->
-        <!--android:id="@+id/tx_time1"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginStart="250dp"-->
-        <!--android:layout_marginTop="100dp"-->
-        <!--android:text="0"-->
-        <!--android:textColor="@color/bg_white"-->
-        <!--android:textSize="30sp"-->
-        <!--android:typeface="normal" />-->
-
-    <!--<TextView-->
-        <!--android:id="@+id/tx_end"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginStart="100dp"-->
-        <!--android:layout_marginTop="170dp"-->
-        <!--android:fontFamily="@font/basic"-->
-        <!--android:text="End at:"-->
-        <!--android:textColor="@color/bg_white"-->
-        <!--android:textSize="25sp" />-->
-
-    <!--<TextView-->
-        <!--android:id="@+id/tx_time2"-->
-        <!--android:layout_width="80dp"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginStart="250dp"-->
-        <!--android:layout_marginTop="170dp"-->
-        <!--android:background="@drawable/border"-->
-        <!--android:textColor="@android:color/black"-->
-        <!--android:textSize="30sp" />-->
-
 
     <Button
         android:id="@+id/btn_lock_app"
@@ -121,7 +71,7 @@
         android:layout_marginTop="650dp"
         android:layout_marginStart="50dp"
         android:layout_toEndOf="@id/btn_start"
-        android:background="@color/colorAccent"
+        android:background="@color/light_pink"
         android:text="Next"
         android:textAlignment="center"
         android:textColor="@color/text_white"
@@ -134,7 +84,7 @@
         android:layout_height="50dp"
         android:layout_marginStart="50dp"
         android:layout_marginTop="650dp"
-        android:background="@color/colorPrimary"
+        android:background="@color/light_purple"
         android:text="Start"
         android:textAlignment="center"
 

@@ -37,6 +37,7 @@
         <activity android:name=".View.Countdown_Activity"/>
         <activity android:name=".View.Finish_Activity"/>
         <activity android:name=".View.StartNow_Activity"/>
+        <activity android:name=".View.Profile_Activity" />
         <!--<activity android:name=".View.Profile_Activity"/>-->
 
         <service
