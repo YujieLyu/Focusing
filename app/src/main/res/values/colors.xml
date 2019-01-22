@@ -14,4 +14,7 @@
     <color name="light_grey">#9e9e9e</color>
     <color name="font_deep_gray">#5b5b5b</color>  <!--字体深灰色-->
     <color name="transparent">#19ffffff</color>
+    <color name="light_purple">#FF7C85E6</color>
+    <color name="light_pink">#FFBF7BE0</color>
+    <color name="black">#000000</color>
 </resources>

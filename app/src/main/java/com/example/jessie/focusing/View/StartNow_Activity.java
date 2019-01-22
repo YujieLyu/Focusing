@@ -29,7 +29,7 @@ import java.util.Calendar;
  * @time : 00:54
  */
 public class StartNow_Activity extends AppCompatActivity implements TimeCallBack {
-    private TextView tv_startTime, tv_endTime;
+    private TextView tv_startTime, tv_endTime, tv_countTime;
     private Calendar timeStart, timeEnd;
     private CirclePicker circlePicker;
     private String countTime;
@@ -39,6 +39,7 @@ public class StartNow_Activity extends AppCompatActivity implements TimeCallBack
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_now_time);
+        tv_countTime = findViewById(R.id.tv_countTime);
         tv_startTime = findViewById(R.id.tv_start_time);
         tv_endTime = findViewById(R.id.tv_end_time);
         circlePicker = findViewById(R.id.timer);
@@ -51,7 +52,7 @@ public class StartNow_Activity extends AppCompatActivity implements TimeCallBack
             public void endTimeChanged(float startDegree, float endDegree) {
 //                double endCount=(endDegree<startDegree)?(endDegree / 720) * (12 * 60):(endDegree / 720) * (24 * 60);
 
-//                if(startDegree)
+
                 double endCount = (endDegree / 720) * (24 * 60);
                 int endHour = (int) Math.floor(endCount / 60);
                 int endMinute = (int) Math.floor(endCount % 60);
@@ -59,6 +60,14 @@ public class StartNow_Activity extends AppCompatActivity implements TimeCallBack
                 timeEnd.set(Calendar.HOUR_OF_DAY, endHour);
                 timeEnd.set(Calendar.MINUTE, endMinute);
                 tv_endTime.setText(((endHour < 10) ? ("0" + endHour) : (endHour + "")) + ":" + ((endMinute < 10) ? ("0" + endMinute) : (endMinute + "")));
+                if (startDegree == endDegree && (endDegree + 360 == startDegree) && (endDegree - 360 == startDegree)) {
+                    countTime = "00:00";
+                } else if (timeStart.get(Calendar.HOUR_OF_DAY) == endHour && timeStart.get(Calendar.MINUTE) == endMinute) {
+                    countTime = "00:00";
+                } else {
+                    countTime();
+                }
+                tv_countTime.setText(countTime);
             }
 
             @SuppressLint("SetTextI18n")
@@ -86,7 +95,7 @@ public class StartNow_Activity extends AppCompatActivity implements TimeCallBack
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                countTime();
+//                countTime();
                 if (countTime.equals("00:00")) {
                     Toast toast = Toast.makeText(getApplicationContext(),
                             R.string.invalid_time_suggestion, Toast.LENGTH_LONG);
@@ -144,7 +153,6 @@ public class StartNow_Activity extends AppCompatActivity implements TimeCallBack
     }
 
 
-
     private float startDegree() {
         timeStart = Calendar.getInstance();
         int hour = timeStart.get(Calendar.HOUR_OF_DAY);
@@ -176,7 +184,7 @@ public class StartNow_Activity extends AppCompatActivity implements TimeCallBack
 
     }
 
-    public void countTime() {
+    public String countTime() {
         //todo:判断过了0点的时间计算；是否做成只选第二个时间？
         //todo:need to optimize the calculate,do it later
         int hours;
@@ -189,17 +197,29 @@ public class StartNow_Activity extends AppCompatActivity implements TimeCallBack
         } else {
             hours = timeEnd.get(Calendar.HOUR_OF_DAY) - timeStart.get(Calendar.HOUR_OF_DAY);
             mins = timeEnd.get(Calendar.MINUTE) - timeStart.get(Calendar.MINUTE);
-            if (hours == 0 && mins == 0) {
-                countTime = "00:00";
-            } else if (hours < 0 && mins >= 0) {
-                countTime = (24 + hours) + ":" + mins;
-            } else if (hours > 0 && mins < 0) {
-                countTime = (hours - 1) + ":" + (60 + mins);
-
-            } else if (hours <= 0) {
-                countTime = (24 + hours) + ":" + (60 + mins);
+            if (hours == 0) {
+                if (mins >= 0) {
+                    countTime=String.format("%02d h %02d m",hours,mins);
+                }else {
+                    countTime=String.format("%02d h %02d m",23,mins+60);
+                }
+            }else if(hours>0) {
+                if (mins >= 0) {
+                    countTime = String.format("%02d h %02d m", hours, mins);
+                } else {
+                    countTime = String.format("%02d h %02d m", hours - 1, mins + 60);
+                }
+            }else {
+                if(mins>=0){
+                    countTime=String.format("%02d h %02d m",hours+24,mins);
+                }else {
+                    countTime=String.format("%02d h %02d m",hours+23,mins+60);
+                }
             }
+
+
         }
+        return countTime;
 
     }
 
