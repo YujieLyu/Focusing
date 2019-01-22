@@ -1,11 +1,10 @@
 package com.example.jessie.focusing.View;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
@@ -18,11 +17,11 @@ import android.widget.Toast;
 
 import com.example.jessie.focusing.Interface.TimeCallBack;
 import com.example.jessie.focusing.R;
+import com.example.jessie.focusing.Utils.OnCirclePickerTimeChangedListener;
+import com.example.jessie.focusing.widget.CirclePicker;
+
 
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * @author : Yujie Lyu
@@ -30,9 +29,9 @@ import java.util.TimerTask;
  * @time : 00:54
  */
 public class StartNow_Activity extends AppCompatActivity implements TimeCallBack {
-    private TextView tv_currtime, tv_endtime, tv_bg;
-    private TimePickerFragment timePicker;
-    private Calendar time1, time2;
+    private TextView tv_startTime, tv_endTime;
+    private Calendar timeStart, timeEnd;
+    private CirclePicker circlePicker;
     private String countTime;
 
 
@@ -40,24 +39,47 @@ public class StartNow_Activity extends AppCompatActivity implements TimeCallBack
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_now_time);
-        tv_currtime = findViewById(R.id.tx_time1);
-        tv_endtime = findViewById(R.id.tx_time2);
-        new Timer().schedule(timerTask, new Date(), 5000);
+        tv_startTime = findViewById(R.id.tv_start_time);
+        tv_endTime = findViewById(R.id.tv_end_time);
+        circlePicker = findViewById(R.id.timer);
+        circlePicker.setInitialTime(startDegree(), startDegree() + 30);
+        circlePicker.setOnTimerChangeListener(new OnCirclePickerTimeChangedListener() {
 
-        //Second time picker
-        tv_endtime.setOnClickListener(new View.OnClickListener() {
+
+            @SuppressLint("SetTextI18n")
             @Override
-            public void onClick(View v) {
-                timePicker = new TimePickerFragment();
-                timePicker.show(getSupportFragmentManager(), "time_picker");
+            public void endTimeChanged(float startDegree, float endDegree) {
+//                double endCount=(endDegree<startDegree)?(endDegree / 720) * (12 * 60):(endDegree / 720) * (24 * 60);
+
+//                if(startDegree)
+                double endCount = (endDegree / 720) * (24 * 60);
+                int endHour = (int) Math.floor(endCount / 60);
+                int endMinute = (int) Math.floor(endCount % 60);
+                timeEnd = Calendar.getInstance();
+                timeEnd.set(Calendar.HOUR_OF_DAY, endHour);
+                timeEnd.set(Calendar.MINUTE, endMinute);
+                tv_endTime.setText(((endHour < 10) ? ("0" + endHour) : (endHour + "")) + ":" + ((endMinute < 10) ? ("0" + endMinute) : (endMinute + "")));
             }
+
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void initTime(float startDegree, float endDegree) {
+                double startCount = (startDegree / 720) * (24 * 60);
+                int startHour = (int) Math.floor(startCount / 60);
+                int startMinute = (int) Math.floor(startCount % 60);
+                tv_startTime.setText(((startHour < 10) ? ("0" + startHour) : (startHour + "")) + ":" + ((startMinute < 10) ? ("0" + startMinute) : (startMinute + "")));
+
+
+                double endCount = (endDegree / 720) * (24 * 60);
+                int endHour = (int) Math.floor(endCount / 60);
+                int endMinute = (int) Math.floor(endCount % 60);
+                tv_endTime.setText(((endHour < 10) ? ("0" + endHour) : (endHour + "")) + ":" + ((endMinute < 10) ? ("0" + endMinute) : (endMinute + "")));
+            }
+
         });
 
-        tv_bg = findViewById(R.id.tv_background);
-        tv_bg.setBackgroundColor(Color.argb(20, 255, 255, 255)); //背景透明度
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
 
         //两个按钮
         Button btnStart = findViewById(R.id.btn_start);
@@ -73,8 +95,8 @@ public class StartNow_Activity extends AppCompatActivity implements TimeCallBack
 
                 } else {
                     Intent intent = new Intent(StartNow_Activity.this, Countdown_Activity.class);
-                    intent.putExtra("endTime", time2.getTimeInMillis());
-                    intent.putExtra("startTime", time1.getTimeInMillis());
+                    intent.putExtra("endTime", timeEnd.getTimeInMillis());
+                    intent.putExtra("startTime", timeStart.getTimeInMillis());
                     startActivity(intent);
                 }
             }
@@ -89,8 +111,7 @@ public class StartNow_Activity extends AppCompatActivity implements TimeCallBack
         });
 
         setStatusTransparent();
-//        setDarkStatusIcon(true);
-//        initView();
+
     }
 
     protected void setStatusTransparent() {
@@ -122,45 +143,26 @@ public class StartNow_Activity extends AppCompatActivity implements TimeCallBack
         }
     }
 
-    private TimerTask timerTask = new TimerTask() {
 
-        @Override
-        public void run() {
-            Message message = new Message();
-            message.what = 1;
-            myHandler.sendMessage(message);
-        }
-    };
 
-    //todo:修正莫名其妙但能运行的代码magic
-    private Handler myHandler = new Handler() {
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case 1:
-                    updateCurrTime();
-                    break;
-            }
+    private float startDegree() {
+        timeStart = Calendar.getInstance();
+        int hour = timeStart.get(Calendar.HOUR_OF_DAY);
+        int min = timeStart.get(Calendar.MINUTE);
+        int startTime = hour * 60 + min;
+        float startDegree = (float) startTime / 2;
+        return startDegree;
 
-        }
-    };
-
-    private void updateCurrTime() {
-        time1 = Calendar.getInstance();
-        int hour = time1.get(Calendar.HOUR_OF_DAY);
-        int min = time1.get(Calendar.MINUTE);
-        String displayTime = String.format("%02d:%02d", hour, min);
-        tv_currtime.setText(displayTime);
     }
 
-//    public void initView() {
-//
-//        final Calendar calendar = Calendar.getInstance();
-//        int hour = calendar.get(Calendar.HOUR_OF_DAY);
-//        int minute = calendar.get(Calendar.MINUTE);
-//        displayCurrTime = String.format("%02d:%02d", hour, minute);
-//        tv_currtime.setText(displayCurrTime);//todo:显示当前时间
-//
-//    }
+    //todo:动态更新时间
+    private void updateCurrTime() {
+        timeStart = Calendar.getInstance();
+        int hour = timeStart.get(Calendar.HOUR_OF_DAY);
+        int min = timeStart.get(Calendar.MINUTE);
+        String displayTime = String.format("%02d:%02d", hour, min);
+        tv_startTime.setText(displayTime);
+    }
 
 
     @Override
@@ -169,8 +171,8 @@ public class StartNow_Activity extends AppCompatActivity implements TimeCallBack
         int chosenHour = chosenCalendar.get(Calendar.HOUR_OF_DAY);
         int chosenMin = chosenCalendar.get(Calendar.MINUTE);
         String displayTime = String.format("%02d:%02d", chosenHour, chosenMin);
-        tv_endtime.setText(displayTime);
-        time2 = chosenCalendar;
+        tv_endTime.setText(displayTime);
+        timeEnd = chosenCalendar;
 
     }
 
@@ -179,17 +181,17 @@ public class StartNow_Activity extends AppCompatActivity implements TimeCallBack
         //todo:need to optimize the calculate,do it later
         int hours;
         int mins;
-        if (time2 == null) {
+        if (timeEnd == null) {
             //todo:处理time2时间未选择的问题.是否弹窗提示用户选择正确时间
-            time2 = Calendar.getInstance();
-            time2.setTimeInMillis(System.currentTimeMillis());
+            timeEnd = Calendar.getInstance();
+            timeEnd.setTimeInMillis(System.currentTimeMillis());
             countTime = "00:00";
         } else {
-            hours = time2.get(Calendar.HOUR_OF_DAY) - time1.get(Calendar.HOUR_OF_DAY);
-            mins = time2.get(Calendar.MINUTE) - time1.get(Calendar.MINUTE);
+            hours = timeEnd.get(Calendar.HOUR_OF_DAY) - timeStart.get(Calendar.HOUR_OF_DAY);
+            mins = timeEnd.get(Calendar.MINUTE) - timeStart.get(Calendar.MINUTE);
             if (hours == 0 && mins == 0) {
                 countTime = "00:00";
-            }else if (hours < 0 && mins >= 0) {
+            } else if (hours < 0 && mins >= 0) {
                 countTime = (24 + hours) + ":" + mins;
             } else if (hours > 0 && mins < 0) {
                 countTime = (hours - 1) + ":" + (60 + mins);

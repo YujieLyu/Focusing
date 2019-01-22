@@ -94,7 +94,7 @@ public class Countdown_Activity extends AppCompatActivity implements CountdownVi
     private void initLayoutBackground() {
 
         Resources resources = this.getResources();
-        final Drawable bgPic = resources.getDrawable(R.drawable.bg_pure);
+        final Drawable bgPic = resources.getDrawable(R.drawable.bg_aurora);
         countLayout.getViewTreeObserver().addOnPreDrawListener(
                 new ViewTreeObserver.OnPreDrawListener() {
                     @Override
