@@ -82,7 +82,12 @@ public class StartNow_Activity extends AppCompatActivity implements TimeCallBack
                 double endCount = (endDegree / 720) * (24 * 60);
                 int endHour = (int) Math.floor(endCount / 60);
                 int endMinute = (int) Math.floor(endCount % 60);
+                timeEnd = Calendar.getInstance();
+                timeEnd.set(Calendar.HOUR_OF_DAY, endHour);
+                timeEnd.set(Calendar.MINUTE, endMinute);
                 tv_endTime.setText(((endHour < 10) ? ("0" + endHour) : (endHour + "")) + ":" + ((endMinute < 10) ? ("0" + endMinute) : (endMinute + "")));
+                countTime=String.format("%02d h %02d m",(endHour-startHour),(endMinute-startMinute));
+                tv_countTime.setText(countTime);
             }
 
         });

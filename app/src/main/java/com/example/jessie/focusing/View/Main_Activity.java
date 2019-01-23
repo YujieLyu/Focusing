@@ -23,7 +23,7 @@ public class Main_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         setStatusTransparent();
-        setDarkStatusIcon(true);
+//        setDarkStatusIcon(true);
 
         tv_start=findViewById(R.id.tv_start_now);
         tv_start.setOnClickListener(new View.OnClickListener() {

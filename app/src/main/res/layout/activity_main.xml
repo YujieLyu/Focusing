@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:openDrawer="start">
+    tools:context=".View.Welcome_Activity"
+    android:orientation="horizontal">
 
     <ImageView
         android:id="@+id/img_welcome"
@@ -21,57 +20,59 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="130dp"
-        android:fontFamily="monospace"
+        android:fontFamily="@font/roboto_thin"
         android:text="Welcome to Focusing!"
-        android:textSize="30dp"
         android:textColor="@color/text_white"
-        android:textStyle="bold"/>
+        android:textSize="32sp"
+        android:textStyle="bold" />
+
     <TextView
         android:id="@+id/tv_start_now"
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:layout_marginTop="300dp"
         android:background="@color/bg_white"
+        android:contextClickable="true"
+        android:fontFamily="@font/roboto_light"
         android:gravity="center"
         android:text="Start Now!"
-        android:contextClickable="true"
         android:textColor="@color/black"
-        android:textSize="25sp"
-        android:textStyle="bold"
-        />
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
     <TextView
         android:id="@+id/tv_profile"
         android:layout_width="match_parent"
         android:layout_height="75dp"
-        android:layout_marginTop="30dp"
         android:layout_below="@id/tv_start_now"
+        android:layout_marginTop="30dp"
         android:background="@color/bg_white"
+        android:contextClickable="true"
+        android:fontFamily="@font/roboto_light"
         android:gravity="center"
         android:text="Profile"
-        android:contextClickable="true"
         android:textColor="@color/black"
-        android:textSize="25sp"
+        android:textSize="20sp"
         android:textStyle="bold"
-
         />
 
     <TextView
         android:id="@+id/tv_schedule"
         android:layout_width="match_parent"
         android:layout_height="75dp"
-        android:layout_marginTop="30dp"
         android:layout_below="@id/tv_profile"
+        android:layout_marginTop="30dp"
         android:background="@color/bg_white"
+        android:contextClickable="true"
+        android:fontFamily="@font/roboto_light"
         android:gravity="center"
         android:text="Schedule"
-        android:contextClickable="true"
         android:textAlignment="center"
         android:textColor="@color/black"
-        android:textSize="25sp"
-        android:textStyle="bold"
+        android:textSize="20sp"
 
 
-        />
+        android:textStyle="bold" />
 
 
     <!--<include-->

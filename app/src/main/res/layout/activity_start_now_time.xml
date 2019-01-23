@@ -31,10 +31,10 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="370dp"
+        android:fontFamily="@font/roboto_light"
         android:text="00:00"
         android:textColor="@color/black"
-        android:textSize="25sp"
-        />
+        android:textSize="25sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -47,20 +47,22 @@
         <TextView
             android:id="@+id/tv_start_time"
             android:layout_width="0dp"
-            android:textSize="30sp"
-            android:textColor="#7c85e6"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"/>
+            android:fontFamily="@font/roboto_light"
+            android:gravity="center"
+            android:textColor="#8c93e2"
+            android:textSize="36sp" />
 
         <TextView
             android:id="@+id/tv_end_time"
             android:layout_width="0dp"
-            android:textSize="30sp"
-            android:textColor="#bf7be0"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center" />
+            android:fontFamily="@font/roboto_light"
+            android:gravity="center"
+            android:textColor="#bf7be0"
+            android:textSize="36sp" />
     </LinearLayout>
 
 
@@ -68,10 +70,11 @@
         android:id="@+id/btn_lock_app"
         android:layout_width="130dp"
         android:layout_height="50dp"
-        android:layout_marginTop="650dp"
         android:layout_marginStart="50dp"
+        android:layout_marginTop="650dp"
         android:layout_toEndOf="@id/btn_start"
         android:background="@color/light_pink"
+        android:fontFamily="@font/roboto"
         android:text="Next"
         android:textAlignment="center"
         android:textColor="@color/text_white"
@@ -85,9 +88,10 @@
         android:layout_marginStart="50dp"
         android:layout_marginTop="650dp"
         android:background="@color/light_purple"
+        android:fontFamily="@font/roboto"
         android:text="Start"
-        android:textAlignment="center"
 
+        android:textAlignment="center"
         android:textColor="@color/text_white"
         android:textSize="17sp"
         android:textStyle="bold|italic" />

@@ -15,7 +15,6 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.example.jessie.focusing.Utils.AppConstants;
-import com.example.jessie.focusing.DialogPermission;
 import com.example.jessie.focusing.Utils.LockUtil;
 import com.example.jessie.focusing.R;
 import com.example.jessie.focusing.Utils.SPUtil;

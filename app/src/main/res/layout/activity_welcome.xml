@@ -24,9 +24,10 @@
         android:gravity="center"
         android:lineSpacingExtra="15sp"
         android:padding="10dp"
-        android:text="Be Focusing Enjoy Efficiency"
+        android:text="Focusing"
+        android:fontFamily="@font/roboto"
         android:textColor="@color/text_white"
-        android:textSize="30dp"
+        android:textSize="40sp"
         android:textStyle="bold" />
 
 

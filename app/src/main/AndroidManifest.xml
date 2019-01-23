@@ -40,10 +40,10 @@
         <activity android:name=".View.Profile_Activity" />
         <!--<activity android:name=".View.Profile_Activity"/>-->
 
-        <service
-            android:name="com.example.jessie.focusing.LoadAppListService"
-            android:enabled="true"
-            android:exported="true" />
+        <!--<service-->
+            <!--android:name="com.example.jessie.focusing.LoadAppListService"-->
+            <!--android:enabled="true"-->
+            <!--android:exported="true" />-->
         <service android:name="com.example.jessie.focusing.Service.LockService" />
 
         <meta-data

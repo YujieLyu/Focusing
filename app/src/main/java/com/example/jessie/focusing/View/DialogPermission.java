@@ -1,10 +1,12 @@
-package com.example.jessie.focusing;
+package com.example.jessie.focusing.View;
 
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+
+import com.example.jessie.focusing.R;
 
 /**
  * @author : Yujie Lyu

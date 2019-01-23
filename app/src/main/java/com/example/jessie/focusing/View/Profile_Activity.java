@@ -18,8 +18,8 @@ import com.example.jessie.focusing.R;
  * @time : 01:02
  */
 public class Profile_Activity extends AppCompatActivity {
-    private TextView tv_suggestion;
-    private Button btn_p1, btn_new;
+    private TextView tv_suggestion,tv_p1;
+    private Button btn_new;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,10 +27,10 @@ public class Profile_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         tv_suggestion=findViewById(R.id.tv_suggest_profile);
-        btn_p1=findViewById(R.id.btn_p1);
+        tv_p1=findViewById(R.id.tv_p1);
         btn_new=findViewById(R.id.btn_new);
-        btn_p1.setBackgroundColor(Color.argb(70, 255, 255, 255)); //背景透明度
-        btn_new.setBackgroundColor(Color.argb(70, 255, 255, 255));
+        tv_p1.setBackgroundColor(Color.argb(150, 255, 255, 255)); //背景透明度
+        btn_new.setBackgroundColor(Color.argb(90, 255, 255, 255));
 
         setStatusTransparent();
 
