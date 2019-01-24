@@ -11,6 +11,9 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.example.jessie.focusing.R;
+import com.example.jessie.focusing.View.Profile.Profile_Activity;
+import com.example.jessie.focusing.View.Schedule.Schedule_Activity;
+import com.example.jessie.focusing.View.StartNow.StartNow_Activity;
 
 public class Main_Activity extends AppCompatActivity {
 

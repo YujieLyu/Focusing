@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
 
 import com.example.jessie.focusing.R;
-import com.example.jessie.focusing.Adapter.AppListAdapter;
+import com.example.jessie.focusing.Controller.Adapter.AppListAdapter;
 import com.example.jessie.focusing.Utils.ScanAppsTool;
 import com.example.jessie.focusing.Model.AppInfo;
 
@@ -25,7 +25,7 @@ public class LockApp_Activity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_applist_main);
+        setContentView(R.layout.fragment_startnow_applist);
         lv_appList = findViewById(R.id.lv_app_list);
         appListAdapter = new AppListAdapter(this);
         lv_appList.setAdapter(appListAdapter);

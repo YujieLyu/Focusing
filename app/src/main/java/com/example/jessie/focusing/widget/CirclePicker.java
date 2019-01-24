@@ -405,11 +405,7 @@ public class CirclePicker extends View{
     private boolean isMoveEndBtn(float x, float y) {
         float dx = Math.abs(mEndBtnCurX - x);
         float dy = Math.abs(mEndBtnCurY - y);
-        if (dx < mBtnSize / 2 && dy < mBtnSize / 2) {
-            return true;
-        } else {
-            return false;
-        }
+        return dx < mBtnSize / 2 && dy < mBtnSize / 2;
     }
 
 

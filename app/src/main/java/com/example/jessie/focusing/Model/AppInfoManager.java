@@ -1,4 +1,4 @@
-package com.example.jessie.focusing.Controller;
+package com.example.jessie.focusing.Model;
 
 import android.content.Context;
 import android.content.pm.PackageManager;

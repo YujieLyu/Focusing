@@ -1,7 +1,5 @@
-package com.example.jessie.focusing.View;
+package com.example.jessie.focusing.View.StartNow;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,32 +7,21 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.jessie.focusing.Adapter.ViewPagerAdapter;
-import com.example.jessie.focusing.Interface.TimeCallBack;
+import com.example.jessie.focusing.Controller.Adapter.ViewPagerAdapter;
 import com.example.jessie.focusing.R;
-import com.example.jessie.focusing.Utils.OnCirclePickerTimeChangedListener;
-import com.example.jessie.focusing.widget.CirclePicker;
-
-
-import java.util.Calendar;
 
 /**
  * @author : Yujie Lyu
  * @date : 19-01-2019
  * @time : 00:54
  */
-public class StartNow_Activity extends AppCompatActivity  {
+public class StartNow_Activity extends AppCompatActivity {
 //    private TextView tv_startTime, tv_endTime, tv_countTime;
 //    private Calendar timeStart, timeEnd;
 //    private CirclePicker circlePicker;
@@ -52,10 +39,10 @@ public class StartNow_Activity extends AppCompatActivity  {
      * NEW ADDED
      */
     private BottomNavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener
-            =new BottomNavigationView.OnNavigationItemSelectedListener() {
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-            switch (menuItem.getItemId()){
+            switch (menuItem.getItemId()) {
                 case R.id.nav_timer:
                     viewPager.setCurrentItem(0);
                     return true;
@@ -68,32 +55,30 @@ public class StartNow_Activity extends AppCompatActivity  {
     };
 
 
-
     /**
      * new added todo:
      */
-    private void setupViewPager(ViewPager viewPager){
-        ViewPagerAdapter adapter=new ViewPagerAdapter(getSupportFragmentManager());
-        clockFragment=ClockFragment.newInstance();
-        appListFragment=AppListFragment.newInstance();
+    private void setupViewPager(ViewPager viewPager) {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        clockFragment = ClockFragment.newInstance();
+        appListFragment = AppListFragment.newInstance();
         adapter.addFragment(clockFragment);
         adapter.addFragment(appListFragment);
         viewPager.setAdapter(adapter);
     }
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_start_now_time);
+        setContentView(R.layout.activity_startnow);
         /**
          * new added
          */
-        viewPager=findViewById(R.id.viewpager);
-        final BottomNavigationView navigationView=findViewById(R.id.navigation);
+        viewPager = findViewById(R.id.viewpager);
+        final BottomNavigationView navigationView = findViewById(R.id.navigation);
         navigationView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener);
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener(){
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -102,12 +87,12 @@ public class StartNow_Activity extends AppCompatActivity  {
 
             @Override
             public void onPageSelected(int position) {
-                if(menuItem!=null) {
+                if (menuItem != null) {
                     menuItem.setChecked(false);
-                }else{
+                } else {
                     navigationView.getMenu().getItem(0).setChecked(false);
                 }
-                menuItem=navigationView.getMenu().getItem(position);
+                menuItem = navigationView.getMenu().getItem(position);
                 menuItem.setChecked(true);
 
             }

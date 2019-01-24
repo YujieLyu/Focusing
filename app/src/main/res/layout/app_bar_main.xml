@@ -7,6 +7,6 @@
 
     <!--<include layout="@layout/layout_toolbar"/>-->
 
-    <include layout="@layout/activity_start_now_time" />
+    <include layout="@layout/activity_startnow" />
 
 </android.support.design.widget.CoordinatorLayout>

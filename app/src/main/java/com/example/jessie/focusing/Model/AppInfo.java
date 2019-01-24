@@ -27,9 +27,11 @@ public class AppInfo extends LitePalSupport {
         return false;
     }
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private String packageName;
 
+    @Column(defaultValue = "null")
+    private String profile;
 
     private Drawable appImg;
 
@@ -88,6 +90,14 @@ public class AppInfo extends LitePalSupport {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getProfile() {
+        return profile;
+    }
+
+    public void setProfile(String profile) {
+        this.profile = profile;
     }
 
     //

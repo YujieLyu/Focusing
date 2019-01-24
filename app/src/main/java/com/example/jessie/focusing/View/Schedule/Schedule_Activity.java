@@ -1,4 +1,4 @@
-package com.example.jessie.focusing.View;
+package com.example.jessie.focusing.View.Schedule;
 
 /**
  * @author : Yujie Lyu

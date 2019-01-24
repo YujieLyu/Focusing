@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/fg_display">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/n8"
+        android:scaleType="fitXY"/>
+
+    <TextView
+        android:id="@+id/tv_suggest_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="50dp"
+        android:fontFamily="@font/roboto_light"
+        android:text="Design your profile"
+        android:textColor="@color/bg_white"
+        android:textSize="30sp" />
+
+    <!--<ImageButton-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="100dp" />-->
+
+    <TextView
+        android:id="@+id/tv_p1c"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_below="@+id/tv_suggest_profile"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/m5" />
+
+    <TextView
+        android:id="@+id/tv_p1"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_below="@+id/tv_suggest_profile"
+        android:layout_marginTop="20dp"
+        android:background="@color/bg_white"
+        android:fontFamily="@font/roboto"
+        android:gravity="center"
+        android:text="Meeting"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/btn_new"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_below="@+id/tv_p1c"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/rc_grey"
+        android:fontFamily="@font/basic"
+        android:text="+"
+        android:textSize="70dp"
+        android:textAlignment="center"/>
+
+</RelativeLayout>

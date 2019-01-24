@@ -1,4 +1,4 @@
-package com.example.jessie.focusing.Adapter;
+package com.example.jessie.focusing.Controller.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,7 +9,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.jessie.focusing.R;
-import com.example.jessie.focusing.Controller.AppInfoManager;
+import com.example.jessie.focusing.Model.AppInfoManager;
 import com.example.jessie.focusing.Model.AppInfo;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,8 +56,8 @@ public class AppListAdapter extends BaseAdapter implements View.OnClickListener 
             convertView = LayoutInflater.from(context).inflate(R.layout.item_lock_list, null);
         }
 
-        mViewHolder.ivAppIcon = (ImageView) convertView.findViewById(R.id.app_icon);
-        mViewHolder.txAppName = (TextView) convertView.findViewById(R.id.app_name);
+        mViewHolder.ivAppIcon = convertView.findViewById(R.id.app_icon);
+        mViewHolder.txAppName = convertView.findViewById(R.id.app_name);
         mViewHolder.cbAppIsLocked = convertView.findViewById(R.id.switch_bar);
         mViewHolder.ivAppIcon.setImageDrawable(selectedAppInfo.getAppImg());
         mViewHolder.txAppName.setText(selectedAppInfo.getAppName());

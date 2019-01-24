@@ -29,7 +29,7 @@ public class DialogPermission extends Dialog {
     }
 
     private void init() {
-        btnPermission = (TextView) findViewById(R.id.btn_permission);
+        btnPermission = findViewById(R.id.btn_permission);
         btnPermission.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
