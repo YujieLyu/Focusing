@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/fg_applist">
+
+    <ImageView
+        android:id="@+id/img_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
+        android:src="@drawable/snow_tree"
+        />
+
+    <android.support.v7.widget.SearchView
+        android:id="@+id/search_bar"
+        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:layout_below="@id/tv_select"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_search">
+
+    </android.support.v7.widget.SearchView>
+
+    <TextView
+        android:id="@+id/tv_select"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select Apps to Lock"
+        android:layout_marginTop="20dp"
+        android:padding="15dp"
+        android:textColor="@color/bg_white"
+        android:fontFamily="@font/roboto_light"
+        android:textSize="30sp"
+        />
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/search_bar"
+        android:layout_marginBottom="70dp">
+
+        <ListView
+            android:id="@+id/lv_app_list"
+            android:layout_width="match_parent"
+            android:overScrollMode="never"
+            android:layout_height="match_parent"/>
+
+        <!--<include layout="@layout/item_lock_top"/>-->
+    </LinearLayout>
+
+</RelativeLayout>

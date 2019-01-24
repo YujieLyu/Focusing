@@ -25,7 +25,7 @@ public class LockApp_Activity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lock_app_main);
+        setContentView(R.layout.fragment_applist_main);
         lv_appList = findViewById(R.id.lv_app_list);
         appListAdapter = new AppListAdapter(this);
         lv_appList.setAdapter(appListAdapter);
