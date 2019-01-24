@@ -30,8 +30,8 @@ public class StartNow_Activity extends AppCompatActivity {
      * new added
      */
     private ViewPager viewPager;
-    private ClockFragment clockFragment;
-    private AppListFragment appListFragment;
+    private NowClockFragment clockFragment;
+    private NowAppListFragment nowAppListFragment;
     private Menu menu;
     private MenuItem menuItem;
 
@@ -60,10 +60,10 @@ public class StartNow_Activity extends AppCompatActivity {
      */
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        clockFragment = ClockFragment.newInstance();
-        appListFragment = AppListFragment.newInstance();
+        clockFragment = NowClockFragment.newInstance();
+        nowAppListFragment = NowAppListFragment.newInstance();
         adapter.addFragment(clockFragment);
-        adapter.addFragment(appListFragment);
+        adapter.addFragment(nowAppListFragment);
         viewPager.setAdapter(adapter);
     }
 

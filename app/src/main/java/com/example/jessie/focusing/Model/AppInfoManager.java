@@ -30,14 +30,6 @@ public class AppInfoManager {
     public synchronized List<AppInfo> insertAppLockInfo(List<AppInfo> appInfos) {
         //        List<AppInfo> appInfosToShow=new ArrayList<>();
         List<AppInfo> appInfosDatabase = LitePal.findAll(AppInfo.class);
-//        for (AppInfo infoDB : appInfosDatabase) {
-//            if(appInfos.contains(infoDB)){
-//                appInfosToShow.add(infoDB);
-//            }else {
-//                LitePal.delete(AppInfo.class,infoDB.getId());
-//            }
-//
-//        }
 
         //todo:可删除
         for (AppInfo appInfo : appInfos) {

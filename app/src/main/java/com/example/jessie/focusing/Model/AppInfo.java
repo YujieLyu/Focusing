@@ -100,66 +100,6 @@ public class AppInfo extends LitePalSupport {
         this.profile = profile;
     }
 
-    //
-
-
-////    todo:推荐加锁的应用
-//    private ApplicationInfo appInfo;
-////    todo:区分系统应用和用户应用；
-//    private String topTitle;
-////    todo:private boolean isSetUnlocked;
-
-//    public AppInfo(){
-//
-//    }
-//
-//    public AppInfo(String packageName,boolean isLocked){
-//        this.packageName=packageName;
-//        this.isLocked=isLocked;
-//
-//    }
-//
-//    protected AppInfo(Parcel in) {
-//        this.id=in.readLong();
-//        this.packageName=in.readString();
-//        this.appName=in.readString();
-//        this.isLocked=in.readInt()!=0;
-//        this.appInfo=in.readParcelable(ApplicationInfo.class.getClassLoader());
-//        this.topTitle=in.readString();
-//
-//
-//    }
-//
-//    public static final Creator<AppInfo> CREATOR = new Creator<AppInfo>() {
-//        @Override
-//        public AppInfo createFromParcel(Parcel in) {
-//            return new AppInfo(in);
-//        }
-//
-//        @Override
-//        public AppInfo[] newArray(int size) {
-//            return new AppInfo[size];
-//        }
-//    };
-//
-//    @Override
-//    public int describeContents() {
-//        return 0;
-//    }
-//
-//    @Override
-//    public void writeToParcel(Parcel dest, int flags) {
-//        dest.writeLong(this.id);
-//        dest.writeString(this.packageName);
-//        dest.writeString(this.appName);
-//        dest.writeInt((this.isLocked?1:0));
-//        dest.writeParcelable(this.appInfo,flags);
-//        dest.writeString(this.topTitle);
-//
-//    }
-//    public boolean isLocked() {
-//        return isLocked;
-//    }
 
 
 }

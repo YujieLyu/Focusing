@@ -3,14 +3,11 @@ package com.example.jessie.focusing.View.Profile;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.TextView;
 
 import com.example.jessie.focusing.Controller.Adapter.ViewPagerAdapter;
 import com.example.jessie.focusing.R;
@@ -21,22 +18,21 @@ import com.example.jessie.focusing.R;
  * @time : 01:02
  */
 public class Profile_Activity extends AppCompatActivity {
-    private TextView tv_suggestion,tv_p1;
-    private Button btn_new;
-
-    private AppListProfileFragment listFragment;
+    private ViewPager viewPager;
+    private ProfileAppListFragment listFragment;
     private ProfileDisplayFragment displayFragment;
+    private int profileId=1;
 
 
 
-//    private void setupViewPager(ViewPager viewPager){
-//        ViewPagerAdapter adapter=new ViewPagerAdapter(getSupportFragmentManager());
-//        listFragment =AppListProfileFragment.newInstance();
-//        displayFragment=ProfileDisplayFragment.newInstance();
-//        adapter.addFragment(listFragment);
-//        adapter.addFragment(displayFragment);
-//        viewPager.setAdapter(adapter);
-//    }
+    private void setupViewPager(ViewPager viewPager){
+        ViewPagerAdapter adapter=new ViewPagerAdapter(getSupportFragmentManager());
+        listFragment =new ProfileAppListFragment();
+        displayFragment=new ProfileDisplayFragment();
+        adapter.addFragment(listFragment);
+        adapter.addFragment(displayFragment);
+        viewPager.setAdapter(adapter);
+    }
 
 
     @Override
@@ -44,11 +40,12 @@ public class Profile_Activity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        displayFragment=ProfileDisplayFragment.newInstance();
+        viewPager = findViewById(R.id.prof_viewpager);
+        displayFragment=new ProfileDisplayFragment();
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.prof_container,displayFragment)
                 .commit();
-//        setupViewPager(viewPager);
+        setupViewPager(viewPager);
         setStatusTransparent();
 
     }
@@ -64,5 +61,13 @@ public class Profile_Activity extends AppCompatActivity {
             // 4.4 实现
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
+    }
+
+    public int getProfileId() {
+        return profileId;
+    }
+
+    public void setProfileId(int profileId) {
+        this.profileId = profileId+1;
     }
 }

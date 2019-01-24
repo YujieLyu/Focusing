@@ -38,7 +38,6 @@ public class AppListAdapter extends BaseAdapter implements View.OnClickListener 
 //        LitePal.deleteAll(AppInfo.class);//TODO:临时的
 
         this.appInfos = infoManager.insertAppLockInfo(appInfos);
-//        this.appInfos=appInfos;
         notifyDataSetChanged();
     }
 
@@ -50,20 +49,20 @@ public class AppListAdapter extends BaseAdapter implements View.OnClickListener 
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder mViewHolder = new ViewHolder();
+        ViewHolder viewHolder = new ViewHolder();
         AppInfo selectedAppInfo = appInfos.get(position);
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_lock_list, null);
         }
 
-        mViewHolder.ivAppIcon = convertView.findViewById(R.id.app_icon);
-        mViewHolder.txAppName = convertView.findViewById(R.id.app_name);
-        mViewHolder.cbAppIsLocked = convertView.findViewById(R.id.switch_bar);
-        mViewHolder.ivAppIcon.setImageDrawable(selectedAppInfo.getAppImg());
-        mViewHolder.txAppName.setText(selectedAppInfo.getAppName());
-        mViewHolder.cbAppIsLocked.setChecked(selectedAppInfo.isLocked());
-        mViewHolder.cbAppIsLocked.setTag(selectedAppInfo);
-        mViewHolder.cbAppIsLocked.setOnClickListener(this);
+        viewHolder.ivAppIcon = convertView.findViewById(R.id.app_icon);
+        viewHolder.txAppName = convertView.findViewById(R.id.app_name);
+        viewHolder.cbAppIsLocked = convertView.findViewById(R.id.switch_bar);
+        viewHolder.ivAppIcon.setImageDrawable(selectedAppInfo.getAppImg());
+        viewHolder.txAppName.setText(selectedAppInfo.getAppName());
+        viewHolder.cbAppIsLocked.setChecked(selectedAppInfo.isLocked());
+        viewHolder.cbAppIsLocked.setTag(selectedAppInfo);
+        viewHolder.cbAppIsLocked.setOnClickListener(this);
 
         return convertView;
     }
@@ -84,7 +83,6 @@ public class AppListAdapter extends BaseAdapter implements View.OnClickListener 
         ImageView ivAppIcon;
         TextView txAppName;
         CheckBox cbAppIsLocked;
-
     }
 
     @Override
