@@ -3,6 +3,7 @@ package com.example.jessie.focusing.View;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
@@ -10,6 +11,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.jessie.focusing.Adapter.ViewPagerAdapter;
 import com.example.jessie.focusing.R;
 
 /**
@@ -18,8 +20,19 @@ import com.example.jessie.focusing.R;
  * @time : 01:02
  */
 public class Profile_Activity extends AppCompatActivity {
+
+    private ViewPager viewPager;
+    private AppListProfileFragment profileFragment;
     private TextView tv_suggestion,tv_p1;
     private Button btn_new;
+
+
+    private void setupViewPager(ViewPager viewPager){
+        ViewPagerAdapter adapter=new ViewPagerAdapter(getSupportFragmentManager());
+        profileFragment=AppListProfileFragment.newInstance();
+        adapter.addFragment(profileFragment);
+        viewPager.setAdapter(adapter);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +44,7 @@ public class Profile_Activity extends AppCompatActivity {
         btn_new=findViewById(R.id.btn_new);
         tv_p1.setBackgroundColor(Color.argb(150, 255, 255, 255)); //背景透明度
         btn_new.setBackgroundColor(Color.argb(90, 255, 255, 255));
-
+        setupViewPager(viewPager);
         setStatusTransparent();
 
     }
