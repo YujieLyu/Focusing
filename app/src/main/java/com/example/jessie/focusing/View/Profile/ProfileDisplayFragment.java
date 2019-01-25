@@ -52,7 +52,7 @@ public class ProfileDisplayFragment extends Fragment  {
 //    @Override
 //    public void onStop() {
 //        super.onStop();
-//        profileListAdapter.saveInfos();
+//        profileListAdapter.syncData();
 //    }
 
     public void onBackPressed() {

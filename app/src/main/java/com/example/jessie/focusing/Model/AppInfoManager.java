@@ -45,6 +45,7 @@ public class AppInfoManager {
     }
 
     public synchronized List<AppInfo> syncData(List<AppInfo> appInfos) {
+//        LitePal.deleteAll(AppInfo.class);
         List<AppInfo> appInfosDb = LitePal.findAll(AppInfo.class);
         for (int i = 0; i < appInfos.size(); i++) {
             AppInfo info = appInfos.get(i);
@@ -62,7 +63,7 @@ public class AppInfoManager {
      * 将手机应用信息插入数据库
      */
     public synchronized List<AppInfo> setDatabase(List<AppInfo> appInfos) {
-//        LitePal.deleteAll(AppInfo.class);
+        LitePal.deleteAll(AppInfo.class);
         List<AppInfo> appInfosDatabase = LitePal.findAll(AppInfo.class);
         List<AppInfo> tempI = new ArrayList<>();
         List<AppInfo> tempD = new ArrayList<>();

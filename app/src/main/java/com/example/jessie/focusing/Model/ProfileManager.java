@@ -47,7 +47,7 @@ public class ProfileManager {
 //        return profilesDB;
 //    }
 
-//    public void saveInfos(List<Profile> profileInfos) {
+//    public void syncData(List<Profile> profileInfos) {
 //        List<AppInfo> appInfosDatabase = LitePal.findAll(AppInfo.class);
 //        for (AppInfo info : appInfos) {
 //            for (AppInfo infoDB : appInfosDatabase) {

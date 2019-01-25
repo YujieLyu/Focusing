@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/fg_timepicker"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/img_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
+        android:src="@drawable/galaxy2"
+        />
+
+    <com.example.jessie.focusing.widget.CirclePicker
+        android:id="@+id/timer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        />
+
+
+    <TextView
+        android:id="@+id/tv_countTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="370dp"
+        android:fontFamily="@font/roboto_light"
+        android:text="00:00"
+        android:textColor="@color/black"
+        android:textSize="25sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="80dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp">
+
+        <TextView
+            android:id="@+id/tv_start_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/roboto_light"
+            android:gravity="center"
+            android:textColor="#b2b7ea"
+            android:textSize="36sp" />
+        <!--<TextView-->
+            <!--android:id="@+id/tv_to"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:fontFamily="@font/roboto_light"-->
+            <!--android:text="to"-->
+            <!--android:textColor="@color/bg_white"-->
+            <!--android:textSize="36sp" />-->
+
+        <TextView
+            android:id="@+id/tv_end_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/roboto_light"
+            android:gravity="center"
+            android:textColor="#bf7be0"
+            android:textSize="36sp" />
+    </LinearLayout>
+
+
+    <!--<Button-->
+        <!--android:id="@+id/btn_lock_app"-->
+        <!--android:layout_width="130dp"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:layout_marginStart="50dp"-->
+        <!--android:layout_marginTop="650dp"-->
+        <!--android:layout_toEndOf="@id/btn_start"-->
+        <!--android:background="@color/light_pink"-->
+        <!--android:fontFamily="@font/roboto"-->
+        <!--android:text="AppList"-->
+        <!--android:textAlignment="center"-->
+        <!--android:textColor="@color/text_white"-->
+        <!--android:textSize="17sp"-->
+        <!--android:textStyle="bold|italic" />-->
+
+    <Button
+        android:id="@+id/btn_start"
+        android:layout_width="115dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="580dp"
+        android:layout_centerHorizontal="true"
+        android:background="@color/light_purple"
+        android:fontFamily="@font/roboto"
+        android:text="Start"
+
+        android:textAlignment="center"
+        android:textColor="@color/text_white"
+        android:textSize="17sp"
+        android:textStyle="bold|italic" />
+
+
+</RelativeLayout>

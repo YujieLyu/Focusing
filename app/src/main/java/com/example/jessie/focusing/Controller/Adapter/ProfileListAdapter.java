@@ -76,8 +76,8 @@ public class ProfileListAdapter extends BaseAdapter implements View.OnClickListe
 
 
     }
-//    public void saveInfos() {
-//        profileManager.saveInfos(appInfos);
+//    public void syncData() {
+//        profileManager.syncData(appInfos);
 //    }
 
     @Override
