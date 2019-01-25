@@ -7,6 +7,7 @@ import com.example.jessie.focusing.Model.AppInfo;
 
 import org.litepal.LitePal;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -25,31 +26,66 @@ public class AppInfoManager {
     }
 
     /**
+     * Insert
+     */
+    public synchronized void insert(List<AppInfo> appInfos) {
+        for (AppInfo appInfo : appInfos) {
+            appInfo.save();
+
+        }
+    }
+
+    /**
+     * Delete
+     */
+    public synchronized void delete(List<AppInfo> appInfos) {
+        for (AppInfo appInfo : appInfos) {
+            appInfo.delete();
+        }
+    }
+
+    public synchronized List<AppInfo> syncData(List<AppInfo> appInfos) {
+        List<AppInfo> appInfosDb = LitePal.findAll(AppInfo.class);
+        for (int i = 0; i < appInfos.size(); i++) {
+            AppInfo info = appInfos.get(i);
+            for (AppInfo infoDb : appInfosDb) {
+                if (info.equals(infoDb)) {
+                    info.setId(infoDb.getId());
+                    info.setLocked(infoDb.isLocked());
+                }
+            }
+        }
+        return appInfos;
+    }
+
+    /**
      * 将手机应用信息插入数据库
      */
-    public synchronized List<AppInfo> insertAppLockInfo(List<AppInfo> appInfos) {
-        //        List<AppInfo> appInfosToShow=new ArrayList<>();
+    public synchronized List<AppInfo> setDatabase(List<AppInfo> appInfos) {
+//        LitePal.deleteAll(AppInfo.class);
         List<AppInfo> appInfosDatabase = LitePal.findAll(AppInfo.class);
+        List<AppInfo> tempI = new ArrayList<>();
+        List<AppInfo> tempD = new ArrayList<>();
 
         //todo:可删除
         for (AppInfo appInfo : appInfos) {
             if (!appInfosDatabase.contains(appInfo)) {
-                appInfosDatabase.add(appInfo);
-                appInfo.save();
+                tempI.add(appInfo);
             }
         }
+        insert(tempI);
 
         for (AppInfo appInfoDB : appInfosDatabase) {
             if (!appInfos.contains(appInfoDB)) {
-                LitePal.delete(AppInfo.class, appInfoDB.getId());
+                tempD.add(appInfoDB);
             }
-
         }
+        delete(tempD);
+
         for (AppInfo appInfo : appInfos) {
             for (AppInfo infoDB : appInfosDatabase) {
                 if (appInfo.getPackageName().equals(infoDB.getPackageName())) {
                     appInfo.setLocked(infoDB.isLocked());
-//                    infoDB.setAppName(appInfo.getAppName());
                 }
             }
 
@@ -58,16 +94,19 @@ public class AppInfoManager {
     }
 
     public void saveInfos(List<AppInfo> appInfos) {
-        List<AppInfo> appInfosDatabase = LitePal.findAll(AppInfo.class);
-        for (AppInfo info : appInfos) {
-            for (AppInfo infoDB : appInfosDatabase) {
-                if(info.getPackageName().equals(infoDB.getPackageName())){
-                    infoDB.setLocked(info.isLocked());
-                    infoDB.save();
-                }
-            }
-            info.save();
+        for (AppInfo appInfo : appInfos) {
+            appInfo.save();
         }
+//        List<AppInfo> appInfosDatabase = LitePal.findAll(AppInfo.class);
+//        for (AppInfo info : appInfos) {
+//            for (AppInfo infoDB : appInfosDatabase) {
+//                if (info.getPackageName().equals(infoDB.getPackageName())) {
+//                    infoDB.setLocked(info.isLocked());
+//                    infoDB.save();
+//                }
+//            }
+////            info.save();
+//        }
     }
 
     /**

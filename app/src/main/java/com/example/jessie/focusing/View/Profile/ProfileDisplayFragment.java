@@ -1,7 +1,6 @@
 package com.example.jessie.focusing.View.Profile;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,9 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.example.jessie.focusing.Controller.Adapter.ProfileListAdapter;
+import com.example.jessie.focusing.Model.Profile;
 import com.example.jessie.focusing.R;
 import com.example.jessie.focusing.View.Main_Activity;
 
@@ -20,7 +19,7 @@ import com.example.jessie.focusing.View.Main_Activity;
  * @date : 24-01-2019
  * @time : 17:44
  */
-public class ProfileDisplayFragment extends Fragment implements View.OnClickListener {
+public class ProfileDisplayFragment extends Fragment  {
 
     private ListView lv_profile;
     private ProfileListAdapter profileListAdapter;
@@ -38,9 +37,23 @@ public class ProfileDisplayFragment extends Fragment implements View.OnClickList
         lv_profile=view.findViewById(R.id.lv_prof_list);
         profileListAdapter=new ProfileListAdapter(this.getContext());
         lv_profile.setAdapter(profileListAdapter);
+        initData();
         return view;
 
     }
+
+    private void initData(){
+
+        Profile initProfile=new Profile("Meeting");
+        profileListAdapter.setData(initProfile);
+
+    }
+
+//    @Override
+//    public void onStop() {
+//        super.onStop();
+//        profileListAdapter.saveInfos();
+//    }
 
     public void onBackPressed() {
         Intent intent = new Intent(getActivity(), Main_Activity.class);
@@ -48,16 +61,6 @@ public class ProfileDisplayFragment extends Fragment implements View.OnClickList
 
     }
 
-    @Override
-    public void onClick(View v) {
-        ProfileAppListFragment fragment = new ProfileAppListFragment();
-        Bundle args = new Bundle();
-        args.putInt("Profile", getId());//TODO：传值
-        fragment.setArguments(args);
-        getFragmentManager().beginTransaction()
-                .replace(R.id.fg_display, fragment)
-                .commit();
-    }
 
 
 }

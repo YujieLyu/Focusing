@@ -15,27 +15,31 @@ import org.litepal.crud.LitePalSupport;
 //
 public class AppInfo extends LitePalSupport {
 
-    @Column(unique = true)
-    private long id;
-
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof AppInfo) {
             AppInfo appInfo = (AppInfo) obj;
-            return packageName.equals(appInfo.getPackageName());
+            boolean equalName = packageName.equals(appInfo.packageName);
+            if (profile == null) {
+                return equalName && appInfo.profile == null;
+            }
+            return equalName && profile.equals(appInfo.profile);
         }
         return false;
     }
 
+    @Column(unique = true)
+    private int id;
+
     @Column(nullable = false)
     private String packageName;
 
-    @Column(defaultValue = "null")
-    private String profile;
+    private Profile profile;
 
+    @Column(ignore = true)
     private Drawable appImg;
 
-
+    @Column(ignore = true)
     private String appName;
 
     private boolean isLocked;//是否已加锁
@@ -84,22 +88,20 @@ public class AppInfo extends LitePalSupport {
         this.packageName = packageName;
     }
 
-    public long getId() {
-        return id;
-    }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getProfile() {
+    public Profile getProfile() {
         return profile;
     }
 
-    public void setProfile(String profile) {
+    public void setProfile(Profile profile) {
         this.profile = profile;
     }
 
+    public int getId() {
+        return id;
+    }
 
-
+    public void setId(int id) {
+        this.id = id;
+    }
 }

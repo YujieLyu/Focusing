@@ -10,10 +10,13 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.example.jessie.focusing.Model.AppInfo;
 import com.example.jessie.focusing.R;
 import com.example.jessie.focusing.View.Profile.Profile_Activity;
 import com.example.jessie.focusing.View.Schedule.Schedule_Activity;
 import com.example.jessie.focusing.View.StartNow.StartNow_Activity;
+
+import org.litepal.LitePal;
 
 public class Main_Activity extends AppCompatActivity {
 
@@ -24,7 +27,7 @@ public class Main_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        LitePal.initialize(this);
         setStatusTransparent();
 //        setDarkStatusIcon(true);
 

@@ -3,13 +3,14 @@ package com.example.jessie.focusing.View.Profile;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 
-import com.example.jessie.focusing.Controller.Adapter.ViewPagerAdapter;
+import com.example.jessie.focusing.Controller.Adapter.ProfileListAdapter;
 import com.example.jessie.focusing.R;
 
 /**
@@ -18,21 +19,24 @@ import com.example.jessie.focusing.R;
  * @time : 01:02
  */
 public class Profile_Activity extends AppCompatActivity {
-    private ViewPager viewPager;
+//    private ViewPager viewPager;
     private ProfileAppListFragment listFragment;
-    private ProfileDisplayFragment displayFragment;
+    private ListView lv_profile;
+    private ProfileListAdapter profileListAdapter;
+    private RelativeLayout profileList;
+//    private ProfileAppListFragment listFragment;
     private int profileId=1;
 
 
 
-    private void setupViewPager(ViewPager viewPager){
-        ViewPagerAdapter adapter=new ViewPagerAdapter(getSupportFragmentManager());
-        listFragment =new ProfileAppListFragment();
-        displayFragment=new ProfileDisplayFragment();
-        adapter.addFragment(listFragment);
-        adapter.addFragment(displayFragment);
-        viewPager.setAdapter(adapter);
-    }
+//    private void setupViewPager(ViewPager viewPager){
+//        ViewPagerAdapter adapter=new ViewPagerAdapter(getSupportFragmentManager());
+//        listFragment =new ProfileAppListFragment();
+//        displayFragment=new ProfileDisplayFragment();
+//        adapter.addFragment(listFragment);
+//        adapter.addFragment(displayFragment);
+//        viewPager.setAdapter(adapter);
+//    }
 
 
     @Override
@@ -40,13 +44,27 @@ public class Profile_Activity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        viewPager = findViewById(R.id.prof_viewpager);
-        displayFragment=new ProfileDisplayFragment();
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.prof_container,displayFragment)
-                .commit();
-        setupViewPager(viewPager);
+        profileList=findViewById(R.id.prof_container);
+        profileList.setBackgroundResource(R.drawable.n8);
+        lv_profile=findViewById(R.id.lv_prof_list);
+        profileListAdapter=new ProfileListAdapter(this);
+
+        lv_profile.setAdapter(profileListAdapter);
+        initData();
+//        viewPager = findViewById(R.id.prof_viewpager);
+        listFragment=new ProfileAppListFragment();
+//        getSupportFragmentManager().beginTransaction()
+//                .add(R.id.prof_container,displayFragment)
+//                .commit();
+//        setupViewPager(viewPager);
         setStatusTransparent();
+
+    }
+
+    private void initData(){
+
+//        Profile initProfile=new Profile("Meeting");
+        profileListAdapter.setData(null);
 
     }
     protected void setStatusTransparent() {
