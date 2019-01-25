@@ -78,10 +78,6 @@ public class LockService extends IntentService implements DialogInterface.OnClic
         if ((currTime - startTime > 0 && endTime - currTime > 0)) {
             if (lockStatus) {
                 lockScreen(packageName);
-//            AlertDialog.Builder builder = new AlertDialog.Builder(this)
-//                    .setMessage("过会再来")
-//                    .setPositiveButton("好的", this);
-//            builder.create().show();
             }
 
         }

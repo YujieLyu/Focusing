@@ -33,7 +33,6 @@
             </intent-filter>
         </activity>
         <activity android:name="com.example.jessie.focusing.View.Main_Activity" />
-        <activity android:name="com.example.jessie.focusing.View.LockApp_Activity"/>
         <activity android:name=".View.CountDown.Countdown_Activity"/>
         <activity android:name=".View.Finish_Activity"/>
         <activity android:name=".View.StartNow.StartNow_Activity"/>

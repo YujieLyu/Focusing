@@ -31,11 +31,9 @@ public class AppListAdapter extends BaseAdapter implements View.OnClickListener 
         infoManager = new AppInfoManager(context);
 
     }
-//        private AppInfoManager appLockInfoManager;
 
 
     public void setData(List<AppInfo> appInfos) {
-//        LitePal.deleteAll(AppInfo.class);//TODO:临时的
 
         this.appInfos = infoManager.syncData(appInfos);
         notifyDataSetChanged();

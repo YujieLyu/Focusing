@@ -63,7 +63,7 @@ public class AppInfoManager {
      * 将手机应用信息插入数据库
      */
     public synchronized List<AppInfo> setDatabase(List<AppInfo> appInfos) {
-        LitePal.deleteAll(AppInfo.class);
+//        LitePal.deleteAll(AppInfo.class);
         List<AppInfo> appInfosDatabase = LitePal.findAll(AppInfo.class);
         List<AppInfo> tempI = new ArrayList<>();
         List<AppInfo> tempD = new ArrayList<>();
@@ -96,7 +96,7 @@ public class AppInfoManager {
 
     public void saveInfos(List<AppInfo> appInfos) {
         for (AppInfo appInfo : appInfos) {
-            appInfo.save();
+            appInfo.saveOrUpdate("id=?", String.valueOf(appInfo.getId()));
         }
 //        List<AppInfo> appInfosDatabase = LitePal.findAll(AppInfo.class);
 //        for (AppInfo info : appInfos) {
@@ -106,7 +106,7 @@ public class AppInfoManager {
 //                    infoDB.save();
 //                }
 //            }
-////            info.save();
+//            info.save();
 //        }
     }
 
