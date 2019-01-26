@@ -11,7 +11,7 @@
     tools:showIn="@layout/app_bar_main">
 
     <android.support.v4.view.ViewPager
-        android:id="@+id/viewpager"
+        android:id="@+id/viewpager_now"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </android.support.v4.view.ViewPager>
@@ -24,14 +24,14 @@
         <!--android:layout_marginLeft="5dp"-->
         <!--android:layout_marginRight="5dp"-->
         <!--android:background="@color/bg_white"-->
-        <!--android:layout_above="@+id/navigation"/>-->
+        <!--android:layout_above="@+id/navigation_now"/>-->
 
     <android.support.design.widget.BottomNavigationView
-        android:id="@+id/navigation"
+        android:id="@+id/bottom_nav_now"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_alignParentBottom="true"
-        app:menu="@menu/navigation"
+        app:menu="@menu/navigation_now"
         app:itemTextColor="@color/text_white"
         app:itemIconTint="@color/text_white"
         >

@@ -1,8 +1,10 @@
 package com.example.jessie.focusing.View.Profile;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -15,6 +17,7 @@ import android.widget.RelativeLayout;
 import com.example.jessie.focusing.Controller.Adapter.ProfileListAdapter;
 import com.example.jessie.focusing.Model.Profile;
 import com.example.jessie.focusing.R;
+import com.example.jessie.focusing.View.Main_Activity;
 
 /**
  * @author : Yujie Lyu
@@ -85,6 +88,15 @@ public class ProfileList_Activity extends AppCompatActivity
     @Override
     public void onFragmentInteraction(Profile profile) {
         profileListAdapter.addProfile(profile);
+        Intent intent=new Intent(ProfileList_Activity.this,ProfileDetailActivity.class);
+        intent.putExtra("ProfileId",profile.getId());
+        startActivity(intent);
+    }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent=new Intent(ProfileList_Activity.this,Main_Activity.class);
+        startActivity(intent);
     }
 }

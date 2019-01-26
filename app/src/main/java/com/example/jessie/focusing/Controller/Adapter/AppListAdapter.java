@@ -33,9 +33,15 @@ public class AppListAdapter extends BaseAdapter implements View.OnClickListener 
     }
 
 
-    public void setData(List<AppInfo> appInfos) {
+    public void setData(List<AppInfo> appInfos,int id) {
 
+        for (AppInfo appInfo : appInfos) {
+            appInfo.setProfId(id);//set appinfo list里面所有数据的profileid为同一数字
+
+        }
         this.appInfos = infoManager.syncData(appInfos);
+
+
         notifyDataSetChanged();
     }
 

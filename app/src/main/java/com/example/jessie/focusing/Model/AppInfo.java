@@ -2,8 +2,10 @@ package com.example.jessie.focusing.Model;
 
 import android.graphics.drawable.Drawable;
 
+import org.litepal.LitePal;
 import org.litepal.annotation.Column;
 import org.litepal.crud.LitePalSupport;
+import org.litepal.exceptions.LitePalSupportException;
 
 
 /**
@@ -20,10 +22,12 @@ public class AppInfo extends LitePalSupport {
         if (obj instanceof AppInfo) {
             AppInfo appInfo = (AppInfo) obj;
             boolean equalName = packageName.equals(appInfo.packageName);
-            if (profile == null) {
-                return equalName && appInfo.profile == null;
-            }
-            return equalName && profile.equals(appInfo.profile);
+            boolean equalProfId = (profId == appInfo.getProfId());
+            return equalName && equalProfId;
+//            if (profile==null) {
+//                return equalName && appInfo.getProfile()==null;
+//            }
+//            return equalName && profile.equals(appInfo.getProfile());
         }
         return false;
     }
@@ -34,7 +38,12 @@ public class AppInfo extends LitePalSupport {
     @Column(nullable = false)
     private String packageName;
 
+    @Column
     private Profile profile;
+
+    @Column
+    private int profId;
+
 
     @Column(ignore = true)
     private Drawable appImg;
@@ -89,19 +98,33 @@ public class AppInfo extends LitePalSupport {
     }
 
 
-    public Profile getProfile() {
-        return profile;
-    }
-
-    public void setProfile(Profile profile) {
-        this.profile = profile;
-    }
-
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public Profile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(int profileId) {
+        Profile profile = LitePal.find(Profile.class, profileId);
+        this.profile = profile;
+    }
+
+    public int getProfId() {
+        return profId;
+    }
+
+    public void setProfId(int profId) {
+        if(profId!=-10){
+            this.profId=profId;
+        }else {
+            this.profId = -10;
+        }
+
     }
 }

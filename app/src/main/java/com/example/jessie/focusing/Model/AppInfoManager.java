@@ -19,7 +19,6 @@ import java.util.List;
 public class AppInfoManager {
     private PackageManager packageManager;
     private Context context;
-    private Profile profile;//todo:等待在profileList转到ProfAppList传值
 
     public AppInfoManager(Context context) {
         this.context = context;
@@ -50,14 +49,21 @@ public class AppInfoManager {
 //        LitePal.deleteAll(AppInfo.class);
         List<AppInfo> appInfosDB = LitePal.findAll(AppInfo.class);
 
+        List<String> packageName=new ArrayList<>();
         List<AppInfo> tempD = new ArrayList<>();
 
-        for (AppInfo appinfodb : appInfosDB) {
-            if (!appInfos.contains(appinfodb)) {
-                tempD.add(appinfodb);
+        for (AppInfo appInfo : appInfos) {
+            packageName.add(appInfo.getPackageName());
+        }
+
+        for (AppInfo appInfodb : appInfosDB) {
+            if(!packageName.contains(appInfodb.getPackageName())){
+                tempD.add(appInfodb);
             }
+
         }
         delete(tempD);
+
 
         for (int i = 0; i < appInfos.size(); i++) {
             AppInfo info = appInfos.get(i);
@@ -65,7 +71,6 @@ public class AppInfoManager {
                 if (info.equals(infoDb)) {
                     info.setId(infoDb.getId());
                     //todo:设置Profid
-                    info.setProfile(profile);
                     info.setLocked(infoDb.isLocked());
                 }
             }
@@ -108,13 +113,21 @@ public class AppInfoManager {
 
     /**
      * update app status settings
+     *
      * @param appInfos
      */
     public void updateInfos(List<AppInfo> appInfos) {
+
+
         for (AppInfo appInfo : appInfos) {
             //Need to use saveOrUpdate, or it will save all data repetitively
-            appInfo.saveOrUpdate("id=?", String.valueOf(appInfo.getId()));
-        }
+            if (appInfo.getProfile()==null){
+                appInfo.saveOrUpdate("id=?",String.valueOf(appInfo.getId()));
+            }else {
+                appInfo.saveOrUpdate("id=? AND profid=?", String.valueOf(appInfo.getId()), String.valueOf(appInfo.getProfId()));
+
+            }
+              }
     }
 
 //    /**

@@ -1,18 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/now_applist_layout">
-
-    <!--<ImageView-->
-        <!--android:id="@+id/img_bg"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:scaleType="fitXY"-->
-        <!--android:adjustViewBounds="true"-->
-        <!--android:src="@drawable/snow_tree"-->
-        <!--/>-->
+    android:id="@+id/prof_app_list_layout"
+    tools:context=".View.Profile.ProfAppListFragment">
 
     <android.support.v7.widget.SearchView
         android:id="@+id/search_bar"
@@ -44,12 +36,13 @@
         android:layout_marginBottom="70dp">
 
         <ListView
-            android:id="@+id/now_app_list"
+            android:id="@+id/prof_app_list"
             android:layout_width="match_parent"
             android:overScrollMode="never"
             android:layout_height="match_parent"/>
 
         <!--<include layout="@layout/item_lock_top"/>-->
     </LinearLayout>
+
 
 </RelativeLayout>

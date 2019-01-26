@@ -1,9 +1,11 @@
-package com.example.jessie.focusing.View.StartNow;
+package com.example.jessie.focusing.View.Profile;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -13,65 +15,61 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.example.jessie.focusing.Controller.Adapter.ViewPagerAdapter;
+import com.example.jessie.focusing.Model.Profile;
 import com.example.jessie.focusing.R;
 
 /**
  * @author : Yujie Lyu
- * @date : 19-01-2019
- * @time : 00:54
+ * @date : 26-01-2019
+ * @time : 15:08
  */
-public class StartNow_Activity extends AppCompatActivity {
-
-    /**
-     * new added
-     */
+public class ProfileDetailActivity extends AppCompatActivity {
     private ViewPager viewPager;
-    private NowClockFragment clockFragment;
-    private NowAppListFragment nowAppListFragment;
+    private ProfAppListFragment appListFragment;
+    private ProfScheduleFragment calendarFragment;
     private MenuItem menuItem;
+    private int profileId;
 
-    /**
-     * NEW ADDED
-     */
-    private BottomNavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-            switch (menuItem.getItemId()) {
-                case R.id.nav_timer_now:
-                    viewPager.setCurrentItem(0);
-                    return true;
-                case R.id.nav_app_list_now:
-                    viewPager.setCurrentItem(1);
-                    return true;
-            }
-            return false;
-        }
-    };
+    private BottomNavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener =
+            new BottomNavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                    switch (menuItem.getItemId()) {
+                        case R.id.nav_cal_prof:
+                            viewPager.setCurrentItem(0);
+                            return true;
+                        case R.id.nav_app_list_prof:
+                            viewPager.setCurrentItem(1);
+                            return true;
 
+                    }
+                    return false;
+                }
+            };
 
-    /**
-     * new added todo:
-     */
-    private void setViewPager(ViewPager viewPager) {
+    public void setViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        clockFragment = new NowClockFragment();
-        nowAppListFragment = new NowAppListFragment();
-        adapter.addFragment(clockFragment);
-        adapter.addFragment(nowAppListFragment);
+        calendarFragment = new ProfScheduleFragment();
+        appListFragment = new ProfAppListFragment();
+        Bundle args=new Bundle();
+        args.putInt("ProfileId",profileId);
+        appListFragment.setArguments(args);
+        adapter.addFragment(calendarFragment);
+        adapter.addFragment(appListFragment);
         viewPager.setAdapter(adapter);
+
     }
 
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_startnow);
-        viewPager = findViewById(R.id.viewpager_now);
-        final BottomNavigationView navigationView = findViewById(R.id.bottom_nav_now);
+        profileId=getIntent().getIntExtra("ProfileId",-1);
+        setContentView(R.layout.activity_profile_detail);
+        viewPager = findViewById(R.id.viewpager_prof);
+        //todo:final的意义是？
+        final BottomNavigationView navigationView = findViewById(R.id.bottom_nav_prof);
         navigationView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -94,11 +92,22 @@ public class StartNow_Activity extends AppCompatActivity {
 
             }
         });
-
         setViewPager(viewPager);
-
         setStatusTransparent();
 
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        profileId=getIntent().getIntExtra("Profile",-1);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent=new Intent(ProfileDetailActivity.this,ProfileList_Activity.class);
+        startActivity(intent);
     }
 
     protected void setStatusTransparent() {
@@ -114,21 +123,4 @@ public class StartNow_Activity extends AppCompatActivity {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
     }
-
-    protected void setDarkStatusIcon(boolean dark) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            View decorView = getWindow().getDecorView();
-            if (decorView == null) return;
-
-            int vis = decorView.getSystemUiVisibility();
-            if (dark) {
-                vis |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-            } else {
-                vis &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-            }
-            decorView.setSystemUiVisibility(vis);
-        }
-    }
-
-
 }

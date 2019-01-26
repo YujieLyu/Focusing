@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.example.jessie.focusing.Model.Profile;
 import com.example.jessie.focusing.Model.ProfileManager;
 import com.example.jessie.focusing.R;
-import com.example.jessie.focusing.View.Profile.AddProfileActivity;
+import com.example.jessie.focusing.View.Profile.ProfileDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,8 +64,7 @@ public class ProfileListAdapter extends BaseAdapter implements View.OnClickListe
     @Override
     public void onClick(View v) {
         Profile profile=(Profile)v.getTag(); //将被点击的item转化为Profile instance,需要在view处setTAG
-        Intent intent=new Intent(context,AddProfileActivity.class);
-
+        Intent intent=new Intent(context,ProfileDetailActivity.class);
         intent.putExtra("ProfileId",profile.getId());
         context.startActivity(intent);
 

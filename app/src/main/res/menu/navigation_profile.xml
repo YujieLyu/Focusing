@@ -3,15 +3,12 @@
 
 
     <item
-        android:id="@+id/nav_timer"
-        android:icon="@drawable/nav_timer"
-        android:title="Timer"
+        android:id="@+id/nav_cal_prof"
+        android:icon="@drawable/nav_calendar"
+        android:title="Calendar"
         />
     <item
-        android:id="@+id/nav_app_list"
+        android:id="@+id/nav_app_list_prof"
         android:icon="@drawable/nav_list"
         android:title="App List" />
-
-
-
 </menu>

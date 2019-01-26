@@ -86,4 +86,7 @@
     <string name="focus_summary">Well done!\nYou have focused for</string>
     <string name="keep_it_up">Keep it up</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="Set_Schedule">Set profile schedule</string>
+
 </resources>

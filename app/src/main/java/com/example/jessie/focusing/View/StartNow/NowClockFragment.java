@@ -12,11 +12,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.jessie.focusing.Interface.TimeCallBack;
 import com.example.jessie.focusing.R;
 import com.example.jessie.focusing.Utils.OnCirclePickerTimeChangedListener;
 import com.example.jessie.focusing.View.CountDown.Countdown_Activity;
-import com.example.jessie.focusing.View.TimePickerFragment;
 import com.example.jessie.focusing.widget.CirclePicker;
 
 import java.util.Calendar;
@@ -26,7 +24,7 @@ import java.util.Calendar;
  * @date : 24-01-2019
  * @time : 08:24
  */
-public class NowClockFragment extends Fragment implements TimeCallBack {
+public class NowClockFragment extends Fragment {
 
     private TextView tv_startTime, tv_endTime, tv_countTime;
     private Calendar timeStart, timeEnd;
@@ -35,9 +33,6 @@ public class NowClockFragment extends Fragment implements TimeCallBack {
 
     public NowClockFragment() {
     }
-
-
-
 
 
     @Override
@@ -56,8 +51,6 @@ public class NowClockFragment extends Fragment implements TimeCallBack {
             @SuppressLint("SetTextI18n")
             @Override
             public void endTimeChanged(float startDegree, float endDegree) {
-//                double endCount=(endDegree<startDegree)?(endDegree / 720) * (12 * 60):(endDegree / 720) * (24 * 60);
-
 
                 double endCount = (endDegree / 720) * (24 * 60);
                 int endHour = (int) Math.floor(endCount / 60);
@@ -119,14 +112,6 @@ public class NowClockFragment extends Fragment implements TimeCallBack {
                 }
             }
         });
-//        Button btnLockApp = view.findViewById(R.id.btn_lock_app);
-//        btnLockApp.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(getActivity(), LockApp_Activity.class);
-//                startActivity(intent);
-//            }
-//        });
         return view;
 
     }
@@ -150,17 +135,6 @@ public class NowClockFragment extends Fragment implements TimeCallBack {
         tv_startTime.setText(displayTime);
     }
 
-
-    @Override
-    public void getTime(TimePickerFragment tp, Calendar chosenCalendar) {
-        //data即为fragment调用该函数传回的日期时间
-        int chosenHour = chosenCalendar.get(Calendar.HOUR_OF_DAY);
-        int chosenMin = chosenCalendar.get(Calendar.MINUTE);
-        String displayTime = String.format("%02d:%02d", chosenHour, chosenMin);
-        tv_endTime.setText(displayTime);
-        timeEnd = chosenCalendar;
-
-    }
 
     public String countTime() {
         //todo:判断过了0点的时间计算；是否做成只选第二个时间？

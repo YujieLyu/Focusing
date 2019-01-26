@@ -1,6 +1,8 @@
-package com.example.jessie.focusing.View.StartNow;
+package com.example.jessie.focusing.View.Profile;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,27 +19,31 @@ import java.util.List;
 
 /**
  * @author : Yujie Lyu
- * @date : 24-01-2019
- * @time : 08:25
+ * @date : 26-01-2019
+ * @time : 21:58
  */
-public class NowAppListFragment extends Fragment {
-
+public class ProfAppListFragment extends Fragment {
     private ListView lv_appList;
     private AppListAdapter appListAdapter;
     private RelativeLayout applist;
-    private int defProfId=-10;
-//    public Handler handler = new Handler();
+    private int profileId;
 
-
+    @Nullable
     @Override
-    public void onStop() {
-        super.onStop();
-        appListAdapter.saveSettings();
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view=inflater.inflate(R.layout.fragment_prof_app_list,container,false);
+        applist=view.findViewById(R.id.prof_app_list_layout);
+        applist.setBackgroundResource(R.drawable.night2);
+        lv_appList = view.findViewById(R.id.prof_app_list);
+        appListAdapter = new AppListAdapter(this.getContext());
+        lv_appList.setAdapter(appListAdapter);
+        profileId=getArguments().getInt("ProfileId",-1);
+        initData();
+        return view;
     }
-
     private void initData() {
         final List<AppInfo> appInfos=ScanAppsTool.scanAppsList(getActivity().getPackageManager());
-        appListAdapter.setData(appInfos,defProfId);
+        appListAdapter.setData(appInfos,profileId);
 
 //        new Thread(new Runnable() {
 //            @Override
@@ -49,28 +55,16 @@ public class NowAppListFragment extends Fragment {
 //        }).start();
 
     }
-    public NowAppListFragment() {
-    }
-
-
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState){
-        View view =inflater.inflate(R.layout.fragment_startnow_applist,container,false);
-        applist=view.findViewById(R.id.now_applist_layout);
-        applist.setBackgroundResource(R.drawable.galaxy2);
-        lv_appList = view.findViewById(R.id.now_app_list);
-        appListAdapter = new AppListAdapter(this.getContext());
-        lv_appList.setAdapter(appListAdapter);
-        initData();
-        return view;
-
-    }
 
     @Override
     public void onResume() {
         super.onResume();
         initData();
     }
+    @Override
+    public void onStop() {
+        super.onStop();
+        appListAdapter.saveSettings();
+    }
+
 }
