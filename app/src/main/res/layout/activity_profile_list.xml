@@ -2,28 +2,51 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/prof_container"
+    android:id="@+id/prof_list"
     >
-    <TextView
-        android:id="@+id/tv_suggest_profile"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="50dp"
-        android:fontFamily="@font/roboto_light"
-        android:text="Design your profile"
-        android:textColor="@color/bg_white"
-        android:textSize="30sp" />
+        android:id="@+id/head"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tv_suggest_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="40dp"
+            android:fontFamily="@font/roboto_light"
+            android:text="Design your profile"
+            android:textColor="@color/bg_white"
+            android:textSize="30sp"
+            android:layout_weight="8"/>
+        <ImageButton
+            android:id="@+id/ibtn_add"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/sign_add"
+            android:backgroundTint="@color/bg_white"
+            android:scaleType="center"
+            />
+
+
+
+    </LinearLayout>
+
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_suggest_profile">
+        android:layout_below="@id/head">
         <ListView
             android:id="@+id/lv_prof_list"
             android:layout_width="match_parent"
+            android:backgroundTint="@color/transparent_white"
             android:layout_below="@id/tv_suggest_profile"
+            android:layout_marginTop="20dp"
             android:overScrollMode="never"
             android:layout_height="match_parent"
             android:background="@color/bg_white"/>

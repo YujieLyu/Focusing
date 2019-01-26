@@ -1,7 +1,8 @@
 package com.example.jessie.focusing.Controller.Adapter;
 
 import android.content.Context;
-import android.os.Bundle;
+import android.content.Intent;
+import android.graphics.Color;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +13,7 @@ import android.widget.TextView;
 import com.example.jessie.focusing.Model.Profile;
 import com.example.jessie.focusing.Model.ProfileManager;
 import com.example.jessie.focusing.R;
-import com.example.jessie.focusing.View.Profile.ProfileAppListFragment;
+import com.example.jessie.focusing.View.Profile.AddProfileActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,10 +35,14 @@ public class ProfileListAdapter extends BaseAdapter implements View.OnClickListe
         profileManager = new ProfileManager(context);
     }
 
-    public void setData(Profile profile) {
-
-//        this.profiles = profileManager.insertProfileInfos(profile);
+    public void setData() {
+//        Profile profile1=new Profile("Meeting");
+        profiles=profileManager.syncProfile();
         notifyDataSetChanged();
+    }
+
+    public void addProfile(Profile profile){
+        profileManager.updateProfile(profile);
     }
 
     @Override
@@ -46,26 +51,23 @@ public class ProfileListAdapter extends BaseAdapter implements View.OnClickListe
         Profile selectedInfo = profiles.get(position);
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_profile_list, null);
+            convertView.setBackgroundColor(Color.argb(10,255,255,255));
         }
         viewHolder.tv_ProfName = convertView.findViewById(R.id.prof_name);
 
-        viewHolder.tv_ProfName.setText(selectedInfo.getProfileName());
+        viewHolder.tv_ProfName.setText(selectedInfo.getProfileName().toUpperCase());
+        viewHolder.tv_ProfName.setTag(selectedInfo);
+        viewHolder.tv_ProfName.setOnClickListener(this);
         return convertView;
     }
 
     @Override
     public void onClick(View v) {
-        ProfileAppListFragment fragment = new ProfileAppListFragment();
-        Bundle args = new Bundle();
-        Profile p = (Profile) v.getTag();
-        args.putString("Profile", p.getProfileName());//TODO：传值
-        fragment.setArguments(args);
-//        todo:跳转
+        Profile profile=(Profile)v.getTag(); //将被点击的item转化为Profile instance,需要在view处setTAG
+        Intent intent=new Intent(context,AddProfileActivity.class);
 
-//
-//        c.beginTransaction()
-//                .replace(R.id.fg_display, fragment)
-//                .commit();
+        intent.putExtra("ProfileId",profile.getId());
+        context.startActivity(intent);
 
     }
 

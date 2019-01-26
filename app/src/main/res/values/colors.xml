@@ -17,5 +17,6 @@
     <color name="light_purple">#FF7C85E6</color>
     <color name="light_pink">#FFBF7BE0</color>
     <color name="black">#000000</color>
-    <color name="transparent_white">#32ffffff</color>
+    <color name="transparent_white">#64ffffff</color>
+    <color name="half_white">#1Affffff</color>
 </resources>

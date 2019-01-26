@@ -22,42 +22,30 @@ public class ProfileManager {
     /**
      * Insert profile Infos to DB
      */
+    public synchronized void updateProfile(Profile profile){
+        profile.saveOrUpdate("id=?", String.valueOf(profile.getId()));
+    }
 
-//    public synchronized List<Profile> insertProfileInfos(Profile profile) {
-////        LitePal.deleteAll(Profile.class);
+    public synchronized List<Profile> syncProfile() {
+//        LitePal.deleteAll(Profile.class);
+
+        List<Profile> profilesDB = LitePal.findAll(Profile.class);
 //
-//        List<Profile> profilesDB = LitePal.findAll(Profile.class);
 //        if (profile == null) {
 //            return profilesDB;
 //        }
-//        Profile profiledb = LitePal.find(Profile.class,profile);
-//        if (profiledb != null && !profiledb.getProfileName()
+//        Profile profiledb = LitePal.find(Profile.class,profile.getId());
+//        if ( !profiledb.getProfileName()
 //                .equals(profile.getProfileName())) {
 //            profiledb.setProfileName(profile.getProfileName());
 //        } else {
 //            profilesDB.add(profiledb);
 //        }
-//
-//
-//        if (!profilesDB.contains(profile)) {
-//            profilesDB.add(profile);
-//            profile.save();//todo:这里是？
-//        }
-//
-//        return profilesDB;
-//    }
 
-//    public void syncData(List<Profile> profileInfos) {
-//        List<AppInfo> appInfosDatabase = LitePal.findAll(AppInfo.class);
-//        for (AppInfo info : appInfos) {
-//            for (AppInfo infoDB : appInfosDatabase) {
-//                if(info.getPackageName().equals(infoDB.getPackageName())){
-//                    infoDB.setLocked(info.isLocked());
-//                    infoDB.save();
-//                }
-//            }
-//            info.save();
-//        }
-//    }
+        return profilesDB;
+    }
+
+
+
 
 }

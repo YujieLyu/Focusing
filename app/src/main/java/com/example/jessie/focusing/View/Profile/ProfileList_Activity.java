@@ -3,14 +3,17 @@ package com.example.jessie.focusing.View.Profile;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.example.jessie.focusing.Controller.Adapter.ProfileListAdapter;
+import com.example.jessie.focusing.Model.Profile;
 import com.example.jessie.focusing.R;
 
 /**
@@ -18,55 +21,52 @@ import com.example.jessie.focusing.R;
  * @date : 19-01-2019
  * @time : 01:02
  */
-public class Profile_Activity extends AppCompatActivity {
-//    private ViewPager viewPager;
-    private ProfileAppListFragment listFragment;
+public class ProfileList_Activity extends AppCompatActivity
+        implements  AddNewProfileDialog.OnFragmentInteractionListener{
     private ListView lv_profile;
-    private ProfileListAdapter profileListAdapter;
+    private ImageButton btn_add;
     private RelativeLayout profileList;
-//    private ProfileAppListFragment listFragment;
-    private int profileId=1;
-
-
-
-//    private void setupViewPager(ViewPager viewPager){
-//        ViewPagerAdapter adapter=new ViewPagerAdapter(getSupportFragmentManager());
-//        listFragment =new ProfileAppListFragment();
-//        displayFragment=new ProfileDisplayFragment();
-//        adapter.addFragment(listFragment);
-//        adapter.addFragment(displayFragment);
-//        viewPager.setAdapter(adapter);
-//    }
+    private ProfileListAdapter profileListAdapter;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
-        profileList=findViewById(R.id.prof_container);
+        setContentView(R.layout.activity_profile_list);
+        profileList = findViewById(R.id.prof_list);
         profileList.setBackgroundResource(R.drawable.n8);
-        lv_profile=findViewById(R.id.lv_prof_list);
-        profileListAdapter=new ProfileListAdapter(this);
+        btn_add =findViewById(R.id.ibtn_add);
+        btn_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showAddProfileDialog(null);
+            }
 
-        lv_profile.setAdapter(profileListAdapter);
+
+        });
+        lv_profile = findViewById(R.id.lv_prof_list);
+        profileListAdapter = new ProfileListAdapter(this);
         initData();
-//        viewPager = findViewById(R.id.prof_viewpager);
-        listFragment=new ProfileAppListFragment();
-//        getSupportFragmentManager().beginTransaction()
-//                .add(R.id.prof_container,displayFragment)
-//                .commit();
-//        setupViewPager(viewPager);
+        lv_profile.setAdapter(profileListAdapter);
+
         setStatusTransparent();
 
     }
 
-    private void initData(){
-
-//        Profile initProfile=new Profile("Meeting");
-        profileListAdapter.setData(null);
+    private void showAddProfileDialog(Profile profile) {
+        AddNewProfileDialog dialog=AddNewProfileDialog.newInstance(profile);
+        FragmentManager manager=getSupportFragmentManager();
+        dialog.show(manager,"AddProfile");
 
     }
+
+    private void initData() {
+
+        profileListAdapter.setData();
+
+    }
+
     protected void setStatusTransparent() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             // 5.0+ 实现
@@ -81,11 +81,10 @@ public class Profile_Activity extends AppCompatActivity {
         }
     }
 
-    public int getProfileId() {
-        return profileId;
-    }
 
-    public void setProfileId(int profileId) {
-        this.profileId = profileId+1;
+    @Override
+    public void onFragmentInteraction(Profile profile) {
+        profileListAdapter.addProfile(profile);
+
     }
 }

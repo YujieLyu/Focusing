@@ -17,13 +17,12 @@ import java.util.List;
  */
 public class Profile extends LitePalSupport {
     @Column(unique = true)
-    private int id = -1;
+    private int id;
 
     @Column(unique = true)
     private String profileName;
 
-    public Profile(String name) {
-        profileName = name;
+    public Profile() {
     }
 
     @Column

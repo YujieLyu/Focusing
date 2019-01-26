@@ -10,9 +10,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import com.example.jessie.focusing.Model.AppInfo;
 import com.example.jessie.focusing.R;
-import com.example.jessie.focusing.View.Profile.Profile_Activity;
+import com.example.jessie.focusing.View.Profile.ProfileList_Activity;
 import com.example.jessie.focusing.View.Schedule.Schedule_Activity;
 import com.example.jessie.focusing.View.StartNow.StartNow_Activity;
 
@@ -45,7 +44,7 @@ public class Main_Activity extends AppCompatActivity {
         tv_profile.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(Main_Activity.this,Profile_Activity.class);
+                Intent intent=new Intent(Main_Activity.this,ProfileList_Activity.class);
                 startActivity(intent);
             }
 

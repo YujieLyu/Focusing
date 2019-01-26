@@ -72,8 +72,8 @@ public class AppListAdapter extends BaseAdapter implements View.OnClickListener 
         appInfo.setLocked(lockStatus);
     }
 
-    public void saveInfos() {
-        infoManager.saveInfos(appInfos);
+    public void saveSettings() {
+        infoManager.updateInfos(appInfos);
     }
 
     class ViewHolder {

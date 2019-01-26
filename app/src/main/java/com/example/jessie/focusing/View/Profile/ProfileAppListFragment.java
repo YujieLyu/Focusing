@@ -1,10 +1,7 @@
 package com.example.jessie.focusing.View.Profile;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +32,7 @@ public class ProfileAppListFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        appListAdapter.saveInfos();
+        appListAdapter.saveSettings();
     }
 
     private void initData(int profileId) {
@@ -77,7 +74,7 @@ public class ProfileAppListFragment extends Fragment {
 
     public void onBackPressed() {
         getFragmentManager().beginTransaction()
-                .replace(R.id.fg_applist, new ProfileDisplayFragment())
+                .replace(R.id.fg_applist, new ProfileScheduleFragment())
                 .commit();
 
     }

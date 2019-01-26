@@ -22,18 +22,7 @@
         android:textSize="30sp" />
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tv_suggest_profile">
-        <ListView
-            android:id="@+id/lv_prof_list"
-            android:layout_width="match_parent"
-            android:layout_below="@id/tv_suggest_profile"
-            android:overScrollMode="never"
-            android:layout_height="match_parent"
-            android:background="@color/bg_white"/>
-    </LinearLayout>
+
 
 
         <!--<include layout="@layout/item_lock_top"/>-->

@@ -19,6 +19,7 @@ import java.util.List;
 public class AppInfoManager {
     private PackageManager packageManager;
     private Context context;
+    private Profile profile;//todo:等待在profileList转到ProfAppList传值
 
     public AppInfoManager(Context context) {
         this.context = context;
@@ -45,13 +46,26 @@ public class AppInfoManager {
     }
 
     public synchronized List<AppInfo> syncData(List<AppInfo> appInfos) {
+        //for clear DB
 //        LitePal.deleteAll(AppInfo.class);
-        List<AppInfo> appInfosDb = LitePal.findAll(AppInfo.class);
+        List<AppInfo> appInfosDB = LitePal.findAll(AppInfo.class);
+
+        List<AppInfo> tempD = new ArrayList<>();
+
+        for (AppInfo appinfodb : appInfosDB) {
+            if (!appInfos.contains(appinfodb)) {
+                tempD.add(appinfodb);
+            }
+        }
+        delete(tempD);
+
         for (int i = 0; i < appInfos.size(); i++) {
             AppInfo info = appInfos.get(i);
-            for (AppInfo infoDb : appInfosDb) {
+            for (AppInfo infoDb : appInfosDB) {
                 if (info.equals(infoDb)) {
                     info.setId(infoDb.getId());
+                    //todo:设置Profid
+                    info.setProfile(profile);
                     info.setLocked(infoDb.isLocked());
                 }
             }
@@ -59,16 +73,14 @@ public class AppInfoManager {
         return appInfos;
     }
 
-    /**
-     * 将手机应用信息插入数据库
-     */
+
     public synchronized List<AppInfo> setDatabase(List<AppInfo> appInfos) {
 //        LitePal.deleteAll(AppInfo.class);
         List<AppInfo> appInfosDatabase = LitePal.findAll(AppInfo.class);
         List<AppInfo> tempI = new ArrayList<>();
         List<AppInfo> tempD = new ArrayList<>();
 
-        //todo:可删除
+        //
         for (AppInfo appInfo : appInfos) {
             if (!appInfosDatabase.contains(appInfo)) {
                 tempI.add(appInfo);
@@ -94,32 +106,27 @@ public class AppInfoManager {
         return appInfos;
     }
 
-    public void saveInfos(List<AppInfo> appInfos) {
+    /**
+     * update app status settings
+     * @param appInfos
+     */
+    public void updateInfos(List<AppInfo> appInfos) {
         for (AppInfo appInfo : appInfos) {
+            //Need to use saveOrUpdate, or it will save all data repetitively
             appInfo.saveOrUpdate("id=?", String.valueOf(appInfo.getId()));
         }
-//        List<AppInfo> appInfosDatabase = LitePal.findAll(AppInfo.class);
-//        for (AppInfo info : appInfos) {
-//            for (AppInfo infoDB : appInfosDatabase) {
-//                if (info.getPackageName().equals(infoDB.getPackageName())) {
-//                    infoDB.setLocked(info.isLocked());
-//                    infoDB.save();
-//                }
-//            }
-//            info.save();
-//        }
     }
 
-    /**
-     * 更改数据库app状态为锁定
-     */
-    public void lockApp(String packageName) {
-        List<AppInfo> appInfos = LitePal.where("packageName = ?", packageName).find(AppInfo.class);
-        for (AppInfo info : appInfos) {
-            info.setLocked(true);
-            info.saveAsync();
-        }
-    }
+//    /**
+//     * 更改数据库app状态为锁定
+//     */
+//    public void lockApp(String packageName) {
+//        List<AppInfo> appInfos = LitePal.where("packageName = ?", packageName).find(AppInfo.class);
+//        for (AppInfo info : appInfos) {
+//            info.setLocked(true);
+//            info.saveAsync();
+//        }
+//    }
 
     public boolean checkIsLocked(String packageName) {
         AppInfo appInfo = LitePal.where("packageName=?", packageName).findFirst(AppInfo.class);

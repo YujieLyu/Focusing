@@ -31,7 +31,7 @@ public class NowAppListFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        appListAdapter.saveInfos();
+        appListAdapter.saveSettings();
     }
 
     private void initData() {
@@ -67,9 +67,9 @@ public class NowAppListFragment extends Fragment {
 
     }
 
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        initData();
-//    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        initData();
+    }
 }

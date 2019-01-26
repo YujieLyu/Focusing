@@ -1,16 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/prof_elem"
     android:layout_width="match_parent"
-    android:layout_height="80dp">
+    android:layout_height="80dp"
+    android:orientation="horizontal"
+    >
+
+
+    <CheckBox
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center_vertical"
+        android:buttonTint="@color/black"
+
+        android:layout_marginStart="20dp"
+        android:layout_weight="1"
+        />
 
     <TextView
         android:id="@+id/prof_name"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center_vertical"
-        />
+        android:layout_weight="9"
+        android:gravity="center_vertical"
+        android:fontFamily="@font/roboto"
+        android:textAlignment="viewStart"
+        android:textSize="20dp"
+        android:textColor="@color/black"/>
 
 
-</RelativeLayout>
+</LinearLayout>

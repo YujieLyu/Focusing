@@ -36,8 +36,9 @@
         <activity android:name=".View.CountDown.Countdown_Activity"/>
         <activity android:name=".View.Finish_Activity"/>
         <activity android:name=".View.StartNow.StartNow_Activity"/>
-        <activity android:name=".View.Profile.Profile_Activity" />
-        <!--<activity android:name=".View.Profile_Activity"/>-->
+        <activity android:name=".View.Profile.ProfileList_Activity" />
+        <activity android:name=".View.Profile.AddProfileActivity" />
+        <!--<activity android:name=".View.ProfileList_Activity"/>-->
 
         <!--<service-->
             <!--android:name="com.example.jessie.focusing.LoadAppListService"-->

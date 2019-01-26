@@ -22,10 +22,7 @@ import com.example.jessie.focusing.R;
  * @time : 00:54
  */
 public class StartNow_Activity extends AppCompatActivity {
-//    private TextView tv_startTime, tv_endTime, tv_countTime;
-//    private Calendar timeStart, timeEnd;
-//    private CirclePicker circlePicker;
-//    private String countTime;
+
     /**
      * new added
      */
