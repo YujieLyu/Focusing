@@ -52,7 +52,9 @@ public class ProfileManager {
        List<Profile> all=LitePal.findAll(Profile.class);
         List<Profile> profiles = new ArrayList<>();
         for (Profile profile : all) {
-            if (profile.getRepeatId()==0||profile.getRepeatId()==(today-1)){
+            if((today==1)&&(profile.getRepeatId()==7)){
+                profiles.add(profile);
+            }else if (profile.getRepeatId()==0||profile.getRepeatId()==(today-1)){
                 profiles.add(profile);
             }
 
