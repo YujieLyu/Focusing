@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:background="@color/transparent_black">
+    <TextView
+        android:id="@+id/profile_name"
+        android:layout_width="200dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="20dp"
+        android:text="Time"
+        android:gravity="center_vertical"
+        android:textSize="22sp"
+        android:fontFamily="@font/roboto_light"
+        android:textColor="@color/black"
+        />
+
+
+    <TextView
+        android:id="@+id/timeSlot"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_toEndOf="@id/profile_name"
+        android:textSize="18sp"
+        android:gravity="center_vertical"
+        android:fontFamily="@font/roboto_light"
+        android:textColor="@color/black"
+        />
+    <TextView
+        android:id="@+id/repeat"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/timeSlot"
+        android:layout_toEndOf="@id/profile_name"
+        android:textSize="18sp"
+        android:gravity="center_vertical"
+        android:fontFamily="@font/roboto_light"
+        android:textColor="@color/black"
+        />
+
+    <ImageButton
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/arrow_forward"
+        />
+
+</RelativeLayout>

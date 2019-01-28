@@ -5,6 +5,15 @@
     android:id="@+id/cd_main_view"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/pure1"
+        android:scaleType="centerCrop"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/transparent_black"/>
     <cn.iwgang.countdownview.CountdownView
         android:id="@+id/cdv_count"
         android:layout_width="wrap_content"
@@ -46,7 +55,7 @@
         android:lineSpacingExtra="8sp"
         android:text="@string/focusing_suggestion"
         android:textAlignment="center"
-        android:textColor="@color/light_grey"
+        android:textColor="@color/text_white"
         android:textSize="25sp"
         android:textStyle="bold|italic" />
 

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/simple8"
+        android:scaleType="fitXY"
+
+        />
+    <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:background="@color/transparent_grey"/>-->
+
+    <TextView
+    android:id="@+id/My_Schedule"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="25dp"
+    android:layout_marginTop="40dp"
+    android:text="@string/My_Schedule"
+    android:textSize="30sp"
+    android:fontFamily="@font/roboto_light"
+    android:textColor="@color/black"
+    />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/My_Schedule"
+        android:layout_marginTop="10dp">
+        <ListView
+            android:id="@+id/lv_prof_list"
+            android:layout_width="match_parent"
+
+            android:layout_marginTop="20dp"
+            android:overScrollMode="never"
+            android:layout_height="match_parent"
+            android:background="@color/half_white"/>
+    </LinearLayout>
+
+</RelativeLayout>

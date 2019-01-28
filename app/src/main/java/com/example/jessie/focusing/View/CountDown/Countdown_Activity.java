@@ -70,7 +70,7 @@ public class Countdown_Activity extends AppCompatActivity implements CountdownVi
 //        int min = Integer.parseInt(count[1]);
 //        long countTime = (long) (hour * 60 * 60 * 1000 + min * 60 * 1000);
         cdv_count.start(countTime);
-        initLayoutBackground();
+//        initLayoutBackground();
 
     }
 

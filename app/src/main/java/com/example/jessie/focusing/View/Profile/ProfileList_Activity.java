@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -94,9 +95,20 @@ public class ProfileList_Activity extends AppCompatActivity
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Intent intent=new Intent(ProfileList_Activity.this,Main_Activity.class);
-        startActivity(intent);
+    protected void onPostResume() {
+        super.onPostResume();
+        initData();
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+//        profileListAdapter.saveSettings();
+    }
+    //    @Override
+//    public void onBackPressed() {
+//        super.onBackPressed();
+//        Intent intent=new Intent(ProfileList_Activity.this,Main_Activity.class);
+//        startActivity(intent);
+//    }
 }

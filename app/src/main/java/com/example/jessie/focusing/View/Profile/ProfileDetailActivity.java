@@ -1,6 +1,5 @@
 package com.example.jessie.focusing.View.Profile;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,7 +14,6 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.example.jessie.focusing.Controller.Adapter.ViewPagerAdapter;
-import com.example.jessie.focusing.Model.Profile;
 import com.example.jessie.focusing.R;
 
 /**
@@ -54,6 +52,7 @@ public class ProfileDetailActivity extends AppCompatActivity {
         Bundle args=new Bundle();
         args.putInt("ProfileId",profileId);
         appListFragment.setArguments(args);
+        calendarFragment.setArguments(args);
         adapter.addFragment(calendarFragment);
         adapter.addFragment(appListFragment);
         viewPager.setAdapter(adapter);
@@ -102,13 +101,13 @@ public class ProfileDetailActivity extends AppCompatActivity {
         super.onPostResume();
         profileId=getIntent().getIntExtra("Profile",-1);
     }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Intent intent=new Intent(ProfileDetailActivity.this,ProfileList_Activity.class);
-        startActivity(intent);
-    }
+//
+//    @Override
+//    public void onBackPressed() {
+//        super.onBackPressed();
+//        Intent intent=new Intent(ProfileDetailActivity.this,ProfileList_Activity.class);
+//        startActivity(intent);
+//    }
 
     protected void setStatusTransparent() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

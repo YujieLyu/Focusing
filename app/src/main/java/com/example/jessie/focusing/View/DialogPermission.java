@@ -2,6 +2,7 @@ package com.example.jessie.focusing.View;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -49,4 +50,11 @@ public class DialogPermission extends Dialog {
         void onClick();
     }
 
+    //todo:解决获取权限后frozen的问题
+//    @Override
+//    public void onBackPressed() {
+//        super.onBackPressed();
+//        Intent intent=new Intent(getContext(),Welcome_Activity.class);
+//        getContext().startActivity(intent);
+//    }
 }

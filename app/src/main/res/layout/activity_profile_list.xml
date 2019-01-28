@@ -13,10 +13,10 @@
             android:id="@+id/tv_suggest_profile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="25dp"
             android:layout_marginTop="40dp"
             android:fontFamily="@font/roboto_light"
-            android:text="Design your profile"
+            android:text="My Profiles"
             android:textColor="@color/bg_white"
             android:textSize="30sp"
             android:layout_weight="8"/>

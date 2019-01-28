@@ -33,7 +33,7 @@ public class ProfAppListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_prof_app_list,container,false);
         applist=view.findViewById(R.id.prof_app_list_layout);
-        applist.setBackgroundResource(R.drawable.night2);
+        applist.setBackgroundResource(R.drawable.s2);
         lv_appList = view.findViewById(R.id.prof_app_list);
         appListAdapter = new AppListAdapter(this.getContext());
         lv_appList.setAdapter(appListAdapter);

@@ -1,7 +1,5 @@
 package com.example.jessie.focusing.Model;
 
-import android.print.PrinterId;
-
 import org.litepal.annotation.Column;
 import org.litepal.crud.LitePalSupport;
 
@@ -40,7 +38,13 @@ public class Profile extends LitePalSupport {
     private int endMin;
 
     @Column
-    private String frequency;
+    private String repeat;
+
+    @Column
+    private int repeatId;
+
+    @Column
+    private String alarm;
 
     @Column
     private Boolean isOn;
@@ -104,12 +108,12 @@ public class Profile extends LitePalSupport {
         this.date = date;
     }
 
-    public String getFrequency() {
-        return frequency;
+    public String getRepeat() {
+        return repeat;
     }
 
-    public void setFrequency(String frequency) {
-        this.frequency = frequency;
+    public void setRepeat(String repeat) {
+        this.repeat = repeat;
     }
 
     public int getId() {
@@ -127,5 +131,21 @@ public class Profile extends LitePalSupport {
             return this.id == profile.id;
         }
         return super.equals(obj);
+    }
+
+    public String getAlarm() {
+        return alarm;
+    }
+
+    public void setAlarm(String alarm) {
+        this.alarm = alarm;
+    }
+
+    public int getRepeatId() {
+        return repeatId;
+    }
+
+    public void setRepeatId(int repeatId) {
+        this.repeatId = repeatId;
     }
 }

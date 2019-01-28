@@ -4,6 +4,8 @@ import android.content.Context;
 
 import org.litepal.LitePal;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -22,7 +24,14 @@ public class ProfileManager {
     /**
      * Insert profile Infos to DB
      */
-    public synchronized void updateProfile(Profile profile){
+    public synchronized void updateProfiles(List<Profile> profiles) {
+        for (Profile profile : profiles) {
+            profile.saveOrUpdate("id=?", String.valueOf(profile.getId()));
+        }
+
+    }
+
+    public synchronized void updateProfile(Profile profile) {
         profile.saveOrUpdate("id=?", String.valueOf(profile.getId()));
     }
 
@@ -30,22 +39,27 @@ public class ProfileManager {
 //        LitePal.deleteAll(Profile.class);
 
         List<Profile> profilesDB = LitePal.findAll(Profile.class);
-//
-//        if (profile == null) {
-//            return profilesDB;
-//        }
-//        Profile profiledb = LitePal.find(Profile.class,profile.getId());
-//        if ( !profiledb.getProfileName()
-//                .equals(profile.getProfileName())) {
-//            profiledb.setProfileName(profile.getProfileName());
-//        } else {
-//            profilesDB.add(profiledb);
-//        }
-
         return profilesDB;
     }
 
+    public synchronized Profile syncProfileDetail(int profileId) {
+        Profile profile = LitePal.find(Profile.class, profileId);
+        return profile;
+    }
 
+    public synchronized List<Profile> syncProfileOnSchedule(int today){
+
+       List<Profile> all=LitePal.findAll(Profile.class);
+        List<Profile> profiles = new ArrayList<>();
+        for (Profile profile : all) {
+            if (profile.getRepeatId()==0||profile.getRepeatId()==(today-1)){
+                profiles.add(profile);
+            }
+
+        }
+        return profiles;
+
+    }
 
 
 }

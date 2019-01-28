@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,18 +8,186 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/night2"
+        android:src="@drawable/s2"
         android:scaleType="fitXY"/>
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/set_prof_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="25dp"
         android:layout_marginTop="40dp"
         android:text="@string/Set_Schedule"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:fontFamily="@font/roboto_light"
-        android:textColor="@color/bg_white"/>
+        android:textColor="@color/text_white"
+        />
 
-</FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_below="@id/set_prof_name"
+        android:layout_marginTop="20dp"
+        android:background="@color/transparent_black"
+        android:id="@+id/layout_starttime"
+        >
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_weight="0.65"
+            android:layout_marginStart="20dp"
+            android:layout_gravity="center"
+            android:background="@drawable/listitem_schedule_time"
+            android:backgroundTint="@color/baby_pink"
+            />
+        <TextView
+            android:id="@+id/tv_starttime"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:layout_marginStart="15dp"
+            android:text="Start Time"
+            android:textStyle="bold"
+            android:gravity="center_vertical"
+            android:textSize="20sp"
+            android:fontFamily="@font/roboto_light"
+            android:textColor="@color/baby_pink"
+            />
+        <TextView
+            android:id="@+id/prefer_start_time"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:fontFamily="@font/roboto_light"
+            android:textColor="@color/light_pink"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_below="@id/layout_starttime"
+        android:background="@color/transparent_black"
+        android:layout_marginTop="20dp"
+        android:id="@+id/layout_endtime"
+        >
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="0.7"
+            android:layout_marginStart="20dp"
+            android:layout_gravity="center"
+            android:background="@drawable/end_time"
+            android:backgroundTint="@color/light_blue"
+            />
+        <TextView
+            android:id="@+id/tv_endtime"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:layout_marginStart="15dp"
+            android:text="End Time"
+            android:gravity="center_vertical"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:fontFamily="@font/roboto_light"
+            android:textColor="@color/light_blue"
+            />
+        <TextView
+            android:id="@+id/prefer_end_time"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:fontFamily="@font/roboto_light"
+            android:textColor="@color/light_blue"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_below="@id/layout_endtime"
+        android:background="@color/transparent_black"
+        android:layout_marginTop="20dp"
+        android:id="@+id/layout_alarm"
+        >
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="0.7"
+            android:layout_marginStart="20dp"
+            android:layout_gravity="center"
+            android:background="@drawable/alarm"
+            android:backgroundTint="@color/text_yellow"
+            />
+        <TextView
+            android:id="@+id/tv_alarm"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:layout_marginStart="15dp"
+            android:text="Alarm"
+            android:gravity="center_vertical"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:fontFamily="@font/roboto_light"
+            android:textColor="@color/text_yellow"
+            />
+        <TextView
+            android:id="@+id/prefer_alarm"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:fontFamily="@font/roboto_light"
+            android:textColor="@color/text_yellow"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_below="@id/layout_alarm"
+        android:background="@color/transparent_black"
+        android:layout_marginTop="20dp"
+        android:id="@+id/layout_repeat"
+        >
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="0.7"
+            android:layout_marginStart="20dp"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_sync_black_24dp"
+            android:backgroundTint="@color/purple"
+            />
+        <TextView
+            android:id="@+id/tv_repeat"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:layout_marginStart="15dp"
+            android:text="Repeat"
+            android:gravity="center_vertical"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:fontFamily="@font/roboto_light"
+            android:textColor="@color/purple"
+            />
+        <TextView
+            android:id="@+id/prefer_repeat"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:fontFamily="@font/roboto_light"
+            android:textColor="@color/purple"
+            />
+    </LinearLayout>
+
+</RelativeLayout>

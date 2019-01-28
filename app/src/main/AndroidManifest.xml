@@ -38,6 +38,7 @@
         <activity android:name=".View.StartNow.StartNow_Activity"/>
         <activity android:name=".View.Profile.ProfileList_Activity" />
         <activity android:name=".View.Profile.ProfileDetailActivity" />
+        <activity android:name=".View.Schedule.Schedule_Activity" />
         <!--<activity android:name=".View.ProfileList_Activity"/>-->
 
         <!--<service-->

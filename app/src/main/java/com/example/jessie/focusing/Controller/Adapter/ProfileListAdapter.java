@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.example.jessie.focusing.Model.Profile;
@@ -23,10 +24,11 @@ import java.util.List;
  * @date : 25-01-2019
  * @time : 08:17
  */
-public class ProfileListAdapter extends BaseAdapter implements View.OnClickListener {
+public class ProfileListAdapter extends BaseAdapter {
 
     private List<Profile> profiles = new ArrayList<>();
     private Context context;
+
     private ProfileManager profileManager;
     private FragmentManager fragmentManager;
 
@@ -54,26 +56,52 @@ public class ProfileListAdapter extends BaseAdapter implements View.OnClickListe
             convertView.setBackgroundColor(Color.argb(10,255,255,255));
         }
         viewHolder.tv_ProfName = convertView.findViewById(R.id.prof_name);
+        viewHolder.checkBox = convertView.findViewById(R.id.cb_ischecked);
 
-        viewHolder.tv_ProfName.setText(selectedInfo.getProfileName().toUpperCase());
+        viewHolder.tv_ProfName.setText(selectedInfo.getProfileName());
         viewHolder.tv_ProfName.setTag(selectedInfo);
-        viewHolder.tv_ProfName.setOnClickListener(this);
+        viewHolder.tv_ProfName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Profile profile=(Profile)v.getTag(); //将被点击的item转化为Profile instance,需要在view处setTAG
+                Intent intent=new Intent(context,ProfileDetailActivity.class);
+                intent.putExtra("ProfileId",profile.getId());
+                context.startActivity(intent);
+            }
+        });
+        viewHolder.checkBox.setTag(selectedInfo);
+        viewHolder.checkBox.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                Profile profile=(Profile)v.getTag(); //将被点击的item转化为Profile instance,需要在view处setTAG
+                boolean lockStatus = ((CheckBox) v).isChecked();
+                profile.setOn(lockStatus);
+            }
+        });
+//        viewHolder.tv_ProfName.setOnClickListener(this);
         return convertView;
     }
-
-    @Override
-    public void onClick(View v) {
-        Profile profile=(Profile)v.getTag(); //将被点击的item转化为Profile instance,需要在view处setTAG
-        Intent intent=new Intent(context,ProfileDetailActivity.class);
-        intent.putExtra("ProfileId",profile.getId());
-        context.startActivity(intent);
-
+    public void saveSettings() {
+        profileManager.updateProfiles(profiles);
     }
+
+
+
+//    @Override
+//    public void onClick(View v) {
+//        Profile profile=(Profile)v.getTag(); //将被点击的item转化为Profile instance,需要在view处setTAG
+//        Intent intent=new Intent(context,ProfileDetailActivity.class);
+//        intent.putExtra("ProfileId",profile.getId());
+//        context.startActivity(intent);
+//
+//    }
 
     //todo:class和Class区别？
     class ViewHolder {
 
         TextView tv_ProfName;
+        private CheckBox checkBox;
 
 
     }

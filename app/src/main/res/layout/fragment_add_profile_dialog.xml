@@ -11,11 +11,13 @@
         android:layout_marginStart="20dp"
         android:text="New Profile Name:"
         android:fontFamily="@font/roboto_light"
+        android:textColor="@color/bg_blue_dark"
         android:textSize="20dp"
 
         />
     <EditText
         android:id="@+id/ev_name"
+        
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_addName"
@@ -30,9 +32,11 @@
     <Button
         android:id="@+id/btn_ok"
         android:layout_width="100dp"
-        android:layout_height="45dp"
+        android:layout_height="35dp"
         android:layout_toRightOf="@id/btn_cancel"
-        android:layout_marginStart="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="50dip"
+        android:layout_marginBottom="10dp"
         android:background="@color/colorPrimary"
         android:layout_below="@id/ev_name"
         android:text="OK"
@@ -40,8 +44,11 @@
     <Button
         android:id="@+id/btn_cancel"
         android:layout_width="100dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="80dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dip"
+        android:layout_marginBottom="10dp"
+        android:background="@color/light_grey"
         android:layout_below="@id/ev_name"
         android:text="Cancel" />
 
