@@ -1,13 +1,16 @@
 package com.example.jessie.focusing.View.Profile;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +40,7 @@ import java.util.Locale;
  */
 public class ProfScheduleFragment extends Fragment implements View.OnClickListener, OnDismissListener {
     private TextView tv_startTime, tv_endTime, tv_alarm, tv_repeat;
+    private Button btn_delete;
     private LinearLayout l_start, l_end, l_alarm, l_repeat;
     private int repeatId;
     private ProfileManager profileManager;
@@ -46,9 +50,10 @@ public class ProfScheduleFragment extends Fragment implements View.OnClickListen
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_prof_schedule, container, false);
         //mcl
+
         l_start = view.findViewById(R.id.layout_starttime);
         l_start.setOnClickListener(this);
         l_end = view.findViewById(R.id.layout_endtime);
@@ -68,6 +73,17 @@ public class ProfScheduleFragment extends Fragment implements View.OnClickListen
         tv_alarm = view.findViewById(R.id.prefer_alarm);
         tv_repeat = view.findViewById(R.id.prefer_repeat);
         profileId = getArguments().getInt("ProfileId", -1);
+        btn_delete = view.findViewById(R.id.btn_delete);
+        btn_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                showDeleteProfileDialog(profile);
+                profileManager.deleteProfile(profileId);
+//                Intent intent = new Intent(getActivity(), ProfileDetailActivity.class);
+//                getActivity().startActivity(intent);
+            }
+
+        });
         profileManager = new ProfileManager(getContext());
         initData();
         tv_startTime.setText(String.format("%02d:%02d", profile.getStartHour(), profile.getStartMin()));
@@ -77,6 +93,12 @@ public class ProfScheduleFragment extends Fragment implements View.OnClickListen
         return view;
     }
 
+    private void showDeleteProfileDialog(Profile profile) {
+        DeleteProfileDialog dialog=DeleteProfileDialog.newInstance(profile);
+//        FragmentManager manager=getContext().getSupportFragmentManager();
+//        dialog.show(manager,"AddProfile");
+
+    }
     @Override
     public void onResume() {
         super.onResume();
@@ -107,7 +129,7 @@ public class ProfScheduleFragment extends Fragment implements View.OnClickListen
         profile.setEndMin(endMin);
         profile.setAlarm(tv_alarm.getText().toString());
         profile.setRepeat(tv_repeat.getText().toString());
-        profile.setRepeatId(repeatId);
+        profile.setRepeatId(repeatId);//todo:排查repeatId录入情况
     }
 
     /**

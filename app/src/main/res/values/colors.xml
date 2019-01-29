@@ -19,6 +19,8 @@
     <color name="light_purple">#FF7C85E6</color>
     <color name="purple">#5766ff</color>
     <color name="baby_pink">#d6fc78be</color>
+    <color name="red">#d6a70404</color>
+    <color name="transparent_red">#37a70404</color>
     <color name="light_pink">#FFBF7BE0</color>
     <color name="black">#000000</color>
     <color name="transparent_white">#64ffffff</color>

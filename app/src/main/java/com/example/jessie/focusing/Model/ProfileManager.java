@@ -35,6 +35,10 @@ public class ProfileManager {
         profile.saveOrUpdate("id=?", String.valueOf(profile.getId()));
     }
 
+    public synchronized void deleteProfile(int profileId){
+        Profile p=LitePal.find(Profile.class,profileId);
+        p.delete();
+    }
     public synchronized List<Profile> syncProfile() {
 //        LitePal.deleteAll(Profile.class);
 
@@ -52,11 +56,46 @@ public class ProfileManager {
        List<Profile> all=LitePal.findAll(Profile.class);
         List<Profile> profiles = new ArrayList<>();
         for (Profile profile : all) {
-            if((today==1)&&(profile.getRepeatId()==7)){
-                profiles.add(profile);
-            }else if (profile.getRepeatId()==0||profile.getRepeatId()==(today-1)){
-                profiles.add(profile);
+            switch (profile.getRepeat()){
+                case "Everyday":
+                    profiles.add(profile);
+                    break;
+                case "Every Monday":
+                    if(today==2){
+                        profiles.add(profile);
+                    }
+                    break;
+                case "Every Tuesday"   :
+                    if(today==3){
+                        profiles.add(profile);
+                    }
+                    break;
+                case "Every Wednesday":
+                    if(today==4){
+                        profiles.add(profile);
+                    }
+                case "Every Thursday":
+                    if (today==5){
+                        profiles.add(profile);
+                    }
+                case "Every Friday":
+                    if (today==6){
+                        profiles.add(profile);
+                    }
+                case "Every Saturday":
+                    if (today==7){
+                        profiles.add(profile);
+                    }
+                case "Every Sunday":
+                    if (today==1){
+                        profiles.add(profile);
+                    }
             }
+//            if((today==1)&&(profile.getRepeatId()==7)){
+//                profiles.add(profile);
+//            }else if (profile.getRepeatId()==0||profile.getRepeatId()==(today-1)){
+//                profiles.add(profile);
+//            }
 
         }
         return profiles;

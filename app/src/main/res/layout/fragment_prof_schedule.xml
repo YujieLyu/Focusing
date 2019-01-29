@@ -189,5 +189,17 @@
             android:textColor="@color/purple"
             />
     </LinearLayout>
+    <Button
+        android:id="@+id/btn_delete"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_below="@id/layout_repeat"
+        android:layout_marginTop="30dp"
+        android:background="@color/half_white"
+        android:text="DELETE"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:fontFamily="@font/roboto"
+        android:textColor="@color/red"/>
 
 </RelativeLayout>
