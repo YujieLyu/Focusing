@@ -38,6 +38,7 @@ public class LockService extends IntentService implements DialogInterface.OnClic
     private ActivityManager activityManager;
     private AppInfoManager appInfoManager;
     private ProfileManager profileManager;
+    public boolean threadIsTerminate = false; //是否开启循环
     private long endTime;
     private long startTime;
 
@@ -57,6 +58,7 @@ public class LockService extends IntentService implements DialogInterface.OnClic
     @Override
     protected void onHandleIntent(Intent intent) {
         while (true) {
+
             checkData(intent);
             try {
                 Thread.sleep(100);//todo:时间设置更改.考虑冲突，延迟等问题
@@ -74,66 +76,68 @@ public class LockService extends IntentService implements DialogInterface.OnClic
      */
     private void checkData(Intent intent) {
         startTime = intent.getLongExtra("startTime", 0);
-        endTime = intent.getLongExtra("endTime", 0);
+        endTime = intent.getLongExtra("endTime", 0);//todo:start now countdown开始后 过来的lock请求
+        long currTime = System.currentTimeMillis();
 
-        long currTime = System.currentTimeMillis();//TODO：calculate time by itself,no get the real
-        //countdown time
 
-        //获取栈顶app的包名
+//        获取栈顶app的包名
         String packageName = getLauncherTopApp(LockService.this, activityManager);
+        if (!packageName.equals("com.example.jessie.focusing")) {
+
 //        boolean lockStatus = appInfoManager.checkIsLocked(packageName);
 
 
-        //todo:待优化！！！
-        List<AppInfo> appInfos = appInfoManager.getData(packageName);
-        List<AppInfo> temp = new ArrayList<>();
-        for (AppInfo appInfo : appInfos) {
-            if(appInfo.isLocked()){
-                temp.add(appInfo);
-            }
-        }
-
-        Calendar calendar=Calendar.getInstance();
-        int today = calendar.get(Calendar.DAY_OF_WEEK);
-        for (AppInfo appInfo : temp) {
-            int profId = appInfo.getProfId();
-            boolean lockStatus = appInfoManager.checkIsLocked(appInfo.getId());
-            if (profId == -10) {
-
-                if ((currTime - startTime > 0 && endTime - currTime > 0)) {
-                    if (lockStatus) {
-                        lockScreen(packageName,startTime,endTime);
-                        return;
-                    }
-
-                }
-            }else {
-            Profile p = profileManager.getProfile(profId);
-            boolean onSchedule = profileManager.checkProfOnSchedule(p, today);
-                long profStart = TimeConvert.getInstance().convertTime(p.getStartHour(), p.getStartMin());
-                long profEnd = TimeConvert.getInstance().convertTime(p.getEndHour(), p.getEndMin());
-            if (onSchedule) {
-                if ((currTime - profStart > 0 && profEnd - currTime > 0)) {
-                    if (lockStatus) {
-                        lockScreen(packageName,profStart,profEnd);
-                        return;
-                    }
-
+            //todo:待优化！！！
+            List<AppInfo> appInfos = appInfoManager.getData(packageName);
+            List<AppInfo> temp = new ArrayList<>();
+            for (AppInfo appInfo : appInfos) {
+                if (appInfo.isLocked()) {
+                    temp.add(appInfo);
                 }
             }
+
+            Calendar calendar = Calendar.getInstance();
+            int today = calendar.get(Calendar.DAY_OF_WEEK);
+            for (AppInfo appInfo : temp) {
+                int profId = appInfo.getProfId();
+                boolean lockStatus = appInfoManager.checkIsLocked(appInfo.getId());
+                if (profId == -10) {
+
+                    if ((endTime - currTime > 0)) {
+                        if (lockStatus) {
+                            lockScreen(packageName, endTime);
+                            return;
+                        }
+
+                    }
+                } else {
+                    Profile p = profileManager.getProfile(profId);
+                    boolean onSchedule = profileManager.checkProfOnSchedule(p, today);
+                    long profStart = TimeConvert.getInstance().convertTime(p.getStartHour(), p.getStartMin());
+                    long profEnd = TimeConvert.getInstance().convertTime(p.getEndHour(), p.getEndMin());
+                    boolean inTimeSlot = compareTime(profStart, profEnd, currTime);
+                    if (onSchedule) {
+                        if (inTimeSlot) {
+                            if (lockStatus) {
+                                lockScreen(packageName, profEnd);
+                                return;
+                            }
+
+                        }
+                    }
+                }
+
+
+            }
         }
-
-
-        }
-
-//        if ((currTime - startTime > 0 && endTime - currTime > 0)) {
-//            if (lockStatus) {
-//                lockScreen(packageName);
-//            }
-//
-//        }
     }
 
+    private boolean compareTime(long start, long end, long curr) {
+        if (curr - start >= 0 && end - curr > 0) {
+            return true;
+        } else
+            return false;
+    }
 
 
     public String getLauncherTopApp(Context context, ActivityManager activityManager) {
@@ -158,12 +162,12 @@ public class LockService extends IntentService implements DialogInterface.OnClic
         return "";
     }
 
-    private void lockScreen(String packageName,long start,long end) {
+    private void lockScreen(String packageName, long end) {
 //        LockApplication.getInstance().clearAllActivity();
         Intent intent = new Intent(this, Countdown_Activity.class);
         intent.putExtra(AppConstants.PRESS_BACK, AppConstants.BACK_TO_FINISH);
         intent.putExtra(AppConstants.LOCK_PACKAGE_NAME, packageName);
-        intent.putExtra("startTime", start);
+//        intent.putExtra("startTime", start);
         intent.putExtra("endTime", end);//todo:类似的数据传递的要写成常量吧
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);//todo:不懂这个操作
         startActivity(intent);

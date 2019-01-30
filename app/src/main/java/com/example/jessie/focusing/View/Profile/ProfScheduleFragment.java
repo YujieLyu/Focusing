@@ -151,7 +151,7 @@ public class ProfScheduleFragment extends Fragment implements View.OnClickListen
         profile.setEndMin(endMin);
         profile.setAlarm(tv_alarm.getText().toString());
         String repeatType=tv_repeat.getText().toString();
-        getcorrRepeatId(repeatType);
+        repeatId=getcorrRepeatId(repeatType);
         profile.setRepeat(repeatType);
         profile.setRepeatId(repeatId);//todo:排查repeatId录入情况
         profileManager.updateProfile(profile);
@@ -249,7 +249,6 @@ public class ProfScheduleFragment extends Fragment implements View.OnClickListen
                     @Override
                     public void onOptionsSelect(int options1, int options2, int options3, View v) {
                         tv_repeat.setText(repeatOptions.get(options1));
-                        repeatId = options1;
 
                     }
                 }).build();

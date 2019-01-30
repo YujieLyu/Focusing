@@ -26,7 +26,7 @@ public class TimeConvert {
 
     public long convertTime(int hour,int min){
         Calendar calendar=Calendar.getInstance();
-        calendar.set(Calendar.HOUR,hour);
+        calendar.set(Calendar.HOUR_OF_DAY,hour);
         calendar.set(Calendar.MINUTE,min);
         time=calendar.getTimeInMillis();
         return time;

@@ -58,7 +58,9 @@ public class ProfileManager {
     }
 
     public synchronized boolean checkProfOnSchedule(Profile profile,int today){
-        if(today==1&&profile.getRepeatId()==7){
+        if(profile.getRepeatId()==0){
+            return true;
+        }else if(today==1&&profile.getRepeatId()==7){
             return true;
         }else if(profile.getRepeatId()==today-1){
             return true;
