@@ -7,8 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
 
 import com.example.jessie.focusing.Model.Profile;
 import com.example.jessie.focusing.Model.ProfileManager;
@@ -20,35 +18,35 @@ import com.example.jessie.focusing.R;
  * @time : 00:59
  */
 public class DeleteProfileDialog extends DialogFragment{
-        private int profileId;
-        private AddNewProfileDialog.OnFragmentInteractionListener listener;
+        private Profile item;
+        private OnFragmentInteractionListener listener;
         private ProfileManager profileManager;
 
         public DeleteProfileDialog() {
             // Required empty public constructor
         }
 
-        public static DeleteProfileDialog newInstance(Profile profile) {
-
-            DeleteProfileDialog dialog = new DeleteProfileDialog();
-            dialog.profileId = profile.getId();
-            return dialog;
-        }
+//        public static DeleteProfileDialog newInstance(Profile profile) {
+//
+//            DeleteProfileDialog dialog = new DeleteProfileDialog();
+//            dialog.item = profile;
+//            return dialog;
+//        }
 
 
         @Override
         public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View view = inflater.inflate(R.layout.fragment_prof_schedule, container, false);
-            Button btnOk =  view.findViewById(R.id.btn_ok);
-            Button btnCancel = view.findViewById(R.id.btn_cancel);
+            View view = inflater.inflate(R.layout.dialog_delete_confirm, container, false);
+            Button btnOk =  view.findViewById(R.id.btn_delete_confirm);
+            Button btnCancel = view.findViewById(R.id.btn_cancel_confirm);
 
             btnOk.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    profileManager.deleteProfile(profileId);
+//                    profileManager.deleteProfile(profileId);
 
-//                    onOKPressed(profile);
+                    onOKPressed();
                     dismiss();
 //
                 }
@@ -63,17 +61,17 @@ public class DeleteProfileDialog extends DialogFragment{
             return view;
         }
 
-        private void onOKPressed(Profile profile) {
+        private void onOKPressed() {
             if (listener != null) {
-                listener.onFragmentInteraction(profile);
+                listener.onFragmentInteraction();
             }
         }
 
         @Override
         public void onAttach(Context context) {
             super.onAttach(context);
-            if (context instanceof AddNewProfileDialog.OnFragmentInteractionListener) {
-                listener = (AddNewProfileDialog.OnFragmentInteractionListener) context;
+            if (context instanceof DeleteProfileDialog.OnFragmentInteractionListener) {
+                listener = (DeleteProfileDialog.OnFragmentInteractionListener) context;
             } else {
                 throw new RuntimeException(context.toString()
                         + " must implement OnFragmentInteractionListener");
@@ -87,7 +85,7 @@ public class DeleteProfileDialog extends DialogFragment{
         }
 
 public interface OnFragmentInteractionListener {
-    void onFragmentInteraction(Profile profile);
+    void onFragmentInteraction();
 
 }
 }

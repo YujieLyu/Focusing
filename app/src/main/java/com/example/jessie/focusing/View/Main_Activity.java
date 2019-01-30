@@ -38,7 +38,7 @@ public class Main_Activity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        tv_start.setBackgroundColor(Color.argb(145, 255, 255, 255)); //背景透明度
+//        tv_start.setBackgroundColor(Color.argb(145, 255, 255, 255)); //背景透明度
 
         tv_profile=findViewById(R.id.tv_profile);
         tv_profile.setOnClickListener(new View.OnClickListener(){
@@ -49,7 +49,7 @@ public class Main_Activity extends AppCompatActivity {
             }
 
         });
-        tv_profile.setBackgroundColor(Color.argb(145, 255, 255, 255)); //背景透明度
+//        tv_profile.setBackgroundColor(Color.argb(145, 255, 255, 255)); //背景透明度
 
 
         tv_schedule=findViewById(R.id.tv_schedule);
@@ -61,7 +61,7 @@ public class Main_Activity extends AppCompatActivity {
 
             }
         });
-        tv_schedule.setBackgroundColor(Color.argb(145, 255, 255, 255)); //背景透明度
+//        tv_schedule.setBackgroundColor(Color.argb(145, 255, 255, 255)); //背景透明度
 
 
     }

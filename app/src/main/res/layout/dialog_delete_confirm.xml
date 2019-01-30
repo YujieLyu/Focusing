@@ -17,19 +17,18 @@
         />
 
     <Button
-        android:id="@+id/btn_delete"
+        android:id="@+id/btn_delete_confirm"
         android:layout_width="100dp"
         android:layout_height="35dp"
-        android:layout_toRightOf="@id/btn_cancel"
+        android:layout_marginStart="150dp"
         android:layout_marginTop="20dp"
-        android:layout_marginStart="50dip"
         android:layout_marginBottom="10dp"
         android:background="@color/red"
         android:layout_below="@id/tv_addName"
         android:text="Delete"
         android:textColor="@color/text_white"/>
     <Button
-        android:id="@+id/btn_cancel"
+        android:id="@+id/btn_cancel_confirm"
         android:layout_width="100dp"
         android:layout_height="35dp"
         android:layout_marginTop="20dp"

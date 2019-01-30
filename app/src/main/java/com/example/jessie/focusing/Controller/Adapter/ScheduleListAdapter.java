@@ -30,7 +30,6 @@ public class ScheduleListAdapter extends BaseAdapter {
     private Context context;
 
     private ProfileManager profileManager;
-    private FragmentManager fragmentManager;
 
     public ScheduleListAdapter(Context context) {
         this.context = context;

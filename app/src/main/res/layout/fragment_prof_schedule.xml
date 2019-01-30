@@ -8,8 +8,12 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/s2"
-        android:scaleType="fitXY"/>
+        android:src="@drawable/ocean4"
+        android:scaleType="centerCrop"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/half_white"/>
 
     <TextView
         android:id="@+id/set_prof_name"
@@ -38,10 +42,9 @@
             android:layout_marginStart="20dp"
             android:layout_gravity="center"
             android:background="@drawable/listitem_schedule_time"
-            android:backgroundTint="@color/baby_pink"
+            android:backgroundTint="@color/text_orange"
             />
         <TextView
-            android:id="@+id/tv_starttime"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="4"
@@ -51,17 +54,17 @@
             android:gravity="center_vertical"
             android:textSize="20sp"
             android:fontFamily="@font/roboto_light"
-            android:textColor="@color/baby_pink"
+            android:textColor="@color/text_orange"
             />
         <TextView
             android:id="@+id/prefer_start_time"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2"
-            android:textSize="16sp"
+            android:textSize="20sp"
             android:gravity="center"
             android:fontFamily="@font/roboto_light"
-            android:textColor="@color/light_pink"
+            android:textColor="@color/text_orange"
             />
     </LinearLayout>
 
@@ -83,7 +86,6 @@
             android:backgroundTint="@color/light_blue"
             />
         <TextView
-            android:id="@+id/tv_endtime"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="4"
@@ -100,7 +102,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2"
-            android:textSize="16sp"
+            android:textSize="20sp"
             android:gravity="center"
             android:fontFamily="@font/roboto_light"
             android:textColor="@color/light_blue"
@@ -125,7 +127,6 @@
             android:backgroundTint="@color/text_yellow"
             />
         <TextView
-            android:id="@+id/tv_alarm"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="4"
@@ -142,7 +143,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2"
-            android:textSize="16sp"
+            android:textSize="20sp"
             android:gravity="center"
             android:fontFamily="@font/roboto_light"
             android:textColor="@color/text_yellow"
@@ -166,7 +167,6 @@
             android:backgroundTint="@color/purple"
             />
         <TextView
-            android:id="@+id/tv_repeat"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="4"
@@ -183,23 +183,35 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2"
-            android:textSize="16sp"
+            android:textSize="20sp"
             android:gravity="center"
             android:fontFamily="@font/roboto_light"
             android:textColor="@color/purple"
             />
     </LinearLayout>
     <Button
-        android:id="@+id/btn_delete"
+        android:id="@+id/btn_save"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:layout_below="@id/layout_repeat"
         android:layout_marginTop="30dp"
-        android:background="@color/half_white"
+        android:background="@color/light_purple"
+        android:text="SAVE"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:fontFamily="@font/roboto"
+        android:textColor="@color/text_white"/>
+    <Button
+        android:id="@+id/btn_delete"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/btn_save"
+        android:layout_marginTop="20dp"
+        android:background="@color/red"
         android:text="DELETE"
         android:textSize="20sp"
         android:gravity="center"
         android:fontFamily="@font/roboto"
-        android:textColor="@color/red"/>
+        android:textColor="@color/text_white"/>
 
 </RelativeLayout>

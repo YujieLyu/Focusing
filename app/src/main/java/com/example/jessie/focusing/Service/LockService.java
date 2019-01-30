@@ -10,11 +10,16 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 
+import com.example.jessie.focusing.Model.AppInfo;
+import com.example.jessie.focusing.Model.Profile;
+import com.example.jessie.focusing.Model.ProfileManager;
 import com.example.jessie.focusing.Utils.AppConstants;
 import com.example.jessie.focusing.Model.AppInfoManager;
+import com.example.jessie.focusing.Utils.TimeConvert;
 import com.example.jessie.focusing.View.CountDown.Countdown_Activity;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -32,6 +37,7 @@ public class LockService extends IntentService implements DialogInterface.OnClic
 
     private ActivityManager activityManager;
     private AppInfoManager appInfoManager;
+    private ProfileManager profileManager;
     private long endTime;
     private long startTime;
 
@@ -39,6 +45,7 @@ public class LockService extends IntentService implements DialogInterface.OnClic
     public void onCreate() {
         super.onCreate();
         appInfoManager = new AppInfoManager(this);
+        profileManager = new ProfileManager(this);
         activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
 
     }
@@ -62,26 +69,72 @@ public class LockService extends IntentService implements DialogInterface.OnClic
 
     /**
      * 此处存在一个判断是否有profile开启，先执行Prof还是先执行custom
+     *
      * @param intent
      */
     private void checkData(Intent intent) {
         startTime = intent.getLongExtra("startTime", 0);
         endTime = intent.getLongExtra("endTime", 0);
+
         long currTime = System.currentTimeMillis();//TODO：calculate time by itself,no get the real
         //countdown time
 
         //获取栈顶app的包名
         String packageName = getLauncherTopApp(LockService.this, activityManager);
-        boolean lockStatus = appInfoManager.checkIsLocked(packageName);
+//        boolean lockStatus = appInfoManager.checkIsLocked(packageName);
 
-        //判断包名打开解锁页面
-        if ((currTime - startTime > 0 && endTime - currTime > 0)) {
-            if (lockStatus) {
-                lockScreen(packageName);
+
+        //todo:待优化！！！
+        List<AppInfo> appInfos = appInfoManager.getData(packageName);
+        List<AppInfo> temp = new ArrayList<>();
+        for (AppInfo appInfo : appInfos) {
+            if(appInfo.isLocked()){
+                temp.add(appInfo);
             }
+        }
+
+        Calendar calendar=Calendar.getInstance();
+        int today = calendar.get(Calendar.DAY_OF_WEEK);
+        for (AppInfo appInfo : temp) {
+            int profId = appInfo.getProfId();
+            boolean lockStatus = appInfoManager.checkIsLocked(appInfo.getId());
+            if (profId == -10) {
+
+                if ((currTime - startTime > 0 && endTime - currTime > 0)) {
+                    if (lockStatus) {
+                        lockScreen(packageName,startTime,endTime);
+                        return;
+                    }
+
+                }
+            }else {
+            Profile p = profileManager.getProfile(profId);
+            boolean onSchedule = profileManager.checkProfOnSchedule(p, today);
+                long profStart = TimeConvert.getInstance().convertTime(p.getStartHour(), p.getStartMin());
+                long profEnd = TimeConvert.getInstance().convertTime(p.getEndHour(), p.getEndMin());
+            if (onSchedule) {
+                if ((currTime - profStart > 0 && profEnd - currTime > 0)) {
+                    if (lockStatus) {
+                        lockScreen(packageName,profStart,profEnd);
+                        return;
+                    }
+
+                }
+            }
+        }
+
 
         }
+
+//        if ((currTime - startTime > 0 && endTime - currTime > 0)) {
+//            if (lockStatus) {
+//                lockScreen(packageName);
+//            }
+//
+//        }
     }
+
+
 
     public String getLauncherTopApp(Context context, ActivityManager activityManager) {
 
@@ -105,13 +158,13 @@ public class LockService extends IntentService implements DialogInterface.OnClic
         return "";
     }
 
-    private void lockScreen(String packageName) {
+    private void lockScreen(String packageName,long start,long end) {
 //        LockApplication.getInstance().clearAllActivity();
         Intent intent = new Intent(this, Countdown_Activity.class);
         intent.putExtra(AppConstants.PRESS_BACK, AppConstants.BACK_TO_FINISH);
         intent.putExtra(AppConstants.LOCK_PACKAGE_NAME, packageName);
-        intent.putExtra("startTime", startTime);
-        intent.putExtra("endTime", endTime);//todo:类似的数据传递的要写成常量吧
+        intent.putExtra("startTime", start);
+        intent.putExtra("endTime", end);//todo:类似的数据传递的要写成常量吧
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);//todo:不懂这个操作
         startActivity(intent);
     }

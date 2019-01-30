@@ -39,7 +39,7 @@ public class ProfileList_Activity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_list);
         profileList = findViewById(R.id.prof_list);
-        profileList.setBackgroundResource(R.drawable.n8);
+        profileList.setBackgroundResource(R.drawable.island);
         btn_add =findViewById(R.id.ibtn_add);
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,6 +55,8 @@ public class ProfileList_Activity extends AppCompatActivity
         lv_profile.setAdapter(profileListAdapter);
 
         setStatusTransparent();
+        setDarkStatusIcon(true);
+
 
     }
 
@@ -82,6 +84,20 @@ public class ProfileList_Activity extends AppCompatActivity
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             // 4.4 实现
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+    }
+    protected void setDarkStatusIcon(boolean dark) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            View decorView = getWindow().getDecorView();
+            if (decorView == null) return;
+
+            int vis = decorView.getSystemUiVisibility();
+            if (dark) {
+                vis |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+            } else {
+                vis &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+            }
+            decorView.setSystemUiVisibility(vis);
         }
     }
 

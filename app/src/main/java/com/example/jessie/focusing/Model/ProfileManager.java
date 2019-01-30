@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class ProfileManager {
     private Context context;
-
+    List<Profile> all=LitePal.findAll(Profile.class);
     public ProfileManager(Context context) {
 
         this.context = context;
@@ -28,6 +28,12 @@ public class ProfileManager {
         for (Profile profile : profiles) {
             profile.saveOrUpdate("id=?", String.valueOf(profile.getId()));
         }
+
+    }
+
+    public synchronized Profile getProfile(int profileId){
+        Profile profile = LitePal.find(Profile.class, profileId);
+        return profile;
 
     }
 
@@ -51,46 +57,61 @@ public class ProfileManager {
         return profile;
     }
 
+    public synchronized boolean checkProfOnSchedule(Profile profile,int today){
+        if(today==1&&profile.getRepeatId()==7){
+            return true;
+        }else if(profile.getRepeatId()==today-1){
+            return true;
+        }
+        return false;
+    }
     public synchronized List<Profile> syncProfileOnSchedule(int today){
 
-       List<Profile> all=LitePal.findAll(Profile.class);
         List<Profile> profiles = new ArrayList<>();
+
         for (Profile profile : all) {
-            switch (profile.getRepeat()){
-                case "Everyday":
-                    profiles.add(profile);
-                    break;
-                case "Every Monday":
-                    if(today==2){
-                        profiles.add(profile);
-                    }
-                    break;
-                case "Every Tuesday"   :
-                    if(today==3){
-                        profiles.add(profile);
-                    }
-                    break;
-                case "Every Wednesday":
-                    if(today==4){
-                        profiles.add(profile);
-                    }
-                case "Every Thursday":
-                    if (today==5){
-                        profiles.add(profile);
-                    }
-                case "Every Friday":
-                    if (today==6){
-                        profiles.add(profile);
-                    }
-                case "Every Saturday":
-                    if (today==7){
-                        profiles.add(profile);
-                    }
-                case "Every Sunday":
-                    if (today==1){
-                        profiles.add(profile);
-                    }
+            if (profile.getRepeatId()==0){
+                profiles.add(profile);
+            }else if(today==1&&profile.getRepeatId()==7){
+                profiles.add(profile);
+            }else if(profile.getRepeatId()==today-1){
+                profiles.add(profile);
             }
+//            switch (profile.getRepeat()){
+//                case "Everyday":
+//                    profiles.add(profile);
+//                    break;
+//                case "Every Monday":
+//                    if(today==2){
+//                        profiles.add(profile);
+//                    }
+//                    break;
+//                case "Every Tuesday"   :
+//                    if(today==3){
+//                        profiles.add(profile);
+//                    }
+//                    break;
+//                case "Every Wednesday":
+//                    if(today==4){
+//                        profiles.add(profile);
+//                    }
+//                case "Every Thursday":
+//                    if (today==5){
+//                        profiles.add(profile);
+//                    }
+//                case "Every Friday":
+//                    if (today==6){
+//                        profiles.add(profile);
+//                    }
+//                case "Every Saturday":
+//                    if (today==7){
+//                        profiles.add(profile);
+//                    }
+//                case "Every Sunday":
+//                    if (today==1){
+//                        profiles.add(profile);
+//                    }
+//            }
 //            if((today==1)&&(profile.getRepeatId()==7)){
 //                profiles.add(profile);
 //            }else if (profile.getRepeatId()==0||profile.getRepeatId()==(today-1)){

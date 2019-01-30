@@ -14,6 +14,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.example.jessie.focusing.Controller.Adapter.ViewPagerAdapter;
+import com.example.jessie.focusing.Model.Profile;
 import com.example.jessie.focusing.R;
 
 /**
@@ -21,7 +22,8 @@ import com.example.jessie.focusing.R;
  * @date : 26-01-2019
  * @time : 15:08
  */
-public class ProfileDetailActivity extends AppCompatActivity {
+public class ProfileDetailActivity extends AppCompatActivity
+                        implements DeleteProfileDialog.OnFragmentInteractionListener{
     private ViewPager viewPager;
     private ProfAppListFragment appListFragment;
     private ProfScheduleFragment calendarFragment;
@@ -121,5 +123,11 @@ public class ProfileDetailActivity extends AppCompatActivity {
             // 4.4 实现
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
+    }
+
+
+    @Override
+    public void onFragmentInteraction() {
+
     }
 }

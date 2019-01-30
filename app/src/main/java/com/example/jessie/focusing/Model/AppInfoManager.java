@@ -78,6 +78,18 @@ public class AppInfoManager {
         return appInfos;
     }
 
+    public synchronized List<AppInfo> getData(String packageName){
+        List<AppInfo> appInfosDatabase = LitePal.findAll(AppInfo.class);
+        List<AppInfo> synonymAppInfos = new ArrayList<>();
+        for (AppInfo appInfo : appInfosDatabase) {
+            if (appInfo.getPackageName().equals(packageName)){
+                synonymAppInfos.add(appInfo);
+            }
+
+        }
+        return synonymAppInfos;
+    }
+
 
     public synchronized List<AppInfo> setDatabase(List<AppInfo> appInfos) {
 //        LitePal.deleteAll(AppInfo.class);
@@ -141,8 +153,8 @@ public class AppInfoManager {
 //        }
 //    }
 
-    public boolean checkIsLocked(String packageName) {
-        AppInfo appInfo = LitePal.where("packageName=?", packageName).findFirst(AppInfo.class);
+    public boolean checkIsLocked(int id) {
+        AppInfo appInfo = LitePal.where("id=?", String.valueOf(id)).findFirst(AppInfo.class);
         if (appInfo == null) {
             return false;
         }

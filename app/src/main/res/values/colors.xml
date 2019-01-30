@@ -5,28 +5,19 @@
     <color name="colorAccent">#d81b60</color>
     <color name="text_white">#ffffff</color>
     <color name="text_orange">#FC903E</color>
-    <color name="bg_pink">#b34d88</color>
     <color name="bg_blue_normal">#5677FC</color>
     <color name="light_blue">#468bfa</color>
-    <color name="bg_blue_toolbar">#3F51B5</color>
     <color name="bg_blue_dark">#303f9f</color>
     <color name="bg_white">#dcffffff</color>
-    <color name="grey">#49494a</color>
     <color name="light_grey">#a0969696</color>
-    <color name="transparent_black">#23000000</color>
-    <color name="font_deep_gray">#5b5b5b</color>  <!--字体深灰色-->
+    <color name="transparent_black">#2d000000</color>
+    <!--字体深灰色-->
     <color name="transparent">#19ffffff</color>
     <color name="light_purple">#FF7C85E6</color>
     <color name="purple">#5766ff</color>
-    <color name="baby_pink">#d6fc78be</color>
     <color name="red">#d6a70404</color>
-    <color name="transparent_red">#37a70404</color>
-    <color name="light_pink">#FFBF7BE0</color>
     <color name="black">#000000</color>
     <color name="transparent_white">#64ffffff</color>
     <color name="half_white">#1Affffff</color>
     <color name="text_yellow">#d1fceb31</color>
-    <color name="light_orange">#fcaa52</color>
-    <color name="yellow_green">#f2fc2e</color>
-    <color name="green">#752d9e58</color>
 </resources>

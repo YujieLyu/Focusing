@@ -14,6 +14,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import com.example.jessie.focusing.Service.LockService;
 import com.example.jessie.focusing.Utils.AppConstants;
 import com.example.jessie.focusing.Utils.LockUtil;
 import com.example.jessie.focusing.R;
@@ -48,6 +49,7 @@ public class Welcome_Activity extends AppCompatActivity {
         }
     }
     protected void initData(){
+//        startService(new Intent(this, LockService.class));
         animator = ObjectAnimator.ofFloat(imgWelcome, "alpha", 0.5f, 1);
         animator.setDuration(1500);
         animator.start();

@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/prof_detail_container"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".View.StartNow.StartNow_Activity"
     tools:showIn="@layout/app_bar_main">
@@ -24,10 +23,10 @@
         android:layout_height="70dp"
         android:layout_alignParentBottom="true"
         app:menu="@menu/navigation_profile"
-        app:itemTextColor="@color/text_white"
-        app:itemIconTint="@color/text_white"
-        >
 
+        >
+        <!--app:itemTextColor="@color/text_white"-->
+        <!--app:itemIconTint="@color/text_white"-->
     </android.support.design.widget.BottomNavigationView>
     <!--<ImageView-->
     <!--android:id="@+id/img_welcome"-->
