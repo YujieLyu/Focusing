@@ -40,10 +40,9 @@
         <ListView
             android:id="@+id/lv_prof_list"
             android:layout_width="match_parent"
-            android:backgroundTint="@color/transparent_white"
             android:layout_marginTop="20dp"
             android:overScrollMode="never"
             android:layout_height="match_parent"
-            android:background="@color/bg_white"/>
+            android:background="@color/half_white"/>
     </LinearLayout>
 </RelativeLayout>

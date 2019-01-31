@@ -27,10 +27,9 @@
 
     <CheckBox
         android:id="@+id/switch_bar"
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
+        android:layout_marginEnd="20dp"
         android:layout_height="60dp"
-        android:scaleY="0.5"
-        android:scaleX="0.5"
         android:layout_gravity="center_vertical"
         android:button="@drawable/bg_checkbox_lock" />
 
