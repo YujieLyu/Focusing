@@ -14,17 +14,17 @@
         <!--android:src="@drawable/snow_tree"-->
         <!--/>-->
 
-    <android.support.v7.widget.SearchView
-        android:id="@+id/search_bar"
-        android:layout_width="match_parent"
-        android:layout_gravity="center"
-        android:layout_below="@id/tv_1suggest"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/bg_search"
-        android:backgroundTint="@color/half_white">
+    <!--<android.support.v7.widget.SearchView-->
+        <!--android:id="@+id/search_bar"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:layout_below="@id/tv_1suggest"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:background="@drawable/bg_search"-->
+        <!--android:backgroundTint="@color/half_white">-->
 
-    </android.support.v7.widget.SearchView>
+    <!--</android.support.v7.widget.SearchView>-->
 
     <TextView
         android:id="@+id/tv_1suggest"
@@ -41,9 +41,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/search_bar"
+        android:layout_below="@id/tv_1suggest"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="70dp">
+        android:layout_marginBottom="80dp">
 
         <ListView
             android:id="@+id/now_app_list"

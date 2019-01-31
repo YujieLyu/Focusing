@@ -4,6 +4,7 @@ import org.litepal.annotation.Column;
 import org.litepal.crud.LitePalSupport;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -148,4 +149,37 @@ public class Profile extends LitePalSupport {
     public void setRepeatId(int repeatId) {
         this.repeatId = repeatId;
     }
+
+    public static Comparator<Profile> nameComparator=new Comparator<Profile>() {
+        @Override
+        public int compare(Profile o1, Profile o2) {
+            String p1=o1.getProfileName();
+            String p2=o2.getProfileName();
+            String a=null;
+            String b=null;
+            if (!p1.isEmpty() && !p1.isEmpty()) {
+                a = p1.substring(0, 1);
+                b = p1.substring(0, 1);
+            }
+            return (a.compareTo(b));
+        }
+    };
+    public static Comparator<Profile> startTimeComparator=new Comparator<Profile>() {
+        @Override
+        public int compare(Profile o1, Profile o2) {
+            int o1H=o1.getStartHour();
+            int o1M=o1.getStartMin();
+            int o2H=o2.getEndHour();
+            int o2M=o2.getEndMin();
+            if(o1H>o2H){
+                return 1;
+            }else if(o1H==o2H){
+                if (o1M>=o2M){
+                    return -1;
+                }
+                else return 1;
+            }else
+                return 1;
+        }
+    };
 }

@@ -7,6 +7,8 @@ import org.litepal.annotation.Column;
 import org.litepal.crud.LitePalSupport;
 import org.litepal.exceptions.LitePalSupportException;
 
+import java.util.Comparator;
+
 
 /**
  * @author : Yujie Lyu
@@ -120,11 +122,29 @@ public class AppInfo extends LitePalSupport {
     }
 
     public void setProfId(int profId) {
-        if(profId!=-10){
-            this.profId=profId;
-        }else {
+        if (profId != -10) {
+            this.profId = profId;
+        } else {
             this.profId = -10;
         }
 
     }
+
+    public static Comparator<AppInfo> nameComparator = new Comparator<AppInfo>() {
+
+        @Override
+        public int compare(AppInfo app1, AppInfo app2) {
+            String app1First = app1.getAppName();
+            String app2First = app2.getAppName();
+            String a=null;
+            String b=null;
+            if (!app1First.isEmpty() && !app2First.isEmpty()) {
+                 a = app1First.substring(0, 1);
+                 b = app2First.substring(0, 1);
+            }
+            return (a.compareTo(b));
+        }
+    };
+
+
 }

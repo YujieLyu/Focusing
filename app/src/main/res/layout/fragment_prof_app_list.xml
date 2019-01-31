@@ -6,36 +6,48 @@
     android:id="@+id/prof_app_list_layout"
     tools:context=".View.Profile.ProfAppListFragment">
 
-    <android.support.v7.widget.SearchView
-        android:id="@+id/search_bar"
+    <!--<android.support.v7.widget.SearchView-->
+        <!--android:id="@+id/search_bar"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:layout_below="@id/tv_1suggest"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:background="@drawable/bg_search"-->
+        <!--android:backgroundTint="@color/lite_black">-->
+
+    <!--</android.support.v7.widget.SearchView>-->
+
+    <TextView
+        android:id="@+id/set_prof_name"
         android:layout_width="match_parent"
-        android:layout_gravity="center"
-        android:layout_below="@id/tv_1suggest"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/bg_search"
-        android:backgroundTint="@color/lite_black">
-
-    </android.support.v7.widget.SearchView>
-
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="40dp"
+        android:text="@string/Set_Schedule"
+        android:textSize="30sp"
+        android:fontFamily="@font/roboto_light"
+        android:textColor="@color/text_white"
+        />
     <TextView
         android:id="@+id/tv_1suggest"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/set_prof_name"
         android:text="Select Apps to Lock"
-        android:layout_marginTop="20dp"
-        android:padding="15dp"
-        android:textColor="@color/text_white"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="25dp"
+        android:textColor="@color/black"
         android:fontFamily="@font/roboto_light"
-        android:textSize="30sp"
+        android:textSize="20sp"
         />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/search_bar"
+        android:layout_below="@id/tv_1suggest"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="70dp">
+        android:layout_marginBottom="80dp">
 
         <ListView
             android:id="@+id/prof_app_list"

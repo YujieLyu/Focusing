@@ -39,7 +39,7 @@ import java.util.Locale;
  * @date : 26-01-2019
  * @time : 21:58
  */
-public class ProfScheduleFragment extends Fragment implements View.OnClickListener,
+public class ProfPreferFragment extends Fragment implements View.OnClickListener,
         OnDismissListener, DeleteProfileDialog.OnFragmentInteractionListener {
     private TextView tv_profName, tv_startTime, tv_endTime, tv_alarm, tv_repeat;
     //    private EditText ed_profName;
@@ -83,22 +83,6 @@ public class ProfScheduleFragment extends Fragment implements View.OnClickListen
                 Toast.makeText(getContext(), "Profile save successfully:)", Toast.LENGTH_LONG).show();
 
             }
-        });
-        //TODO: should remove this button
-        btn_delete = view.findViewById(R.id.btn_delete);
-        btn_delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//               showDeleteProfileDialog();
-                profileManager.deleteProfile(profileId);
-                appInfoManager.deleteByProfId(profileId);
-                Toast.makeText(getContext(), "Delete done:)", Toast.LENGTH_LONG).show();
-                getActivity().finish();//todo:标记一下，返回的时候非常有用
-//                getActivity().getSupportFragmentManager().popBackStack();//todo:fragment的返回方法
-//                Intent intent = new Intent(getActivity(), ProfileList_Activity.class);
-//                getActivity().startActivity(intent);
-            }
-
         });
         profileManager = new ProfileManager(getContext());
         appInfoManager = new AppInfoManager(getContext());
@@ -158,7 +142,7 @@ public class ProfScheduleFragment extends Fragment implements View.OnClickListen
 
 
     private int getcorrRepeatId(String s) {
-        int repeatId=0;
+        int repeatId=-1;
         switch (s) {
             case "Everyday":
                 repeatId = 0;

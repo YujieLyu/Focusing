@@ -68,8 +68,20 @@ public class ScheduleListAdapter extends BaseAdapter {
                     + "~" + selectedInfo.getEndHour() + ":" + selectedInfo.getEndMin();
             viewHolder.timeSlot.setText(timeSlot);
             viewHolder.repeat.setText(selectedInfo.getRepeat());
+            convertView.setTag(selectedInfo);
         }
 //        viewHolder.tv_ProfName.setOnClickListener(this);
+
+        convertView.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                Profile profile=(Profile)v.getTag(); //将被点击的item转化为Profile instance,需要在view处setTAG
+                Intent intent = new Intent(context, ProfileDetailActivity.class);
+                intent.putExtra("ProfileId", profile.getId());
+                context.startActivity(intent);
+            }
+        });
         return convertView;
     }
 

@@ -9,6 +9,8 @@ import com.example.jessie.focusing.Model.AppInfo;
 import org.litepal.LitePal;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -95,8 +97,13 @@ public class AppInfoManager {
                 }
             }
         }
+//按字母排序
+        Collections.sort(appInfos, AppInfo.nameComparator);
         return appInfos;
+
     }
+
+
 
     public synchronized List<AppInfo> getData(String packageName) {
         List<AppInfo> synonymAppInfos = new ArrayList<>();

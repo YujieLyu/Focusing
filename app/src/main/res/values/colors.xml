@@ -21,8 +21,8 @@
     <color name="transparent_white">#64ffffff</color>
     <color name="half_white">#1Affffff</color>
     <color name="list_white">#3cffffff</color>
-    <color name="text_yellow">#d1fceb31</color>
-    <color name="dark_green">#7dd9a5</color>
-    <color name="light_skyblue">#86cdff</color>
+    <color name="text_yellow">#ffd111</color>
+    <color name="dark_purple">#e77c8e</color>
+    <color name="light_skyblue">#0eb0c9</color>
     <color name="light_pink">#fc9357</color>
 </resources>

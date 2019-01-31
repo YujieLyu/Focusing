@@ -1,7 +1,5 @@
 package com.example.jessie.focusing.View.Profile;
 
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,9 +7,6 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 
 import com.example.jessie.focusing.Controller.Adapter.ViewPagerAdapter;
 import com.example.jessie.focusing.R;
@@ -26,7 +21,7 @@ public class ProfileDetailActivity extends AppCompatActivity
                         implements DeleteProfileDialog.OnFragmentInteractionListener{
     private ViewPager viewPager;
     private ProfAppListFragment appListFragment;
-    private ProfScheduleFragment calendarFragment;
+    private ProfPreferFragment calendarFragment;
     private MenuItem menuItem;
     private int profileId;
 
@@ -49,7 +44,7 @@ public class ProfileDetailActivity extends AppCompatActivity
 
     public void setViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        calendarFragment = new ProfScheduleFragment();
+        calendarFragment = new ProfPreferFragment();
         appListFragment = new ProfAppListFragment();
         Bundle args=new Bundle();
         args.putInt("ProfileId",profileId);
