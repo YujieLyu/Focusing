@@ -62,10 +62,7 @@ public class ProfileManager {
             return true;
         }else if(today==1&&profile.getRepeatId()==7){
             return true;
-        }else if(profile.getRepeatId()==today-1){
-            return true;
-        }
-        return false;
+        }else return profile.getRepeatId() == today - 1;
     }
     public synchronized List<Profile> syncProfileOnSchedule(int today){
 

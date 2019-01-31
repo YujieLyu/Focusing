@@ -11,13 +11,18 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.example.jessie.focusing.Model.AppInfoManager;
 import com.example.jessie.focusing.Model.Profile;
 import com.example.jessie.focusing.Model.ProfileManager;
 import com.example.jessie.focusing.R;
 import com.example.jessie.focusing.View.Profile.ProfileDetailActivity;
+import com.example.jessie.focusing.widget.BaseOnSwipeStatusListener;
+import com.example.jessie.focusing.widget.SwipeItemLayout;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author : Yujie Lyu
@@ -30,62 +35,84 @@ public class ProfileListAdapter extends BaseAdapter {
     private Context context;
 
     private ProfileManager profileManager;
+    private AppInfoManager appInfoManager;
     private FragmentManager fragmentManager;
+    private final Set<SwipeItemLayout> tempItemSet;
 
     public ProfileListAdapter(Context context) {
         this.context = context;
         profileManager = new ProfileManager(context);
+        appInfoManager = new AppInfoManager(context);
+        tempItemSet = new HashSet<>();
     }
 
     public void setData() {
 //        Profile profile1=new Profile("Meeting");
-        profiles=profileManager.syncProfile();
+        profiles = profileManager.syncProfile();
         notifyDataSetChanged();
     }
 
-    public void addProfile(Profile profile){
+    public void addProfile(Profile profile) {
         profileManager.updateProfile(profile);
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = new ViewHolder();
-        Profile selectedInfo = profiles.get(position);
+        final Profile selectedInfo = profiles.get(position);
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_profile_list, null);
-            convertView.setBackgroundColor(Color.argb(10,255,255,255));
+            convertView = LayoutInflater.from(context).inflate(R.layout.slip_list_item, null);
+            convertView.setBackgroundColor(Color.argb(10, 255, 255, 255));
         }
+        final SwipeItemLayout sll_main = convertView.findViewById(R.id.sll_main);
+        sll_main.setOnSwipeStatusListener(new BaseOnSwipeStatusListener(sll_main, tempItemSet)); //TODO: refine constructor
         viewHolder.tv_ProfName = convertView.findViewById(R.id.prof_name);
-        viewHolder.checkBox = convertView.findViewById(R.id.cb_ischecked);
+//        viewHolder.checkBox = convertView.findViewById(R.id.cb_ischecked);
 
         viewHolder.tv_ProfName.setText(selectedInfo.getProfileName());
         viewHolder.tv_ProfName.setTag(selectedInfo);
         viewHolder.tv_ProfName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Profile profile=(Profile)v.getTag(); //将被点击的item转化为Profile instance,需要在view处setTAG
-                Intent intent=new Intent(context,ProfileDetailActivity.class);
-                intent.putExtra("ProfileId",profile.getId());
+                if (sll_main.getCurrentStatus() == SwipeItemLayout.Status.Open) {
+                    sll_main.setStatus(SwipeItemLayout.Status.Close, true);
+                    return;
+                }
+                Profile profile = (Profile) v.getTag(); //将被点击的item转化为Profile instance,需要在view处setTAG
+                Intent intent = new Intent(context, ProfileDetailActivity.class);
+                intent.putExtra("ProfileId", profile.getId());
                 context.startActivity(intent);
             }
         });
-        viewHolder.checkBox.setTag(selectedInfo);
-        viewHolder.checkBox.setOnClickListener(new View.OnClickListener(){
-
+        viewHolder.tv_delete = convertView.findViewById(R.id.tv_delete);
+        viewHolder.tv_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Profile profile=(Profile)v.getTag(); //将被点击的item转化为Profile instance,需要在view处setTAG
-                boolean lockStatus = ((CheckBox) v).isChecked();
-                profile.setOn(lockStatus);
+                sll_main.setStatus(SwipeItemLayout.Status.Close, true);
+                profileManager.deleteProfile(selectedInfo.getId());
+                appInfoManager.deleteByProfId(selectedInfo.getId());
+                profiles.remove(position);
+                notifyDataSetChanged();
             }
         });
+        //TODO: top onClickListener
+//        viewHolder.checkBox.setTag(selectedInfo);
+//        viewHolder.checkBox.setOnClickListener(new View.OnClickListener(){
+//
+//            @Override
+//            public void onClick(View v) {
+//                Profile profile=(Profile)v.getTag(); //将被点击的item转化为Profile instance,需要在view处setTAG
+//                boolean lockStatus = ((CheckBox) v).isChecked();
+//                profile.setOn(lockStatus);
+//            }
+//        });
 //        viewHolder.tv_ProfName.setOnClickListener(this);
         return convertView;
     }
+
     public void saveSettings() {
         profileManager.updateProfiles(profiles);
     }
-
 
 
 //    @Override
@@ -102,6 +129,8 @@ public class ProfileListAdapter extends BaseAdapter {
 
         TextView tv_ProfName;
         private CheckBox checkBox;
+        TextView tv_top;
+        TextView tv_delete;
 
 
     }

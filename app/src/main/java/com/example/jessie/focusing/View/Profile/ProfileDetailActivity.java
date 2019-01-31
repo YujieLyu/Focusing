@@ -35,10 +35,10 @@ public class ProfileDetailActivity extends AppCompatActivity
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                     switch (menuItem.getItemId()) {
-                        case R.id.nav_cal_prof:
+                        case R.id.nav_app_list_prof:
                             viewPager.setCurrentItem(0);
                             return true;
-                        case R.id.nav_app_list_prof:
+                        case R.id.nav_cal_prof:
                             viewPager.setCurrentItem(1);
                             return true;
 
@@ -55,8 +55,8 @@ public class ProfileDetailActivity extends AppCompatActivity
         args.putInt("ProfileId",profileId);
         appListFragment.setArguments(args);
         calendarFragment.setArguments(args);
-        adapter.addFragment(calendarFragment);
         adapter.addFragment(appListFragment);
+        adapter.addFragment(calendarFragment);
         viewPager.setAdapter(adapter);
 
     }

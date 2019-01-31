@@ -4,17 +4,16 @@
     android:layout_height="match_parent"
     android:id="@+id/schedulelayout">
 
-    <!--<ImageView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:src="@drawable/fruitclock"-->
-        <!--android:scaleType="fitXY"-->
-
-        <!--/>-->
-    <TextView
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/transparent_black"/>
+        android:src="@drawable/snow2"
+        android:scaleType="fitXY"
+        />
+    <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:background="@color/transparent_black"/>-->
     <TextView
     android:id="@+id/My_Schedule"
     android:layout_width="match_parent"
@@ -38,7 +37,7 @@
             android:layout_marginTop="20dp"
             android:overScrollMode="never"
             android:layout_height="match_parent"
-            android:background="@color/half_white"/>
+            />
     </LinearLayout>
 
 </RelativeLayout>

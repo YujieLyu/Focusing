@@ -2,16 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
 
-    <item
-        android:id="@+id/nav_timer_now"
-        android:icon="@drawable/nav_timer"
-        android:title="Timer"
-        />
+
     <item
         android:id="@+id/nav_app_list_now"
         android:icon="@drawable/nav_list"
-        android:title="App List" />
+        android:title="Select Apps" />
 
-
+    <item
+        android:id="@+id/nav_timer_now"
+        android:icon="@drawable/nav_timer"
+        android:title="Set a timer"
+        />
 
 </menu>

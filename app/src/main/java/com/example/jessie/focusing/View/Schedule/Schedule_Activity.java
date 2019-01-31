@@ -45,7 +45,7 @@ public class Schedule_Activity extends AppCompatActivity {
         lv_profInSchedule.setAdapter(scheduleListAdapter);
         scheduleLayout=findViewById(R.id.schedulelayout);
         initData();
-        initLayoutBackground();
+//        initLayoutBackground();
         StatusBarUtil.setStatusTransparent(this);
         StatusBarUtil.setDarkStatusIcon(this, true);
     }

@@ -1,24 +1,16 @@
-package com.example.jessie.focusing.View;
+package com.example.jessie.focusing.View.Finish;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.jessie.focusing.R;
-import com.example.jessie.focusing.Utils.LockUtil;
 import com.example.jessie.focusing.Utils.StatusBarUtil;
-import com.example.jessie.focusing.View.CountDown.Countdown_Activity;
-
-import java.util.Calendar;
 
 import static com.example.jessie.focusing.Utils.RenderScriptBlur.rsBlur;
 

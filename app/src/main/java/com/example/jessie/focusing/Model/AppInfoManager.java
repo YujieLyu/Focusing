@@ -2,6 +2,7 @@ package com.example.jessie.focusing.Model;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.util.Log;
 
 import com.example.jessie.focusing.Model.AppInfo;
 
@@ -19,7 +20,7 @@ import java.util.List;
 public class AppInfoManager {
     private PackageManager packageManager;
     private Context context;
-    private List<AppInfo> appInfosDatabase = LitePal.findAll(AppInfo.class);
+
 
     public AppInfoManager(Context context) {
         this.context = context;
@@ -45,10 +46,29 @@ public class AppInfoManager {
         }
     }
 
+    /**
+     * delete by profId
+
+     * @return
+     */
+
+    public synchronized void deleteByProfId(int profId){
+        int rows = LitePal.deleteAll(AppInfo.class, "profid=?", String.valueOf(profId));
+        Log.i("AppInfoManager", "Rows effected: " + rows);
+//        List<AppInfo> appInfosDatabase = LitePal.findAll(AppInfo.class);
+//        List<AppInfo> temp = new ArrayList<>();
+//        for (AppInfo appInfo : appInfosDatabase) {
+//            if (appInfo.getProfId()==profId){
+//                temp.add(appInfo);
+//            }
+//
+//        }
+//        delete(temp);
+    }
     public synchronized List<AppInfo> syncData(List<AppInfo> appInfos) {
         //for clear DB
 //        LitePal.deleteAll(AppInfo.class);
-
+        List<AppInfo> appInfosDatabase = LitePal.findAll(AppInfo.class);
         List<String> packageName = new ArrayList<>();
         List<AppInfo> tempD = new ArrayList<>();
 
@@ -80,6 +100,7 @@ public class AppInfoManager {
 
     public synchronized List<AppInfo> getData(String packageName) {
         List<AppInfo> synonymAppInfos = new ArrayList<>();
+        List<AppInfo> appInfosDatabase = LitePal.findAll(AppInfo.class);
         for (AppInfo appInfo : appInfosDatabase) {
             if (appInfo.getPackageName().equals(packageName)) {
                 synonymAppInfos.add(appInfo);
@@ -131,12 +152,9 @@ public class AppInfoManager {
 
         for (AppInfo appInfo : appInfos) {
             //Need to use saveOrUpdate, or it will save all data repetitively
-            if (appInfo.getProfile() == null) {
-                appInfo.saveOrUpdate("id=?", String.valueOf(appInfo.getId()));
-            } else {
-                appInfo.saveOrUpdate("id=? AND profid=?", String.valueOf(appInfo.getId()), String.valueOf(appInfo.getProfId()));
 
-            }
+            appInfo.saveOrUpdate("id=? AND profid=?", String.valueOf(appInfo.getId()), String.valueOf(appInfo.getProfId()));
+
         }
     }
 

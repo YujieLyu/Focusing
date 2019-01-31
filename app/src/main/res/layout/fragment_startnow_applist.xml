@@ -18,18 +18,20 @@
         android:id="@+id/search_bar"
         android:layout_width="match_parent"
         android:layout_gravity="center"
-        android:layout_below="@id/tv_select"
+        android:layout_below="@id/tv_1suggest"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_search">
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_search"
+        android:backgroundTint="@color/half_white">
 
     </android.support.v7.widget.SearchView>
 
     <TextView
-        android:id="@+id/tv_select"
+        android:id="@+id/tv_1suggest"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Select Apps to Lock"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:padding="15dp"
         android:textColor="@color/bg_white"
         android:fontFamily="@font/roboto_light"
@@ -40,7 +42,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/search_bar"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="70dp">
 
         <ListView

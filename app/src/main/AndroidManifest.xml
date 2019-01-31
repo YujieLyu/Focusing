@@ -23,7 +23,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <activity
-            android:name="com.example.jessie.focusing.View.Welcome_Activity"
+            android:name="com.example.jessie.focusing.View.Initial.Welcome_Activity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -32,10 +32,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.jessie.focusing.View.Main_Activity" />
+        <activity android:name="com.example.jessie.focusing.View.Main.Main_Activity" />
         <activity android:name=".View.CountDown.Countdown_Activity"
             android:launchMode = "singleTask"/>
-        <activity android:name=".View.Finish_Activity"/>
+        <activity android:name=".View.Finish.Finish_Activity"/>
         <activity android:name=".View.StartNow.StartNow_Activity"/>
         <activity android:name=".View.Profile.ProfileList_Activity" />
         <activity android:name=".View.Profile.ProfileDetailActivity" />

@@ -1,35 +1,20 @@
 package com.example.jessie.focusing.View.CountDown;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.renderscript.Allocation;
-import android.renderscript.Element;
-import android.renderscript.RenderScript;
-import android.renderscript.ScriptIntrinsicBlur;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.View;
-import android.view.ViewTreeObserver;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.jessie.focusing.Utils.AppConstants;
 import com.example.jessie.focusing.R;
-import com.example.jessie.focusing.Service.LockService;
 import com.example.jessie.focusing.Utils.LockUtil;
 import com.example.jessie.focusing.Utils.StatusBarUtil;
-import com.example.jessie.focusing.View.Finish_Activity;
+import com.example.jessie.focusing.View.Finish.Finish_Activity;
 
 import cn.iwgang.countdownview.CountdownView;
 
@@ -70,11 +55,13 @@ public class Countdown_Activity extends AppCompatActivity implements CountdownVi
         endTime = getIntent().getLongExtra("endTime", 0);
 
         long currTime = System.currentTimeMillis();
-        if (currTime < endTime) {
-            countTime = endTime - currTime;
-        } else {
-            countTime = endTime - currTime + DAY;
-        }
+        countTime = endTime - currTime;
+//        if (currTime < endTime) {
+//            countTime = endTime - currTime;
+//        } else {
+//            countTime = endTime - currTime + DAY;
+//        }
+
         cdv_count.start(countTime);
 //
 

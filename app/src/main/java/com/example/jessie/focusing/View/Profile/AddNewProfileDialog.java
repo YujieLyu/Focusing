@@ -49,7 +49,7 @@ public class AddNewProfileDialog extends DialogFragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_add_profile_dialog, container, false);
+        View view = inflater.inflate(R.layout.dialog_add_profile, container, false);
         Button btnOk =  view.findViewById(R.id.btn_ok);
         Button btnCancel = view.findViewById(R.id.btn_cancel);
         bingdingItem(view, item);

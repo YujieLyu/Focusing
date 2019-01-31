@@ -12,6 +12,5 @@ public class AppConstants {
     public static final String LOCK_PACKAGE_NAME = "lock_package_name"; //点开的锁屏应用的包名
     public static final String APP_PACKAGE_NAME = "com.example.jessie.focusing"; //包名
     public static final String BACK_TO_FINISH = "lock_from_finish"; //解锁后转跳的action是finish
-    public static final String PRESS_BACK="press_back";
 }
 

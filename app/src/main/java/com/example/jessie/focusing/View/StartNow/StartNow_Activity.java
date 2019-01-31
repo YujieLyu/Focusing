@@ -39,10 +39,10 @@ public class StartNow_Activity extends AppCompatActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
             switch (menuItem.getItemId()) {
-                case R.id.nav_timer_now:
+                case R.id.nav_app_list_now:
                     viewPager.setCurrentItem(0);
                     return true;
-                case R.id.nav_app_list_now:
+                case R.id.nav_timer_now:
                     viewPager.setCurrentItem(1);
                     return true;
             }
@@ -58,8 +58,8 @@ public class StartNow_Activity extends AppCompatActivity {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         clockFragment = new NowClockFragment();
         nowAppListFragment = new NowAppListFragment();
-        adapter.addFragment(clockFragment);
         adapter.addFragment(nowAppListFragment);
+        adapter.addFragment(clockFragment);
         viewPager.setAdapter(adapter);
     }
 

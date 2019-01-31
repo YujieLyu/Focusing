@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-
-    <item
-        android:id="@+id/nav_cal_prof"
-        android:icon="@drawable/nav_calendar"
-        android:title="Calendar"
-        />
     <item
         android:id="@+id/nav_app_list_prof"
         android:icon="@drawable/nav_list"
-        android:title="App List" />
+        android:title="Select Apps" />
+    <item
+        android:id="@+id/nav_cal_prof"
+        android:icon="@drawable/nav_calendar"
+        android:title="Set preference"
+        />
+
 </menu>

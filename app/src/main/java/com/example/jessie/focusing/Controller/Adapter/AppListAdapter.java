@@ -8,9 +8,13 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.jessie.focusing.Model.Profile;
+import com.example.jessie.focusing.Model.ProfileManager;
 import com.example.jessie.focusing.R;
 import com.example.jessie.focusing.Model.AppInfoManager;
 import com.example.jessie.focusing.Model.AppInfo;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,18 +29,20 @@ public class AppListAdapter extends BaseAdapter implements View.OnClickListener 
     List<AppInfo> appInfos = new ArrayList<>();
     private final Context context;
     private final AppInfoManager infoManager;
+    private final ProfileManager profileManager;
+    private int profId;
 
     public AppListAdapter(Context context) {
         this.context = context;
         infoManager = new AppInfoManager(context);
-
+        profileManager = new ProfileManager(context);
     }
 
 
-    public void setData(List<AppInfo> appInfos,int id) {
-
+    public void setData(List<AppInfo> appInfos, int profId) {
+        this.profId = profId;
         for (AppInfo appInfo : appInfos) {
-            appInfo.setProfId(id);//set appinfo list里面所有数据的profileid为同一数字
+            appInfo.setProfId(profId);//set appinfo list里面所有数据的profileid为同一数字
 
         }
         this.appInfos = infoManager.syncData(appInfos);
@@ -79,6 +85,13 @@ public class AppListAdapter extends BaseAdapter implements View.OnClickListener 
     }
 
     public void saveSettings() {
+        if (profId != -10) { //TODO: how to deal with "start now"
+            Profile profile = profileManager.getProfile(profId);
+            if (profile == null) {
+                infoManager.deleteByProfId(profId);
+                return;
+            }
+        }
         infoManager.updateInfos(appInfos);
     }
 

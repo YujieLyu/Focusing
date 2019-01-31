@@ -1,4 +1,4 @@
-package com.example.jessie.focusing.View;
+package com.example.jessie.focusing.View.Main;
 
 import android.content.Intent;
 import android.graphics.Color;

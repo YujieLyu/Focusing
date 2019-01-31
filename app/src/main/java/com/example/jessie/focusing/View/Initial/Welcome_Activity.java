@@ -1,4 +1,4 @@
-package com.example.jessie.focusing.View;
+package com.example.jessie.focusing.View.Initial;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -19,6 +19,7 @@ import com.example.jessie.focusing.Utils.AppConstants;
 import com.example.jessie.focusing.Utils.LockUtil;
 import com.example.jessie.focusing.R;
 import com.example.jessie.focusing.Utils.SPUtil;
+import com.example.jessie.focusing.View.Main.Main_Activity;
 
 public class Welcome_Activity extends AppCompatActivity {
     private ImageView imgWelcome;

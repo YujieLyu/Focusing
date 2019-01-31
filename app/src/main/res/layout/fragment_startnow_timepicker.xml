@@ -19,6 +19,17 @@
 
         />
 
+    <TextView
+        android:id="@+id/tv_2suggest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:padding="15dp"
+        android:textColor="@color/bg_white"
+        android:fontFamily="@font/roboto_light"
+        android:text="Focusing for how long?"
+        android:textSize="30sp"
+        />
 
     <TextView
         android:id="@+id/tv_countTime"
@@ -35,7 +46,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="80dp"
+        android:layout_below="@+id/tv_2suggest"
+        android:layout_marginTop="20dp"
         android:paddingBottom="10dp"
         android:paddingTop="10dp">
 
@@ -69,30 +81,15 @@
     </LinearLayout>
 
 
-    <!--<Button-->
-        <!--android:id="@+id/btn_lock_app"-->
-        <!--android:layout_width="130dp"-->
-        <!--android:layout_height="50dp"-->
-        <!--android:layout_marginStart="50dp"-->
-        <!--android:layout_marginTop="650dp"-->
-        <!--android:layout_toEndOf="@id/btn_start"-->
-        <!--android:background="@color/light_pink"-->
-        <!--android:fontFamily="@font/roboto"-->
-        <!--android:text="AppList"-->
-        <!--android:textAlignment="center"-->
-        <!--android:textColor="@color/text_white"-->
-        <!--android:textSize="17sp"-->
-        <!--android:textStyle="bold|italic" />-->
-
     <Button
         android:id="@+id/btn_start"
-        android:layout_width="115dp"
+        android:layout_width="140dp"
         android:layout_height="50dp"
         android:layout_marginTop="580dp"
         android:layout_centerHorizontal="true"
         android:background="@color/light_purple"
         android:fontFamily="@font/roboto"
-        android:text="Start"
+        android:text="Start Now!"
 
         android:textAlignment="center"
         android:textColor="@color/text_white"

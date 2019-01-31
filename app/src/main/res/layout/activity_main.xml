@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.Welcome_Activity"
+    tools:context=".View.Initial.Welcome_Activity"
     android:orientation="horizontal">
 
     <ImageView
@@ -30,12 +30,12 @@
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:layout_marginTop="300dp"
-        android:background="@color/transparent_white"
+        android:background="@color/half_white"
         android:contextClickable="true"
-        android:fontFamily="@font/roboto_light"
+        android:fontFamily="@font/roboto_thin"
         android:gravity="center"
         android:text="Start Now!"
-        android:textColor="@color/black"
+        android:textColor="@color/text_white"
         android:textSize="20sp"
         android:textStyle="bold" />
 
@@ -45,12 +45,12 @@
         android:layout_height="75dp"
         android:layout_below="@id/tv_start_now"
         android:layout_marginTop="30dp"
-        android:background="@color/transparent_white"
+        android:background="@color/half_white"
         android:contextClickable="true"
-        android:fontFamily="@font/roboto_light"
+        android:fontFamily="@font/roboto_thin"
         android:gravity="center"
         android:text="Profile"
-        android:textColor="@color/black"
+        android:textColor="@color/text_white"
         android:textSize="20sp"
         android:textStyle="bold"
         />
@@ -61,13 +61,13 @@
         android:layout_height="75dp"
         android:layout_below="@id/tv_profile"
         android:layout_marginTop="30dp"
-        android:background="@color/transparent_white"
+        android:background="@color/half_white"
         android:contextClickable="true"
-        android:fontFamily="@font/roboto_light"
+        android:fontFamily="@font/roboto_thin"
         android:gravity="center"
         android:text="Schedule"
         android:textAlignment="center"
-        android:textColor="@color/black"
+        android:textColor="@color/text_white"
         android:textSize="20sp"
 
 

@@ -119,10 +119,7 @@ public class LockService extends IntentService implements DialogInterface.OnClic
     }
 
     private boolean compareTime(long start, long end, long curr) {
-        if (curr - start >= 0 && end - curr > 0) {
-            return true;
-        } else
-            return false;
+        return curr - start >= 0 && end - curr > 0;
     }
 
 
@@ -149,9 +146,8 @@ public class LockService extends IntentService implements DialogInterface.OnClic
     }
 
     private void lockScreen(String packageName, long end) {
-//        LockApplication.getInstance().clearAllActivity();
         Intent intent = new Intent(this, Countdown_Activity.class);
-        intent.putExtra(AppConstants.PRESS_BACK, AppConstants.BACK_TO_FINISH);
+//        intent.putExtra(AppConstants.PRESS_BACK, AppConstants.BACK_TO_FINISH);
         intent.putExtra(AppConstants.LOCK_PACKAGE_NAME, packageName);
 //        intent.putExtra("startTime", start);
         intent.putExtra("endTime", end);//todo:类似的数据传递的要写成常量吧

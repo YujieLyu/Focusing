@@ -1,4 +1,4 @@
-package com.example.jessie.focusing.View;
+package com.example.jessie.focusing.View.Initial;
 
 import android.app.Dialog;
 import android.content.Context;
