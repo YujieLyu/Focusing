@@ -38,7 +38,6 @@ public class LockService extends IntentService implements DialogInterface.OnClic
     private ActivityManager activityManager;
     private AppInfoManager appInfoManager;
     private ProfileManager profileManager;
-    public boolean threadIsTerminate = false; //是否开启循环
     private long endTime;
     private long startTime;
 
@@ -84,9 +83,6 @@ public class LockService extends IntentService implements DialogInterface.OnClic
         String packageName = getLauncherTopApp(LockService.this, activityManager);
         if (!packageName.equals("com.example.jessie.focusing")) {
 
-//        boolean lockStatus = appInfoManager.checkIsLocked(packageName);
-
-
             //todo:待优化！！！
             List<AppInfo> appInfos = appInfoManager.getData(packageName);
             List<AppInfo> temp = new ArrayList<>();
@@ -100,16 +96,9 @@ public class LockService extends IntentService implements DialogInterface.OnClic
             int today = calendar.get(Calendar.DAY_OF_WEEK);
             for (AppInfo appInfo : temp) {
                 int profId = appInfo.getProfId();
-                boolean lockStatus = appInfoManager.checkIsLocked(appInfo.getId());
                 if (profId == -10) {
-
-                    if ((endTime - currTime > 0)) {
-                        if (lockStatus) {
-                            lockScreen(packageName, endTime);
-                            return;
-                        }
-
-                    }
+                    lockScreen(packageName, endTime);
+                    return;
                 } else {
                     Profile p = profileManager.getProfile(profId);
                     boolean onSchedule = profileManager.checkProfOnSchedule(p, today);
@@ -118,11 +107,8 @@ public class LockService extends IntentService implements DialogInterface.OnClic
                     boolean inTimeSlot = compareTime(profStart, profEnd, currTime);
                     if (onSchedule) {
                         if (inTimeSlot) {
-                            if (lockStatus) {
-                                lockScreen(packageName, profEnd);
-                                return;
-                            }
-
+                            lockScreen(packageName, profEnd);
+                            return;
                         }
                     }
                 }
@@ -171,32 +157,6 @@ public class LockService extends IntentService implements DialogInterface.OnClic
         intent.putExtra("endTime", end);//todo:类似的数据传递的要写成常量吧
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);//todo:不懂这个操作
         startActivity(intent);
-    }
-
-    /**
-     * 白名单
-     */
-    //todo:考虑是否保留
-    private boolean inWhiteList(String packageName) {
-        return packageName.equals(AppConstants.APP_PACKAGE_NAME)
-                || packageName.equals("com.android.settings")
-                || packageName.equals("com.google.android.apps.nexuslauncher");
-    }
-
-    /**
-     * 获得属于桌面的应用的应用包名称
-     */
-    //todo:考虑是否保留
-    private List<String> getHomes() {
-        List<String> names = new ArrayList<>();
-        PackageManager packageManager = this.getPackageManager();
-        Intent intent = new Intent(Intent.ACTION_MAIN);
-        intent.addCategory(Intent.CATEGORY_HOME);
-        List<ResolveInfo> resolveInfo = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
-        for (ResolveInfo ri : resolveInfo) {
-            names.add(ri.activityInfo.packageName);
-        }
-        return names;
     }
 
     @Override

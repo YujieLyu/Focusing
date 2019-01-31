@@ -125,7 +125,7 @@ public class LockUtil {
 
     public static void blur(Context mContent, Bitmap bkg, View view) {
         long startMs = System.currentTimeMillis();
-        float radius = 50;
+        float radius = 20;
         float scaleFactor = 8;
         Bitmap overlay = Bitmap.createBitmap(
                 (int) (view.getMeasuredWidth() / scaleFactor),
@@ -176,7 +176,7 @@ public class LockUtil {
         Intent homeIntent = new Intent(Intent.ACTION_MAIN);
         homeIntent.addCategory(Intent.CATEGORY_HOME);
         activity.startActivity(homeIntent);
-        activity.finish();
+//        activity.finish();
     }
 
 

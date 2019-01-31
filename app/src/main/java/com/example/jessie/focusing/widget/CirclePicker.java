@@ -236,8 +236,8 @@ public class CirclePicker extends View{
 
 
 //        开始按钮--取消
-        canvas.drawCircle(mStartBtnCurX, mStartBtnCurY, mBtnSize / 2, mStartBtnPaint);
-        canvas.drawBitmap(mStartBtnBg, mStartBtnCurX - mBtnImgSize / 2, mStartBtnCurY - mBtnImgSize / 2, mDefaultPaint);
+//        canvas.drawCircle(mStartBtnCurX, mStartBtnCurY, mBtnSize / 2, mStartBtnPaint);
+//        canvas.drawBitmap(mStartBtnBg, mStartBtnCurX - mBtnImgSize / 2, mStartBtnCurY - mBtnImgSize / 2, mDefaultPaint);
 
     }
 

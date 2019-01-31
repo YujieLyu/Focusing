@@ -4,6 +4,16 @@
     android:layout_height="match_parent"
     android:id="@+id/finish_layout">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/finish"
+        android:scaleType="centerCrop"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/transparent_black"/>
+
     <TextView
         android:id="@+id/tv_welldone"
         android:layout_width="wrap_content"
@@ -15,7 +25,7 @@
         android:text="@string/focus_summary"
         android:textAlignment="center"
         android:textColor="@color/bg_blue_dark"
-        android:textSize="30dp" />
+        android:textSize="30sp" />
 
     <TextView
         android:id="@+id/tv_summary"
@@ -24,7 +34,7 @@
         android:layout_below="@id/tv_welldone"
         android:layout_marginTop="10dp"
         android:layout_centerHorizontal="true"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:textColor="@color/text_orange"/>
 
 
@@ -40,7 +50,7 @@
         android:text="@string/keep_it_up"
         android:textAlignment="center"
         android:textColor="@color/bg_blue_dark"
-        android:textSize="30dp" />
+        android:textSize="30sp" />
 
 
 </RelativeLayout>

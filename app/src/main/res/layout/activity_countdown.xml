@@ -8,7 +8,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/pure1"
+        android:src="@drawable/bg_snow_mountain"
         android:scaleType="centerCrop"/>
     <TextView
         android:layout_width="match_parent"
@@ -18,10 +18,9 @@
         android:id="@+id/cdv_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
         android:layout_marginTop="200dp"
         android:layout_centerHorizontal="true"
-        app:isHideTimeBackground="false"
+        app:isHideTimeBackground="true"
         app:isShowDay="false"
         app:isShowHour="true"
         app:isShowMillisecond="false"
@@ -49,14 +48,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_marginTop="400dp"
+        android:layout_marginTop="150dp"
         android:fontFamily="serif"
         android:lineSpacingExtra="8sp"
         android:text="@string/focusing_suggestion"
         android:textAlignment="center"
         android:textColor="@color/text_white"
-        android:textSize="25sp"
+        android:textSize="28sp"
         android:textStyle="bold|italic" />
 
 </RelativeLayout>

@@ -19,6 +19,7 @@ import java.util.List;
 public class AppInfoManager {
     private PackageManager packageManager;
     private Context context;
+    private List<AppInfo> appInfosDatabase = LitePal.findAll(AppInfo.class);
 
     public AppInfoManager(Context context) {
         this.context = context;
@@ -47,17 +48,16 @@ public class AppInfoManager {
     public synchronized List<AppInfo> syncData(List<AppInfo> appInfos) {
         //for clear DB
 //        LitePal.deleteAll(AppInfo.class);
-        List<AppInfo> appInfosDB = LitePal.findAll(AppInfo.class);
 
-        List<String> packageName=new ArrayList<>();
+        List<String> packageName = new ArrayList<>();
         List<AppInfo> tempD = new ArrayList<>();
 
         for (AppInfo appInfo : appInfos) {
             packageName.add(appInfo.getPackageName());
         }
 
-        for (AppInfo appInfodb : appInfosDB) {
-            if(!packageName.contains(appInfodb.getPackageName())){
+        for (AppInfo appInfodb : appInfosDatabase) {
+            if (!packageName.contains(appInfodb.getPackageName())) {
                 tempD.add(appInfodb);
             }
 
@@ -67,7 +67,7 @@ public class AppInfoManager {
 
         for (int i = 0; i < appInfos.size(); i++) {
             AppInfo info = appInfos.get(i);
-            for (AppInfo infoDb : appInfosDB) {
+            for (AppInfo infoDb : appInfosDatabase) {
                 if (info.equals(infoDb)) {
                     info.setId(infoDb.getId());
                     //todo:设置Profid
@@ -78,11 +78,10 @@ public class AppInfoManager {
         return appInfos;
     }
 
-    public synchronized List<AppInfo> getData(String packageName){
-        List<AppInfo> appInfosDatabase = LitePal.findAll(AppInfo.class);
+    public synchronized List<AppInfo> getData(String packageName) {
         List<AppInfo> synonymAppInfos = new ArrayList<>();
         for (AppInfo appInfo : appInfosDatabase) {
-            if (appInfo.getPackageName().equals(packageName)){
+            if (appInfo.getPackageName().equals(packageName)) {
                 synonymAppInfos.add(appInfo);
             }
 
@@ -92,7 +91,6 @@ public class AppInfoManager {
 
 
     public synchronized List<AppInfo> setDatabase(List<AppInfo> appInfos) {
-//        LitePal.deleteAll(AppInfo.class);
         List<AppInfo> appInfosDatabase = LitePal.findAll(AppInfo.class);
         List<AppInfo> tempI = new ArrayList<>();
         List<AppInfo> tempD = new ArrayList<>();
@@ -133,25 +131,15 @@ public class AppInfoManager {
 
         for (AppInfo appInfo : appInfos) {
             //Need to use saveOrUpdate, or it will save all data repetitively
-            if (appInfo.getProfile()==null){
-                appInfo.saveOrUpdate("id=?",String.valueOf(appInfo.getId()));
-            }else {
+            if (appInfo.getProfile() == null) {
+                appInfo.saveOrUpdate("id=?", String.valueOf(appInfo.getId()));
+            } else {
                 appInfo.saveOrUpdate("id=? AND profid=?", String.valueOf(appInfo.getId()), String.valueOf(appInfo.getProfId()));
 
             }
-              }
+        }
     }
 
-//    /**
-//     * 更改数据库app状态为锁定
-//     */
-//    public void lockApp(String packageName) {
-//        List<AppInfo> appInfos = LitePal.where("packageName = ?", packageName).find(AppInfo.class);
-//        for (AppInfo info : appInfos) {
-//            info.setLocked(true);
-//            info.saveAsync();
-//        }
-//    }
 
     public boolean checkIsLocked(int id) {
         AppInfo appInfo = LitePal.where("id=?", String.valueOf(id)).findFirst(AppInfo.class);

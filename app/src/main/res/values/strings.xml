@@ -12,7 +12,7 @@
 
     <!-- Example settings for Notifications -->
 
-    <string name="focusing_suggestion">Please keep focusing</string>
+    <string name="focusing_suggestion">Please keep focusing for</string>
     <string name="focus_summary">Well done!\nYou have focused for</string>
     <string name="keep_it_up">Keep it up</string>
 

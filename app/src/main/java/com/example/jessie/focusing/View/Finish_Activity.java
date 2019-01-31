@@ -2,7 +2,9 @@ package com.example.jessie.focusing.View;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -13,8 +15,12 @@ import android.widget.TextView;
 
 import com.example.jessie.focusing.R;
 import com.example.jessie.focusing.Utils.LockUtil;
+import com.example.jessie.focusing.Utils.StatusBarUtil;
+import com.example.jessie.focusing.View.CountDown.Countdown_Activity;
 
 import java.util.Calendar;
+
+import static com.example.jessie.focusing.Utils.RenderScriptBlur.rsBlur;
 
 
 /**
@@ -33,45 +39,58 @@ public class Finish_Activity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_finish);
-        View decorView = getWindow().getDecorView();
-        int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-        decorView.setSystemUiVisibility(option);
-        getWindow().setStatusBarColor(Color.TRANSPARENT);
+
         finishLayout = findViewById(R.id.finish_layout);
         tv_wellDone = findViewById(R.id.tv_welldone);
         tv_keepUp = findViewById(R.id.tv_keepup);
         tv_summary = findViewById(R.id.tv_summary);
-        initData();
-
-    }
-
-    public void initData() {
-        timeSummary = getIntent().getLongExtra("countTime", 0);
+        tv_summary.setText(initData());
+        StatusBarUtil.setStatusTransparent(this);
         initLayoutBackground();
 
     }
 
-    private void initLayoutBackground() {
-
-        Calendar convertTime = Calendar.getInstance();
-        convertTime.setTimeInMillis(timeSummary);
-        int hours = convertTime.get(Calendar.HOUR_OF_DAY);
-        int mins = convertTime.get(Calendar.MINUTE);
-        tv_summary.setText(String.format("%d hours %d mins", hours, mins));
-        Resources resources = this.getResources();
-        final Drawable bgPic = resources.getDrawable(R.drawable.bg_pure2);
-        finishLayout.getViewTreeObserver().addOnPreDrawListener(
-                new ViewTreeObserver.OnPreDrawListener() {
-                    @Override
-                    public boolean onPreDraw() {
-                        finishLayout.getViewTreeObserver().removeOnPreDrawListener(this);
-                        finishLayout.buildDrawingCache();
-                        Bitmap bmp = LockUtil.drawableToBitmap(bgPic, finishLayout);
-                        LockUtil.blur(Finish_Activity.this, LockUtil.big(bmp), finishLayout);  //高斯模糊
-                        return true;
-                    }
-                });
+    public String initData() {
+        timeSummary = getIntent().getLongExtra("countTime", 0);
+        long hours = (timeSummary % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
+        long minutes = (timeSummary % (1000 * 60 * 60)) / (1000 * 60);
+        long seconds = (timeSummary % (1000 * 60)) / 1000;
+        if(seconds>55){
+            minutes+=1;
+        }
+        return  hours + " hours " + minutes + " minutes ";
 
     }
+    private void initLayoutBackground() {
+
+        final Resources resources = this.getResources();
+        Bitmap bmp = BitmapFactory.decodeResource(resources, R.drawable.bg_aurora);
+        Bitmap b=rsBlur(Finish_Activity.this, bmp, 25);
+        finishLayout.setBackground(new BitmapDrawable(b));
+
+    }
+
+
+//    private void initLayoutBackground() {
+//
+//        Calendar convertTime = Calendar.getInstance();
+//        convertTime.setTimeInMillis(timeSummary);
+//        int hours = convertTime.get(Calendar.HOUR_OF_DAY);
+//        int mins = convertTime.get(Calendar.MINUTE);
+//        tv_summary.setText(String.format("%d hours %d mins", hours, mins));
+//        Resources resources = this.getResources();
+//        final Drawable bgPic = resources.getDrawable(R.drawable.bg_pure2);
+//        finishLayout.getViewTreeObserver().addOnPreDrawListener(
+//                new ViewTreeObserver.OnPreDrawListener() {
+//                    @Override
+//                    public boolean onPreDraw() {
+//                        finishLayout.getViewTreeObserver().removeOnPreDrawListener(this);
+//                        finishLayout.buildDrawingCache();
+//                        Bitmap bmp = LockUtil.drawableToBitmap(bgPic, finishLayout);
+//                        LockUtil.blur(Finish_Activity.this, LockUtil.big(bmp), finishLayout);  //高斯模糊
+//                        return true;
+//                    }
+//                });
+//
+//    }
 }
