@@ -25,7 +25,8 @@
             android:layout_height="match_parent"
             android:background="#330000ff"
             android:gravity="center"
-            android:text="Delete" />
+            android:text="Delete"
+            android:textColor="@color/text_white"/>
     </LinearLayout>
 
     <LinearLayout

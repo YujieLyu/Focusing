@@ -8,7 +8,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/sea5"
+        android:src="@drawable/ocean7"
         android:scaleType="centerCrop"/>
     <!--<TextView-->
         <!--android:layout_width="match_parent"-->
@@ -23,7 +23,7 @@
         android:layout_marginTop="40dp"
         android:textSize="30sp"
         android:fontFamily="@font/roboto_light"
-        android:textColor="@color/text_white"
+        android:textColor="@color/black"
         />
     <TextView
         android:id="@+id/tv_pref_suggest"
@@ -166,7 +166,7 @@
         android:layout_height="50dp"
         android:layout_below="@id/layout_repeat"
         android:layout_marginTop="50dp"
-        android:background="@color/light_purple"
+        android:background="@color/bg_blue_normal"
         android:text="SAVE"
         android:textSize="20sp"
         android:gravity="center"

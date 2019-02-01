@@ -30,13 +30,14 @@ public class NowClockFragment extends Fragment {
     private Calendar timeStart, timeEnd;
     private CirclePicker circlePicker;
     private String countTime;
+    private boolean startOn=false;
 
     public NowClockFragment() {
     }
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_startnow_timepicker, container, false);
 
@@ -98,6 +99,7 @@ public class NowClockFragment extends Fragment {
             @Override
             public void onClick(View v) {
 //                countTime();
+                startOn=true;
                 if (countTime.equals("00:00")) {
                     Toast toast = Toast.makeText(getContext(),
                             R.string.invalid_time_suggestion, Toast.LENGTH_LONG);
@@ -108,12 +110,17 @@ public class NowClockFragment extends Fragment {
                     Intent intent = new Intent(getActivity(),Countdown_Activity.class);
                     intent.putExtra("endTime", timeEnd.getTimeInMillis());
                     intent.putExtra("startTime", timeStart.getTimeInMillis());
+//                    intent.putExtra("isStart", startOn);
                     startActivity(intent);
                 }
             }
         });
         return view;
 
+    }
+
+    public boolean isStartOn() {
+        return startOn;
     }
 
     private float startDegree() {

@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import com.example.jessie.focusing.Controller.Adapter.ViewPagerAdapter;
 import com.example.jessie.focusing.R;
 import com.example.jessie.focusing.Utils.StatusBarUtil;
+import com.example.jessie.focusing.widget.SwipeItemLayout;
 
 /**
  * @author : Yujie Lyu
@@ -90,6 +91,7 @@ public class ProfileDetailActivity extends AppCompatActivity
         });
         setViewPager(viewPager);
         StatusBarUtil.setStatusTransparent(this);
+        StatusBarUtil.setDarkStatusIcon(this,true);
     }
 
     @Override

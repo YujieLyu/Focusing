@@ -25,8 +25,8 @@
         app:menu="@menu/navigation_profile"
 
         >
-        <!--app:itemTextColor="@color/text_white"-->
-        <!--app:itemIconTint="@color/text_white"-->
+        app:itemTextColor="@color/text_white"
+        app:itemIconTint="@color/text_white"
     </android.support.design.widget.BottomNavigationView>
     <!--<ImageView-->
     <!--android:id="@+id/img_welcome"-->

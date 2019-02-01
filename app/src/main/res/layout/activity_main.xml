@@ -34,7 +34,7 @@
         android:contextClickable="true"
         android:fontFamily="@font/roboto_thin"
         android:gravity="center"
-        android:text="Start Now!"
+        android:text="Start Now"
         android:textColor="@color/text_white"
         android:textSize="20sp"
         android:textStyle="bold" />

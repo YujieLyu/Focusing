@@ -64,8 +64,8 @@ public class ScheduleListAdapter extends BaseAdapter {
 
 
             viewHolder.profileName.setText(selectedInfo.getProfileName());
-            String timeSlot = selectedInfo.getStartHour() + ":" + selectedInfo.getStartMin()
-                    + "~" + selectedInfo.getEndHour() + ":" + selectedInfo.getEndMin();
+            String timeSlot = String.format("%02d:%02d ~ %02d:%02d",selectedInfo.getStartHour(),selectedInfo.getStartMin(),
+                    selectedInfo.getEndHour(),selectedInfo.getEndMin());
             viewHolder.timeSlot.setText(timeSlot);
             viewHolder.repeat.setText(selectedInfo.getRepeat());
             convertView.setTag(selectedInfo);

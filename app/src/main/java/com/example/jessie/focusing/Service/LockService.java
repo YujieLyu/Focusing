@@ -97,7 +97,7 @@ public class LockService extends IntentService implements DialogInterface.OnClic
             for (AppInfo appInfo : temp) {
                 int profId = appInfo.getProfId();
                 if (profId == -10) {
-                    lockScreen(packageName, endTime);
+                        lockScreen(packageName, endTime);
                     return;
                 } else {
                     Profile p = profileManager.getProfile(profId);
@@ -146,6 +146,7 @@ public class LockService extends IntentService implements DialogInterface.OnClic
     }
 
     private void lockScreen(String packageName, long end) {
+
         Intent intent = new Intent(this, Countdown_Activity.class);
 //        intent.putExtra(AppConstants.PRESS_BACK, AppConstants.BACK_TO_FINISH);
         intent.putExtra(AppConstants.LOCK_PACKAGE_NAME, packageName);

@@ -66,7 +66,7 @@ public class ProfPreferFragment extends Fragment implements View.OnClickListener
         l_repeat.setOnClickListener(this);
         alarmNumOptions = Arrays.asList("1", "5", "10", "30");
         alarmUnitOptions = Arrays.asList("Minutes", "Hours", "Days");
-        repeatOptions = Arrays.asList("Everyday", "Every Monday", "Every Tuesday",
+        repeatOptions = Arrays.asList("None","Everyday", "Every Monday", "Every Tuesday",
                 "Every Wednesday", "Every Thursday", "Every Friday", "Every Saturday",
                 "Every Sunday");
 

@@ -27,7 +27,7 @@
         android:text="@string/Set_Schedule"
         android:textSize="30sp"
         android:fontFamily="@font/roboto_light"
-        android:textColor="@color/text_white"
+        android:textColor="@color/black"
         />
     <TextView
         android:id="@+id/tv_1suggest"
@@ -53,7 +53,6 @@
             android:id="@+id/prof_app_list"
             android:layout_width="match_parent"
             android:overScrollMode="never"
-            android:background="@color/transparent_white"
             android:layout_height="match_parent"/>
 
         <!--<include layout="@layout/item_lock_top"/>-->

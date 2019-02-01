@@ -169,17 +169,17 @@ public class Profile extends LitePalSupport {
         public int compare(Profile o1, Profile o2) {
             int o1H=o1.getStartHour();
             int o1M=o1.getStartMin();
-            int o2H=o2.getEndHour();
-            int o2M=o2.getEndMin();
+            int o2H=o2.getStartHour();
+            int o2M=o2.getStartMin();
             if(o1H>o2H){
                 return 1;
             }else if(o1H==o2H){
                 if (o1M>=o2M){
-                    return -1;
+                    return 1;
                 }
-                else return 1;
+                else return -1;
             }else
-                return 1;
+                return -1;
         }
     };
 }
