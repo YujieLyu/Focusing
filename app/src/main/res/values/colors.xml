@@ -12,6 +12,7 @@
     <color name="bg_blue_dark">#303f9f</color>
     <color name="bg_white">#dcffffff</color>
     <color name="light_grey">#a0969696</color>
+    <color name="trans_grey">#8bc6c6c6</color>
     <color name="transparent_black">#2d000000</color>
     <color name="lite_black">#21000000</color>
     <!--字体深灰色-->

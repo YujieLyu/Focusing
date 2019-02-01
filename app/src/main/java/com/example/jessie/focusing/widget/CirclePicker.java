@@ -127,7 +127,7 @@ public class CirclePicker extends View{
 
 
 //        进度条的颜色
-        mRingDefaultColor = typedArray.getColor(R.styleable.Circle_Picker_Ring_Default_Color, Color.parseColor("#7dFFFFFF"));
+        mRingDefaultColor = typedArray.getColor(R.styleable.Circle_Picker_Ring_Default_Color, Color.parseColor("#8bc6c6c6"));
 //        开始按钮的颜色
         mStartBtnColor = typedArray.getColor(R.styleable.Circle_Picker_Start_Btn_Color, Color.parseColor("#7c85e6"));
 //        结束按钮的颜色
