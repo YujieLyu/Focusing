@@ -5,11 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".View.Profile.ProfPreferFragment">
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/ocean7"
-        android:scaleType="centerCrop"/>
+    <!--<ImageView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:src="@drawable/ocean7"-->
+        <!--android:scaleType="centerCrop"/>-->
     <!--<TextView-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="match_parent"-->
@@ -25,27 +25,27 @@
         android:fontFamily="@font/roboto_light"
         android:textColor="@color/black"
         />
-    <TextView
-        android:id="@+id/tv_pref_suggest"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/set_prof_name"
-        android:text="Select Preference"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="25dp"
-        android:textColor="@color/black"
-        android:fontFamily="@font/roboto_light"
-        android:textSize="20sp"
-        />
+    <!--<TextView-->
+        <!--android:id="@+id/tv_pref_suggest"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/set_prof_name"-->
+        <!--android:text="Select Preference"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:layout_marginStart="25dp"-->
+        <!--android:textColor="@color/black"-->
+        <!--android:fontFamily="@font/roboto_light"-->
+        <!--android:textSize="20sp"-->
+        <!--/>-->
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:layout_below="@id/tv_pref_suggest"
+        android:layout_below="@id/set_prof_name"
         android:layout_marginTop="20dp"
-        android:background="@color/transparent_black"
         android:id="@+id/layout_starttime"
         >
+        <!--android:background="@color/transparent_black"-->
         <ImageView
             android:layout_width="0dp"
             android:layout_height="35dp"
@@ -61,21 +61,20 @@
             android:layout_weight="4"
             android:layout_marginStart="15dp"
             android:text="Start Time"
-            android:textStyle="bold"
             android:gravity="center_vertical"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:fontFamily="@font/roboto_light"
-            android:textColor="@color/text_white"
+            android:textColor="@color/black"
             />
         <TextView
             android:id="@+id/prefer_start_time"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:gravity="center"
             android:fontFamily="@font/roboto_light"
-            android:textColor="@color/text_white"
+            android:textColor="@color/black"
             />
     </LinearLayout>
 
@@ -83,7 +82,6 @@
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_below="@id/layout_starttime"
-        android:background="@color/transparent_black"
         android:layout_marginTop="20dp"
         android:id="@+id/layout_endtime"
         >
@@ -103,20 +101,19 @@
             android:layout_marginStart="15dp"
             android:text="End Time"
             android:gravity="center_vertical"
-            android:textStyle="bold"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:fontFamily="@font/roboto_light"
-            android:textColor="@color/text_white"
+            android:textColor="@color/black"
             />
         <TextView
             android:id="@+id/prefer_end_time"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:gravity="center"
             android:fontFamily="@font/roboto_light"
-            android:textColor="@color/text_white"
+            android:textColor="@color/black"
             />
     </LinearLayout>
 
@@ -124,7 +121,6 @@
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_below="@id/layout_endtime"
-        android:background="@color/transparent_black"
         android:layout_marginTop="20dp"
         android:id="@+id/layout_repeat"
         >
@@ -144,34 +140,35 @@
             android:layout_marginStart="15dp"
             android:text="Repeat"
             android:gravity="center_vertical"
-            android:textStyle="bold"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:fontFamily="@font/roboto_light"
-            android:textColor="@color/text_white"
+            android:textColor="@color/black"
             />
         <TextView
             android:id="@+id/prefer_repeat"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:gravity="center"
             android:fontFamily="@font/roboto_light"
-            android:textColor="@color/text_white"
+            android:textColor="@color/black"
             />
     </LinearLayout>
     <Button
         android:id="@+id/btn_save"
-        android:layout_width="match_parent"
+        android:layout_width="150dp"
         android:layout_height="50dp"
         android:layout_below="@id/layout_repeat"
         android:layout_marginTop="50dp"
-        android:background="@color/bg_blue_normal"
-        android:text="SAVE"
-        android:textSize="20sp"
+        android:layout_centerHorizontal="true"
+        android:background="@color/light_purple"
+        android:text="Save"
+        android:textSize="18sp"
         android:gravity="center"
         android:fontFamily="@font/roboto"
         android:textColor="@color/text_white"/>
+
     <!--<Button-->
         <!--android:id="@+id/btn_delete"-->
         <!--android:layout_width="match_parent"-->

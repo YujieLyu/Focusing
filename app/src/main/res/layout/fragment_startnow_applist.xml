@@ -30,12 +30,12 @@
         android:id="@+id/tv_1suggest"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Select Apps to Lock"
+        android:text="Select Apps"
         android:layout_marginTop="30dp"
         android:padding="15dp"
-        android:textColor="@color/bg_white"
+        android:textColor="@color/black"
         android:fontFamily="@font/roboto_light"
-        android:textSize="30sp"
+        android:textSize="25sp"
         />
 
     <LinearLayout

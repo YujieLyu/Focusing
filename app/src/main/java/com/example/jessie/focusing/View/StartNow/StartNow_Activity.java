@@ -99,6 +99,7 @@ public class StartNow_Activity extends AppCompatActivity {
         setViewPager(viewPager);
 
         StatusBarUtil.setStatusTransparent(this);
+        StatusBarUtil.setDarkStatusIcon(this,true);
     }
 
 

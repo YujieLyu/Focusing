@@ -39,7 +39,7 @@ public class ProfAppListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_prof_app_list,container,false);
         applist=view.findViewById(R.id.prof_app_list_layout);
-        applist.setBackgroundResource(R.drawable.ocean7);
+//        applist.setBackgroundResource(R.drawable.ocean7);
         tv_profName = view.findViewById(R.id.set_prof_name);
 //        tv_profName.setText(profile.getProfileName());
         lv_appList = view.findViewById(R.id.prof_app_list);

@@ -29,23 +29,23 @@
         android:fontFamily="@font/roboto_light"
         android:textColor="@color/black"
         />
-    <TextView
-        android:id="@+id/tv_1suggest"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/set_prof_name"
-        android:text="Select Apps to Lock"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="25dp"
-        android:textColor="@color/black"
-        android:fontFamily="@font/roboto_light"
-        android:textSize="20sp"
-        />
+    <!--<TextView-->
+        <!--android:id="@+id/tv_1suggest"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/set_prof_name"-->
+        <!--android:text="Select Apps to Lock"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:layout_marginStart="25dp"-->
+        <!--android:textColor="@color/black"-->
+        <!--android:fontFamily="@font/roboto_light"-->
+        <!--android:textSize="20sp"-->
+        <!--/>-->
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/tv_1suggest"
+        android:layout_below="@id/set_prof_name"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="80dp">
 

@@ -4,13 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="fitXY"
-        android:adjustViewBounds="true"
-        android:src="@drawable/galaxy2"
-        />
+    <!--<ImageView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:scaleType="fitXY"-->
+        <!--android:adjustViewBounds="true"-->
+        <!--android:src="@drawable/galaxy2"-->
+        <!--/>-->
 
     <com.example.jessie.focusing.widget.CirclePicker
         android:id="@+id/timer"
@@ -25,10 +25,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:padding="15dp"
-        android:textColor="@color/bg_white"
+        android:textColor="@color/black"
         android:fontFamily="@font/roboto_light"
-        android:text="Focusing for how long?"
-        android:textSize="30sp"
+        android:text="@string/focus_for_how_long"
+        android:textSize="25sp"
         />
 
     <TextView
@@ -58,7 +58,7 @@
             android:layout_weight="1"
             android:fontFamily="@font/roboto_light"
             android:gravity="center"
-            android:textColor="#b2b7ea"
+            android:textColor="@color/light_purple"
             android:textSize="36sp" />
         <!--<TextView-->
             <!--android:id="@+id/tv_to"-->

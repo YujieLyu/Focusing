@@ -59,7 +59,7 @@ public class NowAppListFragment extends Fragment {
                              Bundle savedInstanceState){
         View view =inflater.inflate(R.layout.fragment_startnow_applist,container,false);
         applist=view.findViewById(R.id.now_applist_layout);
-        applist.setBackgroundResource(R.drawable.galaxy2);
+//        applist.setBackgroundResource(R.drawable.galaxy2);
         lv_appList = view.findViewById(R.id.now_app_list);
         appListAdapter = new AppListAdapter(this.getContext());
         lv_appList.setAdapter(appListAdapter);

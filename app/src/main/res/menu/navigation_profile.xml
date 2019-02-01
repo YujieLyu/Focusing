@@ -8,7 +8,7 @@
     <item
         android:id="@+id/nav_cal_prof"
         android:icon="@drawable/nav_calendar"
-        android:title="Set preference"
+        android:title="Set schedule"
         />
 
 </menu>

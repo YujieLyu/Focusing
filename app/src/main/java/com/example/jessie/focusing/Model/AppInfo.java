@@ -136,13 +136,17 @@ public class AppInfo extends LitePalSupport {
         public int compare(AppInfo app1, AppInfo app2) {
             String app1First = app1.getAppName();
             String app2First = app2.getAppName();
-            String a=null;
-            String b=null;
-            if (!app1First.isEmpty() && !app2First.isEmpty()) {
-                 a = app1First.substring(0, 1);
-                 b = app2First.substring(0, 1);
+            boolean a1 = app1.isLocked();
+            boolean a2 = app2.isLocked();
+
+            if (a1 && !a2) {
+                return -1;
+            } else if (!a1 && a2) {
+                return 1;
+            } else {
+
+                return (app1First.compareTo(app2First));
             }
-            return (a.compareTo(b));
         }
     };
 
