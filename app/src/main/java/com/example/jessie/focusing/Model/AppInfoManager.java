@@ -1,5 +1,6 @@
 package com.example.jessie.focusing.Model;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.util.Log;
@@ -165,6 +166,11 @@ public class AppInfoManager {
         }
     }
 
+    public void reset(int profId){
+        ContentValues cv=new ContentValues();
+        cv.put("islocked",0);
+        LitePal.updateAll(AppInfo.class,cv,"profid=?",String.valueOf(profId));
+    }
 
     public boolean checkIsLocked(int id) {
         AppInfo appInfo = LitePal.where("id=?", String.valueOf(id)).findFirst(AppInfo.class);

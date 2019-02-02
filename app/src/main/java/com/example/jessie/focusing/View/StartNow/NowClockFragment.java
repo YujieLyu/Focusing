@@ -13,7 +13,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.jessie.focusing.R;
+import com.example.jessie.focusing.Service.LockService;
 import com.example.jessie.focusing.Utils.OnCirclePickerTimeChangedListener;
+import com.example.jessie.focusing.Utils.TimeHelper;
 import com.example.jessie.focusing.View.CountDown.Countdown_Activity;
 import com.example.jessie.focusing.widget.CirclePicker;
 
@@ -25,12 +27,12 @@ import java.util.Calendar;
  * @time : 08:24
  */
 public class NowClockFragment extends Fragment {
-
+    private final static int ONE_HOUR_DEGREE = 30;
     private TextView tv_startTime, tv_endTime, tv_countTime;
     private Calendar timeStart, timeEnd;
     private CirclePicker circlePicker;
     private String countTime;
-    private boolean startOn=false;
+    private boolean startOn = false;
 
     public NowClockFragment() {
     }
@@ -45,7 +47,7 @@ public class NowClockFragment extends Fragment {
         tv_startTime = view.findViewById(R.id.tv_start_time);
         tv_endTime = view.findViewById(R.id.tv_end_time);
         circlePicker = view.findViewById(R.id.timer);
-        circlePicker.setInitialTime(startDegree(), startDegree() + 30);
+        circlePicker.setInitialTime(startDegree(), startDegree() + ONE_HOUR_DEGREE);
         circlePicker.setOnTimerChangeListener(new OnCirclePickerTimeChangedListener() {
 
 
@@ -99,7 +101,7 @@ public class NowClockFragment extends Fragment {
             @Override
             public void onClick(View v) {
 //                countTime();
-                startOn=true;
+                startOn = true;
                 if (countTime.equals("00:00")) {
                     Toast toast = Toast.makeText(getContext(),
                             R.string.invalid_time_suggestion, Toast.LENGTH_LONG);
@@ -107,11 +109,12 @@ public class NowClockFragment extends Fragment {
                     toast.show();
 
                 } else {
-                    Intent intent = new Intent(getActivity(),Countdown_Activity.class);
+                    LockService.StartNow = true;
+                    Intent intent = new Intent(getActivity(), Countdown_Activity.class);
                     intent.putExtra("endTime", timeEnd.getTimeInMillis());
                     intent.putExtra("startTime", timeStart.getTimeInMillis());
-//                    intent.putExtra("isStart", startOn);
                     startActivity(intent);
+
                 }
             }
         });
@@ -144,37 +147,14 @@ public class NowClockFragment extends Fragment {
 
 
     public String countTime() {
-        //todo:判断过了0点的时间计算；是否做成只选第二个时间？
-        //todo:need to optimize the calculate,do it later
-        int hours;
-        int mins;
+
         if (timeEnd == null) {
             //todo:处理time2时间未选择的问题.是否弹窗提示用户选择正确时间
             timeEnd = Calendar.getInstance();
             timeEnd.setTimeInMillis(System.currentTimeMillis());
             countTime = "00:00";
         } else {
-            hours = timeEnd.get(Calendar.HOUR_OF_DAY) - timeStart.get(Calendar.HOUR_OF_DAY);
-            mins = timeEnd.get(Calendar.MINUTE) - timeStart.get(Calendar.MINUTE);
-            if (hours == 0) {
-                if (mins >= 0) {
-                    countTime=String.format("%02d h %02d m",hours,mins);
-                }else {
-                    countTime=String.format("%02d h %02d m",23,mins+60);
-                }
-            }else if(hours>0) {
-                if (mins >= 0) {
-                    countTime = String.format("%02d h %02d m", hours, mins);
-                } else {
-                    countTime = String.format("%02d h %02d m", hours - 1, mins + 60);
-                }
-            }else {
-                if(mins>=0){
-                    countTime=String.format("%02d h %02d m",hours+24,mins);
-                }else {
-                    countTime=String.format("%02d h %02d m",hours+23,mins+60);
-                }
-            }
+            countTime = TimeHelper.showInterval(timeStart, timeEnd);
 
 
         }

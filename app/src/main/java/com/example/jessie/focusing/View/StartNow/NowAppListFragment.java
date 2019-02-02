@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import com.example.jessie.focusing.Controller.Adapter.AppListAdapter;
 import com.example.jessie.focusing.Model.AppInfo;
 import com.example.jessie.focusing.R;
+import com.example.jessie.focusing.Service.LockService;
 import com.example.jessie.focusing.Utils.ScanAppsTool;
 
 import java.util.List;
@@ -32,7 +33,10 @@ public class NowAppListFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        appListAdapter.saveSettings();
+        if(LockService.StartNow){
+            appListAdapter.saveSettings();
+        }
+
     }
 
     private void initData() {

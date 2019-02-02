@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="light_colorPrimary">#98a6fa</color>
-    <color name="colorPrimaryDark">#001e57</color>
-    <color name="colorAccent">#d81b60</color>
+
+    <color name="colorPrimary">#6264ec</color>
+    <color name="colorPrimaryDark">#3e4ac7</color>
+    <color name="colorAccent">#7072e6</color>
     <color name="text_white">#ffffff</color>
     <color name="text_orange">#FC903E</color>
     <color name="bg_blue_normal">#5677FC</color>
@@ -17,7 +17,7 @@
     <color name="lite_black">#21000000</color>
     <!--字体深灰色-->
     <color name="transparent">#19ffffff</color>
-    <color name="light_purple">#737FFF</color>
+    <color name="light_purple">#7c85e6</color>
     <color name="trans_purple">#37737fff</color>
     <color name="purple">#5766ff</color>
     <color name="red">#d6a70404</color>

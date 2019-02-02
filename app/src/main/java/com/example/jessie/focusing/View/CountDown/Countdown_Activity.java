@@ -11,13 +11,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.jessie.focusing.Controller.Adapter.AppListAdapter;
+import com.example.jessie.focusing.Model.AppInfoManager;
 import com.example.jessie.focusing.R;
+import com.example.jessie.focusing.Service.LockService;
 import com.example.jessie.focusing.Utils.LockUtil;
 import com.example.jessie.focusing.Utils.StatusBarUtil;
 import com.example.jessie.focusing.View.Finish.Finish_Activity;
 
 import cn.iwgang.countdownview.CountdownView;
 
+import static com.example.jessie.focusing.Utils.AppConstants.ONE_DAY;
 import static com.example.jessie.focusing.Utils.RenderScriptBlur.rsBlur;
 
 /**
@@ -27,13 +31,13 @@ import static com.example.jessie.focusing.Utils.RenderScriptBlur.rsBlur;
  */
 public class Countdown_Activity extends AppCompatActivity implements CountdownView.OnCountdownEndListener {
 
-
     private long startTime, endTime, countTime;
     private String clickBackFromLock;//按返回键
     private RelativeLayout countLayout;
     private CountdownView cdv_count;
     private TextView tv_suggestInfo;
     private Handler handler;
+    private AppInfoManager appInfoManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,23 +48,24 @@ public class Countdown_Activity extends AppCompatActivity implements CountdownVi
         cdv_count.setOnCountdownEndListener(this);
         tv_suggestInfo = findViewById(R.id.tv_suggestInfo);
         countLayout = findViewById(R.id.cd_main_view);
+        appInfoManager = new AppInfoManager(this);
         initData();
         StatusBarUtil.setStatusTransparent(this);
 //        initLayoutBackground();
     }
 
     protected void initData() {
-        final long DAY = 86400000;
+
 //        clickBackFromLock = getIntent().getStringExtra(AppConstants.PRESS_BACK);
         endTime = getIntent().getLongExtra("endTime", 0);
 
         long currTime = System.currentTimeMillis();
         countTime = endTime - currTime;
-//        if (currTime < endTime) {
-//            countTime = endTime - currTime;
-//        } else {
-//            countTime = endTime - currTime + DAY;
-//        }
+        if (currTime < endTime) {
+            countTime = endTime - currTime;
+        } else {
+            countTime = endTime - currTime + ONE_DAY;
+        }
 
         cdv_count.start(countTime);
 //
@@ -86,6 +91,9 @@ public class Countdown_Activity extends AppCompatActivity implements CountdownVi
     @Override
     public void onEnd(CountdownView cv) {
         cv.stop();
+        appInfoManager.reset(-10);
+        LockService.StartNow = false;
+
 //        finish();
 
 //        moveTaskToBack(true);
@@ -95,7 +103,6 @@ public class Countdown_Activity extends AppCompatActivity implements CountdownVi
         startActivity(intent);
 //        finishAndRemoveTask();//Kill the activity
         this.finish();
-
     }
 
     @Override

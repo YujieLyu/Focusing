@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.Profile.ProfPreferFragment">
+    tools:context=".View.Profile.ProfScheduleFragment">
     <!--<ImageView-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="match_parent"-->
@@ -162,7 +162,7 @@
         android:layout_below="@id/layout_repeat"
         android:layout_marginTop="50dp"
         android:layout_centerHorizontal="true"
-        android:background="@color/light_purple"
+        android:background="@color/colorPrimary"
         android:text="Save"
         android:textSize="18sp"
         android:gravity="center"

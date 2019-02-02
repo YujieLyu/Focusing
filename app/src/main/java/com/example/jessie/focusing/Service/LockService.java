@@ -7,20 +7,20 @@ import android.app.usage.UsageStatsManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 
 import com.example.jessie.focusing.Model.AppInfo;
 import com.example.jessie.focusing.Model.Profile;
 import com.example.jessie.focusing.Model.ProfileManager;
 import com.example.jessie.focusing.Utils.AppConstants;
 import com.example.jessie.focusing.Model.AppInfoManager;
-import com.example.jessie.focusing.Utils.TimeConvert;
+import com.example.jessie.focusing.Utils.TimeHelper;
 import com.example.jessie.focusing.View.CountDown.Countdown_Activity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import static com.example.jessie.focusing.Utils.AppConstants.ONE_DAY;
 
 /**
  * @author : Yujie Lyu
@@ -34,12 +34,12 @@ public class LockService extends IntentService implements DialogInterface.OnClic
      * @param name Used to name the worker thread, important only for debugging.
      */
 
-
     private ActivityManager activityManager;
     private AppInfoManager appInfoManager;
     private ProfileManager profileManager;
     private long endTime;
     private long startTime;
+    public static boolean StartNow = false;
 
     @Override
     public void onCreate() {
@@ -97,13 +97,15 @@ public class LockService extends IntentService implements DialogInterface.OnClic
             for (AppInfo appInfo : temp) {
                 int profId = appInfo.getProfId();
                 if (profId == -10) {
+                    if (LockService.StartNow) {
                         lockScreen(packageName, endTime);
+                    }
                     return;
                 } else {
                     Profile p = profileManager.getProfile(profId);
                     boolean onSchedule = profileManager.checkProfOnSchedule(p, today);
-                    long profStart = TimeConvert.getInstance().convertTime(p.getStartHour(), p.getStartMin());
-                    long profEnd = TimeConvert.getInstance().convertTime(p.getEndHour(), p.getEndMin());
+                    long profStart = TimeHelper.convertTime(p.getStartHour(), p.getStartMin());
+                    long profEnd = TimeHelper.convertTime(p.getEndHour(), p.getEndMin());
                     boolean inTimeSlot = compareTime(profStart, profEnd, currTime);
                     if (onSchedule) {
                         if (inTimeSlot) {
@@ -119,6 +121,9 @@ public class LockService extends IntentService implements DialogInterface.OnClic
     }
 
     private boolean compareTime(long start, long end, long curr) {
+        if (end < curr) {
+            end = end + ONE_DAY;
+        }
         return curr - start >= 0 && end - curr > 0;
     }
 
@@ -145,13 +150,13 @@ public class LockService extends IntentService implements DialogInterface.OnClic
         return "";
     }
 
-    private void lockScreen(String packageName, long end) {
+    private void lockScreen(String packageName, long endTime) {
 
         Intent intent = new Intent(this, Countdown_Activity.class);
 //        intent.putExtra(AppConstants.PRESS_BACK, AppConstants.BACK_TO_FINISH);
         intent.putExtra(AppConstants.LOCK_PACKAGE_NAME, packageName);
 //        intent.putExtra("startTime", start);
-        intent.putExtra("endTime", end);//todo:类似的数据传递的要写成常量吧
+        intent.putExtra("endTime", endTime);//todo:类似的数据传递的要写成常量吧
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);//todo:不懂这个操作
         startActivity(intent);
     }

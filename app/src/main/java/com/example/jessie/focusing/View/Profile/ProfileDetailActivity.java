@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import com.example.jessie.focusing.Controller.Adapter.ViewPagerAdapter;
 import com.example.jessie.focusing.R;
 import com.example.jessie.focusing.Utils.StatusBarUtil;
-import com.example.jessie.focusing.widget.SwipeItemLayout;
 
 /**
  * @author : Yujie Lyu
@@ -22,7 +21,7 @@ public class ProfileDetailActivity extends AppCompatActivity
                         implements DeleteProfileDialog.OnFragmentInteractionListener{
     private ViewPager viewPager;
     private ProfAppListFragment appListFragment;
-    private ProfPreferFragment calendarFragment;
+    private ProfScheduleFragment calendarFragment;
     private MenuItem menuItem;
     private int profileId;
 
@@ -45,7 +44,7 @@ public class ProfileDetailActivity extends AppCompatActivity
 
     public void setViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        calendarFragment = new ProfPreferFragment();
+        calendarFragment = new ProfScheduleFragment();
         appListFragment = new ProfAppListFragment();
         Bundle args=new Bundle();
         args.putInt("ProfileId",profileId);

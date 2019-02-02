@@ -87,7 +87,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="580dp"
         android:layout_centerHorizontal="true"
-        android:background="@color/light_purple"
+        android:background="@color/colorPrimary"
         android:fontFamily="@font/roboto"
         android:text="Start Now!"
 

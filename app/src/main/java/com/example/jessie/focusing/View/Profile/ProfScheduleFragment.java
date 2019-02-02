@@ -1,49 +1,45 @@
 package com.example.jessie.focusing.View.Profile;
 
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
-import com.bigkoo.pickerview.builder.TimePickerBuilder;
-import com.bigkoo.pickerview.listener.OnDismissListener;
+//import com.bigkoo.pickerview.listener.OnDismissListener;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
-import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
-import com.bigkoo.pickerview.view.TimePickerView;
+import com.example.jessie.focusing.Interface.TimeCallBack;
 import com.example.jessie.focusing.Model.AppInfoManager;
 import com.example.jessie.focusing.Model.Profile;
 import com.example.jessie.focusing.Model.ProfileManager;
 import com.example.jessie.focusing.R;
+import com.example.jessie.focusing.widget.TimePickerFragment;
 
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * @author : Yujie Lyu
  * @date : 26-01-2019
  * @time : 21:58
  */
-public class ProfPreferFragment extends Fragment implements View.OnClickListener,
-        OnDismissListener, DeleteProfileDialog.OnFragmentInteractionListener {
+public class ProfScheduleFragment extends Fragment implements View.OnClickListener, DeleteProfileDialog.OnFragmentInteractionListener, TimeCallBack{
+    private TimePickerFragment tpStart, tpEnd;
     private TextView tv_profName, tv_startTime, tv_endTime, tv_alarm, tv_repeat;
-    //    private EditText ed_profName;
-    private Button btn_delete, btn_save;
+    private Button btn_save;
     private LinearLayout l_start, l_end, l_alarm, l_repeat;
     private int repeatId;
     private ProfileManager profileManager;
@@ -56,6 +52,7 @@ public class ProfPreferFragment extends Fragment implements View.OnClickListener
     @Override
     public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_prof_schedule, container, false);
+        tv_profName = view.findViewById(R.id.set_prof_name);
         l_start = view.findViewById(R.id.layout_starttime);
         l_start.setOnClickListener(this);
         l_end = view.findViewById(R.id.layout_endtime);
@@ -64,9 +61,9 @@ public class ProfPreferFragment extends Fragment implements View.OnClickListener
 //        l_alarm.setOnClickListener(this);
         l_repeat = view.findViewById(R.id.layout_repeat);
         l_repeat.setOnClickListener(this);
-        alarmNumOptions = Arrays.asList("1", "5", "10", "30");
-        alarmUnitOptions = Arrays.asList("Minutes", "Hours", "Days");
-        repeatOptions = Arrays.asList("None","Everyday", "Every Monday", "Every Tuesday",
+//        alarmNumOptions = Arrays.asList("1", "5", "10", "30");
+//        alarmUnitOptions = Arrays.asList("Minutes", "Hours", "Days");
+        repeatOptions = Arrays.asList("None", "Everyday", "Every Monday", "Every Tuesday",
                 "Every Wednesday", "Every Thursday", "Every Friday", "Every Saturday",
                 "Every Sunday");
 
@@ -87,34 +84,31 @@ public class ProfPreferFragment extends Fragment implements View.OnClickListener
         profileManager = new ProfileManager(getContext());
         appInfoManager = new AppInfoManager(getContext());
         initData();
-        tv_startTime.setText(String.format("%02d:%02d", profile.getStartHour(), profile.getStartMin()));
-        tv_endTime.setText(String.format("%02d:%02d", profile.getEndHour(), profile.getEndMin()));
-        tv_repeat.setText(profile.getRepeat());
-//        tv_alarm.setText(profile.getAlarm());
-        tv_profName = view.findViewById(R.id.set_prof_name);
-        tv_profName.setText(profile.getProfileName());
+        initView();
+
 
         return view;
     }
 
-    private void showDeleteProfileDialog() {
-        DeleteProfileDialog dialog = new DeleteProfileDialog();
-        dialog.show(getActivity().getSupportFragmentManager(), "DeleteProfile");
+    private void initView() {
+        tv_startTime.setText(String.format("%02d:%02d", profile.getStartHour(), profile.getStartMin()));
+        tv_endTime.setText(String.format("%02d:%02d", profile.getEndHour(), profile.getEndMin()));
+        tv_repeat.setText(profile.getRepeat());
+        //        tv_alarm.setText(profile.getAlarm());
+        tv_profName.setText(profile.getProfileName());
 
     }
+
 
     @Override
-    public void onResume() {
-        super.onResume();
-        initData();
+    public void getTime(TimePickerFragment tp, String displayTime) {
+        if (tp == tpStart) {
+            tv_startTime.setText(displayTime);
+        } else {
+            tv_endTime.setText(displayTime);
+        }
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        updateData();
-
-    }
 
     private void initData() {
         profile = profileManager.syncProfileDetail(profileId);
@@ -133,8 +127,8 @@ public class ProfPreferFragment extends Fragment implements View.OnClickListener
         profile.setEndHour(endHour);
         profile.setEndMin(endMin);
 //        profile.setAlarm(tv_alarm.getText().toString());
-        String repeatType=tv_repeat.getText().toString();
-        repeatId=getcorrRepeatId(repeatType);
+        String repeatType = tv_repeat.getText().toString();
+        repeatId = getcorrRepeatId(repeatType);
         profile.setRepeat(repeatType);
         profile.setRepeatId(repeatId);//todo:排查repeatId录入情况
         profileManager.updateProfile(profile);
@@ -142,7 +136,7 @@ public class ProfPreferFragment extends Fragment implements View.OnClickListener
 
 
     private int getcorrRepeatId(String s) {
-        int repeatId=-1;
+        int repeatId = -1;
         switch (s) {
             case "Everyday":
                 repeatId = 0;
@@ -151,62 +145,42 @@ public class ProfPreferFragment extends Fragment implements View.OnClickListener
                 repeatId = 1;
                 break;
             case "Every Tuesday":
-                repeatId=2;
+                repeatId = 2;
                 break;
             case "Every Wednesday":
-                repeatId=3;
+                repeatId = 3;
                 break;
             case "Every Thursday":
-                repeatId=4;
+                repeatId = 4;
                 break;
             case "Every Friday":
-                repeatId=5;
+                repeatId = 5;
                 break;
             case "Every Saturday":
-                repeatId=6;
+                repeatId = 6;
                 break;
-            case  "Every Sunday":
-                repeatId=7;
+            case "Every Sunday":
+                repeatId = 7;
                 break;
 
         }
         return repeatId;
     }
 
-    /**
-     * Display a wheel time picker to choose specific time
-     *
-     * @param tvToShow the {@link TextView} to show the time
-     */
-    private TimePickerView pickTime(final TextView tvToShow) {
-        TimePickerView pvTime = new TimePickerBuilder(getContext(), new OnTimeSelectListener() {
-            @Override
-            public void onTimeSelect(Date date, View v) {
-                SimpleDateFormat df = new SimpleDateFormat("HH:mm", Locale.getDefault());
-                tvToShow.setText(df.format(date));
-                // set tag to compare time
-                tvToShow.setTag(date);
-            }
-        }).setOutSideCancelable(false).isCyclic(true).setType(new boolean[]{false, false, false, true, true, false})
-                .build();
-        Calendar initTime = Calendar.getInstance();
-        Log.i("Time Picker", initTime.getTime().toString());
-        pvTime.setDate(initTime);
-        return pvTime;
-    }
 
     @Override
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
             case R.id.layout_starttime:
-                TimePickerView tvStart = pickTime(tv_startTime);
-                tvStart.show();
+                tpStart = new TimePickerFragment();
+                tpStart.setCallBackListener(this);
+                tpStart.show(getActivity().getSupportFragmentManager(),"");
                 break;
             case R.id.layout_endtime:
-                TimePickerView tvEnd = pickTime(tv_endTime);
-                tvEnd.setOnDismissListener(this);
-                tvEnd.show();
+                tpEnd = new TimePickerFragment();
+                tpEnd.setCallBackListener(this);
+                tpEnd.show(getActivity().getSupportFragmentManager(),"");
                 break;
 //            case R.id.layout_alarm:
 //                OptionsPickerView almOpts = new OptionsPickerBuilder(getContext(), new OnOptionsSelectListener() {
@@ -240,14 +214,18 @@ public class ProfPreferFragment extends Fragment implements View.OnClickListener
     }
 
     @Override
-    public void onDismiss(Object o) {
-        Date start = (Date) tv_startTime.getTag();
-        Date end = (Date) tv_endTime.getTag();
-        if (start != null && end != null && end.before(start)) {
-            Toast.makeText(getContext(), "Invalid Time", Toast.LENGTH_LONG).show();
-            tv_endTime.setText("00:00");
-        }
+    public void onResume() {
+        super.onResume();
+        initData();
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        updateData();
+
+    }
+
 
     @Override
     public void onFragmentInteraction() {
