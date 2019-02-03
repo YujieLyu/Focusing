@@ -16,11 +16,19 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    android {
+        packagingOptions {
+            exclude 'META-INF/proguard/androidx-annotations.pro'
+        }
+    }
 //    compileOptions {
 //        sourceCompatibility JavaVersion.VERSION_1_8
 //        targetCompatibility JavaVersion.VERSION_1_8
 //    }
 }
+    repositories {
+        maven { url 'https://jitpack.io' }
+    }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -42,4 +50,7 @@ dependencies {
     implementation 'com.kyesun.ly:CircleTimePicker:1.0.0'
 
     implementation 'com.contrarywind:Android-PickerView:4.1.7'
+
+    //bar chart
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0-alpha'
 }

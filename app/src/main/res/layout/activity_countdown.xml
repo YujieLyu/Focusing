@@ -14,11 +14,26 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/transparent_black"/>
+    <TextView
+        android:id="@+id/tv_suggestInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="150dp"
+        android:fontFamily="@font/roboto_light"
+        android:lineSpacingExtra="8sp"
+        android:text="@string/focusing_suggestion"
+        android:textAlignment="center"
+        android:textColor="@color/text_white"
+        android:textSize="28sp"
+        android:textStyle="bold" />
+
     <cn.iwgang.countdownview.CountdownView
         android:id="@+id/cdv_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
+        android:layout_below="@+id/tv_suggestInfo"
+        android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
         app:isHideTimeBackground="true"
         app:isShowDay="false"
@@ -43,18 +58,6 @@
         android:textAlignment="center"
         />
 
-    <TextView
-        android:id="@+id/tv_suggestInfo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="150dp"
-        android:fontFamily="serif"
-        android:lineSpacingExtra="8sp"
-        android:text="@string/focusing_suggestion"
-        android:textAlignment="center"
-        android:textColor="@color/text_white"
-        android:textSize="28sp"
-        android:textStyle="bold|italic" />
+
 
 </RelativeLayout>

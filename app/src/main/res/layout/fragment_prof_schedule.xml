@@ -19,29 +19,25 @@
         android:id="@+id/set_prof_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="40dp"
-        android:textSize="30sp"
-        android:fontFamily="@font/roboto_light"
+        android:gravity="center"
+        android:layout_marginTop="45dp"
+        android:padding="10dp"
         android:textColor="@color/black"
+        android:fontFamily="@font/roboto_light"
+        android:textSize="27sp"
         />
-    <!--<TextView-->
-        <!--android:id="@+id/tv_pref_suggest"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_below="@+id/set_prof_name"-->
-        <!--android:text="Select Preference"-->
-        <!--android:layout_marginTop="10dp"-->
-        <!--android:layout_marginStart="25dp"-->
-        <!--android:textColor="@color/black"-->
-        <!--android:fontFamily="@font/roboto_light"-->
-        <!--android:textSize="20sp"-->
-        <!--/>-->
+    <View
+        android:id="@+id/titleLine"
+        android:layout_below="@id/set_prof_name"
+        android:layout_marginTop="10dp"
+        android:layout_height="2px"
+        android:background="#000000"
+        android:layout_width="fill_parent" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:layout_below="@id/set_prof_name"
+        android:layout_below="@id/titleLine"
         android:layout_marginTop="20dp"
         android:id="@+id/layout_starttime"
         >
@@ -62,8 +58,8 @@
             android:layout_marginStart="15dp"
             android:text="Start Time"
             android:gravity="center_vertical"
-            android:textSize="18sp"
-            android:fontFamily="@font/roboto_light"
+            android:textSize="20sp"
+            android:fontFamily="@font/roboto"
             android:textColor="@color/black"
             />
         <TextView
@@ -92,7 +88,7 @@
             android:layout_marginStart="20dp"
             android:layout_gravity="center"
             android:background="@drawable/end_time"
-            android:backgroundTint="@color/light_skyblue"
+            android:backgroundTint="@color/nav_blue"
             />
         <TextView
             android:layout_width="0dp"
@@ -101,8 +97,8 @@
             android:layout_marginStart="15dp"
             android:text="End Time"
             android:gravity="center_vertical"
-            android:textSize="18sp"
-            android:fontFamily="@font/roboto_light"
+            android:textSize="20sp"
+            android:fontFamily="@font/roboto"
             android:textColor="@color/black"
             />
         <TextView
@@ -131,7 +127,7 @@
             android:layout_marginStart="20dp"
             android:layout_gravity="center"
             android:background="@drawable/ic_sync_black_24dp"
-            android:backgroundTint="@color/text_yellow"
+            android:backgroundTint="@color/green"
             />
         <TextView
             android:layout_width="0dp"
@@ -140,8 +136,8 @@
             android:layout_marginStart="15dp"
             android:text="Repeat"
             android:gravity="center_vertical"
-            android:textSize="18sp"
-            android:fontFamily="@font/roboto_light"
+            android:textSize="20sp"
+            android:fontFamily="@font/roboto"
             android:textColor="@color/black"
             />
         <TextView
@@ -158,9 +154,9 @@
     <Button
         android:id="@+id/btn_save"
         android:layout_width="150dp"
-        android:layout_height="50dp"
+        android:layout_height="45dp"
         android:layout_below="@id/layout_repeat"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="70dp"
         android:layout_centerHorizontal="true"
         android:background="@color/colorPrimary"
         android:text="Save"

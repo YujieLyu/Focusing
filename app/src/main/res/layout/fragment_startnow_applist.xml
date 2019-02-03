@@ -5,44 +5,31 @@
     android:layout_height="match_parent"
     android:id="@+id/now_applist_layout">
 
-    <!--<ImageView-->
-        <!--android:id="@+id/img_bg"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:scaleType="fitXY"-->
-        <!--android:adjustViewBounds="true"-->
-        <!--android:src="@drawable/snow_tree"-->
-        <!--/>-->
-
-    <!--<android.support.v7.widget.SearchView-->
-        <!--android:id="@+id/search_bar"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_gravity="center"-->
-        <!--android:layout_below="@id/tv_1suggest"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="10dp"-->
-        <!--android:background="@drawable/bg_search"-->
-        <!--android:backgroundTint="@color/half_white">-->
-
-    <!--</android.support.v7.widget.SearchView>-->
-
     <TextView
         android:id="@+id/tv_1suggest"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="Select Apps"
-        android:layout_marginTop="30dp"
-        android:padding="15dp"
+        android:layout_marginTop="45dp"
+        android:padding="10dp"
         android:textColor="@color/black"
         android:fontFamily="@font/roboto_light"
-        android:textSize="25sp"
+        android:textSize="27sp"
         />
+    <View
+        android:id="@+id/titleLine"
+        android:layout_below="@id/tv_1suggest"
+        android:layout_marginTop="10dp"
+        android:layout_height="2px"
+        android:background="#000000"
+        android:layout_width="fill_parent" />
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/tv_1suggest"
-        android:layout_marginTop="10dp"
+        android:layout_below="@id/titleLine"
         android:layout_marginBottom="80dp">
 
         <ListView

@@ -22,13 +22,19 @@
         android:id="@+id/set_prof_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="40dp"
-        android:text="@string/Set_Schedule"
-        android:textSize="30sp"
-        android:fontFamily="@font/roboto_light"
+        android:gravity="center"
+        android:layout_marginTop="45dp"
+        android:padding="10dp"
         android:textColor="@color/black"
+        android:fontFamily="@font/roboto_light"
+        android:textSize="27sp"
         />
+    <View
+        android:id="@+id/titleLine"
+        android:layout_below="@id/set_prof_name"
+        android:layout_height="2px"
+        android:background="#000000"
+        android:layout_width="fill_parent" />
     <!--<TextView-->
         <!--android:id="@+id/tv_1suggest"-->
         <!--android:layout_width="match_parent"-->
@@ -45,8 +51,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/set_prof_name"
-        android:layout_marginTop="10dp"
+        android:layout_below="@id/titleLine"
         android:layout_marginBottom="80dp">
 
         <ListView

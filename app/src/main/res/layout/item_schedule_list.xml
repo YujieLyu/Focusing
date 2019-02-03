@@ -2,7 +2,6 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="80dp"
-    android:background="@color/trans_purple"
     >
 
     <TextView
@@ -12,7 +11,7 @@
         android:layout_marginStart="40dp"
         android:gravity="center_vertical"
         android:textAlignment="viewStart"
-        android:textSize="22sp"
+        android:textSize="20sp"
         android:fontFamily="@font/roboto"
         android:textColor="@color/black"
         />
@@ -23,7 +22,7 @@
         android:layout_width="150dp"
         android:layout_height="40dp"
         android:layout_toEndOf="@id/profile_name"
-        android:textSize="18sp"
+        android:textSize="15sp"
         android:gravity="center_vertical"
         android:fontFamily="@font/roboto_light"
         android:textColor="@color/black"
@@ -34,7 +33,7 @@
         android:layout_height="40dp"
         android:layout_below="@id/timeSlot"
         android:layout_toEndOf="@id/profile_name"
-        android:textSize="18sp"
+        android:textSize="15sp"
         android:gravity="center_vertical"
         android:fontFamily="@font/roboto_light"
         android:textColor="@color/black"

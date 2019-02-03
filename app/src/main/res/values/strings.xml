@@ -18,7 +18,7 @@
 
     <string name="Set_Schedule">Set profile schedule</string>
     <string name="ProfileNameNonEmpty">Profile name cannot be empty</string>
-    <string name="schedule_today">Today\'s Schedule</string>
+    <string name="my_schedule">My Schedule</string>
     <string name="focus_for_how_long">Focus for how long?</string>
 
 </resources>

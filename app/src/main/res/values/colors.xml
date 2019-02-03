@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!--<color name="colorPrimary">#2e93ba</color>-->
     <color name="colorPrimary">#6264ec</color>
     <color name="colorPrimaryDark">#3e4ac7</color>
+    <color name="colorPrimaryTrans">#85bbbcf4</color>
+    <!--<color name="colorAccent">#5da6ce</color>-->
     <color name="colorAccent">#7072e6</color>
     <color name="text_white">#ffffff</color>
     <color name="text_orange">#FC903E</color>
@@ -11,8 +14,8 @@
     <color name="light_blue">#468bfa</color>
     <color name="bg_blue_dark">#303f9f</color>
     <color name="bg_white">#dcffffff</color>
-    <color name="light_grey">#a0969696</color>
-    <color name="trans_grey">#8bc6c6c6</color>
+    <color name="light_grey">#6fcacdd2</color>
+    <color name="trans_grey">#70c6c6c6</color>
     <color name="transparent_black">#2d000000</color>
     <color name="lite_black">#21000000</color>
     <!--字体深灰色-->
@@ -25,8 +28,8 @@
     <color name="transparent_white">#64ffffff</color>
     <color name="half_white">#1Affffff</color>
     <color name="list_white">#3cffffff</color>
-    <color name="text_yellow">#ffd111</color>
+    <color name="green">#2e93ba</color>
     <color name="dark_purple">#e77c8e</color>
-    <color name="light_skyblue">#0eb0c9</color>
+    <color name="nav_blue">#3564cc</color>
     <color name="light_pink">#fc9357</color>
 </resources>

@@ -3,12 +3,15 @@ package com.example.jessie.focusing.View.StartNow;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,7 +22,9 @@ import com.example.jessie.focusing.Utils.TimeHelper;
 import com.example.jessie.focusing.View.CountDown.Countdown_Activity;
 import com.example.jessie.focusing.widget.CirclePicker;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * @author : Yujie Lyu
@@ -28,6 +33,7 @@ import java.util.Calendar;
  */
 public class NowClockFragment extends Fragment {
     private final static int ONE_HOUR_DEGREE = 30;
+    private final static int HALF_DAY_DEGREE = 360;
     private TextView tv_startTime, tv_endTime, tv_countTime;
     private Calendar timeStart, timeEnd;
     private CirclePicker circlePicker;
@@ -44,12 +50,14 @@ public class NowClockFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_startnow_timepicker, container, false);
 
         tv_countTime = view.findViewById(R.id.tv_countTime);
-        tv_startTime = view.findViewById(R.id.tv_start_time);
+        tv_startTime = view.findViewById(R.id.tc_start_time);
+        thread.start();
+//        tv_startTime.setFormat12Hour(null);
+//        tv_startTime.setFormat24Hour("HH:mm");
         tv_endTime = view.findViewById(R.id.tv_end_time);
         circlePicker = view.findViewById(R.id.timer);
         circlePicker.setInitialTime(startDegree(), startDegree() + ONE_HOUR_DEGREE);
         circlePicker.setOnTimerChangeListener(new OnCirclePickerTimeChangedListener() {
-
 
             @SuppressLint("SetTextI18n")
             @Override
@@ -62,10 +70,12 @@ public class NowClockFragment extends Fragment {
                 timeEnd.set(Calendar.HOUR_OF_DAY, endHour);
                 timeEnd.set(Calendar.MINUTE, endMinute);
                 tv_endTime.setText(((endHour < 10) ? ("0" + endHour) : (endHour + "")) + ":" + ((endMinute < 10) ? ("0" + endMinute) : (endMinute + "")));
-                if (startDegree == endDegree && (endDegree + 360 == startDegree) && (endDegree - 360 == startDegree)) {
-                    countTime = "00:00";
+                if (startDegree == endDegree
+//                        && (endDegree + HALF_DAY_DEGREE == startDegree) && (endDegree - HALF_DAY_DEGREE == startDegree)
+                        ) {
+                    countTime = "0 h 0 m";
                 } else if (timeStart.get(Calendar.HOUR_OF_DAY) == endHour && timeStart.get(Calendar.MINUTE) == endMinute) {
-                    countTime = "00:00";
+                    countTime = "0 h 0 m";
                 } else {
                     countTime();
                 }
@@ -94,8 +104,6 @@ public class NowClockFragment extends Fragment {
 
         });
 
-
-        //两个按钮
         Button btnStart = view.findViewById(R.id.btn_start);
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,6 +130,44 @@ public class NowClockFragment extends Fragment {
 
     }
 
+    //处理timeStart&countTime实时更新的线程
+    Thread thread = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            do {
+                try {
+                    Thread.sleep(1000);
+                    Message msg = new Message();
+                    msg.what = 1;
+                    handler.sendMessage(msg);
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            } while (true);
+
+        }
+    });
+
+
+    @SuppressLint("HandlerLeak")
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == 1) {
+                long time = System.currentTimeMillis();
+                Date date = new Date(time);
+                String currTime = TimeHelper.toString(date);
+                tv_startTime.setText(currTime);
+                timeStart.setTime(date);
+                tv_countTime.setText(countTime());
+
+            } else {
+            }
+        }
+    };
+
     public boolean isStartOn() {
         return startOn;
     }
@@ -136,17 +182,9 @@ public class NowClockFragment extends Fragment {
 
     }
 
-    //todo:动态更新时间
-    private void updateCurrTime() {
-        timeStart = Calendar.getInstance();
-        int hour = timeStart.get(Calendar.HOUR_OF_DAY);
-        int min = timeStart.get(Calendar.MINUTE);
-        String displayTime = String.format("%02d:%02d", hour, min);
-        tv_startTime.setText(displayTime);
-    }
-
 
     public String countTime() {
+
 
         if (timeEnd == null) {
             //todo:处理time2时间未选择的问题.是否弹窗提示用户选择正确时间

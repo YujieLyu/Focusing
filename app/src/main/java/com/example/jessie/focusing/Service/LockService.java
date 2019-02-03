@@ -121,9 +121,9 @@ public class LockService extends IntentService implements DialogInterface.OnClic
     }
 
     private boolean compareTime(long start, long end, long curr) {
-        if (end < curr) {
-            end = end + ONE_DAY;
-        }
+//        if (end < curr) {
+//            end = end + ONE_DAY;
+//        }
         return curr - start >= 0 && end - curr > 0;
     }
 

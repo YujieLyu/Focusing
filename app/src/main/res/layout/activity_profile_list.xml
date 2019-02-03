@@ -13,12 +13,13 @@
             android:id="@+id/tv_suggest_profile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="25dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginStart="65dp"
+            android:gravity="center"
+            android:layout_marginTop="45dp"
             android:fontFamily="@font/roboto_light"
             android:text="My Profiles"
             android:textColor="@color/black"
-            android:textSize="30sp"
+            android:textSize="27sp"
             android:layout_weight="8"/>
         <ImageButton
             android:id="@+id/ibtn_add"

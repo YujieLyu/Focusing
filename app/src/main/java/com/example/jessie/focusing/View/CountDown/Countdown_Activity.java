@@ -13,11 +13,15 @@ import android.widget.TextView;
 
 import com.example.jessie.focusing.Controller.Adapter.AppListAdapter;
 import com.example.jessie.focusing.Model.AppInfoManager;
+import com.example.jessie.focusing.Model.FocusTimeManager;
 import com.example.jessie.focusing.R;
 import com.example.jessie.focusing.Service.LockService;
 import com.example.jessie.focusing.Utils.LockUtil;
 import com.example.jessie.focusing.Utils.StatusBarUtil;
 import com.example.jessie.focusing.View.Finish.Finish_Activity;
+
+import java.util.Calendar;
+import java.util.Date;
 
 import cn.iwgang.countdownview.CountdownView;
 
@@ -38,6 +42,7 @@ public class Countdown_Activity extends AppCompatActivity implements CountdownVi
     private TextView tv_suggestInfo;
     private Handler handler;
     private AppInfoManager appInfoManager;
+    private FocusTimeManager focusTimeManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,15 +64,16 @@ public class Countdown_Activity extends AppCompatActivity implements CountdownVi
 //        clickBackFromLock = getIntent().getStringExtra(AppConstants.PRESS_BACK);
         endTime = getIntent().getLongExtra("endTime", 0);
 
-        long currTime = System.currentTimeMillis();
-        countTime = endTime - currTime;
-        if (currTime < endTime) {
-            countTime = endTime - currTime;
+        long currTimeStart = System.currentTimeMillis();
+        countTime = endTime - currTimeStart;
+        if (currTimeStart < endTime) {
+            countTime = endTime - currTimeStart;
         } else {
-            countTime = endTime - currTime + ONE_DAY;
+            countTime = endTime - currTimeStart + ONE_DAY;
         }
 
         cdv_count.start(countTime);
+        focusTimeManager=new FocusTimeManager();
 //
 
     }
@@ -103,6 +109,17 @@ public class Countdown_Activity extends AppCompatActivity implements CountdownVi
         startActivity(intent);
 //        finishAndRemoveTask();//Kill the activity
         this.finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Calendar today=Calendar.getInstance();
+        today.setTimeInMillis(System.currentTimeMillis());
+        long remainTime=cdv_count.getRemainTime();
+        long timeSummary=countTime-remainTime;
+        focusTimeManager.saveOrUpdateTime(today,timeSummary);
+        appInfoManager.reset(-10);
     }
 
     @Override

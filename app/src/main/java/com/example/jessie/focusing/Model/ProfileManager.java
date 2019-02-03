@@ -60,30 +60,37 @@ public class ProfileManager {
         return profile;
     }
 
-    public synchronized boolean checkProfOnSchedule(Profile profile, int today) {
+    public synchronized boolean checkProfOnSchedule(Profile profile, int dayOfWeek) {
         if (profile.getRepeatId() == -1) {
             return false;
         } else if (profile.getRepeatId() == 0) {
             return true;
-        } else if (today == 1 && profile.getRepeatId() == 7) {
+        } else if (dayOfWeek == 1 && profile.getRepeatId() == 7) {
             return true;
-        } else return profile.getRepeatId() == today - 1;
+        } else return profile.getRepeatId() == dayOfWeek - 1;
     }
 
-    public synchronized List<Profile> syncProfileOnSchedule(int today) {
+    public synchronized List<Profile> syncProfileOnSchedule(int dayOfWeek) {
+        int repeatId = dayOfWeek == 1 ? 7 : dayOfWeek - 1;
+        List<Profile> profDb = LitePal.findAll(Profile.class);
 
         List<Profile> profiles = new ArrayList<>();
-
-        for (Profile profile : all) {
-            if (profile.getRepeatId() == 0) {
-                profiles.add(profile);
-            } else if (today == 1 && profile.getRepeatId() == 7) {
-                profiles.add(profile);
-            } else if (profile.getRepeatId() == today - 1) {
+        for (Profile profile : profDb) {
+            int repId = profile.getRepeatId();
+            if (repId==0||repId==repeatId) {
                 profiles.add(profile);
             }
-
         }
+//        for (Profile profile : all) {
+//            if (profile.getRepeatId() == 0) {
+//                profiles.add(profile);
+//            } else if (dayOfWeek == 1 && profile.getRepeatId() == 7) {
+//                profiles.add(profile);
+//            } else if (profile.getRepeatId() == dayOfWeek - 1) {
+//                profiles.add(profile);
+//            }
+//
+//        }
 
         Collections.sort(profiles, Profile.startTimeComparator);
 

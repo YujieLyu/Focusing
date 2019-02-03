@@ -95,18 +95,7 @@ public class ProfileListAdapter extends BaseAdapter {
                 notifyDataSetChanged();
             }
         });
-        //TODO: top onClickListener
-//        viewHolder.checkBox.setTag(selectedInfo);
-//        viewHolder.checkBox.setOnClickListener(new View.OnClickListener(){
-//
-//            @Override
-//            public void onClick(View v) {
-//                Profile profile=(Profile)v.getTag(); //将被点击的item转化为Profile instance,需要在view处setTAG
-//                boolean lockStatus = ((CheckBox) v).isChecked();
-//                profile.setOn(lockStatus);
-//            }
-//        });
-//        viewHolder.tv_ProfName.setOnClickListener(this);
+
         return convertView;
     }
 

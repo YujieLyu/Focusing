@@ -1,6 +1,8 @@
 package com.example.jessie.focusing.View.Profile;
 
+import android.app.AlertDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -36,7 +39,7 @@ import java.util.List;
  * @date : 26-01-2019
  * @time : 21:58
  */
-public class ProfScheduleFragment extends Fragment implements View.OnClickListener, DeleteProfileDialog.OnFragmentInteractionListener, TimeCallBack{
+public class ProfScheduleFragment extends Fragment implements View.OnClickListener, DeleteProfileDialog.OnFragmentInteractionListener, TimeCallBack {
     private TimePickerFragment tpStart, tpEnd;
     private TextView tv_profName, tv_startTime, tv_endTime, tv_alarm, tv_repeat;
     private Button btn_save;
@@ -46,7 +49,10 @@ public class ProfScheduleFragment extends Fragment implements View.OnClickListen
     private AppInfoManager appInfoManager;
     private int profileId;
     private Profile profile;
-    private List<String> alarmNumOptions, alarmUnitOptions, repeatOptions;
+    private List<String> alarmNumOptions, alarmUnitOptions;
+    private String[] repeatOptions = {"None", "Everyday", "Every Monday", "Every Tuesday",
+            "Every Wednesday", "Every Thursday", "Every Friday", "Every Saturday",
+            "Every Sunday"};
 
     @Nullable
     @Override
@@ -63,9 +69,6 @@ public class ProfScheduleFragment extends Fragment implements View.OnClickListen
         l_repeat.setOnClickListener(this);
 //        alarmNumOptions = Arrays.asList("1", "5", "10", "30");
 //        alarmUnitOptions = Arrays.asList("Minutes", "Hours", "Days");
-        repeatOptions = Arrays.asList("None", "Everyday", "Every Monday", "Every Tuesday",
-                "Every Wednesday", "Every Thursday", "Every Friday", "Every Saturday",
-                "Every Sunday");
 
         tv_startTime = view.findViewById(R.id.prefer_start_time);
         tv_endTime = view.findViewById(R.id.prefer_end_time);
@@ -175,12 +178,12 @@ public class ProfScheduleFragment extends Fragment implements View.OnClickListen
             case R.id.layout_starttime:
                 tpStart = new TimePickerFragment();
                 tpStart.setCallBackListener(this);
-                tpStart.show(getActivity().getSupportFragmentManager(),"");
+                tpStart.show(getActivity().getSupportFragmentManager(), "");
                 break;
             case R.id.layout_endtime:
                 tpEnd = new TimePickerFragment();
                 tpEnd.setCallBackListener(this);
-                tpEnd.show(getActivity().getSupportFragmentManager(),"");
+                tpEnd.show(getActivity().getSupportFragmentManager(), "");
                 break;
 //            case R.id.layout_alarm:
 //                OptionsPickerView almOpts = new OptionsPickerBuilder(getContext(), new OnOptionsSelectListener() {
@@ -199,19 +202,39 @@ public class ProfScheduleFragment extends Fragment implements View.OnClickListen
 //                almOpts.show();
 //                break;
             case R.id.layout_repeat:
-                OptionsPickerView rptOpts = new OptionsPickerBuilder(getContext(), new OnOptionsSelectListener() {
-
-                    @Override
-                    public void onOptionsSelect(int options1, int options2, int options3, View v) {
-                        tv_repeat.setText(repeatOptions.get(options1));
-
-                    }
-                }).build();
-                rptOpts.setNPicker(repeatOptions, null, null);
-                rptOpts.show();
+                showSingleChoiceDialog();
+//                OptionsPickerView rptOpts = new OptionsPickerBuilder(getContext(), new OnOptionsSelectListener() {
+//
+//                    @Override
+//                    public void onOptionsSelect(int options1, int options2, int options3, View v) {
+//                        tv_repeat.setText(repeatOptions.get(options1));
+//
+//                    }
+//                }).build();
+//                rptOpts.setNPicker(repeatOptions, null, null);
+//                rptOpts.show();
                 break;
         }
     }
+
+    private void showSingleChoiceDialog() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Repeat");
+        builder.setSingleChoiceItems(repeatOptions, 0, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                String str = repeatOptions[which];
+                tv_repeat.setText(str);
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
 
     @Override
     public void onResume() {

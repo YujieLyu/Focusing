@@ -36,10 +36,8 @@ public class ScheduleListAdapter extends BaseAdapter {
         profileManager = new ProfileManager(context);
     }
 
-    public void setData(int today) {
-//        Profile profile1=new Profile("Meeting");
-        profiles=profileManager.syncProfileOnSchedule(today);
-
+    public void setData(int dayOfWeek) {
+        profiles=profileManager.syncProfileOnSchedule(dayOfWeek);
         notifyDataSetChanged();
     }
 
