@@ -1,9 +1,7 @@
 package com.example.jessie.focusing.View.Profile;
 
 import android.app.AlertDialog;
-import android.app.TimePickerDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,15 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
-//import com.bigkoo.pickerview.listener.OnDismissListener;
-import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
-import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.example.jessie.focusing.Interface.TimeCallBack;
 import com.example.jessie.focusing.Model.AppInfoManager;
 import com.example.jessie.focusing.Model.Profile;
@@ -29,9 +21,6 @@ import com.example.jessie.focusing.Model.ProfileManager;
 import com.example.jessie.focusing.R;
 import com.example.jessie.focusing.widget.TimePickerFragment;
 
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -39,7 +28,7 @@ import java.util.List;
  * @date : 26-01-2019
  * @time : 21:58
  */
-public class ProfScheduleFragment extends Fragment implements View.OnClickListener, DeleteProfileDialog.OnFragmentInteractionListener, TimeCallBack {
+public class ProfScheduleFragment extends Fragment implements View.OnClickListener, TimeCallBack {
     private TimePickerFragment tpStart, tpEnd;
     private TextView tv_profName, tv_startTime, tv_endTime, tv_alarm, tv_repeat;
     private Button btn_save;
@@ -81,7 +70,7 @@ public class ProfScheduleFragment extends Fragment implements View.OnClickListen
             public void onClick(View v) {
                 updateData();
                 Toast.makeText(getContext(), "Profile save successfully:)", Toast.LENGTH_LONG).show();
-
+                getActivity().onBackPressed();
             }
         });
         profileManager = new ProfileManager(getContext());
@@ -249,12 +238,4 @@ public class ProfScheduleFragment extends Fragment implements View.OnClickListen
 
     }
 
-
-    @Override
-    public void onFragmentInteraction() {
-        profileManager.deleteProfile(profile.getId());
-        Intent intent = new Intent(getActivity(), ProfileDetailActivity.class);
-        getActivity().startActivity(intent);
-
-    }
 }

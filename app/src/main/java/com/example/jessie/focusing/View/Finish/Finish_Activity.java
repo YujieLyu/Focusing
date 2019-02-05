@@ -80,27 +80,4 @@ public class Finish_Activity extends AppCompatActivity {
 
     }
 
-
-//    private void initLayoutBackground() {
-//
-//        Calendar convertTime = Calendar.getInstance();
-//        convertTime.setTimeInMillis(timeSummary);
-//        int hours = convertTime.get(Calendar.HOUR_OF_DAY);
-//        int mins = convertTime.get(Calendar.MINUTE);
-//        tv_summary.setText(String.format("%d hours %d mins", hours, mins));
-//        Resources resources = this.getResources();
-//        final Drawable bgPic = resources.getDrawable(R.drawable.bg_pure2);
-//        finishLayout.getViewTreeObserver().addOnPreDrawListener(
-//                new ViewTreeObserver.OnPreDrawListener() {
-//                    @Override
-//                    public boolean onPreDraw() {
-//                        finishLayout.getViewTreeObserver().removeOnPreDrawListener(this);
-//                        finishLayout.buildDrawingCache();
-//                        Bitmap bmp = LockUtil.drawableToBitmap(bgPic, finishLayout);
-//                        LockUtil.blur(Finish_Activity.this, LockUtil.big(bmp), finishLayout);  //高斯模糊
-//                        return true;
-//                    }
-//                });
-//
-//    }
 }

@@ -17,8 +17,7 @@ import com.example.jessie.focusing.Utils.StatusBarUtil;
  * @date : 26-01-2019
  * @time : 15:08
  */
-public class ProfileDetailActivity extends AppCompatActivity
-                        implements DeleteProfileDialog.OnFragmentInteractionListener{
+public class ProfileDetailActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private ProfAppListFragment appListFragment;
     private ProfScheduleFragment calendarFragment;
@@ -99,10 +98,4 @@ public class ProfileDetailActivity extends AppCompatActivity
         profileId=getIntent().getIntExtra("Profile",-1);
     }
 
-
-
-    @Override
-    public void onFragmentInteraction() {
-
-    }
 }

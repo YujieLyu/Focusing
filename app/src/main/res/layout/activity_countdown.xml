@@ -58,6 +58,19 @@
         android:textAlignment="center"
         />
 
+    <Button
+        android:id="@+id/btn_cancel_countdown"
+        android:layout_width="120dp"
+        android:layout_height="45dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="600dp"
+        android:text="Cancel"
+        android:fontFamily="@font/roboto_light"
+        android:textSize="20sp"
+        android:textColor="@color/text_white"
+        android:background="@color/colorPrimary"
+
+        />
 
 
 </RelativeLayout>

@@ -1,17 +1,8 @@
 package com.example.jessie.focusing.Model;
 
-import android.icu.text.UnicodeSetSpanner;
-
-import com.github.mikephil.charting.formatter.IFillFormatter;
-
 import org.litepal.LitePal;
-import org.litepal.annotation.Column;
-
-import java.io.FileOutputStream;
-import java.text.Format;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**

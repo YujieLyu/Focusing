@@ -8,6 +8,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -19,6 +21,7 @@ import com.example.jessie.focusing.Service.LockService;
 import com.example.jessie.focusing.Utils.LockUtil;
 import com.example.jessie.focusing.Utils.StatusBarUtil;
 import com.example.jessie.focusing.View.Finish.Finish_Activity;
+import com.example.jessie.focusing.View.Main.Main_Activity;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -40,6 +43,7 @@ public class Countdown_Activity extends AppCompatActivity implements CountdownVi
     private RelativeLayout countLayout;
     private CountdownView cdv_count;
     private TextView tv_suggestInfo;
+    private Button btn_stop;
     private Handler handler;
     private AppInfoManager appInfoManager;
     private FocusTimeManager focusTimeManager;
@@ -53,6 +57,15 @@ public class Countdown_Activity extends AppCompatActivity implements CountdownVi
         cdv_count.setOnCountdownEndListener(this);
         tv_suggestInfo = findViewById(R.id.tv_suggestInfo);
         countLayout = findViewById(R.id.cd_main_view);
+        btn_stop=findViewById(R.id.btn_cancel_countdown);
+        btn_stop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                Intent intent=new Intent(Countdown_Activity.this,Main_Activity.class);
+                startActivity(intent);
+            }
+        });
         appInfoManager = new AppInfoManager(this);
         initData();
         StatusBarUtil.setStatusTransparent(this);
@@ -99,8 +112,6 @@ public class Countdown_Activity extends AppCompatActivity implements CountdownVi
         cv.stop();
         appInfoManager.reset(-10);
         LockService.StartNow = false;
-
-//        finish();
 
 //        moveTaskToBack(true);
         Intent intent = new Intent(Countdown_Activity.this, Finish_Activity.class);
