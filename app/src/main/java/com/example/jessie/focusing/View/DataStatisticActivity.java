@@ -2,8 +2,11 @@ package com.example.jessie.focusing.View;
 
 import android.os.Bundle;
 
+import com.example.jessie.focusing.Controller.Adapter.UsageListAdapter;
+import com.example.jessie.focusing.Model.AppInfo;
 import com.example.jessie.focusing.Model.FocusTime;
 import com.example.jessie.focusing.Model.FocusTimeManager;
+import com.example.jessie.focusing.Utils.ScanAppsTool;
 import com.example.jessie.focusing.Utils.StatusBarUtil;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
@@ -37,6 +40,7 @@ public class DataStatisticActivity extends AppCompatActivity {
     private List<Integer> dates = new ArrayList<>();
     private List<Integer> mins = new ArrayList<>();
     private List<Integer> temp=new ArrayList<>();
+    private UsageListAdapter usageListAdapter;
 
 
     private FocusTimeManager focusTimeManager;
@@ -52,17 +56,17 @@ public class DataStatisticActivity extends AppCompatActivity {
         setBarChartData(dates.size(), mBarChart);
         StatusBarUtil.setStatusTransparent(this);
         StatusBarUtil.setDarkStatusIcon(this, true);
+        usageListAdapter=new UsageListAdapter(this);
+        initUsageList();
     }
 
     private void initData() {
 
         timeData = new ArrayList<>();
         Calendar today = Calendar.getInstance();
-        today.setTime(new Date());
         Calendar weekBefore = Calendar.getInstance();
         weekBefore.add(Calendar.DATE, -7);
         focusTimeManager = new FocusTimeManager();
-        focusTimeManager.deleteItem(12);
         timeData = focusTimeManager.getTimeDate(weekBefore, today);
 
         if (timeData.size()<7){
@@ -104,6 +108,20 @@ public class DataStatisticActivity extends AppCompatActivity {
 
     }
 
+    private void initUsageList(){
+            final List<AppInfo> appInfos=ScanAppsTool.scanAppsList(this.getPackageManager());
+             usageListAdapter.setData(appInfos);
+
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                final List<AppInfo> appInfos=ScanAppsTool.scanAppsList(LockApp_Activity.this.getPackageManager());
+//                appListAdapter.setData(appInfos);
+//
+//            }
+//        }).start();
+
+    }
 
     private void initBarChart(BarChart mBarChart) {
 

@@ -2,6 +2,8 @@ package com.example.jessie.focusing.Model;
 
 import android.content.Context;
 
+import com.example.jessie.focusing.Utils.TimeHelper;
+
 import org.litepal.LitePal;
 
 import java.util.ArrayList;
@@ -77,20 +79,10 @@ public class ProfileManager {
         List<Profile> profiles = new ArrayList<>();
         for (Profile profile : profDb) {
             int repId = profile.getRepeatId();
-            if (repId==0||repId==repeatId) {
+            if (repId == 0 || repId == repeatId) {
                 profiles.add(profile);
             }
         }
-//        for (Profile profile : all) {
-//            if (profile.getRepeatId() == 0) {
-//                profiles.add(profile);
-//            } else if (dayOfWeek == 1 && profile.getRepeatId() == 7) {
-//                profiles.add(profile);
-//            } else if (profile.getRepeatId() == dayOfWeek - 1) {
-//                profiles.add(profile);
-//            }
-//
-//        }
 
         Collections.sort(profiles, Profile.startTimeComparator);
 
@@ -98,5 +90,15 @@ public class ProfileManager {
 
     }
 
-
+    //查看输入的profile目前是否在运行
+    public synchronized boolean checkInTimeSlot(int profId) {
+        Profile profile = LitePal.find(Profile.class, profId);
+        long startTime = TimeHelper.convertTime(profile.getStartHour(), profile.getStartMin());
+        long endTime = TimeHelper.convertTime(profile.getEndHour(), profile.getEndMin());
+        long currTime = System.currentTimeMillis();
+        if (startTime < currTime && currTime < endTime) {
+            return true;
+        }
+        return false;
+    }
 }

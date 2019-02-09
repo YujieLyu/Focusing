@@ -1,6 +1,7 @@
 package com.example.jessie.focusing.View.Main;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,6 +11,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.amitshekhar.DebugDB;
+import com.example.jessie.focusing.Model.UsageManager;
 import com.example.jessie.focusing.R;
 import com.example.jessie.focusing.Utils.StatusBarUtil;
 import com.example.jessie.focusing.View.DataStatisticActivity;
@@ -28,6 +31,8 @@ public class Main_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         LitePal.initialize(this);
+//        LitePal.deleteDatabase("appDB");//todo: be careful
+        DebugDB.getAddressLog();
         StatusBarUtil.setStatusTransparent(this);
 
         TextView tv_start = findViewById(R.id.tv_start_now);
@@ -70,6 +75,23 @@ public class Main_Activity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);//must store the new intent unless getIntent() will return the old one
+        getIntent(); //will return the old one
+        processExtraData();
+    }
 
+    private void processExtraData() {
+        Intent intent = getIntent();
+        //use the data received here
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+//        Cursor c = LitePal.getDatabase().rawQuery("PRAGMA wal_checkpoint;", null);
+//        c.close();
+    }
 }

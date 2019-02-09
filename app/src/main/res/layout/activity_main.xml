@@ -32,12 +32,12 @@
         android:layout_marginTop="250dp"
         android:background="@color/half_white"
         android:contextClickable="true"
-        android:fontFamily="@font/roboto_thin"
+        android:fontFamily="@font/roboto_light"
         android:gravity="center"
         android:text="Focus Now"
         android:textColor="@color/text_white"
         android:textSize="20sp"
-        android:textStyle="bold" />
+        />
 
     <TextView
         android:id="@+id/tv_profile"
@@ -47,12 +47,12 @@
         android:layout_marginTop="30dp"
         android:background="@color/half_white"
         android:contextClickable="true"
-        android:fontFamily="@font/roboto_thin"
+        android:fontFamily="@font/roboto_light"
         android:gravity="center"
         android:text="Profile Settings"
         android:textColor="@color/text_white"
         android:textSize="20sp"
-        android:textStyle="bold"
+
         />
 
     <TextView
@@ -63,13 +63,13 @@
         android:layout_marginTop="30dp"
         android:background="@color/half_white"
         android:contextClickable="true"
-        android:fontFamily="@font/roboto_thin"
+        android:fontFamily="@font/roboto_light"
         android:gravity="center"
         android:text="My Schedule"
         android:textAlignment="center"
         android:textColor="@color/text_white"
         android:textSize="20sp"
-        android:textStyle="bold" />
+        />
 
     <TextView
         android:id="@+id/tv_statistic"
@@ -79,15 +79,13 @@
         android:layout_marginTop="30dp"
         android:background="@color/half_white"
         android:contextClickable="true"
-        android:fontFamily="@font/roboto_thin"
+        android:fontFamily="@font/roboto_light"
         android:gravity="center"
         android:text="Time Statistics"
         android:textAlignment="center"
         android:textColor="@color/text_white"
         android:textSize="20sp"
-
-
-        android:textStyle="bold" />
+        />
 
 
     <!--<include-->

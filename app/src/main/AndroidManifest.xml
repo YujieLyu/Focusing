@@ -32,7 +32,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".View.Main.Main_Activity" />
+        <activity android:name=".View.Main.Main_Activity"
+            android:launchMode="singleTask" />
         <activity
             android:name=".View.CountDown.Countdown_Activity"
             android:launchMode="singleTask" />

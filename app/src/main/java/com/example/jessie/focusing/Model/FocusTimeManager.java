@@ -1,6 +1,9 @@
 package com.example.jessie.focusing.Model;
 
+import com.example.jessie.focusing.Utils.TimeHelper;
+
 import org.litepal.LitePal;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -12,31 +15,31 @@ import java.util.List;
  */
 public class FocusTimeManager {
 
-    public synchronized void saveOrUpdateTime(Calendar today, long timeSummary) {
+    public synchronized void saveOrUpdateTime(long timeSummary) {
         FocusTime focusTimeLast = LitePal.findLast(FocusTime.class);
-        int todayYear=today.get(Calendar.YEAR);
-        int todayMonth= today.get(Calendar.MONTH);
-        int todayDay=today.get(Calendar.DAY_OF_MONTH);
-        if (focusTimeLast == null) {
-           FocusTime focusTime= createFocusTime(timeSummary,todayYear,todayMonth,todayDay);
+        int todayYear = TimeHelper.getCurrYear();
+        int todayMonth = TimeHelper.getCurrMonth();
+        int todayDay = TimeHelper.getCurrDay();
+        if (focusTimeLast==null) {
+            FocusTime focusTime = createFocusTime(timeSummary, todayYear, todayMonth, todayDay);
+            focusTime.save();
+        } else if (focusTimeLast.getYear() == todayYear && focusTimeLast.getMonth() == todayMonth
+                && focusTimeLast.getDay() == todayDay) {
+            long originTime = focusTimeLast.getTime();
+            focusTimeLast.setTime(timeSummary + originTime);
+            focusTimeLast.update(focusTimeLast.getId());
+        } else {
+            FocusTime focusTime = createFocusTime(timeSummary, todayYear, todayMonth, todayDay);
             focusTime.save();
         }
-            if (focusTimeLast.getYear()==todayYear&&focusTimeLast.getMonth() == todayMonth
-                    &&focusTimeLast.getDay()==todayDay) {
-                long originTime=focusTimeLast.getTime();
-                focusTimeLast.setTime(timeSummary + originTime);
-                focusTimeLast.update(focusTimeLast.getId());
-            } else {
-                FocusTime focusTime= createFocusTime(timeSummary,todayYear,todayMonth,todayDay);
-                focusTime.save();
-            }
 
     }
-    public synchronized void deleteItem(int id){
-        LitePal.delete(FocusTime.class,id);
+
+    public synchronized void deleteItem(int id) {
+        LitePal.delete(FocusTime.class, id);
     }
 
-    private FocusTime createFocusTime(long timeSummary,int year,int month,int day){
+    private FocusTime createFocusTime(long timeSummary, int year, int month, int day) {
         FocusTime focusTime = new FocusTime();
         focusTime.setTime(timeSummary);
         focusTime.setYear(year);
@@ -44,6 +47,7 @@ public class FocusTimeManager {
         focusTime.setDay(day);
         return focusTime;
     }
+
     public synchronized List<FocusTime> getTimeDate(Calendar before, Calendar today) {
         List<FocusTime> timeData = new ArrayList<>();
         List<FocusTime> focusTimesDB = LitePal.findAll(FocusTime.class);

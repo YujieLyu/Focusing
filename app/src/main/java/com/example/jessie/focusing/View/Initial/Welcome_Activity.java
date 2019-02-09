@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.provider.Settings;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -21,10 +22,12 @@ import com.example.jessie.focusing.R;
 import com.example.jessie.focusing.Utils.SPUtil;
 import com.example.jessie.focusing.View.Main.Main_Activity;
 
+import static com.example.jessie.focusing.Utils.LockUtil.isStatAccessPermissionSet;
+
 public class Welcome_Activity extends AppCompatActivity {
     private ImageView imgWelcome;
     private ObjectAnimator animator;
-    private int RESULT_ACTION_USAGE_ACCESS_SETTINGS = 1;
+    private static final int RESULT_ACTION_USAGE_ACCESS_SETTINGS = 1;
 
 
     @Override
@@ -72,7 +75,7 @@ public class Welcome_Activity extends AppCompatActivity {
     }
 
     private void showDialog() {
-        if (!LockUtil.isStatAccessPermissionSet(Welcome_Activity.this) && LockUtil.isNoOption(Welcome_Activity.this)) {
+        if (!isStatAccessPermissionSet(Welcome_Activity.this) && LockUtil.isNoOption(Welcome_Activity.this)) {
             DialogPermission dialog = new DialogPermission(Welcome_Activity.this);
             dialog.show();
             dialog.setOnClickListener(new DialogPermission.onClickListener() {
@@ -91,6 +94,26 @@ public class Welcome_Activity extends AppCompatActivity {
         startActivity(intent);
         finish();
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
+
+    /**
+     * Get system permission and back to the main activity
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        switch (requestCode) {
+            case RESULT_ACTION_USAGE_ACCESS_SETTINGS:
+                if (isStatAccessPermissionSet(Welcome_Activity.this)) {
+                    toMainActivity();
+                } else {
+                    // mcl: better to prompt msg to users
+                    finish();
+                }
+                break;
+        }
     }
 
     protected void onDestroy() {

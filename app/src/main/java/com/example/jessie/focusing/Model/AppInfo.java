@@ -95,9 +95,6 @@ public class AppInfo extends LitePalSupport {
         return packageName;
     }
 
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
-    }
 
 
     public int getId() {
@@ -151,4 +148,7 @@ public class AppInfo extends LitePalSupport {
     };
 
 
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
 }

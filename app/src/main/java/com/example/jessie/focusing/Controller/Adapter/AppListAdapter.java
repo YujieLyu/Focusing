@@ -1,7 +1,6 @@
 package com.example.jessie.focusing.Controller.Adapter;
 
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,7 +93,7 @@ public class AppListAdapter extends BaseAdapter implements View.OnClickListener 
                 return;
             }
         }
-        infoManager.updateInfos(appInfos);
+        infoManager.saveOrUpdateInfos(appInfos);
     }
 
     class ViewHolder {

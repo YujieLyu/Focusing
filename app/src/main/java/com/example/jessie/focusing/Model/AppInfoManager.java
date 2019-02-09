@@ -22,11 +22,13 @@ import java.util.List;
 public class AppInfoManager {
     private PackageManager packageManager;
     private Context context;
+    private ProfileManager profileManager;
 
 
     public AppInfoManager(Context context) {
         this.context = context;
         packageManager = context.getPackageManager();
+        profileManager=new ProfileManager(context);
     }
 
     /**
@@ -80,11 +82,12 @@ public class AppInfoManager {
 
         for (AppInfo appInfodb : appInfosDatabase) {
             if (!packageName.contains(appInfodb.getPackageName())) {
-                tempD.add(appInfodb);
+//                tempD.add(appInfodb);
+               appInfodb.delete();
             }
 
         }
-        delete(tempD);
+//        delete(tempD);
 
 
         for (int i = 0; i < appInfos.size(); i++) {
@@ -154,7 +157,7 @@ public class AppInfoManager {
      *
      * @param appInfos
      */
-    public void updateInfos(List<AppInfo> appInfos) {
+    public void saveOrUpdateInfos(List<AppInfo> appInfos) {
 
 
         for (AppInfo appInfo : appInfos) {
@@ -171,13 +174,33 @@ public class AppInfoManager {
         LitePal.updateAll(AppInfo.class,cv,"profid=?",String.valueOf(profId));
     }
 
-    public boolean checkIsLocked(int id) {
-        AppInfo appInfo = LitePal.where("id=?", String.valueOf(id)).findFirst(AppInfo.class);
-        if (appInfo == null) {
-            return false;
+    public boolean checkIsLocked(String packageName) {
+        List<AppInfo> appInfos = LitePal.findAll(AppInfo.class);
+        List<AppInfo> synonymApps=new ArrayList<>();
+        for (AppInfo appInfo : appInfos) {
+            if (appInfo.getPackageName().equals(packageName)){
+             synonymApps.add(appInfo);
+            }
+
         }
-        return appInfo.isLocked();
-    }
+        for (AppInfo synonyapp : synonymApps) {
+            if (synonyapp.getProfId()==-10){
+                if (synonyapp.isLocked()){
+                    return true;
+                }
+                else return false;
+            }else {
+                if (synonyapp.isLocked()){
+                    int profId=synonyapp.getProfId();
+                    return profileManager.checkInTimeSlot(profId);
+                }else return false;
+            }
+
+
+        }
+        return false;
+        }
+
 
 }
 

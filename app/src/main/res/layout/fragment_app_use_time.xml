@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/app_use_time"
+    >
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="45dp"
+        android:padding="10dp"
+        android:text="Screen time"
+        android:textColor="@color/black"
+        android:fontFamily="@font/roboto_light"
+        android:textSize="27sp"
+        />
+    <View
+        android:id="@+id/titleLine"
+        android:layout_below="@id/title"
+        android:layout_height="2px"
+        android:background="#000000"
+        android:layout_width="fill_parent" />
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/use_time_barchart"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:layout_below="@id/titleLine"
+        android:layout_marginTop="10dp"
+        >
+
+    </com.github.mikephil.charting.charts.BarChart>
+    <TextView
+        android:id="@+id/table_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_below="@id/use_time_barchart"
+        android:layout_marginTop="15dp"
+        android:padding="10dp"
+        android:text="Weekly use Time (Mins)"
+        android:textColor="@color/colorPrimary"
+        android:fontFamily="@font/roboto_light"
+        android:textSize="18sp"
+        />
+
+</RelativeLayout>

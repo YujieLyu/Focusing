@@ -20,6 +20,7 @@ import com.example.jessie.focusing.R;
 import com.example.jessie.focusing.Service.LockService;
 import com.example.jessie.focusing.Utils.LockUtil;
 import com.example.jessie.focusing.Utils.StatusBarUtil;
+import com.example.jessie.focusing.Utils.TimeHelper;
 import com.example.jessie.focusing.View.Finish.Finish_Activity;
 import com.example.jessie.focusing.View.Main.Main_Activity;
 
@@ -125,11 +126,12 @@ public class Countdown_Activity extends AppCompatActivity implements CountdownVi
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Calendar today=Calendar.getInstance();
-        today.setTimeInMillis(System.currentTimeMillis());
+//        Calendar today=Calendar.getInstance();
+//        today.setTimeInMillis(System.currentTimeMillis());
+//        Calendar today=TimeHelper.getCurrCalendar();
         long remainTime=cdv_count.getRemainTime();
         long timeSummary=countTime-remainTime;
-        focusTimeManager.saveOrUpdateTime(today,timeSummary);
+        focusTimeManager.saveOrUpdateTime(timeSummary);
         appInfoManager.reset(-10);
     }
 

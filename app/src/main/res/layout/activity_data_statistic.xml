@@ -2,7 +2,8 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    >
 
     <TextView
         android:id="@+id/title"
@@ -17,7 +18,7 @@
         android:textSize="23sp"
         />
     <View
-        android:id="@+id/titleLine"
+        android:id="@+id/titleLine1"
         android:layout_below="@id/title"
         android:layout_height="2px"
         android:background="#000000"
@@ -26,7 +27,7 @@
     <com.github.mikephil.charting.charts.BarChart
         android:id="@+id/bar_chart"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
+        android:layout_height="400dp"
         android:layout_below="@id/title"
         android:layout_marginTop="5dp"/>
 
@@ -43,5 +44,36 @@
         android:fontFamily="@font/roboto_light"
         android:textSize="18sp"
         />
+
+    <View
+        android:id="@+id/titleLine2"
+        android:layout_below="@id/table_name"
+        android:layout_height="2px"
+        android:background="#000000"
+        android:layout_width="fill_parent" />
+    <TextView
+        android:id="@+id/most_used"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/titleLine2"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:text="Most Used"
+        android:textSize="16sp"
+        android:textColor="@color/colorPrimary"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/most_used"
+        >
+
+        <ListView
+            android:id="@+id/used_app_list"
+            android:layout_width="match_parent"
+            android:overScrollMode="never"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
 
 </RelativeLayout>

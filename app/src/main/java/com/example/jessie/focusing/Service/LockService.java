@@ -11,6 +11,7 @@ import android.content.Intent;
 import com.example.jessie.focusing.Model.AppInfo;
 import com.example.jessie.focusing.Model.Profile;
 import com.example.jessie.focusing.Model.ProfileManager;
+import com.example.jessie.focusing.Model.UsageManager;
 import com.example.jessie.focusing.Utils.AppConstants;
 import com.example.jessie.focusing.Model.AppInfoManager;
 import com.example.jessie.focusing.Utils.TimeHelper;
@@ -37,6 +38,7 @@ public class LockService extends IntentService implements DialogInterface.OnClic
     private ActivityManager activityManager;
     private AppInfoManager appInfoManager;
     private ProfileManager profileManager;
+    private UsageManager usageManager;
     private long endTime;
     private long startTime;
     public static boolean StartNow = false;
@@ -46,6 +48,7 @@ public class LockService extends IntentService implements DialogInterface.OnClic
         super.onCreate();
         appInfoManager = new AppInfoManager(this);
         profileManager = new ProfileManager(this);
+        usageManager = new UsageManager(this);
         activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
 
     }
@@ -67,6 +70,7 @@ public class LockService extends IntentService implements DialogInterface.OnClic
         }
     }
 
+    private String appOnTop = null;
 
     /**
      * 此处存在一个判断是否有profile开启，先执行Prof还是先执行custom
@@ -81,8 +85,14 @@ public class LockService extends IntentService implements DialogInterface.OnClic
 
 //        获取栈顶app的包名
         String packageName = getLauncherTopApp(LockService.this, activityManager);
-        if (!packageName.equals("com.example.jessie.focusing")) {
 
+        if (!packageName.equals("com.example.jessie.focusing") && !packageName.equals("com.google.android.apps.nexuslauncher")) {
+//            usageManager.deleteAll(9);
+            if (!packageName.equals(appOnTop)) {
+                appOnTop = packageName;
+                boolean isLocked=appInfoManager.checkIsLocked(packageName);
+                usageManager.saveOrUpdateData(0, packageName,isLocked);
+            }
             //todo:待优化！！！
             List<AppInfo> appInfos = appInfoManager.getData(packageName);
             List<AppInfo> temp = new ArrayList<>();
