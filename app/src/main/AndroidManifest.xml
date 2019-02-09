@@ -56,6 +56,7 @@
             android:resource="@array/preloaded_fonts" />
 
         <activity android:name=".View.DataStatisticActivity"></activity>
+        <activity android:name=".View.LogDetailActivity" />
     </application>
 
 </manifest>

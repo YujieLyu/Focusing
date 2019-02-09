@@ -12,6 +12,8 @@ import java.util.Locale;
  * @time : 11:47
  */
 public class TimeHelper {
+    public static final long HOUR_IN_MILLIS = 60 * 60 * 1000;
+    public static final long DAY_IN_MILLIS = 24 * HOUR_IN_MILLIS;
     private static SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
 
     /**
@@ -35,33 +37,38 @@ public class TimeHelper {
         return sdf.parse(dateStr);
     }
 
-    public static long convertTime(int hour,int min){
-        long time;
-        Calendar calendar=Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY,hour);
-        calendar.set(Calendar.MINUTE,min);
-        time=calendar.getTimeInMillis();
-        return time;
+    public static boolean betweenRange(long start, long end, long curr) {
+        return curr - start >= 0 && end - curr > 0;
     }
 
-    public static Calendar getCurrCalendar(){
-        Calendar calendar=Calendar.getInstance();
+    public static long toMillis(int hour, int min) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, min);
+        return calendar.getTimeInMillis();
+    }
+
+    public static Calendar getCurrCalendar() {
+        Calendar calendar = Calendar.getInstance();
         return calendar;
 
     }
-    public static int getCurrYear(){
-        Calendar curr=getCurrCalendar();
-        int year=curr.get(Calendar.YEAR);
+
+    public static int getCurrYear() {
+        Calendar curr = getCurrCalendar();
+        int year = curr.get(Calendar.YEAR);
         return year;
     }
-    public static int getCurrMonth(){
-        Calendar curr=getCurrCalendar();
-        int month=curr.get(Calendar.MONTH);//mcl: should be month
+
+    public static int getCurrMonth() {
+        Calendar curr = getCurrCalendar();
+        int month = curr.get(Calendar.MONTH);//mcl: should be month
         return month;//mcl: month filed start from 0
     }
-    public static int getCurrDay(){
-        Calendar curr=getCurrCalendar();
-        int day=curr.get(Calendar.DAY_OF_MONTH);//mcl: should be day
+
+    public static int getCurrDay() {
+        Calendar curr = getCurrCalendar();
+        int day = curr.get(Calendar.DAY_OF_MONTH);//mcl: should be day
         return day;
     }
 
@@ -95,5 +102,17 @@ public class TimeHelper {
 
         return countTime;
 
+    }
+
+    public static String getDayOfMonth(int numOfDay) {
+        long mills = System.currentTimeMillis() + -1 * numOfDay * DAY_IN_MILLIS;
+        Date date = new Date(mills);
+        return new SimpleDateFormat("dd", Locale.getDefault()).format(date);
+    }
+
+    public static String getDayOfWeek(int numOfDay) {
+        long mills = System.currentTimeMillis() + -1 * numOfDay * DAY_IN_MILLIS;
+        Date date = new Date(mills);
+        return new SimpleDateFormat("EEE", Locale.getDefault()).format(date);
     }
 }

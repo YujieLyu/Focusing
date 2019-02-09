@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 
 import com.example.jessie.focusing.Controller.Adapter.AppListAdapter;
 import com.example.jessie.focusing.Model.AppInfo;
+import com.example.jessie.focusing.Model.Profile;
 import com.example.jessie.focusing.R;
 import com.example.jessie.focusing.Service.LockService;
 import com.example.jessie.focusing.Utils.ScanAppsTool;
@@ -26,22 +27,15 @@ public class NowAppListFragment extends Fragment {
     private ListView lv_appList;
     private AppListAdapter appListAdapter;
     private RelativeLayout applist;
-    private int defProfId=-10;
-//    public Handler handler = new Handler();
+    //    public Handler handler = new Handler();
 
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        if(LockService.StartNow){
-            appListAdapter.saveSettings();
-        }
-
+    public NowAppListFragment() {
     }
 
     private void initData() {
-        final List<AppInfo> appInfos=ScanAppsTool.scanAppsList(getActivity().getPackageManager());
-        appListAdapter.setData(appInfos,defProfId);
+        final List<AppInfo> appInfos = ScanAppsTool.scanAppsList(getActivity().getPackageManager());
+        appListAdapter.setData(appInfos, Profile.START_NOW_PROFILE_ID);
 
 //        new Thread(new Runnable() {
 //            @Override
@@ -53,16 +47,12 @@ public class NowAppListFragment extends Fragment {
 //        }).start();
 
     }
-    public NowAppListFragment() {
-    }
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState){
-        View view =inflater.inflate(R.layout.fragment_startnow_applist,container,false);
-        applist=view.findViewById(R.id.now_applist_layout);
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_startnow_applist, container, false);
+        applist = view.findViewById(R.id.now_applist_layout);
 //        applist.setBackgroundResource(R.drawable.galaxy2);
         lv_appList = view.findViewById(R.id.now_app_list);
         appListAdapter = new AppListAdapter(this.getContext());
@@ -76,5 +66,14 @@ public class NowAppListFragment extends Fragment {
     public void onResume() {
         super.onResume();
         initData();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (LockService.StartNow) {
+            appListAdapter.saveSettings();
+        }
+
     }
 }

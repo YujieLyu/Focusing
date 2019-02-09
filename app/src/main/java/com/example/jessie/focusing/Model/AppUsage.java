@@ -2,6 +2,7 @@ package com.example.jessie.focusing.Model;
 
 import android.graphics.drawable.Drawable;
 
+import org.litepal.LitePal;
 import org.litepal.annotation.Column;
 import org.litepal.crud.LitePalSupport;
 
@@ -12,44 +13,35 @@ import org.litepal.crud.LitePalSupport;
  */
 public class AppUsage extends LitePalSupport implements Comparable<AppUsage> {
 
+    @Column(unique = true)
+    private int id;
+    @Column(nullable = false)
+    private String packageName;
+    @Column
+    private long usedOutFocus;
+    @Column
+    private long usedInFocus;
+    @Column
+    private int openOutFocus;
+    @Column
+    private int openInFocus;
+    @Column
+    private int year;
+    @Column
+    private int month;
+    @Column
+    private int day;
+    @Column(ignore = true)
+    private Drawable appImg;
+    @Column(ignore = true)
+    private String appName;
+
     public AppUsage(String packageName, int year, int month, int day) {
         this.packageName = packageName;
         this.year = year;
         this.month = month;
         this.day = day;
     }
-
-    @Column(unique = true)
-    private int id;
-
-    @Column(nullable = false)
-    private String packageName;
-
-    @Column
-    private long usedOutFocus;
-    @Column
-    private long usedInFocus;
-
-    @Column
-    private int openOutFocus;
-
-    @Column
-    private int openInFocus;
-
-    @Column
-    private int year;
-
-    @Column
-    private int month;
-
-    @Column
-    private int day;
-
-    @Column(ignore = true)
-    private Drawable appImg;
-
-    @Column(ignore = true)
-    private String appName;
 
 
 //    public AppUsage(Context context, String packageName) {
@@ -64,6 +56,11 @@ public class AppUsage extends LitePalSupport implements Comparable<AppUsage> {
 //            e.printStackTrace();
 //        }
 //    }
+
+    public static AppUsage findByDate(String packageName, int year, int month, int day) {
+        String where = String.format("packagename = \"%s\" and year = %s and month = %s and day = %s", packageName, year, month, day);
+        return LitePal.where(where).findLast(AppUsage.class);
+    }
 
     public String getAppName() {
         return appName;
@@ -111,6 +108,10 @@ public class AppUsage extends LitePalSupport implements Comparable<AppUsage> {
 
     public String getPackageName() {
         return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
     }
 
     public int getId() {
@@ -163,10 +164,6 @@ public class AppUsage extends LitePalSupport implements Comparable<AppUsage> {
 
     public void setDay(int day) {
         this.day = day;
-    }
-
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
     }
 
     public long getUsedInFocus() {

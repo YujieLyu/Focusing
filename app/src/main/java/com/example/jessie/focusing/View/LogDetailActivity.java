@@ -1,5 +1,6 @@
 package com.example.jessie.focusing.View;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -19,14 +20,13 @@ import com.example.jessie.focusing.View.StartNow.NowClockFragment;
  * @time : 02:40
  */
 public class LogDetailActivity extends AppCompatActivity {
+    public static final String KEY = "pkName";
     /**
      * new added
      */
     private ViewPager viewPager;
-    private OpenTimeFragment openTimeFragment;
-    private UseTimeFragment useTimeFragment;
     private MenuItem menuItem;
-
+    private String packageName;
     /**
      * NEW ADDED
      */
@@ -36,10 +36,10 @@ public class LogDetailActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
             switch (menuItem.getItemId()) {
                 case R.id.nav_use_time:
-                    viewPager.setCurrentItem(0);
+                    viewPager.setCurrentItem(1);
                     return true;
                 case R.id.nav_open_times:
-                    viewPager.setCurrentItem(1);
+                    viewPager.setCurrentItem(0);
                     return true;
             }
             return false;
@@ -47,13 +47,15 @@ public class LogDetailActivity extends AppCompatActivity {
     };
 
 
-    /**
-     * new added todo:
-     */
+
     private void setViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        openTimeFragment = new OpenTimeFragment();
-        useTimeFragment = new UseTimeFragment();
+        Bundle args = new Bundle();
+        args.putString(KEY, packageName);
+        OpenTimeFragment openTimeFragment = new OpenTimeFragment();
+        openTimeFragment.setArguments(args);
+        UseTimeFragment useTimeFragment = new UseTimeFragment();
+        useTimeFragment.setArguments(args);
         adapter.addFragment(openTimeFragment);
         adapter.addFragment(useTimeFragment);
         viewPager.setAdapter(adapter);
@@ -63,6 +65,10 @@ public class LogDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
+        if (intent != null) {
+            packageName = intent.getStringExtra(KEY);
+        }
         setContentView(R.layout.activity_logdetail);
         viewPager = findViewById(R.id.viewpager_logdetail);
         final BottomNavigationView navigationView = findViewById(R.id.bottom_nav_logdetail);

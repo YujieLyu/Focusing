@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.example.jessie.focusing.Model.AppInfoManager;
 import com.example.jessie.focusing.Model.FocusTimeManager;
+import com.example.jessie.focusing.Model.Profile;
 import com.example.jessie.focusing.R;
 import com.example.jessie.focusing.Service.LockService;
 import com.example.jessie.focusing.Utils.LockUtil;
@@ -53,12 +54,12 @@ public class Countdown_Activity extends AppCompatActivity implements CountdownVi
         cdv_count.setOnCountdownEndListener(this);
         tv_suggestInfo = findViewById(R.id.tv_suggestInfo);
         countLayout = findViewById(R.id.cd_main_view);
-        btn_stop=findViewById(R.id.btn_cancel_countdown);
+        btn_stop = findViewById(R.id.btn_cancel_countdown);
         btn_stop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
-                Intent intent=new Intent(Countdown_Activity.this,Main_Activity.class);
+                Intent intent = new Intent(Countdown_Activity.this, Main_Activity.class);
                 startActivity(intent);
             }
         });
@@ -66,6 +67,18 @@ public class Countdown_Activity extends AppCompatActivity implements CountdownVi
         initData();
         StatusBarUtil.setStatusTransparent(this);
 //        initLayoutBackground();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+//        Calendar today=Calendar.getInstance();
+//        today.setTimeInMillis(System.currentTimeMillis());
+//        Calendar today=TimeHelper.getCurrCalendar();
+        long remainTime = cdv_count.getRemainTime();
+        long timeSummary = countTime - remainTime;
+        focusTimeManager.saveOrUpdateTime(timeSummary);
+        appInfoManager.reset(Profile.START_NOW_PROFILE_ID);
     }
 
     protected void initData() {
@@ -82,11 +95,10 @@ public class Countdown_Activity extends AppCompatActivity implements CountdownVi
         }
 
         cdv_count.start(countTime);
-        focusTimeManager=new FocusTimeManager();
+        focusTimeManager = new FocusTimeManager();
 //
 
     }
-
 
     private void initLayoutBackground() {
 
@@ -104,9 +116,17 @@ public class Countdown_Activity extends AppCompatActivity implements CountdownVi
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);//must store the new intent unless getIntent() will return the old one
+        getIntent(); //will return the old one
+        processExtraData();
+    }
+
+    @Override
     public void onEnd(CountdownView cv) {
         cv.stop();
-        appInfoManager.reset(-10);
+        appInfoManager.reset(Profile.START_NOW_PROFILE_ID);
         LockService.StartNow = false;
 
 //        moveTaskToBack(true);
@@ -116,26 +136,6 @@ public class Countdown_Activity extends AppCompatActivity implements CountdownVi
         startActivity(intent);
 //        finishAndRemoveTask();//Kill the activity
         this.finish();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-//        Calendar today=Calendar.getInstance();
-//        today.setTimeInMillis(System.currentTimeMillis());
-//        Calendar today=TimeHelper.getCurrCalendar();
-        long remainTime=cdv_count.getRemainTime();
-        long timeSummary=countTime-remainTime;
-        focusTimeManager.saveOrUpdateTime(timeSummary);
-        appInfoManager.reset(-10);
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        setIntent(intent);//must store the new intent unless getIntent() will return the old one
-        getIntent(); //will return the old one
-        processExtraData();
     }
 
     private void processExtraData() {

@@ -1,13 +1,21 @@
 package com.example.jessie.focusing.View;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
 import com.example.jessie.focusing.Controller.Adapter.UsageListAdapter;
-import com.example.jessie.focusing.Model.AppInfo;
+import com.example.jessie.focusing.Model.AppUsage;
 import com.example.jessie.focusing.Model.FocusTime;
 import com.example.jessie.focusing.Model.FocusTimeManager;
-import com.example.jessie.focusing.Utils.ScanAppsTool;
+import com.example.jessie.focusing.Model.UsageManager;
+import com.example.jessie.focusing.R;
 import com.example.jessie.focusing.Utils.StatusBarUtil;
+import com.example.jessie.focusing.Utils.TimeHelper;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -17,12 +25,6 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-
-import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
-
-
-import com.example.jessie.focusing.R;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IValueFormatter;
@@ -39,11 +41,10 @@ public class DataStatisticActivity extends AppCompatActivity {
     private List<FocusTime> timeData;
     private List<Integer> dates = new ArrayList<>();
     private List<Integer> mins = new ArrayList<>();
-    private List<Integer> temp=new ArrayList<>();
-    private UsageListAdapter usageListAdapter;
-
-
+    private List<Integer> days = new ArrayList<>();
+    private UsageListAdapter usAdapter;
     private FocusTimeManager focusTimeManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,13 +52,17 @@ public class DataStatisticActivity extends AppCompatActivity {
         setContentView(R.layout.activity_data_statistic);
 
         BarChart mBarChart = findViewById(R.id.bar_chart);
+
+
         initData();
         initBarChart(mBarChart);
         setBarChartData(dates.size(), mBarChart);
         StatusBarUtil.setStatusTransparent(this);
         StatusBarUtil.setDarkStatusIcon(this, true);
-        usageListAdapter=new UsageListAdapter(this);
+        usAdapter = new UsageListAdapter(this);
         initUsageList();
+        ListView lv_apps = findViewById(R.id.used_app_list);
+        lv_apps.setAdapter(usAdapter);
     }
 
     private void initData() {
@@ -68,49 +73,65 @@ public class DataStatisticActivity extends AppCompatActivity {
         weekBefore.add(Calendar.DATE, -7);
         focusTimeManager = new FocusTimeManager();
         timeData = focusTimeManager.getTimeDate(weekBefore, today);
-
+        int omission=0;
         if (timeData.size()<7){
-            int omission;
             omission=7-timeData.size();
             for (int i = 0; i<omission;i++){
-                mins.add(0);
+                mins.add(0);//如果没有统计数据，就统一设置时长为0
             }
         }
 
 
+        Calendar calendar=Calendar.getInstance();
+        calendar.setTime(new Date());
+        int day=calendar.get(Calendar.DATE);
 
         for (FocusTime timeDatum : timeData) {
-            temp.add(timeDatum.getDay());
+            dates.add(timeDatum.getDay());
             long minutes=timeDatum.getTime()/(1000 * 60 );//处理一下long转int四舍五入的问题
-
             mins.add((int)Math.ceil(minutes));
         }
 
 
-        if (temp.size()<7){
+        //一周之内记录日期不足的补位
+        int max= dates.size()==0?day:Collections.max(dates);
+        int lastDayToAdd=max- dates.size();
+        dates.add(lastDayToAdd);
 
-            int min=Collections.min(temp);
-            int omission;
-            omission=7-temp.size();
-            for (int i=0;i<omission;i++){
-                min--;
-                if (min>0) {
-                    dates.add(min);
-                }else {
-                    min=31;
-                    dates.add(min);
+        if (dates.size()<7){
+            if (lastDayToAdd>=omission){
+                for (int i=0;i<omission;i++){
+                    lastDayToAdd--;
+                    if (dates.size()<7){
+                        dates.add(lastDayToAdd);
+                    }else
+                        Collections.reverse(dates);
+                }
 
+            }else {
+                for (int j=0;j<omission;j++){
+                    lastDayToAdd--;
+                    if (dates.size()<7){
+                        if (lastDayToAdd<=0){
+                            lastDayToAdd=31;
+                        }
+                        dates.add(lastDayToAdd);
+                    }else
+                        Collections.reverse(dates);
                 }
             }
+
         }
-        Collections.reverse(dates);
-        dates.addAll(temp);
+
+
 
     }
 
-    private void initUsageList(){
-            final List<AppInfo> appInfos=ScanAppsTool.scanAppsList(this.getPackageManager());
-             usageListAdapter.setData(appInfos);
+
+    private void initUsageList() {
+        UsageManager usageManager = new UsageManager(this);
+        List<AppUsage> appUsages = usageManager.getMostUsedAppsInDays(-7);
+        usAdapter.setData(appUsages);
 
 //        new Thread(new Runnable() {
 //            @Override
@@ -136,8 +157,8 @@ public class DataStatisticActivity extends AppCompatActivity {
         mBarChart.setDrawBorders(false);
 
         //设置动画效果
-        mBarChart.animateY(1000, Easing.EasingOption.Linear);
-        mBarChart.animateX(1000, Easing.EasingOption.Linear);
+        mBarChart.animateY(1000, Easing.Linear);
+        mBarChart.animateX(1000, Easing.Linear);
 
         //折线图例 标签 设置
         Legend l = mBarChart.getLegend();
@@ -181,8 +202,8 @@ public class DataStatisticActivity extends AppCompatActivity {
 
         for (int i = 0; i < count; i++) {
 
-                    int val = mins.get(i);
-                    entries.add(new BarEntry(i, val));
+            int val = mins.get(i);
+            entries.add(new BarEntry(i, val));
 
         }
 
@@ -204,7 +225,7 @@ public class DataStatisticActivity extends AppCompatActivity {
             @Override
             public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
                 int idx = (int) entry.getX();
-                return String.valueOf(mins.get(idx)+" Mins");
+                return String.valueOf(mins.get(idx) + " Mins");
             }
         });
 

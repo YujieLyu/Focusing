@@ -1,6 +1,7 @@
 package com.example.jessie.focusing.Controller.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,14 +10,12 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.jessie.focusing.Model.AppInfo;
 import com.example.jessie.focusing.Model.AppUsage;
-import com.example.jessie.focusing.Model.UsageManager;
 import com.example.jessie.focusing.R;
-import com.example.jessie.focusing.Utils.TimeHelper;
+import com.example.jessie.focusing.View.DataStatisticActivity;
+import com.example.jessie.focusing.View.LogDetailActivity;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -24,30 +23,56 @@ import java.util.List;
  * @date : 05-02-2019
  * @time : 23:44
  */
-public class UsageListAdapter extends BaseAdapter {
+public class UsageListAdapter extends BaseAdapter implements View.OnClickListener {
     private final Context context;
-    private List<AppUsage> appUsages=new ArrayList<>();
-    private UsageManager usageManager;
-    private long maxTime;
+    private List<AppUsage> appUsages = new ArrayList<>();
 
     public UsageListAdapter(Context context) {
         this.context = context;
-        usageManager=new UsageManager();
     }
+
+    public void setData(List<AppUsage> appUsages) {
+        this.appUsages = appUsages;
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public int getCount() {
+        if (appUsages == null) {
+            return 0;
+        }
+        return appUsages.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return appUsages.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-      UsageListAdapter.ViewHolder viewHolder = new UsageListAdapter.ViewHolder();
-        AppUsage selectedApp = appUsages.get(position);
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_lock_list, null);
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_stats_list, null);
         }
-
-        viewHolder.ivAppIcon = convertView.findViewById(R.id.app_icon);
-        viewHolder.txAppName = convertView.findViewById(R.id.app_name);
-        viewHolder.ivAppIcon.setImageDrawable(selectedApp.getAppImg());
-        viewHolder.txAppName.setText(selectedApp.getAppName());
-
+        ViewHolder vh = new ViewHolder(convertView);
+        AppUsage appUsage = appUsages.get(position);
+        vh.setValue(appUsage);
+        convertView.setTag(appUsage);
+        convertView.setOnClickListener(this);
         return convertView;
+    }
+
+    @Override
+    public void onClick(View v) {
+        AppUsage appUsage = (AppUsage) v.getTag();
+        Intent intent = new Intent(context, LogDetailActivity.class);
+        intent.putExtra(LogDetailActivity.KEY, appUsage.getPackageName());
+        context.startActivity(intent);
     }
 
     class ViewHolder {
@@ -55,28 +80,17 @@ public class UsageListAdapter extends BaseAdapter {
         ImageView ivAppIcon;
         TextView txAppName;
         ImageButton imageButton;
-    }
 
-    public void setData(List<AppInfo> appInfos) {
-        usageManager=new UsageManager();
-        Calendar today=TimeHelper.getCurrCalendar();
-        appUsages=usageManager.syncData(appInfos);
+        ViewHolder(View view) {
+            ivAppIcon = view.findViewById(R.id.app_icon);
+            txAppName = view.findViewById(R.id.app_name);
+            imageButton = view.findViewById(R.id.click_arrow);
+        }
 
-
-    }
-    @Override
-    public int getCount() {
-        return 0;
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return null;
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return 0;
+        void setValue(AppUsage appUsage) {
+            txAppName.setText(appUsage.getAppName());
+            ivAppIcon.setImageDrawable(appUsage.getAppImg());
+        }
     }
 
 

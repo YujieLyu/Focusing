@@ -19,7 +19,7 @@ public class AppInfoManager {
 
 
     public AppInfoManager() {
-        profileManager=new ProfileManager();
+        profileManager = new ProfileManager();
     }
 
     /**
@@ -43,11 +43,11 @@ public class AppInfoManager {
 
     /**
      * delete by profId
-
+     *
      * @return
      */
 
-    public synchronized void deleteByProfId(int profId){
+    public synchronized void deleteByProfId(int profId) {
         int rows = LitePal.deleteAll(AppInfo.class, "profid=?", String.valueOf(profId));
         Log.i("AppInfoManager", "Rows effected: " + rows);
 //        List<AppInfo> appInfosDatabase = LitePal.findAll(AppInfo.class);
@@ -60,6 +60,7 @@ public class AppInfoManager {
 //        }
 //        delete(temp);
     }
+
     public synchronized List<AppInfo> syncData(List<AppInfo> appInfos) {
         //for clear DB
 //        LitePal.deleteAll(AppInfo.class);
@@ -74,7 +75,7 @@ public class AppInfoManager {
         for (AppInfo appInfodb : appInfosDatabase) {
             if (!packageName.contains(appInfodb.getPackageName())) {
 //                tempD.add(appInfodb);
-               appInfodb.delete();
+                appInfodb.delete();
             }
 
         }
@@ -98,6 +99,17 @@ public class AppInfoManager {
     }
 
 
+    public synchronized List<AppInfo> getToLockApps(String packageName) {
+        List<AppInfo> res = new ArrayList<>();
+        List<AppInfo> list = AppInfo.findByPackageName(packageName);
+        for (AppInfo appInfo : list) {
+            int profId = appInfo.getProfId();
+            if (appInfo.isLocked() && Profile.isStart(profId)) {
+                res.add(appInfo);
+            }
+        }
+        return res;
+    }
 
     public synchronized List<AppInfo> getData(String packageName) {
         List<AppInfo> synonymAppInfos = new ArrayList<>();
@@ -152,45 +164,18 @@ public class AppInfoManager {
 
 
         for (AppInfo appInfo : appInfos) {
-            //Need to use saveOrUpdate, or it will save all data repetitively
+            //Need to use saveUsedTime, or it will save all data repetitively
 
             appInfo.saveOrUpdate("id=? AND profid=?", String.valueOf(appInfo.getId()), String.valueOf(appInfo.getProfId()));
 
         }
     }
 
-    public void reset(int profId){
-        ContentValues cv=new ContentValues();
-        cv.put("islocked",0);
-        LitePal.updateAll(AppInfo.class,cv,"profid=?",String.valueOf(profId));
+    public void reset(int profId) {
+        ContentValues cv = new ContentValues();
+        cv.put("islocked", 0);
+        LitePal.updateAll(AppInfo.class, cv, "profid=?", String.valueOf(profId));
     }
-
-    public boolean checkIsLocked(String packageName) {
-        List<AppInfo> appInfos = LitePal.findAll(AppInfo.class);
-        List<AppInfo> synonymApps=new ArrayList<>();
-        for (AppInfo appInfo : appInfos) {
-            if (appInfo.getPackageName().equals(packageName)){
-             synonymApps.add(appInfo);
-            }
-
-        }
-        for (AppInfo synonyapp : synonymApps) {
-            if (synonyapp.getProfId()==-10){
-                if (synonyapp.isLocked()){
-                    return true;
-                }
-                else return false;
-            }else {
-                if (synonyapp.isLocked()){
-                    int profId=synonyapp.getProfId();
-                    return profileManager.checkInTimeSlot(profId);
-                }else return false;
-            }
-
-
-        }
-        return false;
-        }
 
 
 }

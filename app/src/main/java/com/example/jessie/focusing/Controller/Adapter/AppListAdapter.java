@@ -9,11 +9,11 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.jessie.focusing.Model.AppInfo;
+import com.example.jessie.focusing.Model.AppInfoManager;
 import com.example.jessie.focusing.Model.Profile;
 import com.example.jessie.focusing.Model.ProfileManager;
 import com.example.jessie.focusing.R;
-import com.example.jessie.focusing.Model.AppInfoManager;
-import com.example.jessie.focusing.Model.AppInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,10 +26,10 @@ import java.util.List;
 public class AppListAdapter extends BaseAdapter implements View.OnClickListener {
 
 
-    List<AppInfo> appInfos = new ArrayList<>();
     private final Context context;
     private final AppInfoManager infoManager;
     private final ProfileManager profileManager;
+    List<AppInfo> appInfos = new ArrayList<>();
     private int profId;
 
     public AppListAdapter(Context context) {
@@ -52,30 +52,8 @@ public class AppListAdapter extends BaseAdapter implements View.OnClickListener 
     }
 
 
-
     public List<AppInfo> getData() {
         return appInfos;
-    }
-
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder = new ViewHolder();
-        AppInfo selectedAppInfo = appInfos.get(position);
-        if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_lock_list, null);
-        }
-
-        viewHolder.ivAppIcon = convertView.findViewById(R.id.app_icon);
-        viewHolder.txAppName = convertView.findViewById(R.id.app_name);
-        viewHolder.cbAppIsLocked = convertView.findViewById(R.id.switch_bar);
-        viewHolder.ivAppIcon.setImageDrawable(selectedAppInfo.getAppImg());
-        viewHolder.txAppName.setText(selectedAppInfo.getAppName());
-        viewHolder.cbAppIsLocked.setChecked(selectedAppInfo.isLocked());
-        viewHolder.cbAppIsLocked.setTag(selectedAppInfo);
-        viewHolder.cbAppIsLocked.setOnClickListener(this);
-
-        return convertView;
     }
 
     @Override
@@ -86,7 +64,7 @@ public class AppListAdapter extends BaseAdapter implements View.OnClickListener 
     }
 
     public void saveSettings() {
-        if (profId != -10) { //TODO: how to deal with "start now"
+        if (profId != Profile.START_NOW_PROFILE_ID) { //TODO: how to deal with "start now"
             Profile profile = profileManager.getProfile(profId);
             if (profile == null) {
                 infoManager.deleteByProfId(profId);
@@ -94,13 +72,6 @@ public class AppListAdapter extends BaseAdapter implements View.OnClickListener 
             }
         }
         infoManager.saveOrUpdateInfos(appInfos);
-    }
-
-    class ViewHolder {
-
-        ImageView ivAppIcon;
-        TextView txAppName;
-        CheckBox cbAppIsLocked;
     }
 
     @Override
@@ -122,6 +93,33 @@ public class AppListAdapter extends BaseAdapter implements View.OnClickListener 
     @Override
     public long getItemId(int position) {
         return position;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder viewHolder = new ViewHolder();
+        AppInfo selectedAppInfo = appInfos.get(position);
+        if (convertView == null) {
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_lock_list, null);
+        }
+
+        viewHolder.ivAppIcon = convertView.findViewById(R.id.app_icon);
+        viewHolder.txAppName = convertView.findViewById(R.id.app_name);
+        viewHolder.cbAppIsLocked = convertView.findViewById(R.id.switch_bar);
+        viewHolder.ivAppIcon.setImageDrawable(selectedAppInfo.getAppImg());
+        viewHolder.txAppName.setText(selectedAppInfo.getAppName());
+        viewHolder.cbAppIsLocked.setChecked(selectedAppInfo.isLocked());
+        viewHolder.cbAppIsLocked.setTag(selectedAppInfo);
+        viewHolder.cbAppIsLocked.setOnClickListener(this);
+
+        return convertView;
+    }
+
+    class ViewHolder {
+
+        ImageView ivAppIcon;
+        TextView txAppName;
+        CheckBox cbAppIsLocked;
     }
 
 }

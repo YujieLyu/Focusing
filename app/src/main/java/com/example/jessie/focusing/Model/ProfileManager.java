@@ -1,8 +1,6 @@
 package com.example.jessie.focusing.Model;
 
-import android.content.Context;
-
-import com.example.jessie.focusing.Utils.TimeHelper;
+import com.example.jessie.focusing.Service.LockService;
 
 import org.litepal.LitePal;
 
@@ -10,6 +8,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
+
+import static com.example.jessie.focusing.Utils.TimeHelper.betweenRange;
+import static com.example.jessie.focusing.Utils.TimeHelper.toMillis;
 
 /**
  * @author : Yujie Lyu
@@ -59,15 +60,7 @@ public class ProfileManager {
         return profile;
     }
 
-    public synchronized boolean checkProfOnSchedule(Profile profile, int dayOfWeek) {
-        if (profile.getRepeatId() == -1) {
-            return false;
-        } else if (profile.getRepeatId() == 0) {
-            return true;
-        } else if (dayOfWeek == 1 && profile.getRepeatId() == 7) {
-            return true;
-        } else return profile.getRepeatId() == dayOfWeek - 1;
-    }
+
 
     public synchronized List<Profile> syncProfileOnSchedule(int dayOfWeek) {
         int repeatId = dayOfWeek == 1 ? 7 : dayOfWeek - 1;
@@ -90,8 +83,8 @@ public class ProfileManager {
     //查看输入的profile目前是否在运行
     public synchronized boolean checkInTimeSlot(int profId) {
         Profile profile = LitePal.find(Profile.class, profId);
-        long startTime = TimeHelper.convertTime(profile.getStartHour(), profile.getStartMin());
-        long endTime = TimeHelper.convertTime(profile.getEndHour(), profile.getEndMin());
+        long startTime = toMillis(profile.getStartHour(), profile.getStartMin());
+        long endTime = toMillis(profile.getEndHour(), profile.getEndMin());
         long currTime = System.currentTimeMillis();
         if (startTime < currTime && currTime < endTime) {
             return true;
