@@ -41,8 +41,8 @@ public class ProfileListAdapter extends BaseAdapter {
 
     public ProfileListAdapter(Context context) {
         this.context = context;
-        profileManager = new ProfileManager(context);
-        appInfoManager = new AppInfoManager(context);
+        profileManager = new ProfileManager();
+        appInfoManager = new AppInfoManager();
         tempItemSet = new HashSet<>();
     }
 

@@ -17,12 +17,9 @@ import java.util.List;
  * @time : 08:34
  */
 public class ProfileManager {
-    private Context context;
-    List<Profile> all = LitePal.findAll(Profile.class);
 
-    public ProfileManager(Context context) {
+    public ProfileManager() {
 
-        this.context = context;
     }
 
     /**

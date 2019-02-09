@@ -12,6 +12,12 @@ import org.litepal.crud.LitePalSupport;
  */
 public class AppUsage extends LitePalSupport implements Comparable<AppUsage> {
 
+    public AppUsage(String packageName, int year, int month, int day) {
+        this.packageName = packageName;
+        this.year = year;
+        this.month = month;
+        this.day = day;
+    }
 
     @Column(unique = true)
     private int id;
@@ -27,8 +33,6 @@ public class AppUsage extends LitePalSupport implements Comparable<AppUsage> {
     @Column
     private int openOutFocus;
 
-    @Column
-    private boolean isLocked;
     @Column
     private int openInFocus;
 
@@ -81,12 +85,20 @@ public class AppUsage extends LitePalSupport implements Comparable<AppUsage> {
         return usedOutFocus;
     }
 
-    public void setUsedOutFocus(long usedOutFocus) {
-        this.usedOutFocus = usedOutFocus;
+    public void setUsedTime(long usedTime, boolean isLocked) {
+        if (isLocked) {
+            this.usedInFocus = usedTime;
+        } else {
+            this.usedOutFocus = usedTime;
+        }
     }
 
-    public void addUsedTime(long usedTime) {
-        this.usedOutFocus += usedTime;
+    public void addUsedTime(long usedTime, boolean isLocked) {
+        if (isLocked) {
+            this.usedInFocus += usedTime;
+        } else {
+            this.usedOutFocus += usedTime;
+        }
     }
 
     @Override
@@ -113,12 +125,20 @@ public class AppUsage extends LitePalSupport implements Comparable<AppUsage> {
         return openOutFocus;
     }
 
-    public void setOpenOutFocus(int openOutFocus) {
-        this.openOutFocus = openOutFocus;
+    public void setOpenTimes(int openTimes, boolean isLocked) {
+        if (isLocked) {
+            this.openInFocus = openTimes;
+        } else {
+            this.openOutFocus = openTimes;
+        }
     }
 
-    public void addOpenTimes(int openTimes) {
-        this.openOutFocus += openTimes;
+    public void addOpenTimes(int openTimes, boolean isLocked) {
+        if (isLocked) {
+            this.openInFocus += openTimes;
+        } else {
+            this.openOutFocus += openTimes;
+        }
     }
 
     public int getYear() {
@@ -147,14 +167,6 @@ public class AppUsage extends LitePalSupport implements Comparable<AppUsage> {
 
     public void setPackageName(String packageName) {
         this.packageName = packageName;
-    }
-
-    public boolean isLocked() {
-        return isLocked;
-    }
-
-    public void setLocked(boolean locked) {
-        isLocked = locked;
     }
 
     public long getUsedInFocus() {

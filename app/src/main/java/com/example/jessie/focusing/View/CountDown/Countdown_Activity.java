@@ -13,19 +13,14 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.jessie.focusing.Controller.Adapter.AppListAdapter;
 import com.example.jessie.focusing.Model.AppInfoManager;
 import com.example.jessie.focusing.Model.FocusTimeManager;
 import com.example.jessie.focusing.R;
 import com.example.jessie.focusing.Service.LockService;
 import com.example.jessie.focusing.Utils.LockUtil;
 import com.example.jessie.focusing.Utils.StatusBarUtil;
-import com.example.jessie.focusing.Utils.TimeHelper;
 import com.example.jessie.focusing.View.Finish.Finish_Activity;
 import com.example.jessie.focusing.View.Main.Main_Activity;
-
-import java.util.Calendar;
-import java.util.Date;
 
 import cn.iwgang.countdownview.CountdownView;
 
@@ -67,7 +62,7 @@ public class Countdown_Activity extends AppCompatActivity implements CountdownVi
                 startActivity(intent);
             }
         });
-        appInfoManager = new AppInfoManager(this);
+        appInfoManager = new AppInfoManager();
         initData();
         StatusBarUtil.setStatusTransparent(this);
 //        initLayoutBackground();

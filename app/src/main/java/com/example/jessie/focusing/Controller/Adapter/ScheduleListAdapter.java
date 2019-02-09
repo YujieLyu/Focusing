@@ -2,13 +2,10 @@ package com.example.jessie.focusing.Controller.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.example.jessie.focusing.Model.Profile;
@@ -33,7 +30,7 @@ public class ScheduleListAdapter extends BaseAdapter {
 
     public ScheduleListAdapter(Context context) {
         this.context = context;
-        profileManager = new ProfileManager(context);
+        profileManager = new ProfileManager();
     }
 
     public void setData(int dayOfWeek) {

@@ -1,17 +1,12 @@
 package com.example.jessie.focusing.Model;
 
 import android.content.ContentValues;
-import android.content.Context;
-import android.content.pm.PackageManager;
 import android.util.Log;
-
-import com.example.jessie.focusing.Model.AppInfo;
 
 import org.litepal.LitePal;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -20,15 +15,11 @@ import java.util.List;
  * @time : 18:13
  */
 public class AppInfoManager {
-    private PackageManager packageManager;
-    private Context context;
     private ProfileManager profileManager;
 
 
-    public AppInfoManager(Context context) {
-        this.context = context;
-        packageManager = context.getPackageManager();
-        profileManager=new ProfileManager(context);
+    public AppInfoManager() {
+        profileManager=new ProfileManager();
     }
 
     /**

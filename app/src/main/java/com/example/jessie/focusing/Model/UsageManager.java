@@ -16,61 +16,41 @@ import java.util.List;
  */
 public class UsageManager {
     private static final int OPEN_TIMES_INCREMENT = 1;
-    private Context context;
     private int todayYear = TimeHelper.getCurrYear();
     private int todayMonth = TimeHelper.getCurrMonth();
     private int todayDay = TimeHelper.getCurrDay();
 
-    public UsageManager(Context context) {
-        this.context = context;
+    public UsageManager() {
     }
 
     private boolean atToday(AppUsage appUsage) {
         return appUsage.getYear() == todayYear && appUsage.getMonth() == todayMonth && appUsage.getDay() == todayDay;
     }
 
-    public synchronized void saveOrUpdateData(long timeSummary, String packageName,boolean isLocked) {
+    public synchronized void saveOrUpdateData(long timeSummary, String packageName, boolean isLocked) {
         if (packageName == null || packageName.isEmpty()) {
             return;
         }
         List<AppUsage> appUsagesDB = LitePal.findAll(AppUsage.class);
         AppUsage appChecked = null;
         for (AppUsage appUsage : appUsagesDB) {
-            if (appUsage.getPackageName().equals(packageName) && atToday(appUsage)&&appUsage.isLocked()==isLocked) {
+            if (appUsage.getPackageName().equals(packageName) && atToday(appUsage)) {
                 appChecked = appUsage;
             }
         }
         if (appChecked != null) {
-            appChecked.addOpenTimes(OPEN_TIMES_INCREMENT);
-            appChecked.addUsedTime(timeSummary);
+            appChecked.addOpenTimes(OPEN_TIMES_INCREMENT, isLocked);
+            appChecked.addUsedTime(timeSummary, isLocked);
         } else {
-            appChecked = createAppUsage(todayYear, todayMonth, todayDay, packageName);
-            appChecked.setOpenOutFocus(OPEN_TIMES_INCREMENT);
-            appChecked.setUsedOutFocus(timeSummary);
+            appChecked = new AppUsage(packageName, todayYear, todayMonth, todayDay);
+            appChecked.setOpenTimes(OPEN_TIMES_INCREMENT, isLocked);
+            appChecked.setUsedTime(timeSummary, isLocked);
         }
         appChecked.save();
     }
 
     public static void deleteAll(int day) {
         LitePal.deleteAll(AppUsage.class, "day=?", String.valueOf(day));
-    }
-
-    /**
-     * 如果数据库中没有符合条件的数据，新建一条
-     *
-     * @param year
-     * @param month
-     * @param day
-     * @param packageName
-     * @return
-     */
-    private AppUsage createAppUsage(int year, int month, int day, String packageName) {
-        AppUsage appUsage = new AppUsage();
-        appUsage.setYear(year);
-        appUsage.setMonth(month);
-        appUsage.setDay(day);
-        appUsage.setPackageName(packageName);
-        return appUsage;
     }
 
     /**

@@ -32,7 +32,7 @@ public class UsageListAdapter extends BaseAdapter {
 
     public UsageListAdapter(Context context) {
         this.context = context;
-        usageManager=new UsageManager(context);
+        usageManager=new UsageManager();
     }
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -58,7 +58,7 @@ public class UsageListAdapter extends BaseAdapter {
     }
 
     public void setData(List<AppInfo> appInfos) {
-        usageManager=new UsageManager(context);
+        usageManager=new UsageManager();
         Calendar today=TimeHelper.getCurrCalendar();
         appUsages=usageManager.syncData(appInfos);
 

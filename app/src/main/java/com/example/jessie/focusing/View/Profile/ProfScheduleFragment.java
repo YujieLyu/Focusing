@@ -73,8 +73,8 @@ public class ProfScheduleFragment extends Fragment implements View.OnClickListen
                 getActivity().onBackPressed();
             }
         });
-        profileManager = new ProfileManager(getContext());
-        appInfoManager = new AppInfoManager(getContext());
+        profileManager = new ProfileManager();
+        appInfoManager = new AppInfoManager();
         initData();
         initView();
 

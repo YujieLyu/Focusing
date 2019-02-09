@@ -34,8 +34,8 @@ public class AppListAdapter extends BaseAdapter implements View.OnClickListener 
 
     public AppListAdapter(Context context) {
         this.context = context;
-        infoManager = new AppInfoManager(context);
-        profileManager = new ProfileManager(context);
+        infoManager = new AppInfoManager();
+        profileManager = new ProfileManager();
     }
 
 

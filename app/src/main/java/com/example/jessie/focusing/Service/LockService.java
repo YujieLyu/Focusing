@@ -21,8 +21,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import static com.example.jessie.focusing.Utils.AppConstants.ONE_DAY;
-
 /**
  * @author : Yujie Lyu
  * @date : 12-12-2018
@@ -46,9 +44,9 @@ public class LockService extends IntentService implements DialogInterface.OnClic
     @Override
     public void onCreate() {
         super.onCreate();
-        appInfoManager = new AppInfoManager(this);
-        profileManager = new ProfileManager(this);
-        usageManager = new UsageManager(this);
+        appInfoManager = new AppInfoManager();
+        profileManager = new ProfileManager();
+        usageManager = new UsageManager();
         activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
 
     }
@@ -85,14 +83,10 @@ public class LockService extends IntentService implements DialogInterface.OnClic
 
 //        获取栈顶app的包名
         String packageName = getLauncherTopApp(LockService.this, activityManager);
-
+        boolean isLocked = false;
         if (!packageName.equals("com.example.jessie.focusing") && !packageName.equals("com.google.android.apps.nexuslauncher")) {
 //            usageManager.deleteAll(9);
-            if (!packageName.equals(appOnTop)) {
-                appOnTop = packageName;
-                boolean isLocked=appInfoManager.checkIsLocked(packageName);
-                usageManager.saveOrUpdateData(0, packageName,isLocked);
-            }
+
             //todo:待优化！！！
             List<AppInfo> appInfos = appInfoManager.getData(packageName);
             List<AppInfo> temp = new ArrayList<>();
@@ -108,9 +102,10 @@ public class LockService extends IntentService implements DialogInterface.OnClic
                 int profId = appInfo.getProfId();
                 if (profId == -10) {
                     if (LockService.StartNow) {
+                        isLocked = true;
                         lockScreen(packageName, endTime);
                     }
-                    return;
+                    break;
                 } else {
                     Profile p = profileManager.getProfile(profId);
                     boolean onSchedule = profileManager.checkProfOnSchedule(p, today);
@@ -119,14 +114,21 @@ public class LockService extends IntentService implements DialogInterface.OnClic
                     boolean inTimeSlot = compareTime(profStart, profEnd, currTime);
                     if (onSchedule) {
                         if (inTimeSlot) {
+                            isLocked = true;
                             lockScreen(packageName, profEnd);
-                            return;
+                            break;
                         }
                     }
                 }
-
-
             }
+            recordAppUsage(packageName, isLocked);
+        }
+    }
+
+    private void recordAppUsage(String packageName, boolean isLocked) {
+        if (!packageName.equals(appOnTop)) {
+            appOnTop = packageName;
+            usageManager.saveOrUpdateData(0, packageName, isLocked);
         }
     }
 

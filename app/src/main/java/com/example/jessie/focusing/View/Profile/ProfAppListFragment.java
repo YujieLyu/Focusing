@@ -46,7 +46,7 @@ public class ProfAppListFragment extends Fragment {
         appListAdapter = new AppListAdapter(this.getContext());
         lv_appList.setAdapter(appListAdapter);
         profileId=getArguments().getInt("ProfileId",-1);
-        profileManager = new ProfileManager(getContext());
+        profileManager = new ProfileManager();
         initData();
         tv_profName.setText(profile.getProfileName());
         return view;
