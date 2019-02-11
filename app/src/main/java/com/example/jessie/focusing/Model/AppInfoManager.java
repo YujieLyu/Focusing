@@ -3,11 +3,15 @@ package com.example.jessie.focusing.Model;
 import android.content.ContentValues;
 import android.util.Log;
 
+import com.example.jessie.focusing.Service.LockService;
+
 import org.litepal.LitePal;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import static com.example.jessie.focusing.Utils.TimeHelper.toMillis;
 
 /**
  * @author : Yujie Lyu
@@ -98,6 +102,20 @@ public class AppInfoManager {
 
     }
 
+    public long getLongestEndTime(List<AppInfo> toLockApps) {
+        long endTime = Long.MIN_VALUE;
+        for (AppInfo app : toLockApps) {
+            if (app.getProfId() == Profile.START_NOW_PROFILE_ID) {
+                endTime = Math.max(endTime, LockService.START_NOW_END_TIME);
+                continue;
+            }
+            Profile profile = LitePal.find(Profile.class, app.getProfId());
+            int hour = profile.getEndHour();
+            int min = profile.getEndMin();
+            endTime = Math.max(endTime, toMillis(hour, min));
+        }
+        return endTime == Long.MIN_VALUE ? 0 : endTime;
+    }
 
     public synchronized List<AppInfo> getToLockApps(String packageName) {
         List<AppInfo> res = new ArrayList<>();

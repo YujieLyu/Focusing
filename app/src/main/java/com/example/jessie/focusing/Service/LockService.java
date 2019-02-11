@@ -27,16 +27,17 @@ import static com.example.jessie.focusing.Utils.AppConstants.LAUNCHER_PACKAGE_NA
  * @time : 23:42
  */
 public class LockService extends IntentService {
+    public static final String START_TIME = "start_time";
+    public static final String END_TIME = "end_time";
     private static final String TAG = LockService.class.getSimpleName();
-    public static boolean StartNow = false;
+    public static long START_NOW_END_TIME = -1;
     private String PACKAGE_NAME;
     private AppInfoManager appInfoManager;
     private UsageManager usageManager;
-    private long endTime;
-    private long startTime;
     private String appOnTop = null;
     private long appStartTime = 0;
     private boolean isLocked = false;
+
 
     public LockService() {
         super("LockService");
@@ -59,6 +60,10 @@ public class LockService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+//        long startTime = intent.getLongExtra(START_TIME, 0);
+//        if (endTime <= 0) {
+//            Log.e(TAG, endTime + "");
+//        }
         while (true) {
 
             checkData(intent);
@@ -72,13 +77,12 @@ public class LockService extends IntentService {
 
     /**
      * 此处存在一个判断是否有profile开启，先执行Prof还是先执行custom
-     *
-     * @param intent
      */
     private void checkData(Intent intent) {
-        startTime = intent.getLongExtra("startTime", 0);
-        endTime = intent.getLongExtra("endTime", 0);//todo:start now countdown开始后 过来的lock请求
-//        获取栈顶app的包名
+//        endTime = intent.getLongExtra(END_TIME, 0);
+//        if (endTime <= 0) {
+//            Log.e(TAG, endTime + "");
+//        }
         String packageName = getLauncherTopApp(LockService.this);
         if (LAUNCHER_PACKAGE_NAME.equals(packageName)) {
             recordUsedTime();
@@ -88,6 +92,11 @@ public class LockService extends IntentService {
             boolean toLock = !toLockApps.isEmpty();
             recordAppUsage(packageName, toLock);
             if (toLock) {
+                long endTime = appInfoManager.getLongestEndTime(toLockApps);
+//                if (!LockService.StartNow) {
+//                    endTime = appInfoManager.getLongestEndTime(toLockApps);
+//                }
+
                 lockScreen(packageName, endTime);
             }
         }
@@ -112,7 +121,8 @@ public class LockService extends IntentService {
     private boolean inWhiteList(String packageName) {
         List<String> whiteList = new ArrayList<>(Arrays.asList(
                 PACKAGE_NAME,
-                LAUNCHER_PACKAGE_NAME
+                LAUNCHER_PACKAGE_NAME,
+                "com.android.settings"
                 //TODO: to add new package name
         ));
         return whiteList.contains(packageName);
@@ -146,8 +156,8 @@ public class LockService extends IntentService {
         Intent intent = new Intent(this, Countdown_Activity.class);
 //        intent.putExtra(AppConstants.PRESS_BACK, AppConstants.BACK_TO_FINISH);
         intent.putExtra(AppConstants.LOCK_PACKAGE_NAME, packageName);
-//        intent.putExtra("startTime", start);
-        intent.putExtra("endTime", endTime);//todo:类似的数据传递的要写成常量吧
+//        intent.putExtra(START_TIME, start);
+        intent.putExtra(END_TIME, endTime);//todo:类似的数据传递的要写成常量吧
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);//todo:不懂这个操作
         startActivity(intent);
     }

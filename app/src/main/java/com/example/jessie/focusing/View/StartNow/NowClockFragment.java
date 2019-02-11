@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,9 +21,11 @@ import com.example.jessie.focusing.Utils.TimeHelper;
 import com.example.jessie.focusing.View.CountDown.Countdown_Activity;
 import com.example.jessie.focusing.widget.CirclePicker;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
+import static com.example.jessie.focusing.Service.LockService.END_TIME;
+import static com.example.jessie.focusing.Service.LockService.START_TIME;
 
 /**
  * @author : Yujie Lyu
@@ -39,10 +40,44 @@ public class NowClockFragment extends Fragment {
     private CirclePicker circlePicker;
     private String countTime;
     private boolean startOn = false;
+    @SuppressLint("HandlerLeak")
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == 1) {
+                long time = System.currentTimeMillis();
+                Date date = new Date(time);
+                String currTime = TimeHelper.toString(date);
+                tv_startTime.setText(currTime);
+                timeStart.setTime(date);
+                tv_countTime.setText(countTime());
+
+            } else {
+            }
+        }
+    };
+    //处理timeStart&countTime实时更新的线程
+    Thread thread = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            do {
+                try {
+                    Thread.sleep(1000);
+                    Message msg = new Message();
+                    msg.what = 1;
+                    handler.sendMessage(msg);
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            } while (true);
+
+        }
+    });
 
     public NowClockFragment() {
     }
-
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
@@ -72,7 +107,7 @@ public class NowClockFragment extends Fragment {
                 tv_endTime.setText(((endHour < 10) ? ("0" + endHour) : (endHour + "")) + ":" + ((endMinute < 10) ? ("0" + endMinute) : (endMinute + "")));
                 if (startDegree == endDegree
 //                        && (endDegree + HALF_DAY_DEGREE == startDegree) && (endDegree - HALF_DAY_DEGREE == startDegree)
-                        ) {
+                ) {
                     countTime = "0 h 0 m";
                 } else if (timeStart.get(Calendar.HOUR_OF_DAY) == endHour && timeStart.get(Calendar.MINUTE) == endMinute) {
                     countTime = "0 h 0 m";
@@ -117,10 +152,10 @@ public class NowClockFragment extends Fragment {
                     toast.show();
 
                 } else {
-                    LockService.StartNow = true;
+                    LockService.START_NOW_END_TIME = timeEnd.getTimeInMillis();
                     Intent intent = new Intent(getActivity(), Countdown_Activity.class);
-                    intent.putExtra("endTime", timeEnd.getTimeInMillis());
-                    intent.putExtra("startTime", timeStart.getTimeInMillis());
+                    intent.putExtra(END_TIME, timeEnd.getTimeInMillis());
+                    intent.putExtra(START_TIME, timeStart.getTimeInMillis());
                     startActivity(intent);
 
                 }
@@ -129,44 +164,6 @@ public class NowClockFragment extends Fragment {
         return view;
 
     }
-
-    //处理timeStart&countTime实时更新的线程
-    Thread thread = new Thread(new Runnable() {
-        @Override
-        public void run() {
-            do {
-                try {
-                    Thread.sleep(1000);
-                    Message msg = new Message();
-                    msg.what = 1;
-                    handler.sendMessage(msg);
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            } while (true);
-
-        }
-    });
-
-
-    @SuppressLint("HandlerLeak")
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            if (msg.what == 1) {
-                long time = System.currentTimeMillis();
-                Date date = new Date(time);
-                String currTime = TimeHelper.toString(date);
-                tv_startTime.setText(currTime);
-                timeStart.setTime(date);
-                tv_countTime.setText(countTime());
-
-            } else {
-            }
-        }
-    };
 
     public boolean isStartOn() {
         return startOn;

@@ -107,12 +107,21 @@ public class TimeHelper {
     public static String getDayOfMonth(int numOfDay) {
         long mills = System.currentTimeMillis() + -1 * numOfDay * DAY_IN_MILLIS;
         Date date = new Date(mills);
-        return new SimpleDateFormat("dd", Locale.getDefault()).format(date);
+        return new SimpleDateFormat("EEE", Locale.getDefault()).format(date);
     }
 
     public static String getDayOfWeek(int numOfDay) {
         long mills = System.currentTimeMillis() + -1 * numOfDay * DAY_IN_MILLIS;
         Date date = new Date(mills);
         return new SimpleDateFormat("EEE", Locale.getDefault()).format(date);
+    }
+
+    public static int[] getYearMonthDay(int numOfDay) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, -1 * numOfDay);
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        return new int[]{year, month, day};
     }
 }

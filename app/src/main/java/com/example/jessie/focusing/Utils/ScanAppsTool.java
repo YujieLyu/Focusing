@@ -17,12 +17,12 @@ import java.util.List;
  */
 public class ScanAppsTool {
 
-    static final String TAG = "ScanAppsTool";
+    private static final String TAG = ScanAppsTool.class.getSimpleName();
 
 
     public static List<AppInfo> scanAppsList(PackageManager packageManager) {
 
-        List<AppInfo> appInfos = new ArrayList<AppInfo>();
+        List<AppInfo> appInfos = new ArrayList<>();
         try {
             List<PackageInfo> packageInfos = packageManager.getInstalledPackages(0);
             for (int i = 0; i < packageInfos.size(); i++) {
@@ -31,14 +31,9 @@ public class ScanAppsTool {
                 // 过滤掉系统app
 
                 if ((ApplicationInfo.FLAG_SYSTEM & packageInfo.applicationInfo.flags) != 0
-                        ||packageInfo.packageName.equals(AppConstants.APP_PACKAGE_NAME)) {
+                        || packageInfo.packageName.equals(AppConstants.APP_PACKAGE_NAME)) {
                     continue;
                 }
-
-//            if (!packageInfo.packageName.equals(AppConstants.APP_PACKAGE_NAME) && !packageInfo.packageName.equals("com.android.settings")
-//                        && !packageInfo.packageName.equals("com.google.android.googlequicksearchbox"))) {
-//                    continue;
-//            }
 
                 AppInfo appInfo = new AppInfo();
                 appInfo.setAppName(packageInfo.applicationInfo.loadLabel(packageManager).toString());

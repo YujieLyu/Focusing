@@ -33,14 +33,14 @@
 
     </com.github.mikephil.charting.charts.BarChart>
     <TextView
-        android:id="@+id/table_name"
+        android:id="@+id/saved_time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_below="@id/open_times_barchart"
         android:layout_marginTop="15dp"
         android:padding="10dp"
-        android:text="Weekly use Time (Mins)"
+        android:text="Weekly Open Times"
         android:textColor="@color/colorPrimary"
         android:fontFamily="@font/roboto_light"
         android:textSize="18sp"

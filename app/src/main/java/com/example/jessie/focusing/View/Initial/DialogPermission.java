@@ -49,12 +49,4 @@ public class DialogPermission extends Dialog {
     public interface onClickListener {
         void onClick();
     }
-
-    //todo:解决获取权限后frozen的问题
-//    @Override
-//    public void onBackPressed() {
-//        super.onBackPressed();
-//        Intent intent=new Intent(getContext(),Welcome_Activity.class);
-//        getContext().startActivity(intent);
-//    }
 }

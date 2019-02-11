@@ -6,37 +6,45 @@ import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
+import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import com.example.jessie.focusing.Model.SeedData;
+import com.example.jessie.focusing.R;
 import com.example.jessie.focusing.Service.LockService;
 import com.example.jessie.focusing.Utils.AppConstants;
 import com.example.jessie.focusing.Utils.LockUtil;
-import com.example.jessie.focusing.R;
 import com.example.jessie.focusing.Utils.SPUtil;
 import com.example.jessie.focusing.View.Main.Main_Activity;
+
+import org.litepal.LitePal;
 
 import static com.example.jessie.focusing.Utils.LockUtil.isStatAccessPermissionSet;
 
 public class Welcome_Activity extends AppCompatActivity {
+    private static final int RESULT_ACTION_USAGE_ACCESS_SETTINGS = 1;
     private ImageView imgWelcome;
     private ObjectAnimator animator;
-    private static final int RESULT_ACTION_USAGE_ACCESS_SETTINGS = 1;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
+//        LitePal.deleteDatabase("appDB");//todo: be careful
         setStatusTransparent();
         SPUtil.getInstance().init(this);
         initData();
+    }
+
+    protected void onDestroy() {
+        super.onDestroy();
+        animator = null;
     }
 
     protected void setStatusTransparent() {
@@ -52,7 +60,9 @@ public class Welcome_Activity extends AppCompatActivity {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
     }
-    protected void initData(){
+
+    protected void initData() {
+
         startService(new Intent(this, LockService.class));
         animator = ObjectAnimator.ofFloat(imgWelcome, "alpha", 0.5f, 1);
         animator.setDuration(500);
@@ -78,18 +88,17 @@ public class Welcome_Activity extends AppCompatActivity {
         if (!isStatAccessPermissionSet(Welcome_Activity.this) && LockUtil.isNoOption(Welcome_Activity.this)) {
             DialogPermission dialog = new DialogPermission(Welcome_Activity.this);
             dialog.show();
-            dialog.setOnClickListener(new DialogPermission.onClickListener() {
-                @Override
-                public void onClick() {
-                    Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
-                    startActivityForResult(intent, RESULT_ACTION_USAGE_ACCESS_SETTINGS);
-                }
+            dialog.setOnClickListener(() -> {
+                Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
+                startActivityForResult(intent, RESULT_ACTION_USAGE_ACCESS_SETTINGS);
             });
         } else {
             toMainActivity();
         }
     }
+
     private void toMainActivity() {
+        SeedData.initialize();
         Intent intent = new Intent(Welcome_Activity.this, Main_Activity.class);
         startActivity(intent);
         finish();
@@ -98,6 +107,7 @@ public class Welcome_Activity extends AppCompatActivity {
 
     /**
      * Get system permission and back to the main activity
+     *
      * @param requestCode
      * @param resultCode
      * @param data
@@ -114,11 +124,6 @@ public class Welcome_Activity extends AppCompatActivity {
                 }
                 break;
         }
-    }
-
-    protected void onDestroy() {
-        super.onDestroy();
-        animator = null;
     }
 
 }

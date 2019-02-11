@@ -8,13 +8,12 @@ import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 
+import static com.example.jessie.focusing.Utils.AppConstants.STATS_DAYS;
+
 /**
  * @author : Yujie Lyu
  */
 public class ChartUtils {
-    public static final int STATS_DAYS = 7;
-
-
     public static void initBarChart(BarChart chart) {
         chart.setBackgroundColor(Color.WHITE);
         chart.getDescription().setEnabled(false);

@@ -92,7 +92,7 @@ public class Profile extends LitePalSupport {
 
     public static boolean isStart(int profId) {
         if (profId == START_NOW_PROFILE_ID) {
-            return LockService.StartNow;
+            return LockService.START_NOW_END_TIME > 0;
         }
         Profile profile = LitePal.find(Profile.class, profId);
         return isStart(profile);

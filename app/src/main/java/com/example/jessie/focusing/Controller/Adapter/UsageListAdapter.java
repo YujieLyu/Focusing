@@ -12,8 +12,7 @@ import android.widget.TextView;
 
 import com.example.jessie.focusing.Model.AppUsage;
 import com.example.jessie.focusing.R;
-import com.example.jessie.focusing.View.DataStatisticActivity;
-import com.example.jessie.focusing.View.LogDetailActivity;
+import com.example.jessie.focusing.View.Stats.LogDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;

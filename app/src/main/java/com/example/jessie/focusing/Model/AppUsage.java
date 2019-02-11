@@ -6,6 +6,8 @@ import org.litepal.LitePal;
 import org.litepal.annotation.Column;
 import org.litepal.crud.LitePalSupport;
 
+import java.util.Calendar;
+
 /**
  * @author : Yujie Lyu
  * @date : 06-02-2019
@@ -42,20 +44,6 @@ public class AppUsage extends LitePalSupport implements Comparable<AppUsage> {
         this.month = month;
         this.day = day;
     }
-
-
-//    public AppUsage(Context context, String packageName) {
-//        this.packageName = packageName;
-//        PackageManager packageManager = context.getPackageManager();
-//        try {
-//            PackageInfo info = packageManager.getPackageInfo(packageName, 0);
-//            appName = info.applicationInfo.loadLabel(packageManager).toString();
-//            appImg = info.applicationInfo.loadIcon(packageManager);
-//            usedOutFocus = 0;
-//        } catch (PackageManager.NameNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//    }
 
     public static AppUsage findByDate(String packageName, int year, int month, int day) {
         String where = String.format("packagename = \"%s\" and year = %s and month = %s and day = %s", packageName, year, month, day);
@@ -110,10 +98,6 @@ public class AppUsage extends LitePalSupport implements Comparable<AppUsage> {
         return packageName;
     }
 
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
-    }
-
     public int getId() {
         return id;
     }
@@ -146,39 +130,20 @@ public class AppUsage extends LitePalSupport implements Comparable<AppUsage> {
         return year;
     }
 
-    public void setYear(int year) {
-        this.year = year;
-    }
-
     public int getMonth() {
         return month;
-    }
-
-    public void setMonth(int month) {
-        this.month = month;
     }
 
     public int getDay() {
         return day;
     }
 
-    public void setDay(int day) {
-        this.day = day;
-    }
-
     public long getUsedInFocus() {
         return usedInFocus;
-    }
-
-    public void setUsedInFocus(long usedInFocus) {
-        this.usedInFocus = usedInFocus;
     }
 
     public int getOpenInFocus() {
         return openInFocus;
     }
 
-    public void setOpenInFocus(int openInFocus) {
-        this.openInFocus = openInFocus;
-    }
 }

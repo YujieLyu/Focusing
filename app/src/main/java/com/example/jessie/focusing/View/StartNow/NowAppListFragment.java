@@ -71,7 +71,7 @@ public class NowAppListFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        if (LockService.StartNow) {
+        if (LockService.START_NOW_END_TIME > 0) {
             appListAdapter.saveSettings();
         }
 

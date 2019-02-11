@@ -12,7 +12,9 @@ import org.litepal.LitePal;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static com.example.jessie.focusing.Utils.TimeHelper.getCurrYear;
 
@@ -96,6 +98,7 @@ public class UsageManager {
         Calendar end = Calendar.getInstance();
         end.add(Calendar.DATE, 1);
         List<AppUsage> res = new ArrayList<>();
+        Set<String> pkNames = new HashSet<>();
         for (AppUsage appUsage : appUsages) {
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.YEAR, appUsage.getYear());
@@ -111,7 +114,9 @@ public class UsageManager {
                 } catch (PackageManager.NameNotFoundException e) {
                     e.printStackTrace();
                 }
-                res.add(appUsage);
+                if (pkNames.add(appUsage.getPackageName())) {
+                    res.add(appUsage);
+                }
             }
         }
         Log.i(TAG, "Filtered data size: " + res.size());

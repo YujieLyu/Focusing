@@ -45,37 +45,12 @@ public class FocusTimeManager {
         return res;
     }
 
-    @Deprecated
-    public synchronized List<FocusTime> getTimeDate(Calendar before, Calendar today) {
-        List<FocusTime> timeData = new ArrayList<>();
-        List<FocusTime> focusTimesDB = LitePal.findAll(FocusTime.class);
-//        List<FocusTime> focusTimeList=LitePal.where("date>=?",String.valueOf(before));
-//        long timeInterval=today.getTimeInMillis()-before.getTimeInMillis();
-        for (FocusTime focusTime : focusTimesDB) {
-            int year = focusTime.getYear();
-            int month = focusTime.getMonth();
-            int day = focusTime.getDay();
-            if (year == before.get(Calendar.YEAR) && before.get(Calendar.YEAR) == today.get(Calendar.YEAR)) {
-                if (month == before.get(Calendar.MONTH) &&
-                        before.get(Calendar.MONTH) == today.get(Calendar.MONTH)) {
-                    if (day >= before.get(Calendar.DAY_OF_MONTH) && day <= today.get(Calendar.DAY_OF_MONTH)) {
-                        timeData.add(focusTime);
-                    }
-                } else if (month == before.get(Calendar.MONTH)
-                        && day >= before.get(Calendar.DAY_OF_MONTH)) {
-                    timeData.add(focusTime);
-                } else if (month == today.get(Calendar.MONTH) && day <= today.get(Calendar.DAY_OF_MONTH)) {
-                    timeData.add(focusTime);
-                }
-            } else if (year == before.get(Calendar.YEAR) && month == before.get(Calendar.MONTH)
-                    && day >= before.get(Calendar.DAY_OF_MONTH)) {
-                timeData.add(focusTime);
-            } else if (year == today.get(Calendar.YEAR) && month == today.get(Calendar.MONTH)
-                    && day <= today.get(Calendar.DAY_OF_MONTH)) {
-                timeData.add(focusTime);
-            }
-
-        }
-        return timeData;
+    public FocusTime getTimeData(int numOfDay) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, -1 * numOfDay);
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        return FocusTime.findByDate(year, month, day);
     }
 }
