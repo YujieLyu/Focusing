@@ -60,10 +60,6 @@ public class LockService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-//        long startTime = intent.getLongExtra(START_TIME, 0);
-//        if (endTime <= 0) {
-//            Log.e(TAG, endTime + "");
-//        }
         while (true) {
 
             checkData(intent);
@@ -131,7 +127,7 @@ public class LockService extends IntentService {
 
     public String getLauncherTopApp(Context context) {
 
-        //5.0以后需要用这方法
+        //support Android 5.0+
         UsageStatsManager usageStatsManager = (UsageStatsManager) context.getSystemService(Context.USAGE_STATS_SERVICE);
         long endTime = System.currentTimeMillis();
         long beginTime = endTime - 10000;

@@ -19,11 +19,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="130dp"
-        android:fontFamily="@font/roboto_thin"
+        android:fontFamily="@font/roboto_light"
         android:text="Welcome to Focusing!"
         android:textColor="@color/text_white"
         android:textSize="32sp"
-        android:textStyle="bold" />
+        />
 
     <TextView
         android:id="@+id/tv_start_now"
@@ -37,6 +37,7 @@
         android:text="Focus Now"
         android:textColor="@color/text_white"
         android:textSize="20sp"
+        android:textStyle="bold"
         />
 
     <TextView
@@ -49,9 +50,11 @@
         android:contextClickable="true"
         android:fontFamily="@font/roboto_light"
         android:gravity="center"
-        android:text="Profile Settings"
+        android:text="My Profiles"
         android:textColor="@color/text_white"
         android:textSize="20sp"
+        android:textStyle="bold"
+
 
         />
 
@@ -69,6 +72,7 @@
         android:textAlignment="center"
         android:textColor="@color/text_white"
         android:textSize="20sp"
+        android:textStyle="bold"
         />
 
     <TextView
@@ -85,6 +89,7 @@
         android:textAlignment="center"
         android:textColor="@color/text_white"
         android:textSize="20sp"
+        android:textStyle="bold"
         />
 
 
