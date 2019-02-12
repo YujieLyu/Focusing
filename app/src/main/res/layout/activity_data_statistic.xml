@@ -34,7 +34,8 @@
         android:padding="10dp"
         android:text="You have saved "
         android:textColor="@color/colorPrimary"
-        android:textSize="16sp" />
+        android:textSize="18sp"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/chart_title"
