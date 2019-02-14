@@ -98,6 +98,7 @@ public class LockService extends IntentService {
         if (intent != null) {
             interval = intent.getIntExtra(INTERVAL, -1);
         }
+        Log.i(TAG, "Interval is: " + interval);
         super.onStart(intent, startId);
     }
 
@@ -116,7 +117,6 @@ public class LockService extends IntentService {
         Log.i(TAG, "Interval is: " + interval);
         while (interval > 0) {
 //            interval = intent.getIntExtra(INTERVAL, -1);
-            Log.i(TAG, "Interval is: " + interval);
             checkData();
             try {
                 Thread.sleep(interval);

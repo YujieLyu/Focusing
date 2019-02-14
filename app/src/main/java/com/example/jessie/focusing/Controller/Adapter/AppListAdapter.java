@@ -1,5 +1,6 @@
 package com.example.jessie.focusing.Controller.Adapter;
 
+//import android.R;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
