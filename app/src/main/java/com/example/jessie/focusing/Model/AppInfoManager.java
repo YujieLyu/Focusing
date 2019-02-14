@@ -8,8 +8,9 @@ import com.example.jessie.focusing.Service.LockService;
 import org.litepal.LitePal;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.example.jessie.focusing.Utils.TimeHelper.toMillis;
 
@@ -19,95 +20,72 @@ import static com.example.jessie.focusing.Utils.TimeHelper.toMillis;
  * @time : 18:13
  */
 public class AppInfoManager {
-    private ProfileManager profileManager;
-
-
-    public AppInfoManager() {
-        profileManager = new ProfileManager();
-    }
+    private static final String TAG = AppInfoManager.class.getSimpleName();
 
     /**
-     * Insert
-     */
-    public synchronized void insert(List<AppInfo> appInfos) {
-        for (AppInfo appInfo : appInfos) {
-            appInfo.save();
-
-        }
-    }
-
-    /**
-     * Delete
-     */
-    public synchronized void delete(List<AppInfo> appInfos) {
-        for (AppInfo appInfo : appInfos) {
-            appInfo.delete();
-        }
-    }
-
-    /**
-     * delete by profId
+     * Synchronize the data from system and database
      *
-     * @return
+     * @param appInfosSys the apps info from system
+     * @param profileId   the profile id
+     * @return the apps with lock info and ids from database
      */
+    public synchronized static List<AppInfo> syncData(List<AppInfo> appInfosSys, int profileId) {
+        if (profileId == Profile.START_NOW_PROFILE_ID) {
+            for (AppInfo appInfo : appInfosSys) {
+                appInfo.setProfId(Profile.START_NOW_PROFILE_ID);
+            }
+            return appInfosSys;
+        }
+        List<AppInfo> appInfosDb = AppInfo.findAllByProfileId(profileId);
+        if (appInfosDb.isEmpty()) {
+            for (AppInfo appInfo : appInfosSys) {
+                appInfo.setProfId(profileId);
+            }
+            return appInfosSys;
+        }
+        List<AppInfo> res = new ArrayList<>();
+        Map<String, AppInfo> appSysMap = new HashMap<>();
+        for (AppInfo info : appInfosSys) {
+            appSysMap.put(info.getPackageName(), info);
+        }
+        for (AppInfo info : appInfosDb) {
+            AppInfo appInfo = appSysMap.get(info.getPackageName());
+            if (appInfo == null) {
+                info.delete();
+                continue;
+            }
+            appInfo.setId(info.getId());
+            appInfo.setProfId(profileId);
+            appInfo.setLocked(info.isLocked());
+            res.add(appInfo);
+        }
+        return res;
+    }
 
+    /**
+     * Delete by profId
+     *
+     * @param profId profile ID
+     */
     public synchronized void deleteByProfId(int profId) {
-        int rows = LitePal.deleteAll(AppInfo.class, "profid=?", String.valueOf(profId));
-        Log.i("AppInfoManager", "Rows effected: " + rows);
-//        List<AppInfo> appInfosDatabase = LitePal.findAll(AppInfo.class);
-//        List<AppInfo> temp = new ArrayList<>();
-//        for (AppInfo appInfo : appInfosDatabase) {
-//            if (appInfo.getProfId()==profId){
-//                temp.add(appInfo);
-//            }
-//
-//        }
-//        delete(temp);
+        int rows = LitePal.deleteAll(AppInfo.class, "profid = ?", String.valueOf(profId));
+        Log.i(TAG, "Rows effected: " + rows);
     }
 
-    public synchronized List<AppInfo> syncData(List<AppInfo> appInfos) {
-        //for clear DB
-//        LitePal.deleteAll(AppInfo.class);
-        List<AppInfo> appInfosDatabase = LitePal.findAll(AppInfo.class);
-        List<String> packageName = new ArrayList<>();
-        List<AppInfo> tempD = new ArrayList<>();
-
-        for (AppInfo appInfo : appInfos) {
-            packageName.add(appInfo.getPackageName());
-        }
-
-        for (AppInfo appInfodb : appInfosDatabase) {
-            if (!packageName.contains(appInfodb.getPackageName())) {
-//                tempD.add(appInfodb);
-                appInfodb.delete();
-            }
-
-        }
-//        delete(tempD);
-
-
-        for (int i = 0; i < appInfos.size(); i++) {
-            AppInfo info = appInfos.get(i);
-            for (AppInfo infoDb : appInfosDatabase) {
-                if (info.equals(infoDb)) {
-                    info.setId(infoDb.getId());
-                    //todo:设置Profid
-                    info.setLocked(infoDb.isLocked());
-                }
-            }
-        }
-//按字母排序
-        Collections.sort(appInfos, AppInfo.nameComparator);
-        return appInfos;
-
-    }
-
-    public long getLongestEndTime(List<AppInfo> toLockApps) {
+    /**
+     * Returns the latest end time in the apps to be locked.
+     *
+     * @param toLockApps the app list to be locked.
+     * @return the latest end time
+     */
+    public long getLatestEndTime(List<AppInfo> toLockApps) {
         long endTime = Long.MIN_VALUE;
         for (AppInfo app : toLockApps) {
             if (app.getProfId() == Profile.START_NOW_PROFILE_ID) {
-                endTime = Math.max(endTime, LockService.START_NOW_END_TIME);
-                continue;
+                return LockService.START_NOW_END_TIME;
+                //TODO: to remove START_NOW_END_TIME
+//                endTime = Math.max(endTime, LockService.START_NOW_END_TIME);
+//                continue;
             }
             Profile profile = LitePal.find(Profile.class, app.getProfId());
             int hour = profile.getEndHour();
@@ -117,9 +95,15 @@ public class AppInfoManager {
         return endTime == Long.MIN_VALUE ? 0 : endTime;
     }
 
+    /**
+     * Returns the app list to be locked.
+     *
+     * @param packageName the package name of app
+     * @return the app list to be locked.
+     */
     public synchronized List<AppInfo> getToLockApps(String packageName) {
         List<AppInfo> res = new ArrayList<>();
-        List<AppInfo> list = AppInfo.findByPackageName(packageName);
+        List<AppInfo> list = AppInfo.findAllLockApps(packageName);
         for (AppInfo appInfo : list) {
             int profId = appInfo.getProfId();
             if (appInfo.isLocked() && Profile.isStart(profId)) {
@@ -129,49 +113,6 @@ public class AppInfoManager {
         return res;
     }
 
-    public synchronized List<AppInfo> getData(String packageName) {
-        List<AppInfo> synonymAppInfos = new ArrayList<>();
-        List<AppInfo> appInfosDatabase = LitePal.findAll(AppInfo.class);
-        for (AppInfo appInfo : appInfosDatabase) {
-            if (appInfo.getPackageName().equals(packageName)) {
-                synonymAppInfos.add(appInfo);
-            }
-
-        }
-        return synonymAppInfos;
-    }
-
-
-    public synchronized List<AppInfo> setDatabase(List<AppInfo> appInfos) {
-        List<AppInfo> appInfosDatabase = LitePal.findAll(AppInfo.class);
-        List<AppInfo> tempI = new ArrayList<>();
-        List<AppInfo> tempD = new ArrayList<>();
-
-        //
-        for (AppInfo appInfo : appInfos) {
-            if (!appInfosDatabase.contains(appInfo)) {
-                tempI.add(appInfo);
-            }
-        }
-        insert(tempI);
-
-        for (AppInfo appInfoDB : appInfosDatabase) {
-            if (!appInfos.contains(appInfoDB)) {
-                tempD.add(appInfoDB);
-            }
-        }
-        delete(tempD);
-
-        for (AppInfo appInfo : appInfos) {
-            for (AppInfo infoDB : appInfosDatabase) {
-                if (appInfo.getPackageName().equals(infoDB.getPackageName())) {
-                    appInfo.setLocked(infoDB.isLocked());
-                }
-            }
-
-        }
-        return appInfos;
-    }
 
     /**
      * update app status settings
@@ -179,23 +120,16 @@ public class AppInfoManager {
      * @param appInfos
      */
     public void saveOrUpdateInfos(List<AppInfo> appInfos) {
-
-
         for (AppInfo appInfo : appInfos) {
-            //Need to use saveUsedTime, or it will save all data repetitively
-
-            appInfo.saveOrUpdate("id=? AND profid=?", String.valueOf(appInfo.getId()), String.valueOf(appInfo.getProfId()));
-
+            appInfo.saveOrUpdate();
         }
     }
 
     public void reset(int profId) {
         ContentValues cv = new ContentValues();
         cv.put("islocked", 0);
-        LitePal.updateAll(AppInfo.class, cv, "profid=?", String.valueOf(profId));
+        LitePal.updateAll(AppInfo.class, cv, "profid = ?", String.valueOf(profId));
     }
-
-
 }
 
 

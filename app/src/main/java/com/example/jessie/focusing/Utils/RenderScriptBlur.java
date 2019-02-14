@@ -12,6 +12,7 @@ import android.renderscript.ScriptIntrinsicBlur;
  * @date : 31-01-2019
  * @time : 09:57
  */
+//TODO: check if to keep
 public class RenderScriptBlur {
 
     public static Bitmap rsBlur(Context context, Bitmap source, int radius){

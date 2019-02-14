@@ -3,27 +3,39 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.jessie.focusing">
 
-    <!-- 应用锁需要的权限 -->
-    <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <!-- <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" /> -->
-    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
-        android:name="org.litepal.LitePalApplication"
+        android:name="com.example.jessie.focusing.View.Initial.FocusingApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
+        <!--随着安卓系统启动而启动-->
+        <receiver
+            android:name="com.example.jessie.focusing.Service.RebootBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.REBOOT" />
+                <action android:name="action" />
+                <action android:name="android.intent.action.TIME_TICK" />
+                <action android:name="android.intent.action.SCREEN_ON" />
+            </intent-filter>
+        </receiver>
+
         <activity
-            android:name=".View.Initial.Welcome_Activity"
+            android:name=".View.Initial.WelcomeActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -32,31 +44,40 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".View.Main.Main_Activity"
+        <activity
+            android:name=".View.Main.MainActivity"
             android:launchMode="singleTask" />
         <activity
-            android:name=".View.CountDown.Countdown_Activity"
+            android:name=".View.CountDown.CountdownActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".View.Finish.Finish_Activity" />
-        <activity android:name=".View.StartNow.StartNow_Activity" />
-        <activity android:name=".View.Profile.ProfileList_Activity" />
-        <activity android:name=".View.Profile.ProfileDetailActivity" />
-        <activity android:name=".View.Schedule.Schedule_Activity" />
-        <!-- <activity android:name=".View.ProfileList_Activity"/> -->
+        <activity
+            android:name=".View.Finish.FinishActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".View.StartNow.StartNowActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".View.Profile.ProfileListActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".View.Profile.ProfileDetailActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".View.Schedule.Schedule_Activity"
+            android:launchMode="singleTask" />
 
-
-        <!-- <service -->
-        <!-- android:name="com.example.jessie.focusing.LoadAppListService" -->
-        <!-- android:enabled="true" -->
-        <!-- android:exported="true" /> -->
         <service android:name=".Service.LockService" />
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <activity android:name=".View.Stats.DataStatisticActivity"></activity>
-        <activity android:name=".View.Stats.LogDetailActivity" />
+        <activity
+            android:name=".View.Stats.DataStatisticActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".View.Stats.LogDetailActivity"
+            android:launchMode="singleTask" />
     </application>
 
 </manifest>

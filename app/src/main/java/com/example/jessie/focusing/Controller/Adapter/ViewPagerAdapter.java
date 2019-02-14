@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class ViewPagerAdapter extends FragmentPagerAdapter {
 
-    private final List<Fragment> fragmentList=new ArrayList<>();
+    private final List<Fragment> fragmentList = new ArrayList<>();
 
     public ViewPagerAdapter(FragmentManager fragmentManager) {
         super(fragmentManager);
@@ -31,7 +31,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
         return fragmentList.size();
     }
 
-    public void addFragment(Fragment fragment){
+    public void addFragment(Fragment fragment) {
         fragmentList.add(fragment);
     }
 }

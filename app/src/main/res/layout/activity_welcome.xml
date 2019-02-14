@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.Initial.Welcome_Activity"
+    tools:context=".View.Initial.WelcomeActivity"
     android:orientation="horizontal">
 
     <ImageView
+        android:id="@+id/welcome_img"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitXY"

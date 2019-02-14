@@ -18,7 +18,6 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.View;
@@ -31,41 +30,34 @@ import java.util.List;
 
 public class LockUtil {
     /**
-     * 判断是否已经获取 有权查看使用情况的应用程序 权限
+     * Check if has usage stats access permission
      *
      * @param context
      * @return
      */
-    public static boolean isStatAccessPermissionSet(Context context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            try {
-                PackageManager packageManager = context.getPackageManager();
-                ApplicationInfo info = packageManager.getApplicationInfo(context.getPackageName(), 0);
-                AppOpsManager appOpsManager = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
-                appOpsManager.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS, info.uid, info.packageName);
-                return appOpsManager.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS, info.uid, info.packageName) == AppOpsManager.MODE_ALLOWED;
-            } catch (Exception e) {
-                e.printStackTrace();
-                return false;
-            }
-        } else {
-            return true;
+    public static boolean hasUsagePermission(Context context) {
+        try {
+            PackageManager packageManager = context.getPackageManager();
+            ApplicationInfo info = packageManager.getApplicationInfo(context.getPackageName(), 0);
+            AppOpsManager appOpsManager = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
+            appOpsManager.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS, info.uid, info.packageName);
+            return appOpsManager.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS, info.uid, info.packageName) == AppOpsManager.MODE_ALLOWED;
+        } catch (Exception e) {
+            return false;
         }
     }
 
+    // TODO: ensure if to keep the following code
     /**
      * 查看是存在查看使用情况的应用程序界面
      *
      * @return
      */
     public static boolean isNoOption(Context context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            PackageManager packageManager = context.getPackageManager();
-            Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
-            List<ResolveInfo> list = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
-            return list.size() > 0;
-        }
-        return false;
+        PackageManager packageManager = context.getPackageManager();
+        Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
+        List<ResolveInfo> list = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+        return list.size() > 0;
     }
 
     /**

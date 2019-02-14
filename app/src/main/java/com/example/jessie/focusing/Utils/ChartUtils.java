@@ -14,7 +14,8 @@ import static com.example.jessie.focusing.Utils.AppConstants.STATS_DAYS;
  * @author : Yujie Lyu
  */
 public class ChartUtils {
-    public static void initBarChart(BarChart chart) {
+
+    public static void initBarChart(BarChart chart, boolean isMultiBar) {
         chart.setBackgroundColor(Color.WHITE);
         chart.getDescription().setEnabled(false);
         chart.animateY(500, Easing.Linear);
@@ -40,14 +41,14 @@ public class ChartUtils {
 
         XAxis xAxis = chart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setDrawGridLines(true);
-        xAxis.setCenterAxisLabels(true);
+        xAxis.setDrawGridLines(isMultiBar);
+        xAxis.setCenterAxisLabels(isMultiBar);
         xAxis.setValueFormatter((value, axis) -> {
             int idx = (int) value;
             if (idx < 0 || idx >= STATS_DAYS) {
                 return "";
             }
-            return TimeHelper.getDayOfMonth(STATS_DAYS - 1 - idx);
+            return TimeHelper.getDayOfWeek(STATS_DAYS - 1 - idx);
         });
 
 

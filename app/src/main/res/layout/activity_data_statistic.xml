@@ -35,20 +35,19 @@
         android:text="You have saved "
         android:textColor="@color/colorPrimary"
         android:textSize="18sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/chart_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:layout_below="@id/bar_chart"
+        android:fontFamily="@font/roboto_light"
+        android:gravity="center"
         android:padding="10dp"
         android:text="Weekly Use Time (Mins)"
         android:textColor="@color/colorPrimary"
-        android:fontFamily="@font/roboto_light"
-        android:textSize="15sp"
-        />
+        android:textSize="15sp" />
 
     <com.github.mikephil.charting.charts.BarChart
         android:id="@+id/bar_chart"

@@ -10,6 +10,6 @@ import com.example.jessie.focusing.widget.TimePickerFragment;
  * @time : 00:52
  */
 public interface TimeCallBack {
-    void getTime(TimePickerFragment tp, String displayTime);
+    void onTimeSet(TimePickerFragment tp, String displayTime);
 
 }

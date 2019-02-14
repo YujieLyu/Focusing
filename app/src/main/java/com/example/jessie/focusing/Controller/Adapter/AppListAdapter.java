@@ -14,6 +14,7 @@ import com.example.jessie.focusing.Model.AppInfoManager;
 import com.example.jessie.focusing.Model.Profile;
 import com.example.jessie.focusing.Model.ProfileManager;
 import com.example.jessie.focusing.R;
+import com.example.jessie.focusing.Utils.PackageUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,25 +30,22 @@ public class AppListAdapter extends BaseAdapter implements View.OnClickListener 
     private final Context context;
     private final AppInfoManager infoManager;
     private final ProfileManager profileManager;
-    List<AppInfo> appInfos = new ArrayList<>();
-    private int profId;
+    private final int profId;
+    private List<AppInfo> appInfos = new ArrayList<>();
 
-    public AppListAdapter(Context context) {
+    public AppListAdapter(Context context, int profId) {
+        this.profId = profId;
         this.context = context;
         infoManager = new AppInfoManager();
         profileManager = new ProfileManager();
     }
 
 
-    public void setData(List<AppInfo> appInfos, int profId) {
-        this.profId = profId;
-        for (AppInfo appInfo : appInfos) {
-            appInfo.setProfId(profId);//set appinfo list里面所有数据的profileid为同一数字
-
-        }
-        this.appInfos = infoManager.syncData(appInfos);
-
-
+    public void syncData() {
+        PackageUtils packageUtils = new PackageUtils(context.getPackageManager());
+        final List<AppInfo> installedApps = packageUtils.getInstalledApps();
+        appInfos = AppInfoManager.syncData(installedApps, profId);
+        appInfos.sort(AppInfo::compareTo);
         notifyDataSetChanged();
     }
 

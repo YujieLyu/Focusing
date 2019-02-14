@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.widget.TimePicker;
 
-
 import com.example.jessie.focusing.Interface.TimeCallBack;
 import com.example.jessie.focusing.Utils.TimeHelper;
 
@@ -47,7 +46,7 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
             chosenCalendar.set(Calendar.MINUTE, minute);
             Date time = chosenCalendar.getTime();
             String timeStr = TimeHelper.toString(time);
-            listener.getTime(this, timeStr);
+            listener.onTimeSet(this, timeStr);
         }
 
     }

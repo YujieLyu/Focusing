@@ -11,6 +11,9 @@ import android.view.MenuItem;
 import com.example.jessie.focusing.Controller.Adapter.ViewPagerAdapter;
 import com.example.jessie.focusing.R;
 import com.example.jessie.focusing.Utils.StatusBarUtil;
+import com.example.jessie.focusing.View.Shared.AppInfoListFragment;
+
+import static com.example.jessie.focusing.Utils.AppConstants.PROFILE_ID;
 
 /**
  * @author : Yujie Lyu
@@ -19,7 +22,7 @@ import com.example.jessie.focusing.Utils.StatusBarUtil;
  */
 public class ProfileDetailActivity extends AppCompatActivity {
     private ViewPager viewPager;
-    private ProfAppListFragment appListFragment;
+    private AppInfoListFragment appListFragment;
     private ProfScheduleFragment calendarFragment;
     private MenuItem menuItem;
     private int profileId;
@@ -44,9 +47,9 @@ public class ProfileDetailActivity extends AppCompatActivity {
     public void setViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         calendarFragment = new ProfScheduleFragment();
-        appListFragment = new ProfAppListFragment();
-        Bundle args=new Bundle();
-        args.putInt("ProfileId",profileId);
+        appListFragment = new AppInfoListFragment();
+        Bundle args = new Bundle();
+        args.putInt(PROFILE_ID, profileId);
         appListFragment.setArguments(args);
         calendarFragment.setArguments(args);
         adapter.addFragment(appListFragment);
@@ -58,7 +61,7 @@ public class ProfileDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        profileId=getIntent().getIntExtra("ProfileId",-1);
+        profileId = getIntent().getIntExtra(PROFILE_ID, -1);
         setContentView(R.layout.activity_profile_detail);
         viewPager = findViewById(R.id.viewpager_prof);
         //todo:final的意义是？
@@ -89,13 +92,13 @@ public class ProfileDetailActivity extends AppCompatActivity {
         });
         setViewPager(viewPager);
         StatusBarUtil.setStatusTransparent(this);
-        StatusBarUtil.setDarkStatusIcon(this,true);
+        StatusBarUtil.setDarkStatusIcon(this, true);
     }
 
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        profileId=getIntent().getIntExtra("Profile",-1);
+        profileId = getIntent().getIntExtra(PROFILE_ID, -1);
     }
 
 }

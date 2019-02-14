@@ -2,6 +2,7 @@ package com.example.jessie.focusing.View.Profile;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,60 +23,41 @@ public class AddNewProfileDialog extends DialogFragment {
     private Profile item;
     private OnFragmentInteractionListener listener;
 
-    public AddNewProfileDialog() {
-        // Required empty public constructor
-    }
-
     public static AddNewProfileDialog newInstance(Profile profile) {
-
         AddNewProfileDialog dialog = new AddNewProfileDialog();
         dialog.item = profile;
         return dialog;
     }
 
-    private void bingdingItem(View view, Profile profile) {
+    private void bindingItem(View view, Profile profile) {
         if (profile == null) {
             return;
         }
-        //todo:profilename不可为空的判断
         EditText evName = view.findViewById(R.id.ev_name);
         if(profile.getProfileName()==null){
-            Toast.makeText(getContext(),getString(R.string.ProfileNameNonEmpty),Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), getString(R.string.profile_name_non_empty), Toast.LENGTH_LONG).show();
             return;
         }
         evName.setText(profile.getProfileName());
     }
 
     @Override
-    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_add_profile, container, false);
         Button btnOk =  view.findViewById(R.id.btn_ok);
         Button btnCancel = view.findViewById(R.id.btn_cancel);
-        bingdingItem(view, item);
-        btnOk.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                View rootView = v.getRootView();
-
-                EditText evName = rootView.findViewById(R.id.ev_name);
-
-                String name = evName.getText().toString();
-
-                Profile profile = new Profile();
-                profile.setProfileName(name);
-                onOKPressed(profile);
-                dismiss();
-//
-            }
+        bindingItem(view, item);
+        btnOk.setOnClickListener(v -> {
+            View rootView = v.getRootView();
+            EditText evName = rootView.findViewById(R.id.ev_name);
+            String name = evName.getText().toString();
+            Profile profile = new Profile();
+            profile.setProfileName(name);
+            onOKPressed(profile);
+            dismiss();
         });
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getDialog().cancel();
-            }
-        });
-
+        btnCancel.setOnClickListener(v -> getDialog().cancel());
         return view;
     }
 

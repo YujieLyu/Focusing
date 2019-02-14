@@ -7,20 +7,6 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp">
 
-    <!--<TextView-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_marginTop="15dp"-->
-    <!--android:gravity="center"-->
-    <!--android:text="提示"/>-->
-
-    <!--<TextView-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_marginTop="20dp"-->
-    <!--android:gravity="center_horizontal"-->
-    <!--android:text="@string/dialog_tip"/>-->
-
     <ImageView
         android:layout_margin="50dp"
         android:layout_width="100dp"
@@ -28,14 +14,15 @@
         android:layout_marginTop="10dp"
         android:adjustViewBounds="true"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/icon"/>
+        android:contentDescription="The logo of this app"
+        android:src="@drawable/icon" />
 
     <TextView
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         android:layout_margin="30dp"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:text="@string/ask_permission"/>
 
     <TextView
@@ -49,6 +36,6 @@
         android:background="@color/colorPrimary"
         android:gravity="center"
         android:text="Get Permission"
-        android:textSize="15dp"
+        android:textSize="15sp"
         android:textColor="@color/text_white"/>
 </LinearLayout>

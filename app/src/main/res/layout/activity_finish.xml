@@ -25,7 +25,7 @@
         android:lineSpacingExtra="8sp"
         android:text="@string/focus_summary"
         android:textAlignment="center"
-        android:textColor="@color/black"
+        android:textColor="@color/bg_blue_dark"
         android:textSize="30sp" />
 
     <TextView
@@ -35,8 +35,8 @@
         android:layout_below="@id/tv_welldone"
         android:layout_marginTop="10dp"
         android:layout_centerHorizontal="true"
-        android:textSize="32sp"
-        android:textColor="@color/yellow"/>
+        android:textColor="@color/yellow"
+        android:textSize="32sp" />
 
 
     <TextView

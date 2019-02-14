@@ -7,32 +7,32 @@ package com.example.jessie.focusing.Interface;
  */
 public interface OnTimeChangeListener {
     /**
-     * 开始时间发生变化
-     * @param startDegree 开始时间代表的角度
-     * @param endDegree  结束时间代表的角度
+     * Executed when start time changing
+     * @param startDegree The angle of start time
+     * @param endDegree  The angle of end time
      */
-    void startTimeChanged(float startDegree, float endDegree);
+    void onStartTimeChanged(float startDegree, float endDegree);
 
     /**
-     * 结束时间发生变化
-     * @param startDegree 开始时间代表的角度
-     * @param endDegree  结束时间代表的角度
+     * Executed when end time changing
+     * @param startDegree The angle of start time
+     * @param endDegree  The angle of end time
      */
-    void endTimeChanged(float startDegree, float endDegree);
+    void onEndTimeChanged(float startDegree, float endDegree);
 
     /**
-     * 初始化开始时间和结束时间
-     * @param startDegree 开始时间代表的角度
-     * @param endDegree  结束时间代表的角度
+     * Initialize the start time and end time
+     * @param startDegree The angle of start time
+     * @param endDegree  The angle of end time
      */
-    void initTime(float startDegree, float endDegree);
+    void onInitTime(float startDegree, float endDegree);
 
 
     /**
-     * 开始,结束时间都发生变化
-     * @param startDegree 开始时间代表的角度
-     * @param endDegree  结束时间代表的角度
+     * Executed when all time changing
+     * @param startDegree The angle of start time
+     * @param endDegree  The angle of end time
      */
-    void onAllTimeChanaged(float startDegree, float endDegree);
+    void onAllTimeChanged(float startDegree, float endDegree);
 }
 

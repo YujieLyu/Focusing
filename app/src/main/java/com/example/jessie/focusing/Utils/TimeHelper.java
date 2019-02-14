@@ -14,7 +14,7 @@ import java.util.Locale;
 public class TimeHelper {
     public static final long HOUR_IN_MILLIS = 60 * 60 * 1000;
     public static final long DAY_IN_MILLIS = 24 * HOUR_IN_MILLIS;
-    private static SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
+    private static SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
 
     /**
      * Convert specific {@link Date} to {@link String}
@@ -23,7 +23,7 @@ public class TimeHelper {
      * @return
      */
     public static String toString(Date date) {
-        return sdf.format(date);
+        return dateFormat.format(date);
     }
 
     /**
@@ -34,7 +34,7 @@ public class TimeHelper {
      * @throws ParseException
      */
     public static Date toDate(String dateStr) throws ParseException {
-        return sdf.parse(dateStr);
+        return dateFormat.parse(dateStr);
     }
 
     public static boolean betweenRange(long start, long end, long curr) {
@@ -48,30 +48,22 @@ public class TimeHelper {
         return calendar.getTimeInMillis();
     }
 
-    public static Calendar getCurrCalendar() {
-        Calendar calendar = Calendar.getInstance();
-        return calendar;
-
-    }
-
     public static int getCurrYear() {
-        Calendar curr = getCurrCalendar();
-        int year = curr.get(Calendar.YEAR);
-        return year;
+        Calendar curr = Calendar.getInstance();
+        return curr.get(Calendar.YEAR);
     }
 
     public static int getCurrMonth() {
-        Calendar curr = getCurrCalendar();
-        int month = curr.get(Calendar.MONTH);//mcl: should be month
-        return month;//mcl: month filed start from 0
+        Calendar curr = Calendar.getInstance();
+        return curr.get(Calendar.MONTH);
     }
 
     public static int getCurrDay() {
-        Calendar curr = getCurrCalendar();
-        int day = curr.get(Calendar.DAY_OF_MONTH);//mcl: should be day
-        return day;
+        Calendar curr = Calendar.getInstance();
+        return curr.get(Calendar.DAY_OF_MONTH);
     }
 
+    @Deprecated
     public static String showInterval(Calendar timeStart, Calendar timeEnd) {
         //todo:判断过了0点的时间计算；是否做成只选第二个时间？
         //todo:need to optimize the calculate,do it later
@@ -104,18 +96,36 @@ public class TimeHelper {
 
     }
 
+    /**
+     * Get the date displayed in "day of month" format
+     *
+     * @param numOfDay 0 for today, 1 for yesterday
+     * @return
+     */
     public static String getDayOfMonth(int numOfDay) {
         long mills = System.currentTimeMillis() + -1 * numOfDay * DAY_IN_MILLIS;
         Date date = new Date(mills);
-        return new SimpleDateFormat("EEE", Locale.getDefault()).format(date);
+        return new SimpleDateFormat("dd", Locale.getDefault()).format(date);
     }
 
+    /**
+     * Get the date displayed in "day of week" format
+     *
+     * @param numOfDay 0 for today, 1 for yesterday
+     * @return
+     */
     public static String getDayOfWeek(int numOfDay) {
         long mills = System.currentTimeMillis() + -1 * numOfDay * DAY_IN_MILLIS;
         Date date = new Date(mills);
         return new SimpleDateFormat("EEE", Locale.getDefault()).format(date);
     }
 
+    /**
+     * Put the year/month/day of the specific day into an array
+     *
+     * @param numOfDay 0 for today, 1 for yesterday
+     * @return
+     */
     public static int[] getYearMonthDay(int numOfDay) {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, -1 * numOfDay);

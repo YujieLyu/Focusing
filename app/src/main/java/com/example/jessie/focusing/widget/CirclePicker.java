@@ -20,6 +20,7 @@ import android.view.View;
 
 import com.example.jessie.focusing.Interface.OnTimeChangeListener;
 import com.kyesun.ly.CircleTimePicker.R;
+
 import static android.os.Build.VERSION_CODES.M;
 
 /**
@@ -375,7 +376,7 @@ public class CirclePicker extends View{
                     mEndDegree = (float) (mEndDegree + Math.floor(moveDegree));
                     mEndDegree = (mEndDegree < 0) ? mEndDegree + mDegreeCycle : mEndDegree % mDegreeCycle;
                     if (mOnTimeChangeListener != null) {
-                        mOnTimeChangeListener.endTimeChanged(mStartDegree, mEndDegree);
+                        mOnTimeChangeListener.onEndTimeChanged(mStartDegree, mEndDegree);
                     }
                     refreshEndBtnPosition();
                     Log.d("Test", "mEndDegree==" + mEndDegree);
@@ -415,7 +416,7 @@ public class CirclePicker extends View{
     public void setOnTimerChangeListener(OnTimeChangeListener listener) {
         if (mOnTimeChangeListener == null) {
             this.mOnTimeChangeListener = listener;
-            mOnTimeChangeListener.initTime(mStartDegree, mEndDegree);
+            mOnTimeChangeListener.onInitTime(mStartDegree, mEndDegree);
         }
     }
 
@@ -429,7 +430,7 @@ public class CirclePicker extends View{
         mStartDegree = (initStartDegree < 0) ? initStartDegree + mDegreeCycle : initStartDegree % mDegreeCycle;
         mEndDegree = (initEndDegree < 0) ? initEndDegree + mDegreeCycle : initEndDegree % mDegreeCycle;
         if (mOnTimeChangeListener != null) {
-            mOnTimeChangeListener.initTime(mStartDegree, mEndDegree);
+            mOnTimeChangeListener.onInitTime(mStartDegree, mEndDegree);
         }
         refreshBtnPosition();
     }

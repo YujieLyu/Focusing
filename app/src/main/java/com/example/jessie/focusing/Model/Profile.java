@@ -6,60 +6,32 @@ import org.litepal.LitePal;
 import org.litepal.annotation.Column;
 import org.litepal.crud.LitePalSupport;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import static com.example.jessie.focusing.Utils.TimeHelper.betweenRange;
 import static com.example.jessie.focusing.Utils.TimeHelper.toMillis;
 
 /**
  * @author : Yujie Lyu
- * 表示创建的profile
  * @date : 25-01-2019
  * @time : 08:26
  */
-public class Profile extends LitePalSupport {
+public class Profile extends LitePalSupport implements Comparable<Profile> {
     public static final int START_NOW_PROFILE_ID = -10;
-    public static Comparator<Profile> nameComparator = new Comparator<Profile>() {
-        @Override
-        public int compare(Profile o1, Profile o2) {
-            String p1 = o1.getProfileName();
-            String p2 = o2.getProfileName();
-            String a = null;
-            String b = null;
-            if (!p1.isEmpty() && !p1.isEmpty()) {
-                a = p1.substring(0, 1);
-                b = p1.substring(0, 1);
-            }
-            return (a.compareTo(b));
-        }
+    public static final String[] REPEAT_TYPE = {
+            "None",
+            "Everyday",
+            "Every Monday", "Every Tuesday", "Every Wednesday",
+            "Every Thursday", "Every Friday", "Every Saturday", "Every Sunday"
     };
-    public static Comparator<Profile> startTimeComparator = new Comparator<Profile>() {
-        @Override
-        public int compare(Profile o1, Profile o2) {
-            int o1H = o1.getStartHour();
-            int o1M = o1.getStartMin();
-            int o2H = o2.getStartHour();
-            int o2M = o2.getStartMin();
-            if (o1H > o2H) {
-                return 1;
-            } else if (o1H == o2H) {
-                if (o1M >= o2M) {
-                    return 1;
-                } else return -1;
-            } else
-                return -1;
-        }
-    };
+
     @Column(unique = true)
     private int id;
     @Column(unique = true)
     private String profileName;
-    @Column
-    private Date date;
     @Column
     private int startHour;
     @Column
@@ -68,36 +40,46 @@ public class Profile extends LitePalSupport {
     private int endHour;
     @Column
     private int endMin;
-    @Column
-    private String repeat;
-    @Column
-    private int repeatId;
-    @Column
-    private String alarm;
-    @Column
-    private Boolean isOn;
-    private List<AppInfo> appInfos = new ArrayList<>();
+    @Column(defaultValue = "-1")
+    private int repeatId = -1;
 
-    public Profile() {
-    }
-
+    /**
+     * Check if the profile is on schedule
+     *
+     * @param profile
+     * @param dayOfWeek
+     * @return
+     */
     public static boolean onSchedule(Profile profile, int dayOfWeek) {
         if (profile == null) {
             return false;
         }
-        int repeatId = dayOfWeek == 1 ? 7 : dayOfWeek - 1;
-        int proRepeatId = profile.getRepeatId();
+        int repeatId = toRepeatId(dayOfWeek);
+        int proRepeatId = profile.repeatId;
         return proRepeatId == 0 || proRepeatId == repeatId;
     }
 
+    /**
+     * Check if the profile has started.
+     *
+     * @param profId
+     * @return
+     */
     public static boolean isStart(int profId) {
         if (profId == START_NOW_PROFILE_ID) {
+            //TODO: remove this
             return LockService.START_NOW_END_TIME > 0;
         }
         Profile profile = LitePal.find(Profile.class, profId);
         return isStart(profile);
     }
 
+    /**
+     * Check if the profile has started.
+     *
+     * @param profile
+     * @return
+     */
     public static boolean isStart(Profile profile) {
         if (profile == null) {
             return false;
@@ -111,6 +93,27 @@ public class Profile extends LitePalSupport {
         long end = toMillis(profile.getEndHour(), profile.getEndMin());
         long curr = System.currentTimeMillis();
         return betweenRange(start, end, curr);
+    }
+
+    public static List<Profile> findAll() {
+        return LitePal.findAll(Profile.class);
+    }
+
+    public static Profile findById(int id) {
+        return LitePal.find(Profile.class, id);
+    }
+
+    public static List<Profile> findAllOnSchedule(int dayOfWeek) {
+        int repeatId = toRepeatId(dayOfWeek);
+        List<Profile> res = LitePal
+                .where("repeatid = 0 OR repeatid = ", repeatId + "")
+                .find(Profile.class);
+        res.sort(Profile::compareTo);
+        return res;
+    }
+
+    public static int toRepeatId(int dayOfWeek) {
+        return dayOfWeek == 1 ? 7 : dayOfWeek - 1;
     }
 
     public int getStartHour() {
@@ -145,14 +148,6 @@ public class Profile extends LitePalSupport {
         this.endMin = endMin;
     }
 
-    public Boolean getOn() {
-        return isOn;
-    }
-
-    public void setOn(Boolean on) {
-        isOn = on;
-    }
-
     public String getProfileName() {
         return profileName;
     }
@@ -161,20 +156,12 @@ public class Profile extends LitePalSupport {
         this.profileName = profileName;
     }
 
-    public Date getDate() {
-        return date;
+    public void setRepeatId(String repeatString) {
+        repeatId = Arrays.asList(REPEAT_TYPE).indexOf(repeatString) - 1;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public String getRepeat() {
-        return repeat;
-    }
-
-    public void setRepeat(String repeat) {
-        this.repeat = repeat;
+    public String getRepeatString() {
+        return REPEAT_TYPE[repeatId + 1];
     }
 
     public int getId() {
@@ -194,14 +181,6 @@ public class Profile extends LitePalSupport {
         return super.equals(obj);
     }
 
-    public String getAlarm() {
-        return alarm;
-    }
-
-    public void setAlarm(String alarm) {
-        this.alarm = alarm;
-    }
-
     public int getRepeatId() {
         return repeatId;
     }
@@ -210,4 +189,42 @@ public class Profile extends LitePalSupport {
         this.repeatId = repeatId;
     }
 
+    public String getStartTimeStr() {
+        return getTimeStr(startHour, startMin);
+    }
+
+    public String getEndTimeStr() {
+        return getTimeStr(endHour, endMin);
+    }
+
+    private String getTimeStr(int hour, int min) {
+        return String.format(Locale.getDefault(), "%02d:%02d", hour, min);
+    }
+
+    /**
+     * Get the displayed time string
+     *
+     * @return
+     */
+    public String getTimeSlot() {
+        return getStartTimeStr() + " ~ " + getEndTimeStr();
+    }
+
+    @Override
+    public int compareTo(Profile o) {
+        if (startHour != o.startHour) {
+            return startHour - o.startHour;
+        }
+        if (startMin != o.startMin) {
+            return startMin - o.startMin;
+        }
+        if (endHour != o.endHour) {
+            return o.endHour - endHour;
+        }
+        return o.endMin - endMin;
+    }
+
+    public void saveOrUpdate() {
+        saveOrUpdate("id = ?", String.valueOf(id));
+    }
 }

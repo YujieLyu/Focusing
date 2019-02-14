@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.Initial.Welcome_Activity"
+    tools:context=".View.Initial.WelcomeActivity"
     android:orientation="horizontal">
 
     <ImageView
@@ -22,8 +22,7 @@
         android:fontFamily="@font/roboto_light"
         android:text="Welcome to Focusing!"
         android:textColor="@color/text_white"
-        android:textSize="32sp"
-        />
+        android:textSize="32sp" />
 
     <TextView
         android:id="@+id/tv_start_now"
@@ -92,19 +91,13 @@
         android:textStyle="bold"
         />
 
+    <TextView
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:text="Copyright@Yujie_Lyu"
+        android:textColor="@color/bg_white" />
 
-    <!--<include-->
-        <!--layout="@layout/app_bar_main"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent" />-->
-
-    <!--<android.support.design.widget.NavigationView-->
-        <!--android:id="@+id/nav_view"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_gravity="start"-->
-        <!--android:fitsSystemWindows="true"-->
-        <!--app:headerLayout="@layout/nav_header_main"-->
-        <!--app:menu="@menu/activity_main_drawer" />-->
 
 </RelativeLayout>

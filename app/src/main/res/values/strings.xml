@@ -16,8 +16,8 @@
     <string name="focus_summary">Well done!\nYou have focused for</string>
     <string name="keep_it_up">Keep it up</string>
 
-    <string name="Set_Schedule">Set profile schedule</string>
-    <string name="ProfileNameNonEmpty">Profile name cannot be empty</string>
+    <string name="set_schedule">Set profile schedule</string>
+    <string name="profile_name_non_empty">Profile name cannot be empty</string>
     <string name="my_schedule">My Schedule</string>
     <string name="focus_for_how_long">Focus for how long?</string>
 

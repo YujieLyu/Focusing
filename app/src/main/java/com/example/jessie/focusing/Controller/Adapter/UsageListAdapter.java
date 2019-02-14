@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.jessie.focusing.Model.AppUsage;
 import com.example.jessie.focusing.R;
@@ -69,6 +70,10 @@ public class UsageListAdapter extends BaseAdapter implements View.OnClickListene
     @Override
     public void onClick(View v) {
         AppUsage appUsage = (AppUsage) v.getTag();
+        if (appUsage == null) {
+            Toast.makeText(context, "Cannot find App", Toast.LENGTH_LONG).show();
+            return;
+        }
         Intent intent = new Intent(context, LogDetailActivity.class);
         intent.putExtra(LogDetailActivity.KEY, appUsage.getPackageName());
         context.startActivity(intent);

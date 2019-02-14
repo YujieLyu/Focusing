@@ -6,7 +6,9 @@ import org.litepal.LitePal;
 import org.litepal.annotation.Column;
 import org.litepal.crud.LitePalSupport;
 
-import java.util.Calendar;
+import static com.example.jessie.focusing.Utils.TimeHelper.getCurrDay;
+import static com.example.jessie.focusing.Utils.TimeHelper.getCurrMonth;
+import static com.example.jessie.focusing.Utils.TimeHelper.getCurrYear;
 
 /**
  * @author : Yujie Lyu
@@ -48,6 +50,20 @@ public class AppUsage extends LitePalSupport implements Comparable<AppUsage> {
     public static AppUsage findByDate(String packageName, int year, int month, int day) {
         String where = String.format("packagename = \"%s\" and year = %s and month = %s and day = %s", packageName, year, month, day);
         return LitePal.where(where).findLast(AppUsage.class);
+    }
+
+    public static AppUsage findAppAtToday(String packageName) {
+        String currYear = getCurrYear() + "";
+        String currMonth = getCurrMonth() + "";
+        String today = getCurrDay() + "";
+        String[] conditions = new String[]{
+                "packagename = ? AND year = ? AND month = ? AND day = ?",
+                packageName,
+                currYear,
+                currMonth,
+                today
+        };
+        return LitePal.where(conditions).findLast(AppUsage.class);
     }
 
     public String getAppName() {
@@ -145,5 +161,4 @@ public class AppUsage extends LitePalSupport implements Comparable<AppUsage> {
     public int getOpenInFocus() {
         return openInFocus;
     }
-
 }

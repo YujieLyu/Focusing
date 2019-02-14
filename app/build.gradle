@@ -25,14 +25,11 @@ android {
             exclude 'META-INF/proguard/androidx-annotations.pro'
         }
     }
-//    compileOptions {
-//        sourceCompatibility JavaVersion.VERSION_1_8
-//        targetCompatibility JavaVersion.VERSION_1_8
-//    }
+
 }
-    repositories {
-        maven { url 'https://jitpack.io' }
-    }
+repositories {
+    maven { url 'https://jitpack.io' }
+}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -45,16 +42,12 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     //数据库LitePal
     implementation 'org.litepal.android:java:3.0.0'
-
     implementation 'cn.qqtheme.framework:ColorPicker:1.1.3'
 //    time count down view
     implementation 'com.github.iwgang:countdownview:2.1.6'
-
 //    //time picker
     implementation 'com.kyesun.ly:CircleTimePicker:1.0.0'
-
     implementation 'com.contrarywind:Android-PickerView:4.1.7'
-
     //bar chart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0-alpha'
     // debug database

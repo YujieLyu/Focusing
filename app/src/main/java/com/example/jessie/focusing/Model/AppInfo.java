@@ -6,7 +6,6 @@ import org.litepal.LitePal;
 import org.litepal.annotation.Column;
 import org.litepal.crud.LitePalSupport;
 
-import java.util.Comparator;
 import java.util.List;
 
 
@@ -14,31 +13,10 @@ import java.util.List;
  * @author : Yujie Lyu
  * @date : 12-12-2018
  * @time : 18:17
- * 表示获取到的应用
+ * The installed apps information
  */
-//
-public class AppInfo extends LitePalSupport {
+public class AppInfo extends LitePalSupport implements Comparable<AppInfo> {
 
-
-    public static Comparator<AppInfo> nameComparator = new Comparator<AppInfo>() {
-
-        @Override
-        public int compare(AppInfo app1, AppInfo app2) {
-            String app1First = app1.getAppName();
-            String app2First = app2.getAppName();
-            boolean a1 = app1.isLocked();
-            boolean a2 = app2.isLocked();
-
-            if (a1 && !a2) {
-                return -1;
-            } else if (!a1 && a2) {
-                return 1;
-            } else {
-
-                return (app1First.compareTo(app2First));
-            }
-        }
-    };
     @Column(unique = true)
     private int id;
 
@@ -46,11 +24,7 @@ public class AppInfo extends LitePalSupport {
     private String packageName;
 
     @Column
-    private Profile profile;
-
-    @Column
     private int profId;
-
 
     @Column(ignore = true)
     private Drawable appImg;
@@ -58,22 +32,19 @@ public class AppInfo extends LitePalSupport {
     @Column(ignore = true)
     private String appName;
 
-    private boolean isLocked;//是否已加锁
+    private boolean isLocked;
 
-
-    public AppInfo(Drawable appImg, String appName, Boolean isLocked) {
-        this.appImg = appImg;
-        this.appName = appName;
-        this.isLocked = isLocked;
-    }
-
-
-    public AppInfo() {
-
-    }
-
-    public static List<AppInfo> findByPackageName(String packageName) {
+    public static List<AppInfo> findAllByPackageName(String packageName) {
         return LitePal.where("packagename = ?", packageName).find(AppInfo.class);
+    }
+
+    public static List<AppInfo> findAllByProfileId(int profId) {
+        return LitePal.where("profid = ?", profId + "").find(AppInfo.class);
+    }
+
+    public static List<AppInfo> findAllLockApps(String packageName) {
+        String where = String.format("packagename = \"%s\" AND islocked = 1", packageName);
+        return LitePal.where(where).find(AppInfo.class);
     }
 
     @Override
@@ -81,7 +52,7 @@ public class AppInfo extends LitePalSupport {
         if (obj instanceof AppInfo) {
             AppInfo appInfo = (AppInfo) obj;
             boolean equalName = packageName.equals(appInfo.packageName);
-            boolean equalProfId = (profId == appInfo.getProfId());
+            boolean equalProfId = profId == appInfo.profId;
             return equalName && equalProfId;
         }
         return false;
@@ -127,15 +98,6 @@ public class AppInfo extends LitePalSupport {
         this.id = id;
     }
 
-    public Profile getProfile() {
-        return profile;
-    }
-
-    public void setProfile(int profileId) {
-        Profile profile = LitePal.find(Profile.class, profileId);
-        this.profile = profile;
-    }
-
     public int getProfId() {
         return profId;
     }
@@ -144,4 +106,21 @@ public class AppInfo extends LitePalSupport {
         this.profId = profId;
     }
 
+    @Override
+    public int compareTo(AppInfo o) {
+        if (o == null) {
+            return 1;
+        }
+        if (isLocked && !o.isLocked) {
+            return -1;
+        } else if (!isLocked && o.isLocked) {
+            return 1;
+        } else {
+            return appName.compareTo(o.appName);
+        }
+    }
+
+    public boolean saveOrUpdate() {
+        return saveOrUpdate("id=? AND profid=?", id + "", profId + "");
+    }
 }

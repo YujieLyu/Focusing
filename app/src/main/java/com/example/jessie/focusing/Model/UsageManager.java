@@ -6,8 +6,6 @@ import android.content.pm.PackageManager;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.example.jessie.focusing.Utils.TimeHelper;
-
 import org.litepal.LitePal;
 
 import java.util.ArrayList;
@@ -16,6 +14,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static com.example.jessie.focusing.Utils.TimeHelper.getCurrDay;
+import static com.example.jessie.focusing.Utils.TimeHelper.getCurrMonth;
 import static com.example.jessie.focusing.Utils.TimeHelper.getCurrYear;
 
 /**
@@ -28,8 +28,8 @@ public class UsageManager {
     private static final String TAG = UsageManager.class.getSimpleName();
     private final PackageManager packageManager;
     private int todayYear = getCurrYear();
-    private int todayMonth = TimeHelper.getCurrMonth();
-    private int todayDay = TimeHelper.getCurrDay();
+    private int todayMonth = getCurrMonth();
+    private int todayDay = getCurrDay();
 
     public UsageManager(Context context) {
         this.packageManager = context.getPackageManager();
@@ -39,15 +39,17 @@ public class UsageManager {
         LitePal.deleteAll(AppUsage.class, "day=?", String.valueOf(day));
     }
 
-    private boolean atToday(AppUsage appUsage) {
-        return appUsage.getYear() == todayYear && appUsage.getMonth() == todayMonth && appUsage.getDay() == todayDay;
-    }
-
-    public void saveOpenTimes(String packageName, boolean isLocked) {
+    /**
+     * Save open times for specific app
+     *
+     * @param packageName
+     * @param isLocked
+     */
+    public synchronized void saveOpenTimes(String packageName, boolean isLocked) {
         if (TextUtils.isEmpty(packageName)) {
             return;
         }
-        AppUsage appChecked = getTodayApp(packageName);
+        AppUsage appChecked = AppUsage.findAppAtToday(packageName);
         if (appChecked != null) {
             appChecked.addOpenTimes(OPEN_TIMES_INCREMENT, isLocked);
         } else {
@@ -57,11 +59,18 @@ public class UsageManager {
         appChecked.save();
     }
 
+    /**
+     * Save used time for specific app
+     *
+     * @param packageName
+     * @param usedTime
+     * @param isLocked
+     */
     public synchronized void saveUsedTime(String packageName, long usedTime, boolean isLocked) {
         if (TextUtils.isEmpty(packageName)) {
             return;
         }
-        AppUsage appChecked = getTodayApp(packageName);
+        AppUsage appChecked = AppUsage.findAppAtToday(packageName);
         if (appChecked != null) {
             appChecked.setUsedTime(usedTime, isLocked);
         } else {
@@ -71,25 +80,11 @@ public class UsageManager {
         appChecked.save();
     }
 
-    private AppUsage getTodayApp(String packageName) {
-        List<AppUsage> appUsagesDB = LitePal.findAll(AppUsage.class);
-        for (AppUsage appUsage : appUsagesDB) {
-            if (appUsage.getPackageName().equals(packageName) && atToday(appUsage)) {
-                return appUsage;
-            }
-        }
-        return null;
-    }
-
     /**
-     * Delete
+     * Fetch the most used apps in specific days.
+     * @param days days before today.
+     * @return
      */
-    public synchronized void delete(List<AppUsage> appUsages) {
-        for (AppUsage appUsage : appUsages) {
-            appUsage.delete();
-        }
-    }
-
     public synchronized List<AppUsage> getMostUsedAppsInDays(int days) {
         List<AppUsage> appUsages = LitePal.findAll(AppUsage.class);
         Log.i(TAG, "Find from database: " + appUsages.size());
@@ -112,7 +107,7 @@ public class UsageManager {
                     appUsage.setAppName(info.applicationInfo.loadLabel(packageManager).toString());
                     appUsage.setAppImg(info.applicationInfo.loadIcon(packageManager));
                 } catch (PackageManager.NameNotFoundException e) {
-                    e.printStackTrace();
+                    continue;
                 }
                 if (pkNames.add(appUsage.getPackageName())) {
                     res.add(appUsage);
@@ -120,14 +115,18 @@ public class UsageManager {
             }
         }
         Log.i(TAG, "Filtered data size: " + res.size());
-        res.sort((o1, o2) -> {
-            boolean more = o1.getUsedOutFocus() > o2.getUsedOutFocus();
-            return more ? -1 : 1;
-        });
+        res.sort(AppUsage::compareTo);
         return res;
     }
 
-    public synchronized AppUsage getAppOpenTimeOfDay(String packageName, int numOfDay) {
+    /**
+     * Fetch app usage info in specific day
+     *
+     * @param packageName
+     * @param numOfDay    the day before today, 0 for today, 1 for yesterday...
+     * @return
+     */
+    public synchronized AppUsage getAppUsageOfDay(String packageName, int numOfDay) {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, -1 * numOfDay);
         int year = calendar.get(Calendar.YEAR);
@@ -136,15 +135,4 @@ public class UsageManager {
         return AppUsage.findByDate(packageName, year, month, day);
     }
 
-    public synchronized List<AppUsage> getData(String packageName) {
-        List<AppUsage> synonymUsageInfos = new ArrayList<>();
-        List<AppUsage> usageInfosDatabase = LitePal.findAll(AppUsage.class);
-        for (AppUsage appUsage : usageInfosDatabase) {
-            if (appUsage.getPackageName().equals(packageName)) {
-                synonymUsageInfos.add(appUsage);
-            }
-
-        }
-        return synonymUsageInfos;
-    }
 }

@@ -40,7 +40,7 @@
         android:layout_below="@id/use_time_barchart"
         android:layout_marginTop="15dp"
         android:padding="10dp"
-        android:text="Weekly Use Time (Mins)"
+        android:text="Weekly Use Time"
         android:textColor="@color/colorPrimary"
         android:fontFamily="@font/roboto_light"
         android:textSize="18sp"

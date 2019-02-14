@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -16,9 +17,9 @@ import android.widget.Toast;
 
 import com.example.jessie.focusing.R;
 import com.example.jessie.focusing.Service.LockService;
-import com.example.jessie.focusing.Utils.OnCirclePickerTimeChangedListener;
+import com.example.jessie.focusing.Utils.BaseTimeChangeListener;
 import com.example.jessie.focusing.Utils.TimeHelper;
-import com.example.jessie.focusing.View.CountDown.Countdown_Activity;
+import com.example.jessie.focusing.View.CountDown.CountdownActivity;
 import com.example.jessie.focusing.widget.CirclePicker;
 
 import java.util.Calendar;
@@ -37,9 +38,7 @@ public class NowClockFragment extends Fragment {
     private final static int HALF_DAY_DEGREE = 360;
     private TextView tv_startTime, tv_endTime, tv_countTime;
     private Calendar timeStart, timeEnd;
-    private CirclePicker circlePicker;
     private String countTime;
-    private boolean startOn = false;
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
         @Override
@@ -53,50 +52,40 @@ public class NowClockFragment extends Fragment {
                 timeStart.setTime(date);
                 tv_countTime.setText(countTime());
 
-            } else {
             }
         }
     };
-    //处理timeStart&countTime实时更新的线程
-    Thread thread = new Thread(new Runnable() {
-        @Override
-        public void run() {
-            do {
-                try {
-                    Thread.sleep(1000);
-                    Message msg = new Message();
-                    msg.what = 1;
-                    handler.sendMessage(msg);
+    Thread thread = new Thread(() -> {
+        do {
+            try {
+                Thread.sleep(1000);
+                Message msg = new Message();
+                msg.what = 1;
+                handler.sendMessage(msg);
 
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            } while (true);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        } while (true);
 
-        }
     });
 
-    public NowClockFragment() {
-    }
-
     @Override
-    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_startnow_timepicker, container, false);
 
         tv_countTime = view.findViewById(R.id.tv_countTime);
         tv_startTime = view.findViewById(R.id.tc_start_time);
         thread.start();
-//        tv_startTime.setFormat12Hour(null);
-//        tv_startTime.setFormat24Hour("HH:mm");
         tv_endTime = view.findViewById(R.id.tv_end_time);
-        circlePicker = view.findViewById(R.id.timer);
+        CirclePicker circlePicker = view.findViewById(R.id.timer);
         circlePicker.setInitialTime(startDegree(), startDegree() + ONE_HOUR_DEGREE);
-        circlePicker.setOnTimerChangeListener(new OnCirclePickerTimeChangedListener() {
+        circlePicker.setOnTimerChangeListener(new BaseTimeChangeListener() {
 
             @SuppressLint("SetTextI18n")
             @Override
-            public void endTimeChanged(float startDegree, float endDegree) {
+            public void onEndTimeChanged(float startDegree, float endDegree) {
 
                 double endCount = (endDegree / 720) * (24 * 60);
                 int endHour = (int) Math.floor(endCount / 60);
@@ -119,7 +108,13 @@ public class NowClockFragment extends Fragment {
 
             @SuppressLint("SetTextI18n")
             @Override
-            public void initTime(float startDegree, float endDegree) {
+            public void onInitTime(float startDegree, float endDegree) {
+//                String startTime = CircleTimeUtils.toString(startDegree);
+//                tv_startTime.setText(startTime);
+//                String endTime = CircleTimeUtils.toString(endDegree);
+//                tv_endTime.setText(endTime);
+//
+
                 double startCount = (startDegree / 720) * (24 * 60);
                 int startHour = (int) Math.floor(startCount / 60);
                 int startMinute = (int) Math.floor(startCount % 60);
@@ -144,7 +139,6 @@ public class NowClockFragment extends Fragment {
             @Override
             public void onClick(View v) {
 //                countTime();
-                startOn = true;
                 if (countTime.equals("00:00")) {
                     Toast toast = Toast.makeText(getContext(),
                             R.string.invalid_time_suggestion, Toast.LENGTH_LONG);
@@ -153,7 +147,7 @@ public class NowClockFragment extends Fragment {
 
                 } else {
                     LockService.START_NOW_END_TIME = timeEnd.getTimeInMillis();
-                    Intent intent = new Intent(getActivity(), Countdown_Activity.class);
+                    Intent intent = new Intent(getActivity(), CountdownActivity.class);
                     intent.putExtra(END_TIME, timeEnd.getTimeInMillis());
                     intent.putExtra(START_TIME, timeStart.getTimeInMillis());
                     startActivity(intent);
@@ -165,17 +159,12 @@ public class NowClockFragment extends Fragment {
 
     }
 
-    public boolean isStartOn() {
-        return startOn;
-    }
-
     private float startDegree() {
         timeStart = Calendar.getInstance();
         int hour = timeStart.get(Calendar.HOUR_OF_DAY);
         int min = timeStart.get(Calendar.MINUTE);
         int startTime = hour * 60 + min;
-        float startDegree = (float) startTime / 2;
-        return startDegree;
+        return (float) startTime / 2;
 
     }
 

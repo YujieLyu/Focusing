@@ -30,7 +30,14 @@ public class FocusTimeManager {
         ftInToday.save();
     }
 
-    public synchronized List<FocusTime> getTimeData(Calendar before, Calendar today) {
+    /**
+     * Fetch all time data between the specific time range
+     *
+     * @param start
+     * @param end
+     * @return
+     */
+    public synchronized List<FocusTime> getTimeData(Calendar start, Calendar end) {
         List<FocusTime> res = new ArrayList<>();
         List<FocusTime> ftDb = LitePal.findAll(FocusTime.class);
         for (FocusTime time : ftDb) {
@@ -38,13 +45,20 @@ public class FocusTimeManager {
             calendar.set(Calendar.YEAR, time.getYear());
             calendar.set(Calendar.MONTH, time.getMonth());
             calendar.set(Calendar.DAY_OF_MONTH, time.getDay());
-            if (calendar.after(before) && calendar.before(today)) {
+            if (calendar.after(start) && calendar.before(end)) {
                 res.add(time);
             }
         }
         return res;
     }
 
+    /**
+     * Returns the used time of the specific day,
+     * e.g., 0 for today, 1 for yesterday...
+     *
+     * @param numOfDay
+     * @return
+     */
     public FocusTime getTimeData(int numOfDay) {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, -1 * numOfDay);

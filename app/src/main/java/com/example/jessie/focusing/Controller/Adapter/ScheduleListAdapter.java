@@ -1,5 +1,6 @@
 package com.example.jessie.focusing.Controller.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -15,6 +16,8 @@ import com.example.jessie.focusing.View.Profile.ProfileDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.jessie.focusing.Utils.AppConstants.PROFILE_ID;
 
 /**
  * @author : Yujie Lyu
@@ -34,66 +37,9 @@ public class ScheduleListAdapter extends BaseAdapter {
     }
 
     public void setData(int dayOfWeek) {
-        profiles=profileManager.syncProfileOnSchedule(dayOfWeek);
+        profiles = profileManager.syncProfileOnSchedule(dayOfWeek);
         notifyDataSetChanged();
     }
-
-    public void addSchedule(Profile profile){
-        //todo:调用Profdetail设置页面，将结果返回给schedule
-//        profileManager.updateProfile(profile);
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ScheduleListAdapter.ViewHolder viewHolder = new ScheduleListAdapter.ViewHolder();
-        if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_schedule_list, null);
-        }
-        viewHolder.profileName = convertView.findViewById(R.id.profile_name);
-        viewHolder.timeSlot = convertView.findViewById(R.id.timeSlot);
-        viewHolder.repeat = convertView.findViewById(R.id.repeat);
-        if (profiles.size()==0){
-            viewHolder.profileName.setText("Today has no schedule");
-        }else {
-            Profile selectedInfo = profiles.get(position);
-
-
-            viewHolder.profileName.setText(selectedInfo.getProfileName());
-            String timeSlot = String.format("%02d:%02d ~ %02d:%02d",selectedInfo.getStartHour(),selectedInfo.getStartMin(),
-                    selectedInfo.getEndHour(),selectedInfo.getEndMin());
-            viewHolder.timeSlot.setText(timeSlot);
-            viewHolder.repeat.setText(selectedInfo.getRepeat());
-            convertView.setTag(selectedInfo);
-        }
-//        viewHolder.tv_ProfName.setOnClickListener(this);
-
-        convertView.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-                Profile profile=(Profile)v.getTag(); //将被点击的item转化为Profile instance,需要在view处setTAG
-                Intent intent = new Intent(context, ProfileDetailActivity.class);
-                intent.putExtra("ProfileId", profile.getId());
-                context.startActivity(intent);
-            }
-        });
-        return convertView;
-    }
-
-
-    
-
-    //todo:class和Class区别？
-    class ViewHolder {
-
-        TextView profileName,timeSlot,repeat;
-
-
-
-    }
-//    public void syncData() {
-//        profileManager.syncData(appInfos);
-//    }
 
     @Override
     public int getCount() {
@@ -111,8 +57,43 @@ public class ScheduleListAdapter extends BaseAdapter {
         return null;
     }
 
+
     @Override
     public long getItemId(int position) {
         return position;
+    }
+
+    @SuppressLint("SetTextI18n")
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        ScheduleListAdapter.ViewHolder viewHolder = new ScheduleListAdapter.ViewHolder();
+        if (convertView == null) {
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_schedule_list, null);
+        }
+        viewHolder.profileName = convertView.findViewById(R.id.profile_name);
+        viewHolder.timeSlot = convertView.findViewById(R.id.timeSlot);
+        viewHolder.repeat = convertView.findViewById(R.id.repeat);
+        if (profiles.isEmpty()) {
+            viewHolder.profileName.setText("Today has no schedule");
+        } else {
+            Profile selectedInfo = profiles.get(position);
+            viewHolder.profileName.setText(selectedInfo.getProfileName());
+            String timeSlot = selectedInfo.getTimeSlot();
+            viewHolder.timeSlot.setText(timeSlot);
+            viewHolder.repeat.setText(selectedInfo.getRepeatString());
+            convertView.setTag(selectedInfo);
+        }
+        //TODO: cost too much resources
+        convertView.setOnClickListener(v -> {
+            Profile profile = (Profile) v.getTag();
+            Intent intent = new Intent(context, ProfileDetailActivity.class);
+            intent.putExtra(PROFILE_ID, profile.getId());
+            context.startActivity(intent);
+        });
+        return convertView;
+    }
+
+    class ViewHolder {
+        TextView profileName, timeSlot, repeat;
     }
 }

@@ -6,11 +6,11 @@
     android:id="@+id/now_applist_layout">
 
     <TextView
-        android:id="@+id/tv_1suggest"
+        android:id="@+id/tv_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Select Apps"
+        android:text="Select Apps to block"
         android:layout_marginTop="45dp"
         android:padding="10dp"
         android:textColor="@color/black"
@@ -19,7 +19,7 @@
         />
     <View
         android:id="@+id/titleLine"
-        android:layout_below="@id/tv_1suggest"
+        android:layout_below="@id/tv_title"
         android:layout_marginTop="10dp"
         android:layout_height="2px"
         android:background="#000000"
