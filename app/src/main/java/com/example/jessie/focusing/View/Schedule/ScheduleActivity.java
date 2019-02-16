@@ -26,7 +26,7 @@ import static com.example.jessie.focusing.Utils.RenderScriptBlur.rsBlur;
  * @date : 19-01-2019
  * @time : 01:02
  */
-public class Schedule_Activity extends AppCompatActivity {
+public class ScheduleActivity extends AppCompatActivity {
     private ScheduleListAdapter scheduleListAdapter;
     private ListView lv_profInSchedule;
     private RelativeLayout scheduleLayout;
@@ -63,13 +63,13 @@ public class Schedule_Activity extends AppCompatActivity {
 
     }
 
-    private void initLayoutBackground() {
-
-        final Resources resources = this.getResources();
-        Bitmap bmp = BitmapFactory.decodeResource(resources, R.drawable.fruitclock);
-        Bitmap b = rsBlur(Schedule_Activity.this, bmp, 25);
-        scheduleLayout.setBackground(new BitmapDrawable(b));
-
-    }
+//    private void initLayoutBackground() {
+//
+//        final Resources resources = this.getResources();
+//        Bitmap bmp = BitmapFactory.decodeResource(resources, R.drawable.fruitclock);
+//        Bitmap b = rsBlur(ScheduleActivity.this, bmp, 25);
+//        scheduleLayout.setBackground(new BitmapDrawable(b));
+//
+//    }
 
 }

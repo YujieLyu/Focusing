@@ -147,18 +147,25 @@ public class LockService extends IntentService {
         startForeground(SERVICE_ID, notification);
     }
 
+
     /**
-     * 此处存在一个判断是否有profile开启，先执行Prof还是先执行custom
+     * This method is used to check whether the current operating app needs to be locked
+     * or not by checking database through its packageName.
+     *
+     * Focusing's package name, launcher, and the settings package name  are stored
+     * in the whitelist
+     *
+     * It also used to record app's screen time and open times when the app on top changes.
      */
     private void checkData() {
         String packageName = getLauncherTopApp(LockService.this);
         if (LAUNCHER_PACKAGE_NAME.equals(packageName)) {
-            recordUsedTime();
+            recordScreenTime();
         }
         if (!inWhiteList(packageName)) {
             List<AppInfo> toLockApps = appInfoManager.getToLockApps(packageName);
             boolean toLock = !toLockApps.isEmpty();
-            recordAppUsage(packageName, toLock);
+            recordAppOpenTimes(packageName, toLock);
             if (toLock) {
                 long endTime = appInfoManager.getLatestEndTime(toLockApps);
                 lockScreen(packageName, endTime);
@@ -166,14 +173,14 @@ public class LockService extends IntentService {
         }
     }
 
-    private void recordUsedTime() {
+    private void recordScreenTime() {
         if (!isEmpty(appOnTop) && appStartTime != 0) {
             usageManager.saveUsedTime(appOnTop, System.currentTimeMillis() - appStartTime, this.isLocked);
             appOnTop = null;
         }
     }
 
-    private void recordAppUsage(String packageName, boolean toLock) {
+    private void recordAppOpenTimes(String packageName, boolean toLock) {
         if (!packageName.equals(appOnTop)) {
             appOnTop = packageName;
             appStartTime = System.currentTimeMillis();
@@ -192,9 +199,15 @@ public class LockService extends IntentService {
         return whiteList.contains(packageName);
     }
 
+    /**
+     * This method is used to fetch the package name of current operating app
+     * @param context
+     * @return
+     */
     public String getLauncherTopApp(Context context) {
 
-        UsageStatsManager usageStatsManager = (UsageStatsManager) context.getSystemService(Context.USAGE_STATS_SERVICE);
+        UsageStatsManager usageStatsManager =
+                (UsageStatsManager) context.getSystemService(Context.USAGE_STATS_SERVICE);
         long endTime = System.currentTimeMillis();
         long beginTime = endTime - 10000;
         String result = null;

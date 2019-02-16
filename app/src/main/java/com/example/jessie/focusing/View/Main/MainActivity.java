@@ -10,7 +10,7 @@ import com.amitshekhar.DebugDB;
 import com.example.jessie.focusing.R;
 import com.example.jessie.focusing.Utils.StatusBarUtil;
 import com.example.jessie.focusing.View.Profile.ProfileListActivity;
-import com.example.jessie.focusing.View.Schedule.Schedule_Activity;
+import com.example.jessie.focusing.View.Schedule.ScheduleActivity;
 import com.example.jessie.focusing.View.Shared.BaseSingleTaskActivity;
 import com.example.jessie.focusing.View.StartNow.FocusNowActivity;
 import com.example.jessie.focusing.View.Stats.DataStatisticActivity;
@@ -44,7 +44,7 @@ public class MainActivity extends BaseSingleTaskActivity implements View.OnClick
                 cls = ProfileListActivity.class;
                 break;
             case R.id.tv_schedule:
-                cls = Schedule_Activity.class;
+                cls = ScheduleActivity.class;
                 break;
             case R.id.tv_statistic:
                 cls = DataStatisticActivity.class;

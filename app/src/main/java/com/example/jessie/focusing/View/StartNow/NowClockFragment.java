@@ -77,7 +77,7 @@ public class NowClockFragment extends Fragment {
 
         tv_countTime = view.findViewById(R.id.tv_countTime);
         tv_startTime = view.findViewById(R.id.tc_start_time);
-        thread.start();
+        thread.start();//更改当前时间
         tv_endTime = view.findViewById(R.id.tv_end_time);
         CirclePicker circlePicker = view.findViewById(R.id.timer);
         circlePicker.setInitialTime(startDegree(), startDegree() + ONE_HOUR_DEGREE);

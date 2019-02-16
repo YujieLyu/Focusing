@@ -63,7 +63,7 @@
             android:name=".View.Profile.ProfileDetailActivity"
             android:launchMode="singleTask" />
         <activity
-            android:name=".View.Schedule.Schedule_Activity"
+            android:name=".View.Schedule.ScheduleActivity"
             android:launchMode="singleTask" />
 
         <service android:name=".Service.LockService" />
