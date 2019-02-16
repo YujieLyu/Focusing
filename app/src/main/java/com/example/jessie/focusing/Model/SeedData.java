@@ -68,16 +68,16 @@ public class SeedData {
     }
 
     private static void initializeFocusTime() {
-        int count = LitePal.count(FocusTime.class);
+        int count = LitePal.count(FocusTimeStats.class);
         if (count > 0) {
             return;
         }
-        dataType = FocusTime.class.getSimpleName();
+        dataType = FocusTimeStats.class.getSimpleName();
         for (int numOfDay = 0; numOfDay < STATS_DAYS; numOfDay++) {
             long time = (long) (2 * 60 * 60 * 1000 * Math.random());
             int[] date = TimeHelper.getYearMonthDay(numOfDay);
-            FocusTime focusTime = new FocusTime(time, date[0], date[1], date[2]);
-            focusTime.saveAsync().listen(SeedData::onFinish);
+            FocusTimeStats focusTimeStats = new FocusTimeStats(time, date[0], date[1], date[2]);
+            focusTimeStats.saveAsync().listen(SeedData::onFinish);
         }
     }
 

@@ -54,7 +54,7 @@
             android:name=".View.Finish.FinishActivity"
             android:launchMode="singleTask" />
         <activity
-            android:name=".View.StartNow.StartNowActivity"
+            android:name=".View.StartNow.FocusNowActivity"
             android:launchMode="singleTask" />
         <activity
             android:name=".View.Profile.ProfileListActivity"

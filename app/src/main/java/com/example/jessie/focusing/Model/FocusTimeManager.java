@@ -21,11 +21,11 @@ public class FocusTimeManager {
         int todayYear = getCurrYear();
         int todayMonth = getCurrMonth();
         int todayDay = getCurrDay();
-        FocusTime ftInToday = FocusTime.findByDate(todayYear, todayMonth, todayDay);
+        FocusTimeStats ftInToday = FocusTimeStats.findByDate(todayYear, todayMonth, todayDay);
         if (ftInToday != null) {
             ftInToday.addTime(timeSummary);
         } else {
-            ftInToday = new FocusTime(timeSummary, todayYear, todayMonth, todayDay);
+            ftInToday = new FocusTimeStats(timeSummary, todayYear, todayMonth, todayDay);
         }
         ftInToday.save();
     }
@@ -37,10 +37,10 @@ public class FocusTimeManager {
      * @param end
      * @return
      */
-    public synchronized List<FocusTime> getTimeData(Calendar start, Calendar end) {
-        List<FocusTime> res = new ArrayList<>();
-        List<FocusTime> ftDb = LitePal.findAll(FocusTime.class);
-        for (FocusTime time : ftDb) {
+    public synchronized List<FocusTimeStats> getTimeData(Calendar start, Calendar end) {
+        List<FocusTimeStats> res = new ArrayList<>();
+        List<FocusTimeStats> ftDb = LitePal.findAll(FocusTimeStats.class);
+        for (FocusTimeStats time : ftDb) {
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.YEAR, time.getYear());
             calendar.set(Calendar.MONTH, time.getMonth());
@@ -59,12 +59,12 @@ public class FocusTimeManager {
      * @param numOfDay
      * @return
      */
-    public FocusTime getTimeData(int numOfDay) {
+    public FocusTimeStats getTimeData(int numOfDay) {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, -1 * numOfDay);
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
-        return FocusTime.findByDate(year, month, day);
+        return FocusTimeStats.findByDate(year, month, day);
     }
 }

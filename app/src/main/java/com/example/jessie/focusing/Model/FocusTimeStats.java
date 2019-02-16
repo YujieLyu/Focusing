@@ -13,7 +13,7 @@ import static com.example.jessie.focusing.Utils.TimeHelper.getCurrYear;
  * @date : 03-02-2019
  * @time : 12:38
  */
-public class FocusTime extends LitePalSupport {
+public class FocusTimeStats extends LitePalSupport {
     @Column
     private int id;
     @Column
@@ -25,20 +25,20 @@ public class FocusTime extends LitePalSupport {
     @Column
     private int day;
 
-    public FocusTime(long time, int year, int month, int day) {
+    public FocusTimeStats(long time, int year, int month, int day) {
         this.time = time;
         this.year = year;
         this.month = month;
         this.day = day;
     }
 
-    public static FocusTime findInToday() {
+    public static FocusTimeStats findInToday() {
         return findByDate(getCurrYear(), getCurrMonth(), getCurrDay());
     }
 
-    public static FocusTime findByDate(int year, int month, int day) {
+    public static FocusTimeStats findByDate(int year, int month, int day) {
         String where = String.format("year = %s and month = %s and day = %s", year, month, day);
-        return LitePal.where(where).findLast(FocusTime.class);
+        return LitePal.where(where).findLast(FocusTimeStats.class);
     }
 
     public int getId() {

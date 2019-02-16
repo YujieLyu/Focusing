@@ -20,7 +20,7 @@ import static com.example.jessie.focusing.Utils.AppConstants.PROFILE_ID;
  * @date : 19-01-2019
  * @time : 00:54
  */
-public class StartNowActivity extends AppCompatActivity {
+public class FocusNowActivity extends AppCompatActivity {
 
     private ViewPager viewPager;
     private MenuItem menuItem;

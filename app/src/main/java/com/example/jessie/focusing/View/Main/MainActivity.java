@@ -12,7 +12,7 @@ import com.example.jessie.focusing.Utils.StatusBarUtil;
 import com.example.jessie.focusing.View.Profile.ProfileListActivity;
 import com.example.jessie.focusing.View.Schedule.Schedule_Activity;
 import com.example.jessie.focusing.View.Shared.BaseSingleTaskActivity;
-import com.example.jessie.focusing.View.StartNow.StartNowActivity;
+import com.example.jessie.focusing.View.StartNow.FocusNowActivity;
 import com.example.jessie.focusing.View.Stats.DataStatisticActivity;
 
 public class MainActivity extends BaseSingleTaskActivity implements View.OnClickListener {
@@ -38,7 +38,7 @@ public class MainActivity extends BaseSingleTaskActivity implements View.OnClick
         Class<? extends Activity> cls = null;
         switch (id) {
             case R.id.tv_start_now:
-                cls = StartNowActivity.class;
+                cls = FocusNowActivity.class;
                 break;
             case R.id.tv_profile:
                 cls = ProfileListActivity.class;
