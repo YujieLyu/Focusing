@@ -19,7 +19,6 @@ public class RebootBroadcastReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-//        Toast.makeText(context, "action is: " + intent.getAction(), Toast.LENGTH_LONG).show();
         Log.i(TAG, "action is: " + intent.getAction());
         String action = intent.getAction();
         if (action == null) {
@@ -28,8 +27,6 @@ public class RebootBroadcastReceiver extends BroadcastReceiver {
         switch (action) {
             case ACTION_BOOT_COMPLETED:
             case REBOOT_ACTION:
-                LockService.start(context, 100);
-                break;
             case ACTION_SCREEN_ON:
                 LockService.start(context, 100);
                 break;

@@ -14,7 +14,7 @@ import com.example.jessie.focusing.Model.AppUsage;
 import com.example.jessie.focusing.Model.UsageManager;
 import com.example.jessie.focusing.R;
 import com.example.jessie.focusing.Utils.ChartUtils;
-import com.example.jessie.focusing.Utils.PackageUtils;
+import com.example.jessie.focusing.Utils.AppInfosUtils;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
@@ -52,8 +52,8 @@ public abstract class UsageTemplateFragment extends Fragment {
         Bundle args = getArguments();
         if (args != null) {
             packageName = args.getString(KEY);
-            PackageUtils packageUtils = new PackageUtils(getActivity().getPackageManager());
-            String appName = packageUtils.getAppName(packageName);
+            AppInfosUtils appInfosUtils = new AppInfosUtils(getActivity().getPackageManager());
+            String appName = appInfosUtils.getAppName(packageName);
             if (appName != null) {
                 TextView tv_title = view.findViewById(R.id.title);
                 tv_title.setText(appName);

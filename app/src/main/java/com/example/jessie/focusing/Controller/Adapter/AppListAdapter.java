@@ -1,6 +1,5 @@
 package com.example.jessie.focusing.Controller.Adapter;
 
-//import android.R;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +14,7 @@ import com.example.jessie.focusing.Model.AppInfoManager;
 import com.example.jessie.focusing.Model.Profile;
 import com.example.jessie.focusing.Model.ProfileManager;
 import com.example.jessie.focusing.R;
-import com.example.jessie.focusing.Utils.PackageUtils;
+import com.example.jessie.focusing.Utils.AppInfosUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,9 +41,16 @@ public class AppListAdapter extends BaseAdapter implements View.OnClickListener 
     }
 
 
+    /**
+     * Used to update apps information stored in DB.
+     * By getting the currently installed apps info in the phone,
+     * updating apps data stored in DB. And then adding newly installed
+     * apps to DB and delete uninstalled ones
+     */
     public void syncData() {
-        PackageUtils packageUtils = new PackageUtils(context.getPackageManager());
-        final List<AppInfo> installedApps = packageUtils.getInstalledApps();
+        AppInfosUtils appInfosUtils = new AppInfosUtils(context.getPackageManager());
+        final List<AppInfo> installedApps = appInfosUtils.getInstalledApps();
+        //update DB
         appInfos = AppInfoManager.syncData(installedApps, profId);
         appInfos.sort(AppInfo::compareTo);
         notifyDataSetChanged();
@@ -55,15 +61,17 @@ public class AppListAdapter extends BaseAdapter implements View.OnClickListener 
         return appInfos;
     }
 
+
     @Override
     public void onClick(View v) {
+        //listen the checkbox's change
         AppInfo appInfo = (AppInfo) v.getTag();
         boolean lockStatus = ((CheckBox) v).isChecked();
         appInfo.setLocked(lockStatus);
     }
 
     public void saveSettings() {
-        if (profId != Profile.START_NOW_PROFILE_ID) { //TODO: how to deal with "start now"
+        if (profId != Profile.START_NOW_PROFILE_ID) {
             Profile profile = profileManager.getProfile(profId);
             if (profile == null) {
                 infoManager.deleteByProfId(profId);

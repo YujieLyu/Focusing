@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import com.example.jessie.focusing.Model.SeedData;
 import com.example.jessie.focusing.R;
 import com.example.jessie.focusing.Utils.LockUtil;
-import com.example.jessie.focusing.Utils.PackageUtils;
+import com.example.jessie.focusing.Utils.AppInfosUtils;
 import com.example.jessie.focusing.Utils.ShredPreferenceUtils;
 import com.example.jessie.focusing.Utils.StatusBarUtil;
 import com.example.jessie.focusing.View.Main.MainActivity;
@@ -64,8 +64,8 @@ public class WelcomeActivity extends BaseSingleTaskActivity {
 
     private void toMainActivity() {
         SeedData.initialize();
-        PackageUtils packageUtils = new PackageUtils(getPackageManager());
-        packageUtils.scanAppsList();
+        AppInfosUtils appInfosUtils = new AppInfosUtils(getPackageManager());
+        appInfosUtils.scanAppsList();
         Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);

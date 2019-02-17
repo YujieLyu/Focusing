@@ -13,12 +13,12 @@ import java.util.List;
 /**
  * @author : Yujie Lyu
  */
-public class PackageUtils {
-    private static final String TAG = PackageUtils.class.getSimpleName();
+public class AppInfosUtils {
+    private static final String TAG = AppInfosUtils.class.getSimpleName();
     private final PackageManager packageManager;
     private List<AppInfo> installedApps = null;
 
-    public PackageUtils(PackageManager packageManager) {
+    public AppInfosUtils(PackageManager packageManager) {
         this.packageManager = packageManager;
     }
 
@@ -53,7 +53,6 @@ public class PackageUtils {
         List<PackageInfo> packageInfos = packageManager.getInstalledPackages(0);
         for (int i = 0; i < packageInfos.size(); i++) {
             PackageInfo packageInfo = packageInfos.get(i);
-            //todo:保留一定的系统应用:电话闹钟一类的
             // filter system apps
             if ((ApplicationInfo.FLAG_SYSTEM & packageInfo.applicationInfo.flags) != 0
                     || packageInfo.packageName.equals(AppConstants.APP_PACKAGE_NAME)) {
