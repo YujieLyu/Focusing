@@ -91,13 +91,13 @@
         android:textStyle="bold"
         />
 
-    <TextView
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:text="Copyright@Yujie_Lyu"
-        android:textColor="@color/bg_white" />
+    <!--<TextView-->
+        <!--android:layout_width="150dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentEnd="true"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:text="Copyright@Yujie_Lyu"-->
+        <!--android:textColor="@color/bg_white" />-->
 
 
     <!--<TextView-->
