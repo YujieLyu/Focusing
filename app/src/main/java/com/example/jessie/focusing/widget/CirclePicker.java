@@ -19,7 +19,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.example.jessie.focusing.Interface.OnTimeChangeListener;
-import com.kyesun.ly.CircleTimePicker.R;
+import com.example.jessie.focusing.R;
 
 import static android.os.Build.VERSION_CODES.M;
 
@@ -28,7 +28,7 @@ import static android.os.Build.VERSION_CODES.M;
  * @date : 22-01-2019
  * @time : 21:04
  */
-public class CirclePicker extends View{
+public class CirclePicker extends View {
     private final Context context;
     private float mStartDegree; //开始按钮的进度
     private float mEndDegree; //结束按钮的进度
@@ -174,75 +174,6 @@ public class CirclePicker extends View{
         mEndBtnPaint.setStyle(Paint.Style.FILL);
     }
 
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
-        int widthSize = MeasureSpec.getSize(widthMeasureSpec);
-
-        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
-        int heightSize = MeasureSpec.getSize(heightMeasureSpec);
-
-        int width;
-        int height;
-        if (widthMode == MeasureSpec.UNSPECIFIED) {
-            width = Math.max(mMinViewSize, heightSize);
-        } else {
-            width = Math.max(mMinViewSize, widthSize);
-        }
-
-        if (heightMode == MeasureSpec.UNSPECIFIED) {
-            height = Math.max(mMinViewSize, widthSize);
-        } else {
-            height = Math.max(mMinViewSize, heightSize);
-        }
-        setMeasuredDimension(width, height);
-        refreshBtnPosition();
-    }
-
-
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-
-//        圆心坐标
-        mCenterX = canvas.getWidth() / 2;
-        mCenterY = canvas.getHeight() / 2;
-
-//        默认的圆环进度条的半径
-        mWheelRadius = (mMinViewSize - mBtnSize) / 2;
-        canvas.drawCircle(mCenterX, mCenterY, mWheelRadius, mCirclePaint);
-
-        canvas.drawBitmap(mClockBg, mCenterX - mClockSize / 2, mCenterY - mClockSize / 2, mDefaultPaint);
-
-//      画选中区域
-        float begin = 0; //圆弧的起点位置
-        float sweep = 0;
-        if (mStartBtnAngle > 180 && mStartBtnAngle > mEndBtnAngle) {   //180  -- 360
-            begin = -Math.abs(mStartBtnAngle - 360) - 90;
-            sweep = Math.abs(Math.abs(mStartBtnAngle - 360) + mEndBtnAngle);
-        } else if (mStartBtnAngle > mEndBtnAngle) {
-            begin = mStartBtnAngle - 90;
-            sweep = 360 - (mStartBtnAngle - mEndBtnAngle);
-        } else {
-            begin = mStartBtnAngle - 90;
-            sweep = Math.abs(mStartBtnAngle - mEndBtnAngle);
-        }
-        mProgressPaint.setShader(new LinearGradient(mStartBtnCurX, mStartBtnCurY, mEndBtnCurX, mEndBtnCurY, mStartBtnColor, mEndBtnColor, Shader.TileMode.CLAMP));
-        canvas.drawArc(new RectF(mCenterX - mWheelRadius, mCenterY - mWheelRadius, mCenterX + mWheelRadius, mCenterY + mWheelRadius), begin, sweep, false, mProgressPaint);
-
-
-//        结束按钮
-        canvas.drawCircle(mEndBtnCurX, mEndBtnCurY, mBtnSize / 2, mEndBtnPaint);
-        canvas.drawBitmap(mEndBtnBg, mEndBtnCurX - mBtnImgSize / 2, mEndBtnCurY - mBtnImgSize / 2, mDefaultPaint);
-
-
-//        开始按钮--取消
-//        canvas.drawCircle(mStartBtnCurX, mStartBtnCurY, mBtnSize / 2, mStartBtnPaint);
-//        canvas.drawBitmap(mStartBtnBg, mStartBtnCurX - mBtnImgSize / 2, mStartBtnCurY - mBtnImgSize / 2, mDefaultPaint);
-
-    }
-
-
     //获取颜色
     @TargetApi(M)
     private int getColor(int colorId) {
@@ -254,12 +185,10 @@ public class CirclePicker extends View{
         }
     }
 
-
     private void refreshBtnPosition() {
         refreshStartBtnPositon();
         refreshEndBtnPosition();
     }
-
 
     /**
      * 刷新开始按钮的位置
@@ -279,7 +208,6 @@ public class CirclePicker extends View{
         double endCos = Math.cos(Math.toRadians(mEndBtnAngle));
         MakeCurPosition2(endCos);
     }
-
 
     private void MakeCurPosition(double cos) {
         //根据旋转的角度来确定圆的位置
@@ -338,7 +266,7 @@ public class CirclePicker extends View{
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
 //
-                    if (isMoveEndBtn(eventX, eventY)) {
+                if (isMoveEndBtn(eventX, eventY)) {
                     mMoveFlag = 2;
                 }
 //
@@ -353,8 +281,7 @@ public class CirclePicker extends View{
 //                C = X2*Y1 - X1*Y2
 
 
-
-                    if (mMoveFlag == 2) {
+                if (mMoveFlag == 2) {
 
 //                  坐标系的直线表达式
 //                  直线l1的表达式子:过钟表中心点和结束控件中心点
@@ -402,6 +329,72 @@ public class CirclePicker extends View{
         return true;
     }
 
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+
+//        圆心坐标
+        mCenterX = canvas.getWidth() / 2;
+        mCenterY = canvas.getHeight() / 2;
+
+//        默认的圆环进度条的半径
+        mWheelRadius = (mMinViewSize - mBtnSize) / 2;
+        canvas.drawCircle(mCenterX, mCenterY, mWheelRadius, mCirclePaint);
+
+        canvas.drawBitmap(mClockBg, mCenterX - mClockSize / 2, mCenterY - mClockSize / 2, mDefaultPaint);
+
+//      画选中区域
+        float begin = 0; //圆弧的起点位置
+        float sweep = 0;
+        if (mStartBtnAngle > 180 && mStartBtnAngle > mEndBtnAngle) {   //180  -- 360
+            begin = -Math.abs(mStartBtnAngle - 360) - 90;
+            sweep = Math.abs(Math.abs(mStartBtnAngle - 360) + mEndBtnAngle);
+        } else if (mStartBtnAngle > mEndBtnAngle) {
+            begin = mStartBtnAngle - 90;
+            sweep = 360 - (mStartBtnAngle - mEndBtnAngle);
+        } else {
+            begin = mStartBtnAngle - 90;
+            sweep = Math.abs(mStartBtnAngle - mEndBtnAngle);
+        }
+        mProgressPaint.setShader(new LinearGradient(mStartBtnCurX, mStartBtnCurY, mEndBtnCurX, mEndBtnCurY, mStartBtnColor, mEndBtnColor, Shader.TileMode.CLAMP));
+        canvas.drawArc(new RectF(mCenterX - mWheelRadius, mCenterY - mWheelRadius, mCenterX + mWheelRadius, mCenterY + mWheelRadius), begin, sweep, false, mProgressPaint);
+
+
+//        结束按钮
+        canvas.drawCircle(mEndBtnCurX, mEndBtnCurY, mBtnSize / 2, mEndBtnPaint);
+        canvas.drawBitmap(mEndBtnBg, mEndBtnCurX - mBtnImgSize / 2, mEndBtnCurY - mBtnImgSize / 2, mDefaultPaint);
+
+
+//        开始按钮--取消
+//        canvas.drawCircle(mStartBtnCurX, mStartBtnCurY, mBtnSize / 2, mStartBtnPaint);
+//        canvas.drawBitmap(mStartBtnBg, mStartBtnCurX - mBtnImgSize / 2, mStartBtnCurY - mBtnImgSize / 2, mDefaultPaint);
+
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+        int widthSize = MeasureSpec.getSize(widthMeasureSpec);
+
+        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+        int heightSize = MeasureSpec.getSize(heightMeasureSpec);
+
+        int width;
+        int height;
+        if (widthMode == MeasureSpec.UNSPECIFIED) {
+            width = Math.max(mMinViewSize, heightSize);
+        } else {
+            width = Math.max(mMinViewSize, widthSize);
+        }
+
+        if (heightMode == MeasureSpec.UNSPECIFIED) {
+            height = Math.max(mMinViewSize, widthSize);
+        } else {
+            height = Math.max(mMinViewSize, heightSize);
+        }
+        setMeasuredDimension(width, height);
+        refreshBtnPosition();
+    }
 
     private boolean isMoveEndBtn(float x, float y) {
         float dx = Math.abs(mEndBtnCurX - x);

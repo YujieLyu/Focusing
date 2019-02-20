@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +35,7 @@ public class AddNewProfileDialog extends DialogFragment {
             return;
         }
         EditText evName = view.findViewById(R.id.ev_name);
-        if(profile.getProfileName()==null){
+        if (TextUtils.isEmpty(profile.getProfileName())) {
             Toast.makeText(getContext(), getString(R.string.profile_name_non_empty), Toast.LENGTH_LONG).show();
             return;
         }
@@ -45,13 +46,17 @@ public class AddNewProfileDialog extends DialogFragment {
     public View onCreateView(@NonNull final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_add_profile, container, false);
-        Button btnOk =  view.findViewById(R.id.btn_ok);
+        Button btnOk = view.findViewById(R.id.btn_ok);
         Button btnCancel = view.findViewById(R.id.btn_cancel);
         bindingItem(view, item);
         btnOk.setOnClickListener(v -> {
             View rootView = v.getRootView();
             EditText evName = rootView.findViewById(R.id.ev_name);
             String name = evName.getText().toString();
+            if (TextUtils.isEmpty(name)) {
+                Toast.makeText(getContext(), "Profile name cannot be empty", Toast.LENGTH_LONG).show();
+                return;
+            }
             Profile profile = new Profile();
             profile.setProfileName(name);
             onOKPressed(profile);

@@ -91,6 +91,7 @@ public class SeedData {
 
     private static String[] getPackageNames() {
         return new String[]{
+                //TODO: use the packages installed in system
                 "com.spotify.music",
                 "com.instagram.android",
                 "com.ticktick.task",

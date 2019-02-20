@@ -9,8 +9,8 @@ import android.widget.TextView;
 
 import com.example.jessie.focusing.Controller.Adapter.UsageListAdapter;
 import com.example.jessie.focusing.Model.AppUsage;
-import com.example.jessie.focusing.Model.FocusTimeStats;
 import com.example.jessie.focusing.Model.FocusTimeManager;
+import com.example.jessie.focusing.Model.FocusTimeStats;
 import com.example.jessie.focusing.Model.UsageManager;
 import com.example.jessie.focusing.R;
 import com.example.jessie.focusing.Utils.StatusBarUtil;
@@ -80,7 +80,7 @@ public class DataStatisticActivity extends AppCompatActivity {
             chart.getData().notifyDataChanged();
             chart.notifyDataSetChanged();
         } else {
-            set1 = new BarDataSet(focusTime, "Focus Time"); // TODO: change name
+            set1 = new BarDataSet(focusTime, "Focus Time");
             set1.setDrawIcons(false);
             set1.setColors(R.color.colorPrimary);
             BarData barData = new BarData(set1);

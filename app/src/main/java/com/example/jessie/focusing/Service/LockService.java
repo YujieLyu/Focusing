@@ -19,7 +19,8 @@ import com.example.jessie.focusing.Model.AppInfoManager;
 import com.example.jessie.focusing.Model.UsageManager;
 import com.example.jessie.focusing.R;
 import com.example.jessie.focusing.Utils.AppConstants;
-import com.example.jessie.focusing.View.CountDown.CountdownActivity;
+import com.example.jessie.focusing.Utils.TimeHelper;
+import com.example.jessie.focusing.View.Countdown.CountdownActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,7 +29,9 @@ import java.util.List;
 import androidx.annotation.Nullable;
 
 import static android.text.TextUtils.isEmpty;
+import static com.example.jessie.focusing.Utils.AppConstants.END_TIME;
 import static com.example.jessie.focusing.Utils.AppConstants.LAUNCHER_PACKAGE_NAME;
+import static com.example.jessie.focusing.Utils.AppConstants.START_TIME;
 
 /**
  * @author : Yujie Lyu
@@ -36,11 +39,10 @@ import static com.example.jessie.focusing.Utils.AppConstants.LAUNCHER_PACKAGE_NA
  * @time : 23:42
  */
 public class LockService extends IntentService {
-    public static final String START_TIME = "start_time";
-    public static final String END_TIME = "end_time";
+
     public static final String INTERVAL = "interval";
+    public static final int DEF_INTERVAL = 100;//ms
     private static final String TAG = LockService.class.getSimpleName();
-    public static long START_NOW_END_TIME = -1;
     private final int SERVICE_ID;
     private String PACKAGE_NAME;
     private AppInfoManager appInfoManager;
@@ -49,6 +51,7 @@ public class LockService extends IntentService {
     private long appStartTime = 0;
     private boolean isLocked = false;
     private int interval = -1;
+    private long startNowStartTime = -1, startNowEndTime = -1;
 
     public LockService() {
         super("LockService");
@@ -61,12 +64,31 @@ public class LockService extends IntentService {
         start(context, intent);
     }
 
+    /**
+     * Used for Start Now
+     *
+     * @param context
+     * @param startTime the start time of start now
+     * @param endTime   the end time of start now
+     */
+    public static void startNow(Context context, long startTime, long endTime) {
+        Intent intent = new Intent(context, LockService.class);
+        intent.putExtra(INTERVAL, DEF_INTERVAL);
+        intent.putExtra(START_TIME, startTime);
+        intent.putExtra(END_TIME, endTime);
+        start(context, intent);
+    }
+
     public static void start(Context context, Intent intent) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             context.startForegroundService(intent);
         } else {
             context.startService(intent);
         }
+    }
+
+    public static void stopStartNow(Context context) {
+        startNow(context, -1, -1);
     }
 
     @Override
@@ -94,11 +116,16 @@ public class LockService extends IntentService {
 
     @Override
     public void onStart(@Nullable Intent intent, int startId) {
-        Log.i(TAG, "on Start...");
+        Log.i(TAG, "on Start, id: " + startId);
         if (intent != null) {
-            interval = intent.getIntExtra(INTERVAL, -1);
+            // Keep the original value if did not specified.
+            interval = intent.getIntExtra(INTERVAL, interval);
+            startNowStartTime = intent.getLongExtra(START_TIME, startNowStartTime);
+            startNowEndTime = intent.getLongExtra(END_TIME, startNowEndTime);
         }
         Log.i(TAG, "Interval is: " + interval);
+        Log.i(TAG, "Start Time is: " + TimeHelper.toString(startNowStartTime));
+        Log.i(TAG, "End Time is: " + TimeHelper.toString(startNowEndTime));
         super.onStart(intent, startId);
     }
 
@@ -113,10 +140,8 @@ public class LockService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-//        interval = 100;
-        Log.i(TAG, "Interval is: " + interval);
+        Log.i(TAG, "onHandleIntent, Interval is: " + interval);
         while (interval > 0) {
-//            interval = intent.getIntExtra(INTERVAL, -1);
             checkData();
             try {
                 Thread.sleep(interval);
@@ -151,10 +176,10 @@ public class LockService extends IntentService {
     /**
      * This method is used to check whether the current operating app needs to be locked
      * or not by checking database through its packageName.
-     *
+     * <p>
      * Focusing's package name, launcher, and the settings package name  are stored
      * in the whitelist
-     *
+     * <p>
      * It also used to record app's screen time and open times when the app on top changes.
      */
     private void checkData() {
@@ -165,14 +190,23 @@ public class LockService extends IntentService {
         if (!inWhiteList(packageName)) {
             List<AppInfo> toLockApps = appInfoManager.getToLockApps(packageName);
             boolean toLock = !toLockApps.isEmpty();
-            recordAppOpenTimes(packageName, toLock);
+            recordOpenTimes(packageName, toLock);
             if (toLock) {
-                long endTime = appInfoManager.getLatestEndTime(toLockApps);
+                // NOTE: update endTime if earlier than Now.
+                // i.e., start_now did not boot or had finished.
+                long endTime = startNowEndTime;
+                if (endTime < System.currentTimeMillis()) {
+                    startNowEndTime = -1;// reset start now end time
+                    endTime = appInfoManager.getLatestEndTime(toLockApps);
+                }
                 lockScreen(packageName, endTime);
             }
         }
     }
 
+    /**
+     * Save the used time of app to database
+     */
     private void recordScreenTime() {
         if (!isEmpty(appOnTop) && appStartTime != 0) {
             usageManager.saveUsedTime(appOnTop, System.currentTimeMillis() - appStartTime, this.isLocked);
@@ -180,7 +214,13 @@ public class LockService extends IntentService {
         }
     }
 
-    private void recordAppOpenTimes(String packageName, boolean toLock) {
+    /**
+     * Save the open times of app to database
+     *
+     * @param packageName
+     * @param toLock
+     */
+    private void recordOpenTimes(String packageName, boolean toLock) {
         if (!packageName.equals(appOnTop)) {
             appOnTop = packageName;
             appStartTime = System.currentTimeMillis();
@@ -194,13 +234,14 @@ public class LockService extends IntentService {
                 PACKAGE_NAME,
                 LAUNCHER_PACKAGE_NAME,
                 "com.android.settings"
-                //TODO: to add new package name
+                // NOTE: to add new package name
         ));
         return whiteList.contains(packageName);
     }
 
     /**
      * This method is used to fetch the package name of current operating app
+     *
      * @param context
      * @return
      */
@@ -209,8 +250,8 @@ public class LockService extends IntentService {
         UsageStatsManager usageStatsManager =
                 (UsageStatsManager) context.getSystemService(Context.USAGE_STATS_SERVICE);
         long endTime = System.currentTimeMillis();
-        long beginTime = endTime - 10000;
-        String result = null;
+        long beginTime = (long) (endTime - interval * 1.2);
+        String result = "";
         UsageEvents.Event event = new UsageEvents.Event();
         UsageEvents usageEvents = usageStatsManager.queryEvents(beginTime, endTime);
         while (usageEvents.hasNextEvent()) {
@@ -219,10 +260,7 @@ public class LockService extends IntentService {
                 result = event.getPackageName();
             }
         }
-        if (!isEmpty(result)) {
-            return result;
-        }
-        return "";
+        return result;
     }
 
     private void lockScreen(String packageName, long endTime) {
@@ -231,8 +269,8 @@ public class LockService extends IntentService {
 //        intent.putExtra(AppConstants.PRESS_BACK, AppConstants.BACK_TO_FINISH);
         intent.putExtra(AppConstants.LOCK_PACKAGE_NAME, packageName);
 //        intent.putExtra(START_TIME, start);
-        intent.putExtra(END_TIME, endTime);//todo:类似的数据传递的要写成常量吧
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);//todo:不懂这个操作
+        intent.putExtra(END_TIME, endTime);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
 }

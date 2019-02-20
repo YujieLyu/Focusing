@@ -104,10 +104,7 @@ public class AppUsage extends LitePalSupport implements Comparable<AppUsage> {
 
     @Override
     public int compareTo(AppUsage o) {
-        if (usedOutFocus == o.usedOutFocus) {
-            return 0;
-        } else
-            return usedOutFocus > o.usedOutFocus ? -1 : 1;
+        return -1 * Long.compare(usedOutFocus, o.usedOutFocus);
     }
 
     public String getPackageName() {

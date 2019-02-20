@@ -1,9 +1,5 @@
 package com.example.jessie.focusing.View.Schedule;
 
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,8 +13,6 @@ import com.example.jessie.focusing.R;
 import com.example.jessie.focusing.Utils.StatusBarUtil;
 
 import java.util.Calendar;
-
-import static com.example.jessie.focusing.Utils.RenderScriptBlur.rsBlur;
 
 
 /**

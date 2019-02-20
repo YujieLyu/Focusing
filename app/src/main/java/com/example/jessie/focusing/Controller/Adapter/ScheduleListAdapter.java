@@ -10,7 +10,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.jessie.focusing.Model.Profile;
-import com.example.jessie.focusing.Model.ProfileManager;
 import com.example.jessie.focusing.R;
 import com.example.jessie.focusing.View.Profile.ProfileDetailActivity;
 
@@ -29,15 +28,12 @@ public class ScheduleListAdapter extends BaseAdapter {
     private List<Profile> profiles = new ArrayList<>();
     private Context context;
 
-    private ProfileManager profileManager;
-
     public ScheduleListAdapter(Context context) {
         this.context = context;
-        profileManager = new ProfileManager();
     }
 
     public void setData(int dayOfWeek) {
-        profiles = profileManager.syncProfileOnSchedule(dayOfWeek);
+        profiles = Profile.findAllOnSchedule(dayOfWeek);
         notifyDataSetChanged();
     }
 
@@ -83,7 +79,6 @@ public class ScheduleListAdapter extends BaseAdapter {
             viewHolder.repeat.setText(selectedInfo.getRepeatString());
             convertView.setTag(selectedInfo);
         }
-        //TODO: cost too much resources
         convertView.setOnClickListener(v -> {
             Profile profile = (Profile) v.getTag();
             Intent intent = new Intent(context, ProfileDetailActivity.class);

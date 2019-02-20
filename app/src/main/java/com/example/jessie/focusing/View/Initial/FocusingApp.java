@@ -25,7 +25,6 @@ public class FocusingApp extends Application {
         filter.addAction(Intent.ACTION_SCREEN_OFF);
         RebootBroadcastReceiver receiver = new RebootBroadcastReceiver();
         registerReceiver(receiver, filter);
-        //TODO
         LockService.start(this, 100);
         ComponentName cpt = new ComponentName(this, RebootBroadcastReceiver.class);
         PackageManager pm = getPackageManager();

@@ -14,7 +14,7 @@ import static android.content.Intent.ACTION_SCREEN_ON;
  * @author : Yujie Lyu
  */
 public class RebootBroadcastReceiver extends BroadcastReceiver {
-    public static final String REBOOT_ACTION = "action";
+    public static final String REBOOT_ACTION = "ACTION_TO_REBOOT";
     private static final String TAG = RebootBroadcastReceiver.class.getSimpleName();
 
     @Override

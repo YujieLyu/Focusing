@@ -63,7 +63,7 @@ public class ProfileListActivity extends AppCompatActivity
     }
 
     private void initData() {
-        profileListAdapter.setData();
+        profileListAdapter.fetchData();
     }
 
     @Override

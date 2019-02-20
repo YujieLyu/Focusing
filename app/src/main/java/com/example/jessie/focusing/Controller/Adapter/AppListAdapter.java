@@ -12,9 +12,8 @@ import android.widget.TextView;
 import com.example.jessie.focusing.Model.AppInfo;
 import com.example.jessie.focusing.Model.AppInfoManager;
 import com.example.jessie.focusing.Model.Profile;
-import com.example.jessie.focusing.Model.ProfileManager;
 import com.example.jessie.focusing.R;
-import com.example.jessie.focusing.Utils.AppInfosUtils;
+import com.example.jessie.focusing.Utils.AppInfoUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +28,6 @@ public class AppListAdapter extends BaseAdapter implements View.OnClickListener 
 
     private final Context context;
     private final AppInfoManager infoManager;
-    private final ProfileManager profileManager;
     private final int profId;
     private List<AppInfo> appInfos = new ArrayList<>();
 
@@ -37,7 +35,6 @@ public class AppListAdapter extends BaseAdapter implements View.OnClickListener 
         this.profId = profId;
         this.context = context;
         infoManager = new AppInfoManager();
-        profileManager = new ProfileManager();
     }
 
 
@@ -48,19 +45,14 @@ public class AppListAdapter extends BaseAdapter implements View.OnClickListener 
      * apps to DB and delete uninstalled ones
      */
     public void syncData() {
-        AppInfosUtils appInfosUtils = new AppInfosUtils(context.getPackageManager());
-        final List<AppInfo> installedApps = appInfosUtils.getInstalledApps();
+        AppInfoUtils appInfoUtils = new AppInfoUtils(context);
+        final List<AppInfo> installedApps = appInfoUtils.getInstalledApps();
         //update DB
         appInfos = AppInfoManager.syncData(installedApps, profId);
+        // sort the apps by their lock status
         appInfos.sort(AppInfo::compareTo);
         notifyDataSetChanged();
     }
-
-
-    public List<AppInfo> getData() {
-        return appInfos;
-    }
-
 
     @Override
     public void onClick(View v) {
@@ -71,12 +63,9 @@ public class AppListAdapter extends BaseAdapter implements View.OnClickListener 
     }
 
     public void saveSettings() {
-        if (profId != Profile.START_NOW_PROFILE_ID) {
-            Profile profile = profileManager.getProfile(profId);
-            if (profile == null) {
-                infoManager.deleteByProfId(profId);
-                return;
-            }
+        if (profId != Profile.START_NOW_PROFILE_ID && Profile.count(profId) <= 0) {
+            infoManager.deleteByProfId(profId);
+            return;
         }
         infoManager.saveOrUpdateInfos(appInfos);
     }

@@ -1,5 +1,6 @@
 package com.example.jessie.focusing.Utils;
 
+import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -13,13 +14,15 @@ import java.util.List;
 /**
  * @author : Yujie Lyu
  */
-public class AppInfosUtils {
-    private static final String TAG = AppInfosUtils.class.getSimpleName();
+public class AppInfoUtils {
+    private static final String TAG = AppInfoUtils.class.getSimpleName();
+    private final Context context;
     private final PackageManager packageManager;
     private List<AppInfo> installedApps = null;
 
-    public AppInfosUtils(PackageManager packageManager) {
-        this.packageManager = packageManager;
+    public AppInfoUtils(Context context) {
+        this.context = context;
+        this.packageManager = context.getPackageManager();
     }
 
     public String getAppName(String packageName) {
@@ -55,7 +58,7 @@ public class AppInfosUtils {
             PackageInfo packageInfo = packageInfos.get(i);
             // filter system apps
             if ((ApplicationInfo.FLAG_SYSTEM & packageInfo.applicationInfo.flags) != 0
-                    || packageInfo.packageName.equals(AppConstants.APP_PACKAGE_NAME)) {
+                    || packageInfo.packageName.equals(context.getPackageName())) {
                 continue;
             }
             AppInfo appInfo = new AppInfo();

@@ -10,6 +10,11 @@ import com.example.jessie.focusing.widget.TimePickerFragment;
  * @time : 00:52
  */
 public interface TimeCallBack {
+    /**
+     * Execute when time has been set
+     *
+     * @param tp          the {@link android.widget.TimePicker} user updated.
+     * @param displayTime the readable time string set by user.
+     */
     void onTimeSet(TimePickerFragment tp, String displayTime);
-
 }

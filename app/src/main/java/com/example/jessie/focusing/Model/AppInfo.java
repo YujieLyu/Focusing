@@ -106,6 +106,13 @@ public class AppInfo extends LitePalSupport implements Comparable<AppInfo> {
         this.profId = profId;
     }
 
+    /**
+     * Compare the {@link AppInfo} by their {@link #isLocked}
+     * Will compare their {@link #appName} if the lock status is same.
+     *
+     * @param o the other {@link AppInfo}
+     * @return
+     */
     @Override
     public int compareTo(AppInfo o) {
         if (o == null) {

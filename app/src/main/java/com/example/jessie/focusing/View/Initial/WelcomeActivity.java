@@ -11,8 +11,7 @@ import android.widget.ImageView;
 
 import com.example.jessie.focusing.Model.SeedData;
 import com.example.jessie.focusing.R;
-import com.example.jessie.focusing.Utils.LockUtil;
-import com.example.jessie.focusing.Utils.AppInfosUtils;
+import com.example.jessie.focusing.Utils.AppInfoUtils;
 import com.example.jessie.focusing.Utils.ShredPreferenceUtils;
 import com.example.jessie.focusing.Utils.StatusBarUtil;
 import com.example.jessie.focusing.View.Main.MainActivity;
@@ -48,7 +47,7 @@ public class WelcomeActivity extends BaseSingleTaskActivity {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
-                if (!hasUsagePermission(WelcomeActivity.this) && LockUtil.isNoOption(WelcomeActivity.this)) {
+                if (!hasUsagePermission(WelcomeActivity.this)) {
                     PermissionDialog dialog = new PermissionDialog(WelcomeActivity.this);
                     dialog.show();
                     dialog.setOnClickListener(() -> {
@@ -64,8 +63,8 @@ public class WelcomeActivity extends BaseSingleTaskActivity {
 
     private void toMainActivity() {
         SeedData.initialize();
-        AppInfosUtils appInfosUtils = new AppInfosUtils(getPackageManager());
-        appInfosUtils.scanAppsList();
+        AppInfoUtils appInfoUtils = new AppInfoUtils(this);
+        appInfoUtils.scanAppsList();
         Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);

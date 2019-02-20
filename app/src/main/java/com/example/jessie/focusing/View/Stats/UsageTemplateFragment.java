@@ -13,8 +13,8 @@ import android.widget.TextView;
 import com.example.jessie.focusing.Model.AppUsage;
 import com.example.jessie.focusing.Model.UsageManager;
 import com.example.jessie.focusing.R;
+import com.example.jessie.focusing.Utils.AppInfoUtils;
 import com.example.jessie.focusing.Utils.ChartUtils;
-import com.example.jessie.focusing.Utils.AppInfosUtils;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
@@ -52,8 +52,8 @@ public abstract class UsageTemplateFragment extends Fragment {
         Bundle args = getArguments();
         if (args != null) {
             packageName = args.getString(KEY);
-            AppInfosUtils appInfosUtils = new AppInfosUtils(getActivity().getPackageManager());
-            String appName = appInfosUtils.getAppName(packageName);
+            AppInfoUtils appInfoUtils = new AppInfoUtils(getContext());
+            String appName = appInfoUtils.getAppName(packageName);
             if (appName != null) {
                 TextView tv_title = view.findViewById(R.id.title);
                 tv_title.setText(appName);
@@ -95,7 +95,7 @@ public abstract class UsageTemplateFragment extends Fragment {
             chart.getData().notifyDataChanged();
             chart.notifyDataSetChanged();
         } else {
-            set1 = new BarDataSet(focusTime, "In Focus"); // TODO: change name
+            set1 = new BarDataSet(focusTime, "In Focus");
             set1.setDrawIcons(false);
             int[] colors = new int[]{
                     Color.rgb(255, 102, 0),

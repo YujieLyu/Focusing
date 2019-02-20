@@ -14,10 +14,12 @@ import java.util.Locale;
 public class TimeHelper {
     public static final long HOUR_IN_MILLIS = 60 * 60 * 1000;
     public static final long DAY_IN_MILLIS = 24 * HOUR_IN_MILLIS;
-    private static SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
+    private static final String DATE_PATTERN = "HH:mm";
+    private static SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_PATTERN, Locale.getDefault());
 
     /**
      * Convert specific {@link Date} to {@link String}
+     * Time pattern: HH:mm
      *
      * @param date
      * @return
@@ -29,7 +31,7 @@ public class TimeHelper {
     /**
      * Convert Date String to {@link Date}
      *
-     * @param dateStr
+     * @param dateStr pattern: HH:mm
      * @return
      * @throws ParseException
      */
@@ -37,8 +39,16 @@ public class TimeHelper {
         return dateFormat.parse(dateStr);
     }
 
-    public static boolean betweenRange(long start, long end, long curr) {
-        return curr - start >= 0 && end - curr > 0;
+    /**
+     * Check if the specific time is between the start and end time.
+     *
+     * @param start
+     * @param end
+     * @param time
+     * @return
+     */
+    public static boolean betweenRange(long start, long end, long time) {
+        return time - start >= 0 && end - time > 0;
     }
 
     public static long toMillis(int hour, int min) {
@@ -65,7 +75,6 @@ public class TimeHelper {
 
     @Deprecated
     public static String showInterval(Calendar timeStart, Calendar timeEnd) {
-        //todo:判断过了0点的时间计算；是否做成只选第二个时间？
         //todo:need to optimize the calculate,do it later
         int hours;
         int mins;
@@ -103,8 +112,8 @@ public class TimeHelper {
      * @return
      */
     public static String getDayOfMonth(int numOfDay) {
-        long mills = System.currentTimeMillis() + -1 * numOfDay * DAY_IN_MILLIS;
-        Date date = new Date(mills);
+        long millis = System.currentTimeMillis() + -1 * numOfDay * DAY_IN_MILLIS;
+        Date date = new Date(millis);
         return new SimpleDateFormat("dd", Locale.getDefault()).format(date);
     }
 
@@ -115,8 +124,8 @@ public class TimeHelper {
      * @return
      */
     public static String getDayOfWeek(int numOfDay) {
-        long mills = System.currentTimeMillis() + -1 * numOfDay * DAY_IN_MILLIS;
-        Date date = new Date(mills);
+        long millis = System.currentTimeMillis() + -1 * numOfDay * DAY_IN_MILLIS;
+        Date date = new Date(millis);
         return new SimpleDateFormat("EEE", Locale.getDefault()).format(date);
     }
 
@@ -133,5 +142,9 @@ public class TimeHelper {
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         return new int[]{year, month, day};
+    }
+
+    public static String toString(long millis) {
+        return toString(new Date(millis));
     }
 }

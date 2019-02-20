@@ -19,14 +19,14 @@ import com.example.jessie.focusing.R;
 import com.example.jessie.focusing.Service.LockService;
 import com.example.jessie.focusing.Utils.BaseTimeChangeListener;
 import com.example.jessie.focusing.Utils.TimeHelper;
-import com.example.jessie.focusing.View.CountDown.CountdownActivity;
+import com.example.jessie.focusing.View.Countdown.CountdownActivity;
 import com.example.jessie.focusing.widget.CirclePicker;
 
 import java.util.Calendar;
 import java.util.Date;
 
-import static com.example.jessie.focusing.Service.LockService.END_TIME;
-import static com.example.jessie.focusing.Service.LockService.START_TIME;
+import static com.example.jessie.focusing.Utils.AppConstants.END_TIME;
+import static com.example.jessie.focusing.Utils.AppConstants.START_TIME;
 
 /**
  * @author : Yujie Lyu
@@ -39,6 +39,7 @@ public class NowClockFragment extends Fragment {
     private TextView tv_startTime, tv_endTime, tv_countTime;
     private Calendar timeStart, timeEnd;
     private String countTime;
+
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
         @Override
@@ -89,16 +90,16 @@ public class NowClockFragment extends Fragment {
 
                 double endCount = (endDegree / 720) * (24 * 60);
                 int endHour = (int) Math.floor(endCount / 60);
-                int endMinute = (int) Math.floor(endCount % 60);
+                int endMin = (int) Math.floor(endCount % 60);
                 timeEnd = Calendar.getInstance();
                 timeEnd.set(Calendar.HOUR_OF_DAY, endHour);
-                timeEnd.set(Calendar.MINUTE, endMinute);
-                tv_endTime.setText(((endHour < 10) ? ("0" + endHour) : (endHour + "")) + ":" + ((endMinute < 10) ? ("0" + endMinute) : (endMinute + "")));
+                timeEnd.set(Calendar.MINUTE, endMin);
+                tv_endTime.setText(((endHour < 10) ? ("0" + endHour) : (endHour + "")) + ":" + ((endMin < 10) ? ("0" + endMin) : (endMin + "")));
                 if (startDegree == endDegree
 //                        && (endDegree + HALF_DAY_DEGREE == startDegree) && (endDegree - HALF_DAY_DEGREE == startDegree)
                 ) {
                     countTime = "0 h 0 m";
-                } else if (timeStart.get(Calendar.HOUR_OF_DAY) == endHour && timeStart.get(Calendar.MINUTE) == endMinute) {
+                } else if (timeStart.get(Calendar.HOUR_OF_DAY) == endHour && timeStart.get(Calendar.MINUTE) == endMin) {
                     countTime = "0 h 0 m";
                 } else {
                     countTime();
@@ -117,46 +118,50 @@ public class NowClockFragment extends Fragment {
 
                 double startCount = (startDegree / 720) * (24 * 60);
                 int startHour = (int) Math.floor(startCount / 60);
-                int startMinute = (int) Math.floor(startCount % 60);
-                tv_startTime.setText(((startHour < 10) ? ("0" + startHour) : (startHour + "")) + ":" + ((startMinute < 10) ? ("0" + startMinute) : (startMinute + "")));
+                int startMin = (int) Math.floor(startCount % 60);
+                tv_startTime.setText(((startHour < 10) ? ("0" + startHour) : (startHour + "")) + ":" + ((startMin < 10) ? ("0" + startMin) : (startMin + "")));
 
 
                 double endCount = (endDegree / 720) * (24 * 60);
                 int endHour = (int) Math.floor(endCount / 60);
-                int endMinute = (int) Math.floor(endCount % 60);
+                int endMin = (int) Math.floor(endCount % 60);
                 timeEnd = Calendar.getInstance();
                 timeEnd.set(Calendar.HOUR_OF_DAY, endHour);
-                timeEnd.set(Calendar.MINUTE, endMinute);
-                tv_endTime.setText(((endHour < 10) ? ("0" + endHour) : (endHour + "")) + ":" + ((endMinute < 10) ? ("0" + endMinute) : (endMinute + "")));
-                countTime = String.format("%02d h %02d m", (endHour - startHour), (endMinute - startMinute));
+                timeEnd.set(Calendar.MINUTE, endMin);
+                tv_endTime.setText(((endHour < 10) ? ("0" + endHour) : (endHour + "")) + ":" + ((endMin < 10) ? ("0" + endMin) : (endMin + "")));
+                countTime = String.format("%02d h %02d m", (endHour - startHour), (endMin - startMin));
                 tv_countTime.setText(countTime);
             }
 
         });
 
         Button btnStart = view.findViewById(R.id.btn_start);
-        btnStart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        btnStart.setOnClickListener(v -> {
 //                countTime();
-                if (countTime.equals("00:00")) {
-                    Toast toast = Toast.makeText(getContext(),
-                            R.string.invalid_time_suggestion, Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
+            if (countTime.equals("00:00")) {
+                Toast toast = Toast.makeText(getContext(),
+                        R.string.invalid_time_suggestion, Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
 
-                } else {
-                    LockService.START_NOW_END_TIME = timeEnd.getTimeInMillis();
-                    Intent intent = new Intent(getActivity(), CountdownActivity.class);
-                    intent.putExtra(END_TIME, timeEnd.getTimeInMillis());
-                    intent.putExtra(START_TIME, timeStart.getTimeInMillis());
-                    startActivity(intent);
+            } else {
+                long startTime = timeStart.getTimeInMillis();
+                long endTime = timeEnd.getTimeInMillis();
+                Intent intent = new Intent(getActivity(), CountdownActivity.class);
+                intent.putExtra(END_TIME, endTime);
+                intent.putExtra(START_TIME, startTime);
+                startActivity(intent);
 
-                }
             }
         });
         return view;
 
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        LockService.startNow(getContext(), timeStart.getTimeInMillis(), timeEnd.getTimeInMillis());
     }
 
     private float startDegree() {
@@ -168,14 +173,12 @@ public class NowClockFragment extends Fragment {
 
     }
 
-
     public String countTime() {
 
 
         if (timeEnd == null) {
             //todo:处理time2时间未选择的问题.是否弹窗提示用户选择正确时间
             timeEnd = Calendar.getInstance();
-            timeEnd.setTimeInMillis(System.currentTimeMillis());
             countTime = "00:00";
         } else {
             countTime = TimeHelper.showInterval(timeStart, timeEnd);
@@ -185,5 +188,4 @@ public class NowClockFragment extends Fragment {
         return countTime;
 
     }
-
 }

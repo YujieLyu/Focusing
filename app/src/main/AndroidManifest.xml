@@ -48,7 +48,7 @@
             android:name=".View.Main.MainActivity"
             android:launchMode="singleTask" />
         <activity
-            android:name=".View.CountDown.CountdownActivity"
+            android:name=".View.Countdown.CountdownActivity"
             android:launchMode="singleTask" />
         <activity
             android:name=".View.Finish.FinishActivity"

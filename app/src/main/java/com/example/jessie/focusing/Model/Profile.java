@@ -1,7 +1,5 @@
 package com.example.jessie.focusing.Model;
 
-import com.example.jessie.focusing.Service.LockService;
-
 import org.litepal.LitePal;
 import org.litepal.annotation.Column;
 import org.litepal.crud.LitePalSupport;
@@ -54,6 +52,9 @@ public class Profile extends LitePalSupport implements Comparable<Profile> {
         if (profile == null) {
             return false;
         }
+        if (profile.id == START_NOW_PROFILE_ID) {
+            return true;
+        }
         int repeatId = toRepeatId(dayOfWeek);
         int proRepeatId = profile.repeatId;
         return proRepeatId == 0 || proRepeatId == repeatId;
@@ -66,11 +67,7 @@ public class Profile extends LitePalSupport implements Comparable<Profile> {
      * @return
      */
     public static boolean isStart(int profId) {
-        if (profId == START_NOW_PROFILE_ID) {
-            //TODO: remove this
-            return LockService.START_NOW_END_TIME > 0;
-        }
-        Profile profile = LitePal.find(Profile.class, profId);
+        Profile profile = findById(profId);
         return isStart(profile);
     }
 
@@ -112,6 +109,16 @@ public class Profile extends LitePalSupport implements Comparable<Profile> {
         return res;
     }
 
+    public static int count(int id) {
+        return LitePal.where("id = ?", id + "").count(Profile.class);
+    }
+
+    /**
+     * Converts the {@link Calendar#DAY_OF_WEEK} to {@link #repeatId}
+     *
+     * @param dayOfWeek
+     * @return
+     */
     public static int toRepeatId(int dayOfWeek) {
         return dayOfWeek == 1 ? 7 : dayOfWeek - 1;
     }
@@ -146,6 +153,16 @@ public class Profile extends LitePalSupport implements Comparable<Profile> {
 
     public void setEndMin(int endMin) {
         this.endMin = endMin;
+    }
+
+    public void setStartTime(Calendar calendar) {
+        startHour = calendar.get(Calendar.HOUR_OF_DAY);
+        startMin = calendar.get(Calendar.MINUTE);
+    }
+
+    public void setEndTime(Calendar calendar) {
+        endHour = calendar.get(Calendar.HOUR_OF_DAY);
+        endMin = calendar.get(Calendar.MINUTE);
     }
 
     public String getProfileName() {
@@ -226,5 +243,12 @@ public class Profile extends LitePalSupport implements Comparable<Profile> {
 
     public void saveOrUpdate() {
         saveOrUpdate("id = ?", String.valueOf(id));
+    }
+
+    public void deleteCascadeAsync() {
+        super.deleteAsync().listen(rowsAffected -> {
+            AppInfoManager manager = new AppInfoManager();
+            manager.deleteByProfId(id);
+        });
     }
 }

@@ -22,8 +22,6 @@ import static com.example.jessie.focusing.Utils.AppConstants.PROFILE_ID;
  */
 public class ProfileDetailActivity extends AppCompatActivity {
     private ViewPager viewPager;
-    private AppInfoListFragment appListFragment;
-    private ProfScheduleFragment calendarFragment;
     private MenuItem menuItem;
     private int profileId;
 
@@ -46,8 +44,8 @@ public class ProfileDetailActivity extends AppCompatActivity {
 
     public void setViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        calendarFragment = new ProfScheduleFragment();
-        appListFragment = new AppInfoListFragment();
+        ProfScheduleFragment calendarFragment = new ProfScheduleFragment();
+        AppInfoListFragment appListFragment = new AppInfoListFragment();
         Bundle args = new Bundle();
         args.putInt(PROFILE_ID, profileId);
         appListFragment.setArguments(args);
@@ -64,7 +62,6 @@ public class ProfileDetailActivity extends AppCompatActivity {
         profileId = getIntent().getIntExtra(PROFILE_ID, -1);
         setContentView(R.layout.activity_profile_detail);
         viewPager = findViewById(R.id.viewpager_prof);
-        //todo:final的意义是？
         final BottomNavigationView navigationView = findViewById(R.id.bottom_nav_prof);
         navigationView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {

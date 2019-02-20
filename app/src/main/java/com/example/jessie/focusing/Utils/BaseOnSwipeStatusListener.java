@@ -1,6 +1,7 @@
-package com.example.jessie.focusing.widget;
+package com.example.jessie.focusing.Utils;
 
-import java.util.HashSet;
+import com.example.jessie.focusing.widget.SwipeItemLayout;
+
 import java.util.Set;
 
 /**
@@ -21,7 +22,7 @@ public class BaseOnSwipeStatusListener implements SwipeItemLayout.OnSwipeStatusL
     @Override
     public void onStatusChanged(SwipeItemLayout.Status status) {
         if (status == SwipeItemLayout.Status.Open) {
-            //若有其他的item的状态为Open，则Close，然后移除
+            //remove other layouts with Open status
             if (tempSet.size() > 0) {
                 for (SwipeItemLayout s : tempSet) {
                     s.setStatus(SwipeItemLayout.Status.Close, true);

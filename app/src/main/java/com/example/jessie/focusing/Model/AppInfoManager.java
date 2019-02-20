@@ -3,8 +3,6 @@ package com.example.jessie.focusing.Model;
 import android.content.ContentValues;
 import android.util.Log;
 
-import com.example.jessie.focusing.Service.LockService;
-
 import org.litepal.LitePal;
 
 import java.util.ArrayList;
@@ -69,7 +67,7 @@ public class AppInfoManager {
      */
     public synchronized void deleteByProfId(int profId) {
         int rows = LitePal.deleteAll(AppInfo.class, "profid = ?", String.valueOf(profId));
-        Log.i(TAG, "Rows effected: " + rows);
+        Log.i(TAG, "Delete by profile id, Rows effected: " + rows);
     }
 
     /**
@@ -81,16 +79,14 @@ public class AppInfoManager {
     public long getLatestEndTime(List<AppInfo> toLockApps) {
         long endTime = Long.MIN_VALUE;
         for (AppInfo app : toLockApps) {
-            if (app.getProfId() == Profile.START_NOW_PROFILE_ID) {
-                return LockService.START_NOW_END_TIME;
-                //TODO: to remove START_NOW_END_TIME
-//                endTime = Math.max(endTime, LockService.START_NOW_END_TIME);
-//                continue;
+            Profile profile = Profile.findById(app.getProfId());
+            if (profile == null) {
+                continue;
             }
-            Profile profile = LitePal.find(Profile.class, app.getProfId());
             int hour = profile.getEndHour();
             int min = profile.getEndMin();
-            endTime = Math.max(endTime, toMillis(hour, min));
+            long time = toMillis(hour, min);
+            endTime = Math.max(endTime, time);
         }
         return endTime == Long.MIN_VALUE ? 0 : endTime;
     }
@@ -106,7 +102,7 @@ public class AppInfoManager {
         List<AppInfo> list = AppInfo.findAllLockApps(packageName);
         for (AppInfo appInfo : list) {
             int profId = appInfo.getProfId();
-            if (appInfo.isLocked() && Profile.isStart(profId)) {
+            if (appInfo.isLocked() && (profId == Profile.START_NOW_PROFILE_ID || Profile.isStart(profId))) {
                 res.add(appInfo);
             }
         }
@@ -125,6 +121,11 @@ public class AppInfoManager {
         }
     }
 
+    /**
+     * Reset the lock status of apps to 'false' in specific profile
+     *
+     * @param profId
+     */
     public void reset(int profId) {
         ContentValues cv = new ContentValues();
         cv.put("islocked", 0);

@@ -84,7 +84,7 @@ public class ProfScheduleFragment extends Fragment implements View.OnClickListen
      * Save changes, update DB
      */
     public void updateData() {
-        String[] startTime = tv_startTime.getText().toString().split(":");//todo:把小时数赋给它
+        String[] startTime = tv_startTime.getText().toString().split(":");
         int startHour = Integer.parseInt(startTime[0]);
         int startMin = Integer.parseInt(startTime[1]);
         String[] endTime = tv_endTime.getText().toString().split(":");

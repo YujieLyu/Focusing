@@ -1,4 +1,4 @@
-package com.example.jessie.focusing.View.CountDown;
+package com.example.jessie.focusing.View.Countdown;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,7 +17,7 @@ import com.example.jessie.focusing.View.Shared.BaseSingleTaskActivity;
 
 import cn.iwgang.countdownview.CountdownView;
 
-import static com.example.jessie.focusing.Service.LockService.END_TIME;
+import static com.example.jessie.focusing.Utils.AppConstants.END_TIME;
 import static com.example.jessie.focusing.Utils.TimeHelper.DAY_IN_MILLIS;
 
 /**
@@ -26,6 +26,7 @@ import static com.example.jessie.focusing.Utils.TimeHelper.DAY_IN_MILLIS;
  * @time : 10:14
  */
 public class CountdownActivity extends BaseSingleTaskActivity implements CountdownView.OnCountdownEndListener {
+
     private static final String TAG = CountdownActivity.class.getSimpleName();
     private long countTime;
     private CountdownView cdv_count;
@@ -42,9 +43,9 @@ public class CountdownActivity extends BaseSingleTaskActivity implements Countdo
         btn_stop.setOnClickListener(v -> {
             finish();
             cdv_count.stop();
-            LockService.START_NOW_END_TIME = -1;
             Intent intent = new Intent(CountdownActivity.this, MainActivity.class);
             startActivity(intent);
+            LockService.stopStartNow(this);
         });
         appInfoManager = new AppInfoManager();
         focusTimeManager = new FocusTimeManager();
@@ -67,8 +68,6 @@ public class CountdownActivity extends BaseSingleTaskActivity implements Countdo
         }
         focusTimeManager.saveOrUpdateTime(timeSummary);
         appInfoManager.reset(Profile.START_NOW_PROFILE_ID);
-        LockService.START_NOW_END_TIME = -1;
-
     }
 
     protected void initData() {
@@ -91,7 +90,6 @@ public class CountdownActivity extends BaseSingleTaskActivity implements Countdo
     @Override
     public void onEnd(CountdownView cv) {
         cv.stop();
-        LockService.START_NOW_END_TIME = -1;
 //        appInfoManager.reset(Profile.START_NOW_PROFILE_ID);
 //        moveTaskToBack(true);
         Intent intent = new Intent(CountdownActivity.this, FinishActivity.class);

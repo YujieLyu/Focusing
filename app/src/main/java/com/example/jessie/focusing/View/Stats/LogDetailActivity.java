@@ -19,15 +19,11 @@ import com.example.jessie.focusing.Utils.StatusBarUtil;
  */
 public class LogDetailActivity extends AppCompatActivity {
     public static final String KEY = "pkName";
-    /**
-     * new added
-     */
+
     private ViewPager viewPager;
     private MenuItem menuItem;
     private String packageName;
-    /**
-     * NEW ADDED
-     */
+
     private BottomNavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
@@ -43,7 +39,6 @@ public class LogDetailActivity extends AppCompatActivity {
             return false;
         }
     };
-
 
 
     private void setViewPager(ViewPager viewPager) {
