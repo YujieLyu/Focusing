@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.example.jessie.focusing.Controller.Adapter.ViewPagerAdapter;
+import com.example.jessie.focusing.Model.AppInfoManager;
 import com.example.jessie.focusing.Model.Profile;
 import com.example.jessie.focusing.R;
 import com.example.jessie.focusing.Utils.StatusBarUtil;
@@ -86,7 +87,7 @@ public class FocusNowActivity extends AppCompatActivity {
 
             }
         });
-
+        AppInfoManager.reset(Profile.START_NOW_PROFILE_ID);
         setViewPager(viewPager);
         StatusBarUtil.setStatusTransparent(this);
         StatusBarUtil.setDarkStatusIcon(this, true);

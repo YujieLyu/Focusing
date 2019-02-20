@@ -148,6 +148,7 @@ public class NowClockFragment extends Fragment {
                 long startTime = timeStart.getTimeInMillis();
                 long endTime = timeEnd.getTimeInMillis();
                 Intent intent = new Intent(getActivity(), CountdownActivity.class);
+                intent.putExtra(CountdownActivity.IS_START_NOW, true);
                 intent.putExtra(END_TIME, endTime);
                 intent.putExtra(START_TIME, startTime);
                 startActivity(intent);

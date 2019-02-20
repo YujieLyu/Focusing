@@ -71,24 +71,14 @@ public class AppInfoManager {
     }
 
     /**
-     * Returns the latest end time in the apps to be locked.
+     * Reset the lock status of apps to 'false' in specific profile
      *
-     * @param toLockApps the app list to be locked.
-     * @return the latest end time
+     * @param profId
      */
-    public long getLatestEndTime(List<AppInfo> toLockApps) {
-        long endTime = Long.MIN_VALUE;
-        for (AppInfo app : toLockApps) {
-            Profile profile = Profile.findById(app.getProfId());
-            if (profile == null) {
-                continue;
-            }
-            int hour = profile.getEndHour();
-            int min = profile.getEndMin();
-            long time = toMillis(hour, min);
-            endTime = Math.max(endTime, time);
-        }
-        return endTime == Long.MIN_VALUE ? 0 : endTime;
+    public static void reset(int profId) {
+        ContentValues cv = new ContentValues();
+        cv.put("islocked", 0);
+        LitePal.updateAll(AppInfo.class, cv, "profid = ?", String.valueOf(profId));
     }
 
     /**
@@ -122,14 +112,24 @@ public class AppInfoManager {
     }
 
     /**
-     * Reset the lock status of apps to 'false' in specific profile
+     * Returns the latest end time in the apps to be locked.
      *
-     * @param profId
+     * @param toLockApps the app list to be locked.
+     * @return the latest end time
      */
-    public void reset(int profId) {
-        ContentValues cv = new ContentValues();
-        cv.put("islocked", 0);
-        LitePal.updateAll(AppInfo.class, cv, "profid = ?", String.valueOf(profId));
+    public long getLatestEndTime(List<AppInfo> toLockApps) {
+        long endTime = -1;
+        for (AppInfo app : toLockApps) {
+            Profile profile = Profile.findById(app.getProfId());
+            if (profile == null) {
+                continue;
+            }
+            int hour = profile.getEndHour();
+            int min = profile.getEndMin();
+            long time = toMillis(hour, min);
+            endTime = Math.max(endTime, time);
+        }
+        return endTime;
     }
 }
 

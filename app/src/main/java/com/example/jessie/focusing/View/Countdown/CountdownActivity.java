@@ -4,9 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
-import com.example.jessie.focusing.Model.AppInfoManager;
 import com.example.jessie.focusing.Model.FocusTimeManager;
-import com.example.jessie.focusing.Model.Profile;
 import com.example.jessie.focusing.R;
 import com.example.jessie.focusing.Service.LockService;
 import com.example.jessie.focusing.Utils.LockUtil;
@@ -27,11 +25,12 @@ import static com.example.jessie.focusing.Utils.TimeHelper.DAY_IN_MILLIS;
  */
 public class CountdownActivity extends BaseSingleTaskActivity implements CountdownView.OnCountdownEndListener {
 
+    public static final String IS_START_NOW = "is_start_now";
     private static final String TAG = CountdownActivity.class.getSimpleName();
     private long countTime;
     private CountdownView cdv_count;
-    private AppInfoManager appInfoManager;
     private FocusTimeManager focusTimeManager;
+    private boolean isStartNow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +44,10 @@ public class CountdownActivity extends BaseSingleTaskActivity implements Countdo
             cdv_count.stop();
             Intent intent = new Intent(CountdownActivity.this, MainActivity.class);
             startActivity(intent);
-            LockService.stopStartNow(this);
+            if (isStartNow) {
+                LockService.stopStartNow(this);
+            }
         });
-        appInfoManager = new AppInfoManager();
         focusTimeManager = new FocusTimeManager();
         StatusBarUtil.setStatusTransparent(this);
     }
@@ -64,13 +64,14 @@ public class CountdownActivity extends BaseSingleTaskActivity implements Countdo
         long remainTime = cdv_count.getRemainTime();
         long timeSummary = countTime - remainTime;
         if (timeSummary < 0) {
+            // TODO: when stop start now
             throw new IllegalArgumentException("Time summary is: " + timeSummary);
         }
         focusTimeManager.saveOrUpdateTime(timeSummary);
-        appInfoManager.reset(Profile.START_NOW_PROFILE_ID);
     }
 
     protected void initData() {
+        isStartNow = getIntent().getBooleanExtra(IS_START_NOW, false);
         long endTime = getIntent().getLongExtra(END_TIME, -1);
         long currTimeStart = System.currentTimeMillis();
         if (currTimeStart < endTime) {

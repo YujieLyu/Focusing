@@ -16,6 +16,7 @@ import android.util.Log;
 
 import com.example.jessie.focusing.Model.AppInfo;
 import com.example.jessie.focusing.Model.AppInfoManager;
+import com.example.jessie.focusing.Model.Profile;
 import com.example.jessie.focusing.Model.UsageManager;
 import com.example.jessie.focusing.R;
 import com.example.jessie.focusing.Utils.AppConstants;
@@ -88,6 +89,7 @@ public class LockService extends IntentService {
     }
 
     public static void stopStartNow(Context context) {
+        Log.i(TAG, "Stop start now.");
         startNow(context, -1, -1);
     }
 
@@ -124,8 +126,10 @@ public class LockService extends IntentService {
             startNowEndTime = intent.getLongExtra(END_TIME, startNowEndTime);
         }
         Log.i(TAG, "Interval is: " + interval);
-        Log.i(TAG, "Start Time is: " + TimeHelper.toString(startNowStartTime));
-        Log.i(TAG, "End Time is: " + TimeHelper.toString(startNowEndTime));
+        Log.i(TAG, "Start Time is: " +
+                (startNowStartTime < 0 ? startNowStartTime : TimeHelper.toString(startNowStartTime)));
+        Log.i(TAG, "End Time is: " +
+                (startNowEndTime < 0 ? startNowEndTime : TimeHelper.toString(startNowEndTime)));
         super.onStart(intent, startId);
     }
 
@@ -187,19 +191,33 @@ public class LockService extends IntentService {
         if (LAUNCHER_PACKAGE_NAME.equals(packageName)) {
             recordScreenTime();
         }
+        if (startNowEndTime > -1 && startNowEndTime < System.currentTimeMillis()) {
+            // NOTE: update endTime if earlier than Now.
+            // i.e., start_now did not boot or had finished.
+            startNowStartTime = -1;
+            startNowEndTime = -1;// reset start now end time
+            AppInfoManager.reset(Profile.START_NOW_PROFILE_ID);
+            Log.i(TAG, "Reset start now time");
+        }
         if (!inWhiteList(packageName)) {
             List<AppInfo> toLockApps = appInfoManager.getToLockApps(packageName);
             boolean toLock = !toLockApps.isEmpty();
             recordOpenTimes(packageName, toLock);
             if (toLock) {
-                // NOTE: update endTime if earlier than Now.
-                // i.e., start_now did not boot or had finished.
-                long endTime = startNowEndTime;
-                if (endTime < System.currentTimeMillis()) {
-                    startNowEndTime = -1;// reset start now end time
+                boolean startNow = toLockApps.stream()
+                        .anyMatch(a -> a.getProfId() == Profile.START_NOW_PROFILE_ID);
+                long endTime;
+                boolean isStartNow;
+                if (startNow && startNowEndTime >= System.currentTimeMillis()) {
+                    endTime = startNowEndTime;
+                    isStartNow = true;
+                } else {
                     endTime = appInfoManager.getLatestEndTime(toLockApps);
+                    isStartNow = false;
                 }
-                lockScreen(packageName, endTime);
+                if (endTime > System.currentTimeMillis()) {
+                    lockScreen(packageName, endTime, isStartNow);
+                }
             }
         }
     }
@@ -250,7 +268,7 @@ public class LockService extends IntentService {
         UsageStatsManager usageStatsManager =
                 (UsageStatsManager) context.getSystemService(Context.USAGE_STATS_SERVICE);
         long endTime = System.currentTimeMillis();
-        long beginTime = (long) (endTime - interval * 1.2);
+        long beginTime = (endTime - 1000);
         String result = "";
         UsageEvents.Event event = new UsageEvents.Event();
         UsageEvents usageEvents = usageStatsManager.queryEvents(beginTime, endTime);
@@ -263,11 +281,17 @@ public class LockService extends IntentService {
         return result;
     }
 
-    private void lockScreen(String packageName, long endTime) {
-
+    private void lockScreen(String packageName, long endTime, boolean isStartNow) {
+        Log.i(TAG, "Lock app: " + packageName);
+        Log.i(TAG, "End Time:" + TimeHelper.toString(endTime));
+        if (endTime < System.currentTimeMillis()) {
+            Log.e(TAG, "End Time has been reached:" + TimeHelper.toString(endTime));
+            return;
+        }
         Intent intent = new Intent(this, CountdownActivity.class);
 //        intent.putExtra(AppConstants.PRESS_BACK, AppConstants.BACK_TO_FINISH);
         intent.putExtra(AppConstants.LOCK_PACKAGE_NAME, packageName);
+        intent.putExtra(CountdownActivity.IS_START_NOW, isStartNow);
 //        intent.putExtra(START_TIME, start);
         intent.putExtra(END_TIME, endTime);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
