@@ -7,6 +7,11 @@ import com.example.jessie.focusing.R;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+
+import java.util.ArrayList;
+
+import static com.example.jessie.focusing.Utils.AppConstants.STATS_DAYS;
 
 /**
  * @author : Yujie Lyu
@@ -19,7 +24,6 @@ public class UseTimeFragment extends UsageTemplateFragment {
         layoutId = R.layout.fragment_app_use_time;
         chartId = R.id.use_time_barchart;
         isMultiBar = false;
-//        dataFormatter = (value, entry, dataSetIndex, viewPortHandler) -> String.format(Locale.getDefault(), "%.0f mins", value);
     }
 
     @Override
@@ -33,14 +37,23 @@ public class UseTimeFragment extends UsageTemplateFragment {
     }
 
     @Override
+    protected void initData() {
+        focusTime = new ArrayList<>();
+        for (int i = 0; i < STATS_DAYS; i++) {
+            float in = (float) (usageManager.getUsedTime(packageName, STATS_DAYS - 1 - i) / 1000 / 60.0);
+            focusTime.add(new BarEntry(i, in));
+        }
+    }
+
+    @Override
     protected void setData(BarChart chart) {
-        BarDataSet set2;
+        BarDataSet set;
         if (chart.getData() != null &&
                 chart.getData().getDataSetCount() > 0) {
 //            set1 = (BarDataSet) chart.getData().getDataSetByIndex(0);
-            set2 = (BarDataSet) chart.getData().getDataSetByIndex(1);
+            set = (BarDataSet) chart.getData().getDataSetByIndex(1);
 //            set1.setValues(focusTime);
-            set2.setValues(openTimes);
+            set.setValues(focusTime);
             chart.getData().notifyDataChanged();
             chart.notifyDataSetChanged();
         } else {
@@ -52,11 +65,11 @@ public class UseTimeFragment extends UsageTemplateFragment {
             };
 //            set1.setColors(colors[0]);
 
-            set2 = new BarDataSet(openTimes, "Used Time");
-            set2.setDrawIcons(false);
-            set2.setColor(colors[1]);
+            set = new BarDataSet(focusTime, "Used Time");
+            set.setDrawIcons(false);
+            set.setColor(colors[1]);
 
-            BarData barData = new BarData(set2);
+            BarData barData = new BarData(set);
             barData.setValueFormatter(dataFormatter);
             barData.setValueTextColor(Color.GRAY);
             barData.setValueTextSize(11);

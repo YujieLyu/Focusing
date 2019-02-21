@@ -1,10 +1,14 @@
 package com.example.jessie.focusing.Model;
 
+import android.app.usage.UsageStats;
+import android.app.usage.UsageStatsManager;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.text.TextUtils;
 import android.util.Log;
+
+import com.example.jessie.focusing.Utils.TimeHelper;
 
 import org.litepal.LitePal;
 
@@ -12,8 +16,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
+import static android.content.Context.USAGE_STATS_SERVICE;
 import static com.example.jessie.focusing.Utils.TimeHelper.getCurrDay;
 import static com.example.jessie.focusing.Utils.TimeHelper.getCurrMonth;
 import static com.example.jessie.focusing.Utils.TimeHelper.getCurrYear;
@@ -26,12 +32,14 @@ import static com.example.jessie.focusing.Utils.TimeHelper.getCurrYear;
 public class UsageManager {
     private static final int OPEN_TIMES_INCREMENT = 1;
     private static final String TAG = UsageManager.class.getSimpleName();
+    private final Context context;
     private final PackageManager packageManager;
     private int todayYear = getCurrYear();
     private int todayMonth = getCurrMonth();
     private int todayDay = getCurrDay();
 
     public UsageManager(Context context) {
+        this.context = context;
         this.packageManager = context.getPackageManager();
     }
 
@@ -49,6 +57,8 @@ public class UsageManager {
         if (TextUtils.isEmpty(packageName)) {
             return;
         }
+        String msg = String.format("Save Open times for %s, is locked: %s", packageName, isLocked);
+        Log.i(TAG, msg);
         AppUsage appChecked = AppUsage.findAppAtToday(packageName);
         if (appChecked != null) {
             appChecked.addOpenTimes(OPEN_TIMES_INCREMENT, isLocked);
@@ -70,6 +80,12 @@ public class UsageManager {
         if (TextUtils.isEmpty(packageName)) {
             return;
         }
+        String msg = String.format(
+                Locale.getDefault(),
+                "Save Used time for: %s, is locked: %s, used time:%.2f",
+                packageName, isLocked, usedTime / 1000 / 60D
+        );
+        Log.i(TAG, msg);
         AppUsage appChecked = AppUsage.findAppAtToday(packageName);
         if (appChecked != null) {
             appChecked.setUsedTime(usedTime, isLocked);
@@ -82,6 +98,7 @@ public class UsageManager {
 
     /**
      * Fetch the most used apps in specific days.
+     *
      * @param days days before today.
      * @return
      */
@@ -135,4 +152,33 @@ public class UsageManager {
         return AppUsage.findByDate(packageName, year, month, day);
     }
 
+    private List<UsageStats> getUsageStats(int numOfDay) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.add(Calendar.DATE, -1 * numOfDay);
+        long startTime = calendar.getTimeInMillis();
+        calendar.add(Calendar.DATE, 1);
+        long endTime = calendar.getTimeInMillis();
+        String msg = String.format(
+                "Fetch usage stats from %s to %s",
+                TimeHelper.toString(startTime, "MM/dd HH:mm"),
+                TimeHelper.toString(endTime, "MM/dd HH:mm")
+        );
+        Log.i(TAG, msg);
+        UsageStatsManager manager = (UsageStatsManager) context.getSystemService(USAGE_STATS_SERVICE);
+        return manager.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, startTime, endTime);
+    }
+
+    public long getUsedTime(String packageName, int numOfDay) {
+        List<UsageStats> usageStatsList = getUsageStats(numOfDay);
+        long usedTime = 0;
+        for (UsageStats stat : usageStatsList) {
+            if (stat.getPackageName().equals(packageName)) {
+                usedTime += stat.getTotalTimeInForeground();
+//                return stat.getLastTimeUsed()- stat.getFirstTimeStamp();
+            }
+        }
+        return usedTime;
+    }
 }

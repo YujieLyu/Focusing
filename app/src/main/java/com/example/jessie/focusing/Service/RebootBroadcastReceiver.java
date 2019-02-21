@@ -36,7 +36,7 @@ public class RebootBroadcastReceiver extends BroadcastReceiver {
                 }
                 break;
             case ACTION_SCREEN_OFF:
-                LockService.start(context, 1000 * 60);
+                LockService.start(context, -1);
                 break;
         }
     }

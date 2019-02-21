@@ -50,7 +50,6 @@ public class AppInfoUtils {
         return installedApps;
     }
 
-
     public void scanAppsList() {
         installedApps = new ArrayList<>();
         List<PackageInfo> packageInfos = packageManager.getInstalledPackages(0);

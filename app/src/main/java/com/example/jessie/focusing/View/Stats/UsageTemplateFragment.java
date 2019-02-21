@@ -41,8 +41,8 @@ public abstract class UsageTemplateFragment extends Fragment {
     protected IValueFormatter dataFormatter = new DefaultValueFormatter(0);
     protected List<BarEntry> openTimes;
     protected List<BarEntry> focusTime;
-    private UsageManager usageManager;
-    private String packageName;
+    protected UsageManager usageManager;
+    protected String packageName;
 
 
     @Nullable
@@ -71,7 +71,7 @@ public abstract class UsageTemplateFragment extends Fragment {
 
     protected abstract float getInFocusData(AppUsage appUsage);
 
-    private void initData() {
+    protected void initData() {
         openTimes = new ArrayList<>();
         focusTime = new ArrayList<>();
         for (int i = 0; i < STATS_DAYS; i++) {

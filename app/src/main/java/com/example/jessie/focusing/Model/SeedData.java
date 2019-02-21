@@ -18,8 +18,8 @@ public class SeedData {
 
     public static void initialize() {
         initializeProfile();
-        initializeAppUsage();
-        initializeFocusTime();
+//        initializeAppUsage(); //TODO: to be uncommented.
+//        initializeFocusTime();
     }
 
     private static void initializeProfile() {

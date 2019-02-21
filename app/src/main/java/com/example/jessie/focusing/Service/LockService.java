@@ -135,9 +135,9 @@ public class LockService extends IntentService {
 
     @Override
     public void onDestroy() {
-        Intent intent = new Intent(this, RebootBroadcastReceiver.class);
-        intent.setAction(RebootBroadcastReceiver.REBOOT_ACTION);
-        sendBroadcast(intent);
+//        Intent intent = new Intent(this, RebootBroadcastReceiver.class);
+//        intent.setAction(RebootBroadcastReceiver.REBOOT_ACTION);
+//        sendBroadcast(intent);
         Log.i(TAG, "on Destroy...");
         super.onDestroy();
     }
@@ -240,10 +240,10 @@ public class LockService extends IntentService {
      */
     private void recordOpenTimes(String packageName, boolean toLock) {
         if (!packageName.equals(appOnTop)) {
+            usageManager.saveOpenTimes(packageName, toLock);
             appOnTop = packageName;
             appStartTime = System.currentTimeMillis();
             this.isLocked = toLock;
-            usageManager.saveOpenTimes(packageName, toLock);
         }
     }
 

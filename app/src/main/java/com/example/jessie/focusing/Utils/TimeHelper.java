@@ -28,6 +28,15 @@ public class TimeHelper {
         return dateFormat.format(date);
     }
 
+    public static String toString(long millis) {
+        return toString(new Date(millis));
+    }
+
+    public static String toString(long millis, String pattern) {
+        SimpleDateFormat df = new SimpleDateFormat(pattern, Locale.getDefault());
+        return df.format(new Date(millis));
+    }
+
     /**
      * Convert Date String to {@link Date}
      *
@@ -142,9 +151,5 @@ public class TimeHelper {
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         return new int[]{year, month, day};
-    }
-
-    public static String toString(long millis) {
-        return toString(new Date(millis));
     }
 }
