@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.jessie.focusing.Interface.TimeCallBack;
 import com.example.jessie.focusing.Model.Profile;
+import com.example.jessie.focusing.Model.WeekDays;
 import com.example.jessie.focusing.R;
 import com.example.jessie.focusing.widget.TimePickerFragment;
 
@@ -32,6 +33,7 @@ public class ProfScheduleFragment extends Fragment implements View.OnClickListen
     private TextView tv_endTime;
     private TextView tv_repeat;
     private Profile profile;
+    private boolean[] choices;
 
     @Nullable
     @Override
@@ -75,8 +77,9 @@ public class ProfScheduleFragment extends Fragment implements View.OnClickListen
     private void initView() {
         tv_startTime.setText(profile.getStartTimeStr());
         tv_endTime.setText(profile.getEndTimeStr());
-        tv_repeat.setText(profile.getRepeatString());
+        tv_repeat.setText(WeekDays.toString(profile.getRepeatId()));
         tv_profName.setText(profile.getProfileName());
+        choices = WeekDays.toChoices(profile.getRepeatId());
     }
 
 
@@ -94,8 +97,7 @@ public class ProfScheduleFragment extends Fragment implements View.OnClickListen
         profile.setStartMin(startMin);
         profile.setEndHour(endHour);
         profile.setEndMin(endMin);
-        String repeatType = tv_repeat.getText().toString();
-        profile.setRepeatId(repeatType);
+        profile.setRepeatId(WeekDays.toValue(choices));
         profile.saveOrUpdate();
     }
 
@@ -134,14 +136,13 @@ public class ProfScheduleFragment extends Fragment implements View.OnClickListen
     private void showSingleChoiceDialog() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("Repeat");
-        builder.setSingleChoiceItems(Profile.REPEAT_TYPE, 0, (dialog, which) -> {
-
-            String str = Profile.REPEAT_TYPE[which];
-            tv_repeat.setText(str);
+        builder.setTitle("Repeat")
+                .setMultiChoiceItems(WeekDays.names(), choices, (dialog, which, isChecked) -> {
+                    choices[which] = isChecked;
+                }).setPositiveButton("OK", (dialog, which) -> {
+            tv_repeat.setText(WeekDays.toString(choices));
             dialog.dismiss();
         });
-
         AlertDialog dialog = builder.create();
         dialog.show();
     }

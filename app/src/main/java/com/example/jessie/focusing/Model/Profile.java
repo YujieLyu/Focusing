@@ -4,7 +4,6 @@ import org.litepal.LitePal;
 import org.litepal.annotation.Column;
 import org.litepal.crud.LitePalSupport;
 
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -55,9 +54,7 @@ public class Profile extends LitePalSupport implements Comparable<Profile> {
         if (profile.id == START_NOW_PROFILE_ID) {
             return true;
         }
-        int repeatId = toRepeatId(dayOfWeek);
-        int proRepeatId = profile.repeatId;
-        return proRepeatId == 0 || proRepeatId == repeatId;
+        return WeekDays.getDay(dayOfWeek).isChosen(profile.repeatId);
     }
 
     /**
@@ -102,9 +99,8 @@ public class Profile extends LitePalSupport implements Comparable<Profile> {
 
     public static List<Profile> findAllOnSchedule(int dayOfWeek) {
         int repeatId = toRepeatId(dayOfWeek);
-        List<Profile> res = LitePal
-                .where("repeatid = 0 OR repeatid = ?", repeatId + "")
-                .find(Profile.class);
+        String where = String.format("%s = (repeatid & %s)", repeatId, repeatId);
+        List<Profile> res = LitePal.where(where).find(Profile.class);
         res.sort(Profile::compareTo);
         return res;
     }
@@ -120,7 +116,7 @@ public class Profile extends LitePalSupport implements Comparable<Profile> {
      * @return
      */
     public static int toRepeatId(int dayOfWeek) {
-        return dayOfWeek == 1 ? 7 : dayOfWeek - 1;
+        return WeekDays.getValue(dayOfWeek);
     }
 
     public int getStartHour() {
@@ -173,12 +169,8 @@ public class Profile extends LitePalSupport implements Comparable<Profile> {
         this.profileName = profileName;
     }
 
-    public void setRepeatId(String repeatString) {
-        repeatId = Arrays.asList(REPEAT_TYPE).indexOf(repeatString) - 1;
-    }
-
     public String getRepeatString() {
-        return REPEAT_TYPE[repeatId + 1];
+        return WeekDays.toString(repeatId);
     }
 
     public int getId() {

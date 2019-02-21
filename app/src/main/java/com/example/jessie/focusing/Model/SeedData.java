@@ -42,7 +42,7 @@ public class SeedData {
         b.setStartMin(0);
         b.setEndHour(12);
         b.setEndMin(0);
-        b.setRepeatId(4);
+        b.setRepeatId(0x0000011);
         b.saveAsync().listen(SeedData::onFinish);
     }
 

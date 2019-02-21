@@ -28,19 +28,19 @@ public class UseTimeFragment extends UsageTemplateFragment {
 
     @Override
     protected float getOutFocusData(AppUsage appUsage) {
-        return appUsage == null ? 0 : (float) (appUsage.getUsedOutFocus() / 1000 / 60.0);
+        return appUsage == null ? 0 : (float) (appUsage.getUsedOutFocus() / 1000 / 60);
     }
 
     @Override
     protected float getInFocusData(AppUsage appUsage) {
-        return appUsage == null ? 0 : (float) (appUsage.getUsedInFocus() / 1000 / 60.0);
+        return appUsage == null ? 0 : (float) (appUsage.getUsedInFocus() / 1000 / 60);
     }
 
     @Override
     protected void initData() {
         focusTime = new ArrayList<>();
         for (int i = 0; i < STATS_DAYS; i++) {
-            float in = (float) (usageManager.getUsedTime(packageName, STATS_DAYS - 1 - i) / 1000 / 60.0);
+            float in = (float) (usageManager.getUsedTime(packageName, STATS_DAYS - 1 - i) / 1000 / 60);
             focusTime.add(new BarEntry(i, in));
         }
     }

@@ -67,4 +67,18 @@ public class FocusTimeManager {
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         return FocusTimeStats.findByDate(year, month, day);
     }
+
+    public void foo() {
+        Calendar calendar = Calendar.getInstance();
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        List<Profile> profiles = Profile.findAllOnSchedule(dayOfWeek);
+
+        for (Profile profile : profiles) {
+            int startHour = profile.getStartHour();
+            int startMin = profile.getStartMin();
+            int endHour = profile.getEndHour();
+            int endMin = profile.getEndMin();
+
+        }
+    }
 }
