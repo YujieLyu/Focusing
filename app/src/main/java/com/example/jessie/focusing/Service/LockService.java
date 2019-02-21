@@ -223,7 +223,7 @@ public class LockService extends IntentService {
     }
 
     /**
-     * Save the used time of app to database
+     * record the used time of app to database
      */
     private void recordScreenTime() {
         if (!isEmpty(appOnTop) && appStartTime != 0) {
@@ -233,7 +233,7 @@ public class LockService extends IntentService {
     }
 
     /**
-     * Save the open times of app to database
+     * record the open times of app to database
      *
      * @param packageName
      * @param toLock

@@ -145,6 +145,9 @@ public class NowClockFragment extends Fragment {
                 toast.show();
 
             } else {
+                if (timeEnd.getTimeInMillis() < timeStart.getTimeInMillis()) {
+                    timeEnd.add(Calendar.DATE, 1);
+                }
                 long startTime = timeStart.getTimeInMillis();
                 long endTime = timeEnd.getTimeInMillis();
                 Intent intent = new Intent(getActivity(), CountdownActivity.class);
