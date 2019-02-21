@@ -103,7 +103,7 @@ public class Profile extends LitePalSupport implements Comparable<Profile> {
     public static List<Profile> findAllOnSchedule(int dayOfWeek) {
         int repeatId = toRepeatId(dayOfWeek);
         List<Profile> res = LitePal
-                .where("repeatid = 0 OR repeatid = ", repeatId + "")
+                .where("repeatid = 0 OR repeatid = ?", repeatId + "")
                 .find(Profile.class);
         res.sort(Profile::compareTo);
         return res;
