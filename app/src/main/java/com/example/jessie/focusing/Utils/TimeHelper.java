@@ -2,6 +2,7 @@ package com.example.jessie.focusing.Utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -151,5 +152,30 @@ public class TimeHelper {
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         return new int[]{year, month, day};
+    }
+
+    public static long getTotalTimeInMillis(long[]... periods) {
+        Arrays.sort(periods, (o1, o2) -> {
+            if (o1.length < 1 || o2.length < 1) {
+                return -1;
+            }
+            return Long.compare(o1[0], o2[0]);
+        });
+        long start = periods[0][0];
+        long end = periods[0][0];
+        long missing = 0;
+        for (long[] period : periods) {
+            if (period.length != 2) {
+                continue;
+            }
+            long next_start = period[0];
+            long next_end = period[1];
+            long diff = next_start - end;
+            missing += diff < 0 ? 0 : diff;
+            end = Math.max(end, next_end);
+        }
+        end = Math.min(System.currentTimeMillis(), end);
+        long totalTime = end - start - missing;
+        return totalTime < 0 ? 0 : totalTime;
     }
 }
