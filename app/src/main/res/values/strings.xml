@@ -20,5 +20,6 @@
     <string name="profile_name_non_empty">Profile name cannot be empty</string>
     <string name="my_schedule">My Schedule</string>
     <string name="focus_for_how_long">Focus for how long?</string>
+    <string name="welcome_to_focusing">Welcome to Focusing!</string>
 
 </resources>

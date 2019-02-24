@@ -77,7 +77,7 @@ public class FocusTimeManager {
         calendar.add(Calendar.DATE, -1 * numOfDay);
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
         List<Profile> profiles = Profile.findAllOnSchedule(dayOfWeek);
-
+        // TODO: find all start now
         List<Long[]> periods = new ArrayList<>();
         for (Profile profile : profiles) {
             int startHour = profile.getStartHour();
@@ -91,6 +91,7 @@ public class FocusTimeManager {
             }
             periods.add(new Long[]{start, end});
         }
+        // TODO: periods add all start now
         return TimeHelper.getTotalTimeInMillis(periods);
     }
 }

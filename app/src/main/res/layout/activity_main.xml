@@ -20,152 +20,126 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="130dp"
         android:fontFamily="@font/roboto_light"
-        android:text="Welcome to Focusing!"
+        android:text="@string/welcome_to_focusing"
         android:textColor="@color/text_white"
-        android:textSize="32sp" />
+        android:textSize="35sp" />
 
+    <!--<View-->
+        <!--android:id="@+id/titleLine_11"-->
+        <!--android:layout_above="@id/tv_start_now"-->
+        <!--android:layout_height="2px"-->
+        <!--android:background="@color/text_white"-->
+        <!--android:layout_width="fill_parent" />-->
     <TextView
         android:id="@+id/tv_start_now"
         android:layout_width="match_parent"
-        android:layout_height="75dp"
+        android:layout_height="85dp"
         android:layout_marginTop="250dp"
-        android:background="@color/half_white"
+        android:background="@color/transparent_black"
         android:contextClickable="true"
         android:fontFamily="@font/roboto_light"
         android:gravity="center"
         android:text="Focus Now"
         android:textColor="@color/text_white"
-        android:textSize="20sp"
+        android:textSize="22sp"
         android:textStyle="bold"
         />
 
+    <!--<View-->
+        <!--android:id="@+id/titleLine_12"-->
+        <!--android:layout_below="@id/tv_start_now"-->
+        <!--android:layout_height="2px"-->
+        <!--android:background="@color/text_white"-->
+        <!--android:layout_width="fill_parent" />-->
+
+    <!--<View-->
+        <!--android:id="@+id/titleLine_21"-->
+        <!--android:layout_marginTop="20dp"-->
+        <!--android:layout_below="@id/tv_start_now"-->
+        <!--android:layout_height="2px"-->
+        <!--android:background="@color/text_white"-->
+        <!--android:layout_width="fill_parent" />-->
     <TextView
         android:id="@+id/tv_profile"
         android:layout_width="match_parent"
-        android:layout_height="75dp"
+        android:layout_height="85dp"
+        android:layout_marginTop="20dp"
         android:layout_below="@id/tv_start_now"
-        android:layout_marginTop="30dp"
-        android:background="@color/half_white"
+        android:background="@color/transparent_black"
         android:contextClickable="true"
         android:fontFamily="@font/roboto_light"
         android:gravity="center"
         android:text="My Profiles"
         android:textColor="@color/text_white"
-        android:textSize="20sp"
+        android:textSize="22sp"
         android:textStyle="bold"
-
-
         />
 
+    <!--<View-->
+        <!--android:id="@+id/titleLine_22"-->
+        <!--android:layout_below="@id/tv_profile"-->
+        <!--android:layout_height="2px"-->
+        <!--android:background="@color/text_white"-->
+        <!--android:layout_width="fill_parent" />-->
+
+    <!--<View-->
+        <!--android:id="@+id/titleLine_31"-->
+        <!--android:layout_marginTop="20dp"-->
+        <!--android:layout_below="@id/tv_profile"-->
+        <!--android:layout_height="2px"-->
+        <!--android:background="@color/text_white"-->
+        <!--android:layout_width="fill_parent" />-->
     <TextView
         android:id="@+id/tv_schedule"
         android:layout_width="match_parent"
-        android:layout_height="75dp"
+        android:layout_height="85dp"
+        android:layout_marginTop="20dp"
         android:layout_below="@id/tv_profile"
-        android:layout_marginTop="30dp"
-        android:background="@color/half_white"
+        android:background="@color/transparent_black"
         android:contextClickable="true"
         android:fontFamily="@font/roboto_light"
         android:gravity="center"
         android:text="My Schedule"
         android:textAlignment="center"
         android:textColor="@color/text_white"
-        android:textSize="20sp"
+        android:textSize="22sp"
         android:textStyle="bold"
         />
+    <!--<View-->
+        <!--android:id="@+id/titleLine_32"-->
+        <!--android:layout_below="@id/tv_schedule"-->
+        <!--android:layout_height="2px"-->
+        <!--android:background="@color/text_white"-->
+        <!--android:layout_width="fill_parent" />-->
 
+    <!--<View-->
+        <!--android:id="@+id/titleLine_41"-->
+        <!--android:layout_marginTop="20dp"-->
+        <!--android:layout_below="@id/tv_schedule"-->
+        <!--android:layout_height="2px"-->
+        <!--android:background="@color/text_white"-->
+        <!--android:layout_width="fill_parent" />-->
     <TextView
         android:id="@+id/tv_statistic"
         android:layout_width="match_parent"
-        android:layout_height="75dp"
+        android:layout_height="85dp"
+        android:layout_marginTop="20dp"
         android:layout_below="@id/tv_schedule"
-        android:layout_marginTop="30dp"
-        android:background="@color/half_white"
+        android:background="@color/transparent_black"
         android:contextClickable="true"
         android:fontFamily="@font/roboto_light"
         android:gravity="center"
         android:text="Time Statistics"
         android:textAlignment="center"
         android:textColor="@color/text_white"
-        android:textSize="20sp"
+        android:textSize="22sp"
         android:textStyle="bold"
         />
-
-    <!--<TextView-->
-        <!--android:layout_width="150dp"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentEnd="true"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--android:text="Copyright@Yujie_Lyu"-->
-        <!--android:textColor="@color/bg_white" />-->
-
-
-    <!--<TextView-->
-        <!--android:id="@+id/tv_start_now"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="75dp"-->
-        <!--android:layout_marginTop="250dp"-->
-        <!--android:background="@color/transparent_white"-->
-        <!--android:contextClickable="true"-->
-        <!--android:fontFamily="@font/roboto"-->
-        <!--android:gravity="center"-->
-        <!--android:text="Focus Now"-->
-        <!--android:textColor="@color/black"-->
-        <!--android:textSize="22sp"-->
-        <!--android:textStyle="bold"-->
-
-        <!--/>-->
-
-    <!--<TextView-->
-        <!--android:id="@+id/tv_profile"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="75dp"-->
-        <!--android:layout_below="@id/tv_start_now"-->
-        <!--android:layout_marginTop="30dp"-->
-        <!--android:background="@color/transparent_white"-->
-        <!--android:contextClickable="true"-->
-        <!--android:fontFamily="@font/roboto"-->
-        <!--android:gravity="center"-->
-        <!--android:text="My Profiles"-->
-        <!--android:textColor="@color/black"-->
-        <!--android:textSize="22sp"-->
-        <!--android:textStyle="bold"-->
-
-
-        <!--/>-->
-
-    <!--<TextView-->
-        <!--android:id="@+id/tv_schedule"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="75dp"-->
-        <!--android:layout_below="@id/tv_profile"-->
-        <!--android:layout_marginTop="30dp"-->
-        <!--android:background="@color/transparent_white"-->
-        <!--android:contextClickable="true"-->
-        <!--android:fontFamily="@font/roboto"-->
-        <!--android:gravity="center"-->
-        <!--android:text="My Schedule"-->
-        <!--android:textAlignment="center"-->
-        <!--android:textColor="@color/black"-->
-        <!--android:textSize="22sp"-->
-        <!--android:textStyle="bold"-->
-        <!--/>-->
-
-    <!--<TextView-->
-        <!--android:id="@+id/tv_statistic"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="75dp"-->
-        <!--android:layout_below="@id/tv_schedule"-->
-        <!--android:layout_marginTop="30dp"-->
-        <!--android:background="@color/transparent_white"-->
-        <!--android:contextClickable="true"-->
-        <!--android:fontFamily="@font/roboto"-->
-        <!--android:gravity="center"-->
-        <!--android:text="Time Statistics"-->
-        <!--android:textAlignment="center"-->
-        <!--android:textColor="@color/black"-->
-        <!--android:textSize="22sp"-->
-        <!--android:textStyle="bold"-->
-        <!--/>-->
+    <!--<View-->
+        <!--android:id="@+id/titleLine_42"-->
+        <!--android:layout_below="@id/tv_statistic"-->
+        <!--android:layout_height="2px"-->
+        <!--android:background="@color/text_white"-->
+        <!--android:layout_width="fill_parent" />-->
 
 </RelativeLayout>
