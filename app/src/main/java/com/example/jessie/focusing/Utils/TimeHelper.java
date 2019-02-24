@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -154,19 +155,26 @@ public class TimeHelper {
         return new int[]{year, month, day};
     }
 
-    public static long getTotalTimeInMillis(long[]... periods) {
-        Arrays.sort(periods, (o1, o2) -> {
+    public static long getTotalTimeInMillis(Long[]... periods) {
+        return getTotalTimeInMillis(Arrays.asList(periods));
+    }
+
+    public static long getTotalTimeInMillis(List<Long[]> periods) {
+        if (periods == null || periods.isEmpty()) {
+            return 0;
+        }
+        periods.sort((o1, o2) -> {
             if (o1.length < 1 || o2.length < 1) {
                 return -1;
             }
             return Long.compare(o1[0], o2[0]);
         });
-        long start = periods[0][0];
-        long end = periods[0][0];
+        long start = periods.get(0)[0];
+        long end = periods.get(0)[0];
         long missing = 0;
-        for (long[] period : periods) {
-            if (period.length != 2) {
-                continue;
+        for (Long[] period : periods) {
+            if (period.length != 2 || period[1] < period[0]) {
+                throw new IllegalArgumentException("Invalid periods");
             }
             long next_start = period[0];
             long next_end = period[1];

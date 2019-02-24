@@ -13,7 +13,7 @@ public class TimeHelperTest {
     @Test
     public void getTotalTimeInMillis() {
         Calendar calendar = Calendar.getInstance();
-//        calendar.add(Calendar.DATE, -1);
+        calendar.add(Calendar.DATE, -1);
         calendar.set(Calendar.HOUR_OF_DAY, 8);
         calendar.set(Calendar.MINUTE, 0);
         long s1 = calendar.getTimeInMillis();
@@ -29,14 +29,14 @@ public class TimeHelperTest {
         long s3 = calendar.getTimeInMillis();
         calendar.add(Calendar.HOUR_OF_DAY, 1);
         long e3 = calendar.getTimeInMillis();
-        long[][] periods = new long[][]{
-                new long[]{s1, e1},
-                new long[]{s2, e2},
-                new long[]{s3, e3},
+        Long[][] periods = new Long[][]{
+                new Long[]{s1, e1},
+                new Long[]{s2, e2},
+                new Long[]{s3, e3},
         };
         long actual = TimeHelper.getTotalTimeInMillis(periods);
-//        long expect = (long) (2.5 * 60 * 60 * 1000);
-        long expect = 0;
+        long expect = (long) (2.5 * 60 * 60 * 1000);
+//        long expect = (long) (System.currentTimeMillis() - s3 + 1.5 * 60 * 60 * 1000);
         assert actual == expect;
     }
 }

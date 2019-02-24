@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.example.jessie.focusing.Controller.Adapter.UsageListAdapter;
 import com.example.jessie.focusing.Model.AppUsage;
 import com.example.jessie.focusing.Model.FocusTimeManager;
-import com.example.jessie.focusing.Model.FocusTimeStats;
 import com.example.jessie.focusing.Model.UsageManager;
 import com.example.jessie.focusing.R;
 import com.example.jessie.focusing.Utils.StatusBarUtil;
@@ -63,8 +62,10 @@ public class DataStatisticActivity extends AppCompatActivity {
         savedTime = 0;
         focusTime = new ArrayList<>();
         for (int i = 0; i < STATS_DAYS; i++) {
-            FocusTimeStats time = focusTimeManager.getTimeData(STATS_DAYS - 1 - i);
-            float t = time == null ? 0 : (float) (time.getTime() / 1000 / 60);
+//            FocusTimeStats time = focusTimeManager.getTimeData(STATS_DAYS - 1 - i);
+//            float t = time == null ? 0 : (float) (time.getTime() / 1000 / 60);
+            long totalTime = focusTimeManager.getTotalFocusTime(STATS_DAYS - 1 - i);
+            float t = (float) (totalTime / 1000 / 60);
             savedTime += t;
             focusTime.add(new BarEntry(i, t));
         }

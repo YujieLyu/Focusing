@@ -176,7 +176,6 @@ public class UsageManager {
         for (UsageStats stat : usageStatsList) {
             if (stat.getPackageName().equals(packageName)) {
                 usedTime += stat.getTotalTimeInForeground();
-//                return stat.getLastTimeUsed()- stat.getFirstTimeStamp();
             }
         }
         return usedTime;
