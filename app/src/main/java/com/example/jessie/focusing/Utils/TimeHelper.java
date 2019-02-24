@@ -199,13 +199,11 @@ public class TimeHelper {
             }
             long next_start = period[0];
             long next_end = period[1];
-            long diff = next_start - end;
-            idle += diff < 0 ? 0 : diff;
+            idle += Math.max(next_start - end, 0);
             end = Math.max(end, next_end);
         }
         // reassign "end" if end is earlier than present.
         end = Math.min(System.currentTimeMillis(), end);
-        long totalTime = end - start - idle;
-        return totalTime < 0 ? 0 : totalTime;
+        return Math.max(end - start - idle, 0);
     }
 }
