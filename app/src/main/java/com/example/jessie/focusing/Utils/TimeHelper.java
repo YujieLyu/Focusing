@@ -155,14 +155,35 @@ public class TimeHelper {
         return new int[]{year, month, day};
     }
 
+    /**
+     * For convenience use of {@link #getTotalTimeInMillis(List)}
+     *
+     * @param periods
+     * @return
+     * @see #getTotalTimeInMillis(List)
+     */
     public static long getTotalTimeInMillis(Long[]... periods) {
         return getTotalTimeInMillis(Arrays.asList(periods));
     }
 
+    /**
+     * Returns the total time from multiple periods.
+     * <p>
+     * the basic idea is: <br>
+     * total time = latest end time - earliest start time - idle time.
+     * </p>
+     * <p>
+     * the periods are allowed to overlap.
+     * </p>
+     *
+     * @param periods the list of period pairs, each pair: [startTime, endTime]
+     * @return the total time in millis.
+     */
     public static long getTotalTimeInMillis(List<Long[]> periods) {
         if (periods == null || periods.isEmpty()) {
             return 0;
         }
+        // sort the list by "start time"
         periods.sort((o1, o2) -> {
             if (o1.length < 1 || o2.length < 1) {
                 return -1;
@@ -171,7 +192,7 @@ public class TimeHelper {
         });
         long start = periods.get(0)[0];
         long end = periods.get(0)[0];
-        long missing = 0;
+        long idle = 0;
         for (Long[] period : periods) {
             if (period.length != 2 || period[1] < period[0]) {
                 throw new IllegalArgumentException("Invalid periods");
@@ -179,11 +200,12 @@ public class TimeHelper {
             long next_start = period[0];
             long next_end = period[1];
             long diff = next_start - end;
-            missing += diff < 0 ? 0 : diff;
+            idle += diff < 0 ? 0 : diff;
             end = Math.max(end, next_end);
         }
+        // reassign "end" if end is earlier than present.
         end = Math.min(System.currentTimeMillis(), end);
-        long totalTime = end - start - missing;
+        long totalTime = end - start - idle;
         return totalTime < 0 ? 0 : totalTime;
     }
 }
