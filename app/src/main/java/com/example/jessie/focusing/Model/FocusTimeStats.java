@@ -34,14 +34,7 @@ public class FocusTimeStats extends LitePalSupport {
     @Column
     private int day;
 
-    public FocusTimeStats(long startTime, int year, int month, int day) {
-        this.startTime = startTime;
-        this.year = year;
-        this.month = month;
-        this.day = day;
-    }
-
-    public FocusTimeStats(long startTime, long endTime) {
+    public FocusTimeStats(long startTime, long endTime, int year, int month, int day) {
         Log.i(TAG, String.format(
                 "Focus during: %s ~ %s",
                 TimeHelper.toString(startTime),
@@ -52,9 +45,13 @@ public class FocusTimeStats extends LitePalSupport {
         }
         this.startTime = startTime;
         this.endTime = endTime;
-        year = getCurrYear();
-        month = getCurrMonth();
-        day = getCurrDay();
+        this.year = year;
+        this.month = month;
+        this.day = day;
+    }
+
+    public FocusTimeStats(long startTime, long endTime) {
+        this(startTime, endTime, getCurrYear(), getCurrMonth(), getCurrDay());
     }
 
     public static List<FocusTimeStats> findInToday() {

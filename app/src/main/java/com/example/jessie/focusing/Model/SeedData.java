@@ -6,7 +6,10 @@ import com.example.jessie.focusing.Utils.TimeHelper;
 
 import org.litepal.LitePal;
 
+import java.util.Calendar;
+
 import static com.example.jessie.focusing.Utils.AppConstants.STATS_DAYS;
+import static com.example.jessie.focusing.Utils.TimeHelper.HOUR_IN_MILLIS;
 
 /**
  * @author : Yujie Lyu
@@ -52,7 +55,7 @@ public class SeedData {
             return;
         }
         dataType = AppUsage.class.getSimpleName();
-        for (int numOfDay = 0; numOfDay < STATS_DAYS; numOfDay++) {
+        for (int numOfDay = 1; numOfDay < STATS_DAYS; numOfDay++) {
             int[] date = TimeHelper.getYearMonthDay(numOfDay);
             for (String packageName : getPackageNames()) {
                 AppUsage appUsage = new AppUsage(packageName, date[0], date[1], date[2]);
@@ -73,10 +76,16 @@ public class SeedData {
             return;
         }
         dataType = FocusTimeStats.class.getSimpleName();
-        for (int numOfDay = 0; numOfDay < STATS_DAYS; numOfDay++) {
-            long time = (long) (2 * 60 * 60 * 1000 * Math.random());
-            int[] date = TimeHelper.getYearMonthDay(numOfDay);
-            FocusTimeStats focusTimeStats = new FocusTimeStats(time, date[0], date[1], date[2]);
+        for (int numOfDay = 1; numOfDay < STATS_DAYS; numOfDay++) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.DATE, -1 * numOfDay);
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+            calendar.set(Calendar.HOUR_OF_DAY, (int) (24 * Math.random()));
+            long start = calendar.getTimeInMillis();
+            long end = (long) (start + HOUR_IN_MILLIS * 2 * Math.random());
+            FocusTimeStats focusTimeStats = new FocusTimeStats(start, end, year, month, day);
             focusTimeStats.saveAsync().listen(SeedData::onFinish);
         }
     }

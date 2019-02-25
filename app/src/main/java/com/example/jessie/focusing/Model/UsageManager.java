@@ -23,6 +23,7 @@ import static android.content.Context.USAGE_STATS_SERVICE;
 import static com.example.jessie.focusing.Utils.TimeHelper.getCurrDay;
 import static com.example.jessie.focusing.Utils.TimeHelper.getCurrMonth;
 import static com.example.jessie.focusing.Utils.TimeHelper.getCurrYear;
+import static com.example.jessie.focusing.Utils.TimeHelper.getMidnightTime;
 
 /**
  * @author : Yujie Lyu
@@ -153,28 +154,36 @@ public class UsageManager {
     }
 
     private List<UsageStats> getUsageStats(int numOfDay) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.add(Calendar.DATE, -1 * numOfDay);
-        long startTime = calendar.getTimeInMillis();
-        calendar.add(Calendar.DATE, 1);
-        long endTime = calendar.getTimeInMillis();
-        String msg = String.format(
-                "Fetch usage stats from %s to %s",
+        long[] timePair = getMidnightTime(numOfDay);
+        long startTime = timePair[0];
+        long endTime = timePair[1];
+        String msg = String.format("Fetch usage stats from %s to %s",
                 TimeHelper.toString(startTime, "MM/dd HH:mm:ss"),
                 TimeHelper.toString(endTime, "MM/dd HH:mm:ss")
         );
         Log.i(TAG, msg);
         UsageStatsManager manager = (UsageStatsManager) context.getSystemService(USAGE_STATS_SERVICE);
-        return manager.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, startTime, endTime);
+        List<UsageStats> stats = manager.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, startTime, endTime);
+//        List<UsageStats> res = new ArrayList<>();
+//        for (UsageStats stat : stats) {
+//            long begin = stat.getFirstTimeStamp();
+//            long end = stat.getLastTimeStamp();
+//            if (begin > startTime && end < endTime) {
+//                res.add(stat);
+//            }
+//        } // NOTE: Android builtin bug
+        return stats;
     }
 
     public long getUsedTime(String packageName, int numOfDay) {
-        List<UsageStats> usageStatsList = getUsageStats(numOfDay);
+        List<UsageStats> statsMap = getUsageStats(numOfDay);
         long usedTime = 0;
-        for (UsageStats stat : usageStatsList) {
+        for (UsageStats stat : statsMap) {
             if (stat.getPackageName().equals(packageName)) {
+                String startTime = TimeHelper.toString(stat.getFirstTimeStamp(), "MM/dd HH:mm:ss");
+                String endTime = TimeHelper.toString(stat.getLastTimeStamp(), "MM/dd HH:mm:ss");
+                Log.i(TAG, String.format("Fetched usage stat: %s ~ %s, on numOfDay = %s",
+                        startTime, endTime, numOfDay));
                 usedTime += stat.getTotalTimeInForeground();
             }
         }

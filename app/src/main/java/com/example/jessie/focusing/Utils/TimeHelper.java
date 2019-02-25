@@ -1,7 +1,11 @@
 package com.example.jessie.focusing.Utils;
 
+import android.util.Log;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -16,6 +20,7 @@ import java.util.Locale;
 public class TimeHelper {
     public static final long HOUR_IN_MILLIS = 60 * 60 * 1000;
     public static final long DAY_IN_MILLIS = 24 * HOUR_IN_MILLIS;
+    private static final String TAG = TimeHelper.class.getSimpleName();
     private static final String DATE_PATTERN = "HH:mm";
     private static SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_PATTERN, Locale.getDefault());
 
@@ -66,7 +71,9 @@ public class TimeHelper {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, hour);
         calendar.set(Calendar.MINUTE, min);
-        return calendar.getTimeInMillis();
+        long res = calendar.getTimeInMillis();
+        Log.i(TAG, "To Millis - Origin Time: " + toString(res, "MM/dd HH:mm:ss"));
+        return res;
     }
 
     public static int getCurrYear() {
@@ -191,19 +198,31 @@ public class TimeHelper {
             return Long.compare(o1[0], o2[0]);
         });
         long start = periods.get(0)[0];
-        long end = periods.get(0)[0];
+        long end = periods.get(0)[1];
         long idle = 0;
+        long now = System.currentTimeMillis();
         for (Long[] period : periods) {
             if (period.length != 2 || period[1] < period[0]) {
                 throw new IllegalArgumentException("Invalid periods");
             }
             long next_start = period[0];
+            if (next_start > now) {
+                break;
+            }
             long next_end = period[1];
             idle += Math.max(next_start - end, 0);
             end = Math.max(end, next_end);
         }
         // reassign "end" if end is earlier than present.
-        end = Math.min(System.currentTimeMillis(), end);
+        end = Math.min(now, end);
         return Math.max(end - start - idle, 0);
+    }
+
+    public static long[] getMidnightTime(int numOfDay) {
+        LocalDate date = LocalDate.now().plusDays(-1 * numOfDay);
+        ZoneId defZone = ZoneId.systemDefault();
+        long startTime = date.atStartOfDay(defZone).toInstant().toEpochMilli();
+        long endTime = date.plusDays(1).atStartOfDay(defZone).toInstant().toEpochMilli();
+        return new long[]{startTime, endTime};
     }
 }

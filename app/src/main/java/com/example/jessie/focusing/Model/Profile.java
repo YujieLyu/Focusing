@@ -127,12 +127,30 @@ public class Profile extends LitePalSupport implements Comparable<Profile> {
         this.startHour = startHour;
     }
 
+    public long getStartTime() {
+        return toMillis(startHour, startMin);
+    }
+
+    public void setStartTime(Calendar calendar) {
+        startHour = calendar.get(Calendar.HOUR_OF_DAY);
+        startMin = calendar.get(Calendar.MINUTE);
+    }
+
     public int getStartMin() {
         return startMin;
     }
 
     public void setStartMin(int startMin) {
         this.startMin = startMin;
+    }
+
+    public long getEndTime() {
+        return toMillis(endHour, endMin);
+    }
+
+    public void setEndTime(Calendar calendar) {
+        endHour = calendar.get(Calendar.HOUR_OF_DAY);
+        endMin = calendar.get(Calendar.MINUTE);
     }
 
     public int getEndHour() {
@@ -149,16 +167,6 @@ public class Profile extends LitePalSupport implements Comparable<Profile> {
 
     public void setEndMin(int endMin) {
         this.endMin = endMin;
-    }
-
-    public void setStartTime(Calendar calendar) {
-        startHour = calendar.get(Calendar.HOUR_OF_DAY);
-        startMin = calendar.get(Calendar.MINUTE);
-    }
-
-    public void setEndTime(Calendar calendar) {
-        endHour = calendar.get(Calendar.HOUR_OF_DAY);
-        endMin = calendar.get(Calendar.MINUTE);
     }
 
     public String getProfileName() {

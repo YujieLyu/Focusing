@@ -34,26 +34,27 @@ public class FocusTimeManager {
     }
 
     public long getTotalFocusTime(int numOfDay) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DATE, -1 * numOfDay);
-        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-        List<Profile> profiles = Profile.findAllOnSchedule(dayOfWeek);
-        List<FocusTimeStats> startNows = getTimeData(numOfDay);
         List<Long[]> periods = new ArrayList<>();
-        // TODO: fix profile time stats
-        for (Profile profile : profiles) {
-            int startHour = profile.getStartHour();
-            int startMin = profile.getStartMin();
-            long start = toMillis(startHour, startMin);
-            int endHour = profile.getEndHour();
-            int endMin = profile.getEndMin();
-            long end = toMillis(endHour, endMin);
-            if (end < start) {
-                end += DAY_IN_MILLIS;
+        if (numOfDay == 0) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.DATE, -1 * numOfDay);
+            int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+            List<Profile> profiles = Profile.findAllOnSchedule(dayOfWeek);
+            for (Profile profile : profiles) {
+                int startHour = profile.getStartHour();
+                int startMin = profile.getStartMin();
+                long start = toMillis(startHour, startMin);
+                int endHour = profile.getEndHour();
+                int endMin = profile.getEndMin();
+                long end = toMillis(endHour, endMin);
+                if (end < start) {
+                    end += DAY_IN_MILLIS;
+                }
+                periods.add(new Long[]{start, end});
             }
-            periods.add(new Long[]{start, end});
         }
-        for (FocusTimeStats stats : startNows) {
+        List<FocusTimeStats> timeStats = getTimeData(numOfDay);
+        for (FocusTimeStats stats : timeStats) {
             periods.add(new Long[]{stats.getStartTime(), stats.getEndTime()});
         }
         return TimeHelper.getTotalTimeInMillis(periods);
