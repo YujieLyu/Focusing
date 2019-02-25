@@ -61,6 +61,18 @@ public class AppInfoManager {
     }
 
     /**
+     * Reset the lock status of apps to 'false' in specific profile
+     *
+     * @param profId
+     */
+    public static void reset(int profId) {
+        Log.i(TAG, String.format("Reset all apps belonging to %s unlocked.", profId));
+        ContentValues cv = new ContentValues();
+        cv.put("islocked", 0);
+        LitePal.updateAll(AppInfo.class, cv, "profid = ?", String.valueOf(profId));
+    }
+
+    /**
      * Delete by profId
      *
      * @param profId profile ID
@@ -68,17 +80,6 @@ public class AppInfoManager {
     public synchronized void deleteByProfId(int profId) {
         int rows = LitePal.deleteAll(AppInfo.class, "profid = ?", String.valueOf(profId));
         Log.i(TAG, "Delete by profile id, Rows effected: " + rows);
-    }
-
-    /**
-     * Reset the lock status of apps to 'false' in specific profile
-     *
-     * @param profId
-     */
-    public static void reset(int profId) {
-        ContentValues cv = new ContentValues();
-        cv.put("islocked", 0);
-        LitePal.updateAll(AppInfo.class, cv, "profid = ?", String.valueOf(profId));
     }
 
     /**

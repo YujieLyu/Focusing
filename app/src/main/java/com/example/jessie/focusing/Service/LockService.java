@@ -90,6 +90,7 @@ public class LockService extends IntentService {
 
     public static void stopStartNow(Context context) {
         Log.i(TAG, "Stop start now.");
+        AppInfoManager.reset(Profile.START_NOW_PROFILE_ID);
         startNow(context, -1, -1);
     }
 
@@ -135,9 +136,6 @@ public class LockService extends IntentService {
 
     @Override
     public void onDestroy() {
-//        Intent intent = new Intent(this, RebootBroadcastReceiver.class);
-//        intent.setAction(RebootBroadcastReceiver.REBOOT_ACTION);
-//        sendBroadcast(intent);
         Log.i(TAG, "on Destroy...");
         super.onDestroy();
     }
@@ -154,28 +152,6 @@ public class LockService extends IntentService {
             }
         }
     }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    private void startMyOwnForeground() {
-        String NOTIFICATION_CHANNEL_ID = PACKAGE_NAME;
-        NotificationChannel chan = new NotificationChannel(NOTIFICATION_CHANNEL_ID, TAG, NotificationManager.IMPORTANCE_NONE);
-        chan.setLightColor(Color.BLUE);
-        chan.setLockscreenVisibility(Notification.VISIBILITY_SECRET);
-
-        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        assert manager != null;
-        manager.createNotificationChannel(chan);
-
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
-        Notification notification = notificationBuilder.setOngoing(true)
-                .setContentTitle("App is running in background")
-                .setPriority(NotificationManager.IMPORTANCE_MIN)
-                .setCategory(Notification.CATEGORY_SERVICE)
-                .setSmallIcon(R.drawable.ic_stat_name)
-                .build();
-        startForeground(SERVICE_ID, notification);
-    }
-
 
     /**
      * This method is used to check whether the current operating app needs to be locked
@@ -202,7 +178,6 @@ public class LockService extends IntentService {
         if (!inWhiteList(packageName)) {
             List<AppInfo> toLockApps = appInfoManager.getToLockApps(packageName);
             boolean toLock = !toLockApps.isEmpty();
-            recordOpenTimes(packageName, toLock);
             if (toLock) {
                 boolean startNow = toLockApps.stream()
                         .anyMatch(a -> a.getProfId() == Profile.START_NOW_PROFILE_ID);
@@ -217,9 +192,31 @@ public class LockService extends IntentService {
                 }
                 if (endTime > System.currentTimeMillis()) {
                     lockScreen(packageName, endTime, isStartNow);
-                }
+                } else toLock = false;
             }
+            recordOpenTimes(packageName, toLock);
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private void startMyOwnForeground() {
+        String NOTIFICATION_CHANNEL_ID = PACKAGE_NAME;
+        NotificationChannel chan = new NotificationChannel(NOTIFICATION_CHANNEL_ID, TAG, NotificationManager.IMPORTANCE_NONE);
+        chan.setLightColor(Color.BLUE);
+        chan.setLockscreenVisibility(Notification.VISIBILITY_SECRET);
+
+        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        assert manager != null;
+        manager.createNotificationChannel(chan);
+
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
+        Notification notification = notificationBuilder.setOngoing(true)
+                .setContentTitle("App is running in background")
+                .setPriority(NotificationManager.IMPORTANCE_MIN)
+                .setCategory(Notification.CATEGORY_SERVICE)
+                .setSmallIcon(R.drawable.ic_stat_name)
+                .build();
+        startForeground(SERVICE_ID, notification);
     }
 
     /**
