@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.Button;
 
 import com.example.jessie.focusing.Model.FocusTimeManager;
+import com.example.jessie.focusing.Model.FocusTimeStats;
 import com.example.jessie.focusing.R;
 import com.example.jessie.focusing.Service.LockService;
 import com.example.jessie.focusing.Utils.LockUtil;
@@ -16,6 +17,7 @@ import com.example.jessie.focusing.View.Shared.BaseSingleTaskActivity;
 import cn.iwgang.countdownview.CountdownView;
 
 import static com.example.jessie.focusing.Utils.AppConstants.END_TIME;
+import static com.example.jessie.focusing.Utils.AppConstants.START_TIME;
 import static com.example.jessie.focusing.Utils.TimeHelper.DAY_IN_MILLIS;
 
 /**
@@ -31,6 +33,7 @@ public class CountdownActivity extends BaseSingleTaskActivity implements Countdo
     private CountdownView cdv_count;
     private FocusTimeManager focusTimeManager;
     private boolean isStartNow;
+    private long startTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +48,8 @@ public class CountdownActivity extends BaseSingleTaskActivity implements Countdo
             Intent intent = new Intent(CountdownActivity.this, MainActivity.class);
             startActivity(intent);
             if (isStartNow) {
+                FocusTimeStats focusTimeStats = new FocusTimeStats(startTime, System.currentTimeMillis());
+                focusTimeStats.save();
                 LockService.stopStartNow(this);
             }
         });
@@ -61,17 +66,11 @@ public class CountdownActivity extends BaseSingleTaskActivity implements Countdo
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        long remainTime = cdv_count.getRemainTime();
-        long timeSummary = countTime - remainTime;
-        if (timeSummary < 0) {
-            // TODO: when stop start now
-            throw new IllegalArgumentException("Time summary is: " + timeSummary);
-        }
-        focusTimeManager.saveOrUpdateTime(timeSummary);
     }
 
     protected void initData() {
         isStartNow = getIntent().getBooleanExtra(IS_START_NOW, false);
+        startTime = getIntent().getLongExtra(START_TIME, -1);
         long endTime = getIntent().getLongExtra(END_TIME, -1);
         long currTimeStart = System.currentTimeMillis();
         if (currTimeStart < endTime) {
@@ -91,7 +90,6 @@ public class CountdownActivity extends BaseSingleTaskActivity implements Countdo
     @Override
     public void onEnd(CountdownView cv) {
         cv.stop();
-//        appInfoManager.reset(Profile.START_NOW_PROFILE_ID);
 //        moveTaskToBack(true);
         Intent intent = new Intent(CountdownActivity.this, FinishActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

@@ -2,16 +2,11 @@ package com.example.jessie.focusing.Model;
 
 import com.example.jessie.focusing.Utils.TimeHelper;
 
-import org.litepal.LitePal;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import static com.example.jessie.focusing.Utils.TimeHelper.DAY_IN_MILLIS;
-import static com.example.jessie.focusing.Utils.TimeHelper.getCurrDay;
-import static com.example.jessie.focusing.Utils.TimeHelper.getCurrMonth;
-import static com.example.jessie.focusing.Utils.TimeHelper.getCurrYear;
 import static com.example.jessie.focusing.Utils.TimeHelper.toMillis;
 
 /**
@@ -21,40 +16,6 @@ import static com.example.jessie.focusing.Utils.TimeHelper.toMillis;
  */
 public class FocusTimeManager {
 
-    public synchronized void saveOrUpdateTime(long timeSummary) {
-        int todayYear = getCurrYear();
-        int todayMonth = getCurrMonth();
-        int todayDay = getCurrDay();
-        FocusTimeStats ftInToday = FocusTimeStats.findByDate(todayYear, todayMonth, todayDay);
-        if (ftInToday != null) {
-            ftInToday.addTime(timeSummary);
-        } else {
-            ftInToday = new FocusTimeStats(timeSummary, todayYear, todayMonth, todayDay);
-        }
-        ftInToday.save();
-    }
-
-    /**
-     * Fetch all time data between the specific time range
-     *
-     * @param start
-     * @param end
-     * @return
-     */
-    public synchronized List<FocusTimeStats> getTimeData(Calendar start, Calendar end) {
-        List<FocusTimeStats> res = new ArrayList<>();
-        List<FocusTimeStats> ftDb = LitePal.findAll(FocusTimeStats.class);
-        for (FocusTimeStats time : ftDb) {
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.YEAR, time.getYear());
-            calendar.set(Calendar.MONTH, time.getMonth());
-            calendar.set(Calendar.DAY_OF_MONTH, time.getDay());
-            if (calendar.after(start) && calendar.before(end)) {
-                res.add(time);
-            }
-        }
-        return res;
-    }
 
     /**
      * Returns the used time of the specific day,
@@ -63,7 +24,7 @@ public class FocusTimeManager {
      * @param numOfDay
      * @return
      */
-    public FocusTimeStats getTimeData(int numOfDay) {
+    public List<FocusTimeStats> getTimeData(int numOfDay) {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, -1 * numOfDay);
         int year = calendar.get(Calendar.YEAR);
@@ -77,8 +38,9 @@ public class FocusTimeManager {
         calendar.add(Calendar.DATE, -1 * numOfDay);
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
         List<Profile> profiles = Profile.findAllOnSchedule(dayOfWeek);
-        // TODO: find all start now
+        List<FocusTimeStats> startNows = getTimeData(numOfDay);
         List<Long[]> periods = new ArrayList<>();
+        // TODO: fix profile time stats
         for (Profile profile : profiles) {
             int startHour = profile.getStartHour();
             int startMin = profile.getStartMin();
@@ -91,7 +53,9 @@ public class FocusTimeManager {
             }
             periods.add(new Long[]{start, end});
         }
-        // TODO: periods add all start now
+        for (FocusTimeStats stats : startNows) {
+            periods.add(new Long[]{stats.getStartTime(), stats.getEndTime()});
+        }
         return TimeHelper.getTotalTimeInMillis(periods);
     }
 }

@@ -16,6 +16,7 @@ import android.util.Log;
 
 import com.example.jessie.focusing.Model.AppInfo;
 import com.example.jessie.focusing.Model.AppInfoManager;
+import com.example.jessie.focusing.Model.FocusTimeStats;
 import com.example.jessie.focusing.Model.Profile;
 import com.example.jessie.focusing.Model.UsageManager;
 import com.example.jessie.focusing.R;
@@ -169,7 +170,9 @@ public class LockService extends IntentService {
         }
         if (startNowEndTime > -1 && startNowEndTime < System.currentTimeMillis()) {
             // NOTE: update endTime if earlier than Now.
-            // i.e., start_now did not boot or had finished.
+            // i.e., start_now had finished.
+            FocusTimeStats focusTimeStats = new FocusTimeStats(startNowStartTime, startNowEndTime);
+            focusTimeStats.save();
             startNowStartTime = -1;
             startNowEndTime = -1;// reset start now end time
             AppInfoManager.reset(Profile.START_NOW_PROFILE_ID);
@@ -198,25 +201,30 @@ public class LockService extends IntentService {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private void startMyOwnForeground() {
-        String NOTIFICATION_CHANNEL_ID = PACKAGE_NAME;
-        NotificationChannel chan = new NotificationChannel(NOTIFICATION_CHANNEL_ID, TAG, NotificationManager.IMPORTANCE_NONE);
-        chan.setLightColor(Color.BLUE);
-        chan.setLockscreenVisibility(Notification.VISIBILITY_SECRET);
-
-        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        assert manager != null;
-        manager.createNotificationChannel(chan);
-
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
-        Notification notification = notificationBuilder.setOngoing(true)
-                .setContentTitle("App is running in background")
-                .setPriority(NotificationManager.IMPORTANCE_MIN)
-                .setCategory(Notification.CATEGORY_SERVICE)
-                .setSmallIcon(R.drawable.ic_stat_name)
-                .build();
-        startForeground(SERVICE_ID, notification);
+    /**
+     * Lock specific app until end time reached
+     *
+     * @param packageName the app to lock.
+     * @param endTime     the end time of locking.
+     * @param isStartNow  specify if the app is in "Start Now" profile.
+     */
+    private void lockScreen(String packageName, long endTime, boolean isStartNow) {
+        Log.i(TAG, "Lock app: " + packageName);
+        Log.i(TAG, "End Time:" + TimeHelper.toString(endTime));
+        if (endTime < System.currentTimeMillis()) {
+            Log.e(TAG, "End Time has been reached:" + TimeHelper.toString(endTime));
+            return;
+        }
+        Intent intent = new Intent(this, CountdownActivity.class);
+//        intent.putExtra(AppConstants.PRESS_BACK, AppConstants.BACK_TO_FINISH);
+        intent.putExtra(AppConstants.LOCK_PACKAGE_NAME, packageName);
+        intent.putExtra(CountdownActivity.IS_START_NOW, isStartNow);
+        if (isStartNow) {
+            intent.putExtra(START_TIME, startNowStartTime);
+        }
+        intent.putExtra(END_TIME, endTime);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     /**
@@ -244,6 +252,34 @@ public class LockService extends IntentService {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    private void startMyOwnForeground() {
+        String NOTIFICATION_CHANNEL_ID = PACKAGE_NAME;
+        NotificationChannel chan = new NotificationChannel(NOTIFICATION_CHANNEL_ID, TAG, NotificationManager.IMPORTANCE_NONE);
+        chan.setLightColor(Color.BLUE);
+        chan.setLockscreenVisibility(Notification.VISIBILITY_SECRET);
+
+        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        assert manager != null;
+        manager.createNotificationChannel(chan);
+
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
+        Notification notification = notificationBuilder.setOngoing(true)
+                .setContentTitle("App is running in background")
+                .setPriority(NotificationManager.IMPORTANCE_MIN)
+                .setCategory(Notification.CATEGORY_SERVICE)
+                .setSmallIcon(R.drawable.ic_stat_name)
+                .build();
+        startForeground(SERVICE_ID, notification);
+    }
+
+    /**
+     * Check if the app is in white list.
+     * If so, would not lock or record it.
+     *
+     * @param packageName
+     * @return
+     */
     private boolean inWhiteList(String packageName) {
         List<String> whiteList = new ArrayList<>(Arrays.asList(
                 PACKAGE_NAME,
@@ -276,22 +312,5 @@ public class LockService extends IntentService {
             }
         }
         return result;
-    }
-
-    private void lockScreen(String packageName, long endTime, boolean isStartNow) {
-        Log.i(TAG, "Lock app: " + packageName);
-        Log.i(TAG, "End Time:" + TimeHelper.toString(endTime));
-        if (endTime < System.currentTimeMillis()) {
-            Log.e(TAG, "End Time has been reached:" + TimeHelper.toString(endTime));
-            return;
-        }
-        Intent intent = new Intent(this, CountdownActivity.class);
-//        intent.putExtra(AppConstants.PRESS_BACK, AppConstants.BACK_TO_FINISH);
-        intent.putExtra(AppConstants.LOCK_PACKAGE_NAME, packageName);
-        intent.putExtra(CountdownActivity.IS_START_NOW, isStartNow);
-//        intent.putExtra(START_TIME, start);
-        intent.putExtra(END_TIME, endTime);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
     }
 }

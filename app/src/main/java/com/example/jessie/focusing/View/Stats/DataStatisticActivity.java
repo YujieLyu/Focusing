@@ -63,7 +63,7 @@ public class DataStatisticActivity extends AppCompatActivity {
         focusTime = new ArrayList<>();
         for (int i = 0; i < STATS_DAYS; i++) {
 //            FocusTimeStats time = focusTimeManager.getTimeData(STATS_DAYS - 1 - i);
-//            float t = time == null ? 0 : (float) (time.getTime() / 1000 / 60);
+//            float t = time == null ? 0 : (float) (time.getStartTime() / 1000 / 60);
             long totalTime = focusTimeManager.getTotalFocusTime(STATS_DAYS - 1 - i);
             float t = (float) (totalTime / 1000 / 60);
             savedTime += t;

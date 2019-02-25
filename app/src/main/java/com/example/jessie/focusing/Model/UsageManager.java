@@ -104,7 +104,7 @@ public class UsageManager {
      */
     public synchronized List<AppUsage> getMostUsedAppsInDays(int days) {
         List<AppUsage> appUsages = LitePal.findAll(AppUsage.class);
-        Log.i(TAG, "Find from database: " + appUsages.size());
+        Log.i(TAG, "Find all app usages from database: " + appUsages.size());
         Calendar start = Calendar.getInstance();
         start.add(Calendar.DATE, days);
         Calendar end = Calendar.getInstance();
@@ -131,7 +131,7 @@ public class UsageManager {
                 }
             }
         }
-        Log.i(TAG, "Filtered data size: " + res.size());
+        Log.i(TAG, "Get most used apps size: " + res.size());
         res.sort(AppUsage::compareTo);
         return res;
     }
@@ -162,8 +162,8 @@ public class UsageManager {
         long endTime = calendar.getTimeInMillis();
         String msg = String.format(
                 "Fetch usage stats from %s to %s",
-                TimeHelper.toString(startTime, "MM/dd HH:mm"),
-                TimeHelper.toString(endTime, "MM/dd HH:mm")
+                TimeHelper.toString(startTime, "MM/dd HH:mm:ss"),
+                TimeHelper.toString(endTime, "MM/dd HH:mm:ss")
         );
         Log.i(TAG, msg);
         UsageStatsManager manager = (UsageStatsManager) context.getSystemService(USAGE_STATS_SERVICE);

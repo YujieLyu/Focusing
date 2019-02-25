@@ -1,8 +1,14 @@
 package com.example.jessie.focusing.Model;
 
+import android.util.Log;
+
+import com.example.jessie.focusing.Utils.TimeHelper;
+
 import org.litepal.LitePal;
 import org.litepal.annotation.Column;
 import org.litepal.crud.LitePalSupport;
+
+import java.util.List;
 
 import static com.example.jessie.focusing.Utils.TimeHelper.getCurrDay;
 import static com.example.jessie.focusing.Utils.TimeHelper.getCurrMonth;
@@ -14,10 +20,13 @@ import static com.example.jessie.focusing.Utils.TimeHelper.getCurrYear;
  * @time : 12:38
  */
 public class FocusTimeStats extends LitePalSupport {
+    private static String TAG = FocusTimeStats.class.getSimpleName();
     @Column
     private int id;
     @Column
-    private long time;
+    private long startTime;
+    @Column
+    private long endTime;
     @Column
     private int year;
     @Column
@@ -25,20 +34,36 @@ public class FocusTimeStats extends LitePalSupport {
     @Column
     private int day;
 
-    public FocusTimeStats(long time, int year, int month, int day) {
-        this.time = time;
+    public FocusTimeStats(long startTime, int year, int month, int day) {
+        this.startTime = startTime;
         this.year = year;
         this.month = month;
         this.day = day;
     }
 
-    public static FocusTimeStats findInToday() {
+    public FocusTimeStats(long startTime, long endTime) {
+        Log.i(TAG, String.format(
+                "Focus during: %s ~ %s",
+                TimeHelper.toString(startTime),
+                TimeHelper.toString(endTime))
+        );
+        if (startTime < 0 || endTime < startTime) {
+            throw new IllegalArgumentException("Invalid start/end/time");
+        }
+        this.startTime = startTime;
+        this.endTime = endTime;
+        year = getCurrYear();
+        month = getCurrMonth();
+        day = getCurrDay();
+    }
+
+    public static List<FocusTimeStats> findInToday() {
         return findByDate(getCurrYear(), getCurrMonth(), getCurrDay());
     }
 
-    public static FocusTimeStats findByDate(int year, int month, int day) {
+    public static List<FocusTimeStats> findByDate(int year, int month, int day) {
         String where = String.format("year = %s and month = %s and day = %s", year, month, day);
-        return LitePal.where(where).findLast(FocusTimeStats.class);
+        return LitePal.where(where).find(FocusTimeStats.class);
     }
 
     public int getId() {
@@ -49,16 +74,16 @@ public class FocusTimeStats extends LitePalSupport {
         this.id = id;
     }
 
-    public long getTime() {
-        return time;
+    public long getStartTime() {
+        return startTime;
     }
 
-    public void setTime(long time) {
-        this.time = time;
+    public void setStartTime(long startTime) {
+        this.startTime = startTime;
     }
 
     public void addTime(long time) {
-        this.time += time;
+        this.startTime += time;
     }
 
     public int getYear() {
@@ -83,5 +108,13 @@ public class FocusTimeStats extends LitePalSupport {
 
     public void setDay(int day) {
         this.day = day;
+    }
+
+    public long getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(long endTime) {
+        this.endTime = endTime;
     }
 }
