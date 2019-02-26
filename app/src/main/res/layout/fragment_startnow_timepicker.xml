@@ -17,7 +17,6 @@
         android:layout_height="wrap_content"
         android:scaleX="1.05"
         android:scaleY="1.05"
-
         />
 
     <TextView

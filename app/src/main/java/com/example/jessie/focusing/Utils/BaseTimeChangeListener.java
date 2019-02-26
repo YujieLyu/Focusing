@@ -10,7 +10,7 @@ import com.example.jessie.focusing.Interface.OnTimeChangeListener;
  * @date : 22-01-2019
  * @time : 21:48
  */
-public class BaseTimeChangeListener implements OnTimeChangeListener {
+public abstract class BaseTimeChangeListener implements OnTimeChangeListener {
 
     @Override
     public void onStartTimeChanged(float startDegree, float endDegree) {
@@ -19,13 +19,12 @@ public class BaseTimeChangeListener implements OnTimeChangeListener {
 
 
     @Override
-    public void onEndTimeChanged(float startDegree, float endDegree) {
+    public void onEndTimeChanged(long startTime, long endTime) {
 
     }
 
-
     @Override
-    public void onInitTime(float startDegree, float endDegree) {
+    public void onInitTime(long startTime, long endTime) {
 
     }
 

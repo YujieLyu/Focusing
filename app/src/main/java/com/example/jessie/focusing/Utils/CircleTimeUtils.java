@@ -1,15 +1,16 @@
 package com.example.jessie.focusing.Utils;
 
+import com.example.jessie.focusing.widget.CirclePicker;
+
 import java.util.Calendar;
 
 /**
  * @author : Yujie Lyu
  */
 public class CircleTimeUtils {
-    public static final int FULL_ANGLE = 720;
 
     public static int toMillis(float angle) {
-        return (int) ((angle / FULL_ANGLE) * (24 * 60 * 60 * 1000));
+        return (int) ((angle / CirclePicker.DEF_MAX_ANGLE) * (24 * 60 * 60 * 1000));
     }
 
     public static String toString(float angle) {

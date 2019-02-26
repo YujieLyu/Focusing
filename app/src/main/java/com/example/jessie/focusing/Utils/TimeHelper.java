@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author : Yujie Lyu
@@ -95,36 +96,28 @@ public class TimeHelper {
         return curr.get(Calendar.DAY_OF_MONTH);
     }
 
-    @Deprecated
-    public static String showInterval(Calendar timeStart, Calendar timeEnd) {
-        //todo:need to optimize the calculate,do it later
-        int hours;
-        int mins;
-        String countTime;
-        hours = timeEnd.get(Calendar.HOUR_OF_DAY) - timeStart.get(Calendar.HOUR_OF_DAY);
-        mins = timeEnd.get(Calendar.MINUTE) - timeStart.get(Calendar.MINUTE);
-        if (hours == 0) {
-            if (mins >= 0) {
-                countTime = String.format("%02d h %02d m", hours, mins);
-            } else {
-                countTime = String.format("%02d h %02d m", 23, mins + 60);
-            }
-        } else if (hours > 0) {
-            if (mins >= 0) {
-                countTime = String.format("%02d h %02d m", hours, mins);
-            } else {
-                countTime = String.format("%02d h %02d m", hours - 1, mins + 60);
-            }
-        } else {
-            if (mins >= 0) {
-                countTime = String.format("%02d h %02d m", hours + 24, mins);
-            } else {
-                countTime = String.format("%02d h %02d m", hours + 23, mins + 60);
-            }
+    /**
+     * Calculates the duration between two points-in-time.
+     *
+     * @param start
+     * @param end
+     * @return
+     */
+    public static String calcDuration(long start, long end) {
+        if (end < start) {
+            end += DAY_IN_MILLIS;
         }
+        long diff = end - start;
+        long mins = TimeUnit.MILLISECONDS.toMinutes(diff);
+        long hours = mins / 60;
+        mins %= 60;
+        return String.format(Locale.getDefault(), "%02d h %02d m", hours, mins);
+    }
 
-        return countTime;
-
+    private static String getFormatDate(int numOfDay, String pattern) {
+        long millis = System.currentTimeMillis() + -1 * numOfDay * DAY_IN_MILLIS;
+        Date date = new Date(millis);
+        return new SimpleDateFormat(pattern, Locale.getDefault()).format(date);
     }
 
     /**
@@ -134,9 +127,7 @@ public class TimeHelper {
      * @return
      */
     public static String getDayOfMonth(int numOfDay) {
-        long millis = System.currentTimeMillis() + -1 * numOfDay * DAY_IN_MILLIS;
-        Date date = new Date(millis);
-        return new SimpleDateFormat("dd", Locale.getDefault()).format(date);
+        return getFormatDate(numOfDay, "dd");
     }
 
     /**
@@ -146,9 +137,7 @@ public class TimeHelper {
      * @return
      */
     public static String getDayOfWeek(int numOfDay) {
-        long millis = System.currentTimeMillis() + -1 * numOfDay * DAY_IN_MILLIS;
-        Date date = new Date(millis);
-        return new SimpleDateFormat("EEE", Locale.getDefault()).format(date);
+        return getFormatDate(numOfDay, "EEE");
     }
 
     /**
@@ -228,5 +217,9 @@ public class TimeHelper {
         long startTime = date.atStartOfDay(defZone).toInstant().toEpochMilli();
         long endTime = date.plusDays(1).atStartOfDay(defZone).toInstant().toEpochMilli();
         return new long[]{startTime, endTime};
+    }
+
+    public static long getStartOfToday() {
+        return LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli();
     }
 }

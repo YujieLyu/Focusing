@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="Circle_Picker">
+    <declare-styleable name="CirclePicker">
 
         <!--角度的周期-->
-        <attr name="Degree_Cycle" format="integer" />
+        <attr name="max_angle" format="integer" />
         <!--开始时间的圆盘角度-->
         <attr name="Start_Degree" format="float" />
         <!--结束时间的圆盘角度-->

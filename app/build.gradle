@@ -46,7 +46,7 @@ dependencies {
 //    time count down view
     implementation 'com.github.iwgang:countdownview:2.1.6'
 //    //time picker
-    implementation 'com.kyesun.ly:CircleTimePicker:1.0.0'
+//    implementation 'com.kyesun.ly:CircleTimePicker:1.0.0'
     implementation 'com.contrarywind:Android-PickerView:4.1.7'
     //bar chart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0-alpha'

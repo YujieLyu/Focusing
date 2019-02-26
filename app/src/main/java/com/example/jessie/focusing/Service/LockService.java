@@ -290,7 +290,6 @@ public class LockService extends IntentService {
             return;
         }
         Intent intent = new Intent(this, CountdownActivity.class);
-//        intent.putExtra(AppConstants.PRESS_BACK, AppConstants.BACK_TO_FINISH);
         intent.putExtra(AppConstants.LOCK_PACKAGE_NAME, packageName);
         intent.putExtra(CountdownActivity.IS_START_NOW, isStartNow);
         if (isStartNow) {

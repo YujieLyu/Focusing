@@ -92,6 +92,4 @@ public class FocusNowActivity extends AppCompatActivity {
         StatusBarUtil.setStatusTransparent(this);
         StatusBarUtil.setDarkStatusIcon(this, true);
     }
-
-
 }

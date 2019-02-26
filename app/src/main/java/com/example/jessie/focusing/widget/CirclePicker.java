@@ -20,8 +20,11 @@ import android.view.View;
 
 import com.example.jessie.focusing.Interface.OnTimeChangeListener;
 import com.example.jessie.focusing.R;
+import com.example.jessie.focusing.Utils.TimeHelper;
 
 import static android.os.Build.VERSION_CODES.M;
+import static com.example.jessie.focusing.Utils.TimeHelper.DAY_IN_MILLIS;
+import static com.example.jessie.focusing.Utils.TimeHelper.HOUR_IN_MILLIS;
 
 /**
  * @author : Yujie Lyu
@@ -29,6 +32,7 @@ import static android.os.Build.VERSION_CODES.M;
  * @time : 21:04
  */
 public class CirclePicker extends View {
+    public static final int DEF_MAX_ANGLE = 720;
     private final Context context;
     private float mStartDegree; //开始按钮的进度
     private float mEndDegree; //结束按钮的进度
@@ -36,19 +40,15 @@ public class CirclePicker extends View {
     private int mBtnSize; //按键的宽度
     private float mStartBtnAngle;  //开始按钮的旋转角度
     private float mEndBtnAngle; //结束按钮的旋转角度
-
     private int mBtnImgSize;  //按钮图片的宽度
     private float mStartBtnCurX, mStartBtnCurY; //开始按钮中心的位置
     private float mEndBtnCurX, mEndBtnCurY; //结束按钮中心的位置
-
     private Paint mCirclePaint; //圆环的画笔
     private Paint mProgressPaint;//选中的画笔
     private Bitmap mClockBg;
-    private int mDegreeCycle;
-
+    private int maxAngle;
     private Bitmap mStartBtnBg;//开始按钮背景图
     private Bitmap mEndBtnBg;//结束按钮背景图
-
     private int mMinViewSize;//控件的最小尺寸
     private int mClockSize;//时钟的最小尺寸
     private Paint mDefaultPaint;
@@ -75,12 +75,16 @@ public class CirclePicker extends View {
     public CirclePicker(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.context = context;
-//        自定义属性
+        //        自定义属性
         initAttrs(attrs, defStyleAttr);
 //      初始化画笔
         initPaints();
 //        初始化
         initValue();
+    }
+
+    public int getMaxAngle() {
+        return maxAngle;
     }
 
     private void initValue() {
@@ -90,37 +94,36 @@ public class CirclePicker extends View {
 
     //初始化属性
     private void initAttrs(AttributeSet attrs, int defStyle) {
-        TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.Circle_Picker, defStyle, 0);
-
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.CirclePicker, defStyle, 0);
 //       角度的最大周期
-        mDegreeCycle = typedArray.getInt(R.styleable.Circle_Picker_Degree_Cycle, 720);
+        maxAngle = typedArray.getInt(R.styleable.CirclePicker_max_angle, DEF_MAX_ANGLE);
 //      开始时间的圆盘角度
-        mStartDegree = typedArray.getFloat(R.styleable.Circle_Picker_Start_Degree, 0);
+        mStartDegree = typedArray.getFloat(R.styleable.CirclePicker_Start_Degree, 0);
 //        结束时间的圆盘角度
-        mEndDegree = typedArray.getFloat(R.styleable.Circle_Picker_End_Degree, 45);
+        mEndDegree = typedArray.getFloat(R.styleable.CirclePicker_End_Degree, 45);
 
-        if (mStartDegree > mDegreeCycle)
-            mStartDegree = mStartDegree % mDegreeCycle;
+        if (mStartDegree > maxAngle)
+            mStartDegree = mStartDegree % maxAngle;
 
-        if (mEndDegree > mDegreeCycle)
-            mEndDegree = mEndDegree % mDegreeCycle;
+        if (mEndDegree > maxAngle)
+            mEndDegree = mEndDegree % maxAngle;
 
 //        开始按钮的背景
-        int startBtnBgId = typedArray.getResourceId(R.styleable.Circle_Picker_Start_Btn_Bg, R.mipmap.icon_circle_picker_start_btn);
+        int startBtnBgId = typedArray.getResourceId(R.styleable.CirclePicker_Start_Btn_Bg, R.mipmap.icon_circle_picker_start_btn);
         mStartBtnBg = BitmapFactory.decodeResource(getResources(), startBtnBgId);
 
-        int endBtnBgId = typedArray.getResourceId(R.styleable.Circle_Picker_End_Btn_Bg, R.mipmap.icon_circle_picker_end_btn);
+        int endBtnBgId = typedArray.getResourceId(R.styleable.CirclePicker_End_Btn_Bg, R.mipmap.icon_circle_picker_end_btn);
         mEndBtnBg = BitmapFactory.decodeResource(getResources(), endBtnBgId);
 
 //        按钮图片的宽度
         mBtnImgSize = Math.max(Math.max(mStartBtnBg.getWidth(), mStartBtnBg.getHeight()), Math.max(mEndBtnBg.getWidth(), mEndBtnBg.getHeight()));
 //      按钮图片与背景的差值
-        int mBtnOffset = typedArray.getInt(R.styleable.Circle_Picker_Btn_Offset_Size, 8);
+        int mBtnOffset = typedArray.getInt(R.styleable.CirclePicker_Btn_Offset_Size, 8);
 //        按键的宽度
-        mBtnSize = typedArray.getInt(R.styleable.Circle_Picker_Btn_Width, mBtnImgSize + mBtnOffset);
+        mBtnSize = typedArray.getInt(R.styleable.CirclePicker_Btn_Width, mBtnImgSize + mBtnOffset);
 
 //        时钟的背景
-        int clockBgId = typedArray.getResourceId(R.styleable.Circle_Picker_Clock_Bg, R.mipmap.setalarm_colock_bg);
+        int clockBgId = typedArray.getResourceId(R.styleable.CirclePicker_Clock_Bg, R.mipmap.setalarm_colock_bg);
         mClockBg = BitmapFactory.decodeResource(getResources(), clockBgId);
         mClockSize = Math.max(mClockBg.getWidth(), mClockBg.getHeight());
 
@@ -128,11 +131,11 @@ public class CirclePicker extends View {
 
 
 //        进度条的颜色
-        mRingDefaultColor = typedArray.getColor(R.styleable.Circle_Picker_Ring_Default_Color, Color.parseColor("#70c6c6c6"));
+        mRingDefaultColor = typedArray.getColor(R.styleable.CirclePicker_Ring_Default_Color, Color.parseColor("#70c6c6c6"));
 //        开始按钮的颜色
-        mStartBtnColor = typedArray.getColor(R.styleable.Circle_Picker_Start_Btn_Color, Color.parseColor("#7c85e6"));
+        mStartBtnColor = typedArray.getColor(R.styleable.CirclePicker_Start_Btn_Color, Color.parseColor("#7c85e6"));
 //        结束按钮的颜色
-        mEndBtnColor = typedArray.getColor(R.styleable.Circle_Picker_End_Btn_Color, Color.parseColor("#bf7be0"));
+        mEndBtnColor = typedArray.getColor(R.styleable.CirclePicker_End_Btn_Color, Color.parseColor("#bf7be0"));
 
         typedArray.recycle();
     }
@@ -186,14 +189,14 @@ public class CirclePicker extends View {
     }
 
     private void refreshBtnPosition() {
-        refreshStartBtnPositon();
+        refreshStartBtnPosition();
         refreshEndBtnPosition();
     }
 
     /**
      * 刷新开始按钮的位置
      */
-    public void refreshStartBtnPositon() {
+    public void refreshStartBtnPosition() {
         //转换为360度
         mStartBtnAngle = mStartDegree % 360;
         double startCos = Math.cos(Math.toRadians(mStartBtnAngle));
@@ -292,18 +295,19 @@ public class CirclePicker extends View {
 //                    Log.d("TAG", "d1==" + d1);
 
 //                  直线l2的表达式:过钟表中心点且垂直直线l1
-                    float a2 = b1;
                     float b2 = -a1;
-                    float c2 = -a2 * mCenterX - b2 * mCenterY;
-                    double d2 = (a2 * eventX + b2 * eventY + c2) / (Math.sqrt(a2 * a2 + b2 * b2));
+                    float c2 = -b1 * mCenterX - b2 * mCenterY;
+                    double d2 = (b1 * eventX + b2 * eventY + c2) / (Math.sqrt(b1 * b1 + b2 * b2));
 //                    Log.d("TAG", "d2==" + d2);
 //                    以l1为基准线,顺势针半圆为0-180度,逆时针半圆为0-负180度
                     double moveDegree = Math.toDegrees(Math.atan2(d1, d2));
 //                    Log.d("Test", "moveDegree==" + moveDegree);
                     mEndDegree = (float) (mEndDegree + Math.floor(moveDegree));
-                    mEndDegree = (mEndDegree < 0) ? mEndDegree + mDegreeCycle : mEndDegree % mDegreeCycle;
+                    mEndDegree = (mEndDegree < 0) ? mEndDegree + maxAngle : mEndDegree % maxAngle;
                     if (mOnTimeChangeListener != null) {
-                        mOnTimeChangeListener.onEndTimeChanged(mStartDegree, mEndDegree);
+                        long startTime = toMillis(mStartDegree) + TimeHelper.getStartOfToday();
+                        long endTime = toMillis(mEndDegree) + TimeHelper.getStartOfToday();
+                        mOnTimeChangeListener.onEndTimeChanged(startTime, endTime);
                     }
                     refreshEndBtnPosition();
                     Log.d("Test", "mEndDegree==" + mEndDegree);
@@ -314,9 +318,7 @@ public class CirclePicker extends View {
                             "mEndBtnCurX==" + mEndBtnCurX + "\n" +
                             "/mEndBtnCurY==" + mEndBtnCurY);
                     invalidate();
-
                 }
-//
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
@@ -334,14 +336,14 @@ public class CirclePicker extends View {
         super.onDraw(canvas);
 
 //        圆心坐标
-        mCenterX = canvas.getWidth() / 2;
-        mCenterY = canvas.getHeight() / 2;
+        mCenterX = getWidth() / 2;
+        mCenterY = getHeight() / 2;
 
 //        默认的圆环进度条的半径
         mWheelRadius = (mMinViewSize - mBtnSize) / 2;
         canvas.drawCircle(mCenterX, mCenterY, mWheelRadius, mCirclePaint);
 
-        canvas.drawBitmap(mClockBg, mCenterX - mClockSize / 2, mCenterY - mClockSize / 2, mDefaultPaint);
+        canvas.drawBitmap(mClockBg, mCenterX - mClockSize / 2F, mCenterY - mClockSize / 2F, mDefaultPaint);
 
 //      画选中区域
         float begin = 0; //圆弧的起点位置
@@ -361,8 +363,8 @@ public class CirclePicker extends View {
 
 
 //        结束按钮
-        canvas.drawCircle(mEndBtnCurX, mEndBtnCurY, mBtnSize / 2, mEndBtnPaint);
-        canvas.drawBitmap(mEndBtnBg, mEndBtnCurX - mBtnImgSize / 2, mEndBtnCurY - mBtnImgSize / 2, mDefaultPaint);
+        canvas.drawCircle(mEndBtnCurX, mEndBtnCurY, mBtnSize / 2F, mEndBtnPaint);
+        canvas.drawBitmap(mEndBtnBg, mEndBtnCurX - mBtnImgSize / 2F, mEndBtnCurY - mBtnImgSize / 2F, mDefaultPaint);
 
 
 //        开始按钮--取消
@@ -409,7 +411,7 @@ public class CirclePicker extends View {
     public void setOnTimerChangeListener(OnTimeChangeListener listener) {
         if (mOnTimeChangeListener == null) {
             this.mOnTimeChangeListener = listener;
-            mOnTimeChangeListener.onInitTime(mStartDegree, mEndDegree);
+//            mOnTimeChangeListener.onInitTime(mStartDegree, mEndDegree);
         }
     }
 
@@ -419,15 +421,36 @@ public class CirclePicker extends View {
      * @param initStartDegree
      * @param initEndDegree
      */
+    @Deprecated
     public void setInitialTime(float initStartDegree, float initEndDegree) {
-        mStartDegree = (initStartDegree < 0) ? initStartDegree + mDegreeCycle : initStartDegree % mDegreeCycle;
-        mEndDegree = (initEndDegree < 0) ? initEndDegree + mDegreeCycle : initEndDegree % mDegreeCycle;
+        mStartDegree = (initStartDegree < 0) ? initStartDegree + maxAngle : initStartDegree % maxAngle;
+        mEndDegree = (initEndDegree < 0) ? initEndDegree + maxAngle : initEndDegree % maxAngle;
         if (mOnTimeChangeListener != null) {
-            mOnTimeChangeListener.onInitTime(mStartDegree, mEndDegree);
+            mOnTimeChangeListener.onInitTime(toMillis(mStartDegree), toMillis(mEndDegree));
         }
         refreshBtnPosition();
     }
 
+    public void setInitialTime(long startTime, long endTime) {
+        long midnight = TimeHelper.getStartOfToday();
+        mStartDegree = toAngle(startTime - midnight);
+        mEndDegree = toAngle(endTime - midnight);
+        if (mOnTimeChangeListener != null) {
+            mOnTimeChangeListener.onInitTime(startTime, endTime);
+        }
+        refreshBtnPosition();
+    }
+
+    private long toMillis(float angle) {
+        return (long) (angle / maxAngle * getTotalHours() * HOUR_IN_MILLIS);
+    }
+
+    private float toAngle(long millis) {
+        if (millis < 0) {
+            millis += DAY_IN_MILLIS;
+        }
+        return maxAngle * millis * 1F / (HOUR_IN_MILLIS * getTotalHours());
+    }
 
     /**
      * 获取两坐标点的直线距离
@@ -440,5 +463,13 @@ public class CirclePicker extends View {
      */
     public float getDistance(float x1, float y1, float x2, float y2) {
         return (float) Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
+    }
+
+    private int getTotalHours() {
+        return maxAngle == DEF_MAX_ANGLE ? 24 : 12;
+    }
+
+    public boolean is24Hours() {
+        return maxAngle == DEF_MAX_ANGLE;
     }
 }
