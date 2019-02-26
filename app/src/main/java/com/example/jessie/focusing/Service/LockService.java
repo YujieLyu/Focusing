@@ -73,6 +73,12 @@ public class LockService extends IntentService {
         start(context, intent);
     }
 
+    /**
+     * Restarts {@link LockService} and specify if to update profile settings.
+     *
+     * @param context
+     * @param toUpdate if to update profile settings
+     */
     public static void updateProfiles(Context context, boolean toUpdate) {
         Intent intent = new Intent(context, LockService.class);
         intent.putExtra(INTERVAL, DEF_INTERVAL);
@@ -148,6 +154,7 @@ public class LockService extends IntentService {
                 (startNowStartTime < 0 ? startNowStartTime : TimeHelper.toString(startNowStartTime)));
         Log.i(TAG, "End Time is: " +
                 (startNowEndTime < 0 ? startNowEndTime : TimeHelper.toString(startNowEndTime)));
+        Log.i(TAG, "To update profile settings: " + toUpdateProfiles);
         super.onStart(intent, startId);
     }
 
@@ -175,6 +182,9 @@ public class LockService extends IntentService {
         }
     }
 
+    /**
+     * Gets all started profile from database.
+     */
     private void updateProfiles() {
         startedProfiles = Profile.findAllStarted();
         Log.i(TAG, "Started Profiles updated - size:" + startedProfiles.size());
@@ -249,6 +259,11 @@ public class LockService extends IntentService {
         return startNowEndTime > -1 && startNowEndTime <= System.currentTimeMillis();
     }
 
+    /**
+     * Saves focused time.
+     * Resets start now time to -1.
+     * Resets app info in database.
+     */
     private void resetStartNow() {
         // NOTE: update endTime if earlier than Now.
         // i.e., start_now had finished.
@@ -323,7 +338,7 @@ public class LockService extends IntentService {
         }
     }
 
-    private void createNotificationManager() {
+    private void createNotificationChannel() {
         String NOTIFICATION_CHANNEL_ID = PACKAGE_NAME;
         NotificationChannel chan = new NotificationChannel(
                 NOTIFICATION_CHANNEL_ID,
@@ -335,7 +350,7 @@ public class LockService extends IntentService {
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
-    private Notification notifyFinish(String title, String content) {
+    private Notification createNotification(String title, String content) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, PACKAGE_NAME);
         builder.setOngoing(false)
                 .setAutoCancel(true)
@@ -365,7 +380,7 @@ public class LockService extends IntentService {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private void startMyOwnForeground() {
-        createNotificationManager();
+        createNotificationChannel();
         Notification notification = createPermanentNotification(null);
         startForeground(SERVICE_ID, notification);
     }

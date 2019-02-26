@@ -41,7 +41,7 @@ public class FocusTimeStats extends LitePalSupport {
                 TimeHelper.toString(endTime))
         );
         if (startTime < 0 || endTime < startTime) {
-            throw new IllegalArgumentException("Invalid start/end/time");
+            throw new IllegalArgumentException("Invalid start/end time");
         }
         this.startTime = startTime;
         this.endTime = endTime;

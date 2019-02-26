@@ -9,11 +9,10 @@ import org.litepal.crud.LitePalSupport;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 
+import static com.example.jessie.focusing.Utils.TimeHelper.DAY_IN_MILLIS;
 import static com.example.jessie.focusing.Utils.TimeHelper.betweenRange;
-import static com.example.jessie.focusing.Utils.TimeHelper.toMillis;
 
 /**
  * @author : Yujie Lyu
@@ -22,25 +21,15 @@ import static com.example.jessie.focusing.Utils.TimeHelper.toMillis;
  */
 public class Profile extends LitePalSupport implements Comparable<Profile> {
     public static final int START_NOW_PROFILE_ID = -10;
-    public static final String[] REPEAT_TYPE = {
-            "None",
-            "Everyday",
-            "Every Monday", "Every Tuesday", "Every Wednesday",
-            "Every Thursday", "Every Friday", "Every Saturday", "Every Sunday"
-    };
 
     @Column(unique = true)
     private int id;
     @Column(unique = true)
     private String profileName;
     @Column
-    private int startHour;
+    private long startTime;
     @Column
-    private int startMin;
-    @Column
-    private int endHour;
-    @Column
-    private int endMin;
+    private long endTime;
     @Column(defaultValue = "-1")
     private int repeatId = -1;
 
@@ -87,8 +76,8 @@ public class Profile extends LitePalSupport implements Comparable<Profile> {
         if (!onSchedule(profile, dayOfWeek)) {
             return false;
         }
-        long start = profile.getStartTime();
-        long end = profile.getEndTime();
+        long start = profile.startTime;
+        long end = profile.endTime;
         long curr = System.currentTimeMillis();
         return betweenRange(start, end, curr);
     }
@@ -121,8 +110,8 @@ public class Profile extends LitePalSupport implements Comparable<Profile> {
         List<Profile> onGoing = findAllOnSchedule(dayOfWeek);
         Set<Profile> profiles = new HashSet<>();
         for (Profile profile : onGoing) {
-            long start = profile.getStartTime();
-            long end = profile.getEndTime();
+            long start = profile.startTime;
+            long end = profile.endTime;
             if (betweenRange(start, end, now)) {
                 profiles.add(profile);
             }
@@ -144,63 +133,38 @@ public class Profile extends LitePalSupport implements Comparable<Profile> {
         return WeekDays.getValue(dayOfWeek);
     }
 
-    public int getStartHour() {
-        return startHour;
-    }
-
-    public void setStartHour(int startHour) {
-        this.startHour = startHour;
-    }
-
     public long getStartTime() {
-        return toMillis(startHour, startMin);
+        return startTime;
     }
 
-    public void setStartTime(Calendar calendar) {
-        startHour = calendar.get(Calendar.HOUR_OF_DAY);
-        startMin = calendar.get(Calendar.MINUTE);
-    }
-
-    public int getStartMin() {
-        return startMin;
-    }
-
-    public void setStartMin(int startMin) {
-        this.startMin = startMin;
+    public void setStartTime(long startTime) {
+        this.startTime = startTime;
     }
 
     public long getEndTime() {
-        return toMillis(endHour, endMin);
+        if (endTime < startTime) {
+            endTime += DAY_IN_MILLIS;
+        }
+        return endTime;
     }
 
-    public void setEndTime(Calendar calendar) {
-        endHour = calendar.get(Calendar.HOUR_OF_DAY);
-        endMin = calendar.get(Calendar.MINUTE);
+    public void setEndTime(long endTime) {
+        this.endTime = endTime;
+    }
+
+    public void setTime(long startTime, long endTime) {
+        this.startTime = startTime;
+        if (endTime < startTime) {
+            endTime += DAY_IN_MILLIS;
+        }
+        this.endTime = endTime;
     }
 
     public long getDuration() {
-        long startTime = getStartTime();
-        long endTime = getEndTime();
         if (endTime < startTime) {
-            endTime += TimeHelper.DAY_IN_MILLIS;
+            endTime += DAY_IN_MILLIS;
         }
         return endTime - startTime;
-    }
-
-    public int getEndHour() {
-        return endHour;
-    }
-
-    public void setEndHour(int endHour) {
-        this.endHour = endHour;
-    }
-
-    public int getEndMin() {
-        return endMin;
-    }
-
-    public void setEndMin(int endMin) {
-        this.endMin = endMin;
     }
 
     public String getProfileName() {
@@ -246,15 +210,11 @@ public class Profile extends LitePalSupport implements Comparable<Profile> {
     }
 
     public String getStartTimeStr() {
-        return getTimeStr(startHour, startMin);
+        return TimeHelper.toString(startTime);
     }
 
     public String getEndTimeStr() {
-        return getTimeStr(endHour, endMin);
-    }
-
-    private String getTimeStr(int hour, int min) {
-        return String.format(Locale.getDefault(), "%02d:%02d", hour, min);
+        return TimeHelper.toString(endTime);
     }
 
     /**
@@ -268,16 +228,8 @@ public class Profile extends LitePalSupport implements Comparable<Profile> {
 
     @Override
     public int compareTo(Profile o) {
-        if (startHour != o.startHour) {
-            return startHour - o.startHour;
-        }
-        if (startMin != o.startMin) {
-            return startMin - o.startMin;
-        }
-        if (endHour != o.endHour) {
-            return o.endHour - endHour;
-        }
-        return o.endMin - endMin;
+        int res = Long.compare(startTime, o.startTime);
+        return res == 0 ? Long.compare(endTime, o.endTime) : res;
     }
 
     public void saveOrUpdate() {

@@ -10,6 +10,7 @@ import java.util.Calendar;
 
 import static com.example.jessie.focusing.Utils.AppConstants.STATS_DAYS;
 import static com.example.jessie.focusing.Utils.TimeHelper.HOUR_IN_MILLIS;
+import static com.example.jessie.focusing.Utils.TimeHelper.toMillis;
 
 /**
  * @author : Yujie Lyu
@@ -33,18 +34,12 @@ public class SeedData {
         dataType = Profile.class.getSimpleName();
         Profile a = new Profile();
         a.setProfileName("Reading");
-        a.setStartHour(20);
-        a.setStartMin(0);
-        a.setEndHour(21);
-        a.setStartMin(0);
+        a.setTime(toMillis(20, 0), toMillis(21, 0));
         a.setRepeatId(0);
         a.saveAsync().listen(SeedData::onFinish);
         Profile b = new Profile();
         b.setProfileName("Meeting");
-        b.setStartHour(10);
-        b.setStartMin(0);
-        b.setEndHour(12);
-        b.setEndMin(0);
+        a.setTime(toMillis(10, 0), toMillis(12, 0));
         b.setRepeatId(0x0000011);
         b.saveAsync().listen(SeedData::onFinish);
     }

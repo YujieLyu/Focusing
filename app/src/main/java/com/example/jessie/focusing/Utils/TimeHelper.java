@@ -65,14 +65,19 @@ public class TimeHelper {
         return time - start >= 0 && end - time > 0;
     }
 
+    /**
+     * Converts specific hour and min to millis.
+     *
+     * @param hour
+     * @param min
+     * @return
+     */
     public static long toMillis(int hour, int min) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, hour);
         calendar.set(Calendar.MINUTE, min);
         calendar.set(Calendar.SECOND, 0);
-        long res = calendar.getTimeInMillis();
-//        Log.i(TAG, "To Millis - Origin Time: " + toString(res, "MM/dd HH:mm:ss"));
-        return res;
+        return calendar.getTimeInMillis();
     }
 
     public static int getCurrYear() {

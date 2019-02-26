@@ -18,6 +18,7 @@ import com.example.jessie.focusing.Model.Profile;
 import com.example.jessie.focusing.Model.WeekDays;
 import com.example.jessie.focusing.R;
 import com.example.jessie.focusing.Service.LockService;
+import com.example.jessie.focusing.Utils.TimeHelper;
 import com.example.jessie.focusing.widget.TimePickerFragment;
 
 import static com.example.jessie.focusing.Utils.AppConstants.PROFILE_ID;
@@ -78,7 +79,9 @@ public class ProfScheduleFragment extends Fragment implements View.OnClickListen
 
     private void initView() {
         tv_startTime.setText(profile.getStartTimeStr());
+        tv_startTime.setTag(profile.getStartTime());
         tv_endTime.setText(profile.getEndTimeStr());
+        tv_endTime.setTag(profile.getEndTime());
         tv_repeat.setText(WeekDays.toString(profile.getRepeatId()));
         tv_profName.setText(profile.getProfileName());
         choices = WeekDays.toChoices(profile.getRepeatId());
@@ -89,16 +92,20 @@ public class ProfScheduleFragment extends Fragment implements View.OnClickListen
      * Save changes, update DB
      */
     public void updateData() {
-        String[] startTime = tv_startTime.getText().toString().split(":");
-        int startHour = Integer.parseInt(startTime[0]);
-        int startMin = Integer.parseInt(startTime[1]);
-        String[] endTime = tv_endTime.getText().toString().split(":");
-        int endHour = Integer.parseInt(endTime[0]);
-        int endMin = Integer.parseInt(endTime[1]);
-        profile.setStartHour(startHour);
-        profile.setStartMin(startMin);
-        profile.setEndHour(endHour);
-        profile.setEndMin(endMin);
+//        String[] startTime = tv_startTime.getText().toString().split(":");
+//        int startHour = Integer.parseInt(startTime[0]);
+//        int startMin = Integer.parseInt(startTime[1]);
+//        String[] endTime = tv_endTime.getText().toString().split(":");
+//        int endHour = Integer.parseInt(endTime[0]);
+//        int endMin = Integer.parseInt(endTime[1]);
+//        profile.setStartHour(startHour);
+//        profile.setStartMin(startMin);
+//        profile.setEndHour(endHour);
+//        profile.setEndMin(endMin);
+
+        long start = (long) tv_startTime.getTag();
+        long end = (long) tv_endTime.getTag();
+        profile.setTime(start, end);
         profile.setRepeatId(WeekDays.toValue(choices));
         profile.saveOrUpdate();
     }
@@ -126,12 +133,15 @@ public class ProfScheduleFragment extends Fragment implements View.OnClickListen
     }
 
     @Override
-    public void onTimeSet(TimePickerFragment tp, String displayTime) {
+    public void onTimeSet(TimePickerFragment tp, long time) {
+        String displayTime = TimeHelper.toString(time);
         if (tp == tpStart) {
             tv_startTime.setText(displayTime);
+            tv_startTime.setTag(time);
         }
         if (tp == tpEnd) {
             tv_endTime.setText(displayTime);
+            tv_endTime.setTag(time);
         }
     }
 

@@ -6,9 +6,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import static com.example.jessie.focusing.Utils.TimeHelper.DAY_IN_MILLIS;
-import static com.example.jessie.focusing.Utils.TimeHelper.toMillis;
-
 /**
  * @author : Yujie Lyu
  * @date : 03-02-2019
@@ -41,15 +38,8 @@ public class FocusTimeManager {
             int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
             List<Profile> profiles = Profile.findAllOnSchedule(dayOfWeek);
             for (Profile profile : profiles) {
-                int startHour = profile.getStartHour();
-                int startMin = profile.getStartMin();
-                long start = toMillis(startHour, startMin);
-                int endHour = profile.getEndHour();
-                int endMin = profile.getEndMin();
-                long end = toMillis(endHour, endMin);
-                if (end < start) {
-                    end += DAY_IN_MILLIS;
-                }
+                long start = profile.getStartTime();
+                long end = profile.getEndTime();
                 periods.add(new Long[]{start, end});
             }
         }

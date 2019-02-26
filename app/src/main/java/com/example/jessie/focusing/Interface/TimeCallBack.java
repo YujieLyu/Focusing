@@ -13,8 +13,8 @@ public interface TimeCallBack {
     /**
      * Execute when time has been set
      *
-     * @param tp          the {@link android.widget.TimePicker} user updated.
-     * @param displayTime the readable time string set by user.
+     * @param tp   the {@link android.widget.TimePicker} user updated.
+     * @param time the time set by user, in millis.
      */
-    void onTimeSet(TimePickerFragment tp, String displayTime);
+    void onTimeSet(TimePickerFragment tp, long time);
 }

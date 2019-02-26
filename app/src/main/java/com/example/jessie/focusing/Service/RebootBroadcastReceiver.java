@@ -13,7 +13,6 @@ import java.util.Calendar;
 import java.util.List;
 
 import static android.content.Intent.ACTION_BOOT_COMPLETED;
-import static android.content.Intent.ACTION_DATE_CHANGED;
 import static android.content.Intent.ACTION_SCREEN_OFF;
 import static android.content.Intent.ACTION_SCREEN_ON;
 import static com.example.jessie.focusing.Utils.TimeHelper.DAY_IN_MILLIS;
@@ -66,9 +65,6 @@ public class RebootBroadcastReceiver extends BroadcastReceiver {
                 break;
             case ACTION_SCREEN_OFF:
                 LockService.start(context, -1);
-                break;
-            case ACTION_DATE_CHANGED:
-                // TODO: save profile time
                 break;
         }
     }

@@ -14,8 +14,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.example.jessie.focusing.Utils.TimeHelper.toMillis;
-
 /**
  * @author : Yujie Lyu
  * @date : 12-12-2018
@@ -148,9 +146,7 @@ public class AppInfoManager {
             if (profile == null) {
                 continue;
             }
-            int hour = profile.getEndHour();
-            int min = profile.getEndMin();
-            long time = toMillis(hour, min);
+            long time = profile.getEndTime();
             endTime = Math.max(endTime, time);
         }
         return endTime;
@@ -172,9 +168,7 @@ public class AppInfoManager {
             Optional<Profile> opt = startedProfiles.stream().filter(profile -> profId == profile.getId()).findAny();
             if (opt.isPresent()) {
                 Profile profile = opt.get();
-                int hour = profile.getEndHour();
-                int min = profile.getEndMin();
-                long time = toMillis(hour, min);
+                long time = profile.getEndTime();
                 endTime = Math.max(endTime, time);
             }
         }
