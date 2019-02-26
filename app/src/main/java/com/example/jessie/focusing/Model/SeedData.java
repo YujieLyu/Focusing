@@ -96,9 +96,9 @@ public class SeedData {
     private static String[] getPackageNames() {
         return new String[]{
                 //TODO: use the packages installed in system
-                "com.google.android.apps.maps",
-                "com.google.android.videos",
-                "com.google.android.music",
+//                "com.google.android.apps.maps",
+//                "com.google.android.videos",
+//                "com.google.android.music",
                 "com.google.android.youtube",
                 "com.android.chrome"
         };

@@ -58,7 +58,7 @@ public class LockService extends IntentService {
     private long appStartTime = 0;
     private boolean isLocked = false;
     private int interval = -1;
-    private long startNowStartTime = -1, startNowEndTime = -1;
+    private long startNowStartTime = -1, startNowEndTime = -1, startNowFocusedTime = 0;
     private Set<Profile> startedProfiles;
     private boolean toUpdateProfiles = false;
 
@@ -235,12 +235,12 @@ public class LockService extends IntentService {
         long now = System.currentTimeMillis();
         Collection<Profile> finishedProfs = startedProfiles.stream()
                 .filter(profile -> profile.getEndTime() <= now).collect(Collectors.toSet());
-        // refresh the profile set
-        startedProfiles.removeIf(profile -> profile.getEndTime() <= now);
         long focusedTime = 0;
         for (Profile prof : finishedProfs) {
             focusedTime += prof.getDuration();
         }
+        // refresh the profile set
+        startedProfiles.removeIf(profile -> profile.getEndTime() <= now);
         if (toResetStartNow()) {
             focusedTime += Math.max(startNowEndTime - startNowStartTime, 0);
             resetStartNow();

@@ -9,7 +9,6 @@ import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.widget.ImageView;
 
-import com.example.jessie.focusing.Model.SeedData;
 import com.example.jessie.focusing.R;
 import com.example.jessie.focusing.Utils.AppInfoUtils;
 import com.example.jessie.focusing.Utils.ShredPreferenceUtils;
@@ -62,7 +61,7 @@ public class WelcomeActivity extends BaseSingleTaskActivity {
     }
 
     private void toMainActivity() {
-        SeedData.initialize();
+//        SeedData.initialize();
         AppInfoUtils appInfoUtils = new AppInfoUtils(this);
         appInfoUtils.scanAppsList();
         Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);

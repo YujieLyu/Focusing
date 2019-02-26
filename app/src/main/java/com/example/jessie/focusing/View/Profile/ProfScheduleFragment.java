@@ -92,17 +92,6 @@ public class ProfScheduleFragment extends Fragment implements View.OnClickListen
      * Save changes, update DB
      */
     public void updateData() {
-//        String[] startTime = tv_startTime.getText().toString().split(":");
-//        int startHour = Integer.parseInt(startTime[0]);
-//        int startMin = Integer.parseInt(startTime[1]);
-//        String[] endTime = tv_endTime.getText().toString().split(":");
-//        int endHour = Integer.parseInt(endTime[0]);
-//        int endMin = Integer.parseInt(endTime[1]);
-//        profile.setStartHour(startHour);
-//        profile.setStartMin(startMin);
-//        profile.setEndHour(endHour);
-//        profile.setEndMin(endMin);
-
         long start = (long) tv_startTime.getTag();
         long end = (long) tv_endTime.getTag();
         profile.setTime(start, end);

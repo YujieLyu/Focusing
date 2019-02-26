@@ -30,8 +30,8 @@ public class Profile extends LitePalSupport implements Comparable<Profile> {
     private long startTime;
     @Column
     private long endTime;
-    @Column(defaultValue = "-1")
-    private int repeatId = -1;
+    @Column
+    private int repeatId;
 
     /**
      * Check if the profile is on schedule

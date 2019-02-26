@@ -15,6 +15,8 @@ import android.widget.Toast;
 import com.example.jessie.focusing.Model.Profile;
 import com.example.jessie.focusing.R;
 
+import static com.example.jessie.focusing.Utils.TimeHelper.HOUR_IN_MILLIS;
+
 /**
  * @author : Yujie Lyu
  * @date : 26-01-2019
@@ -59,6 +61,8 @@ public class AddNewProfileDialog extends DialogFragment {
             }
             Profile profile = new Profile();
             profile.setProfileName(name);
+            long now = System.currentTimeMillis();
+            profile.setTime(now, now + HOUR_IN_MILLIS);
             onOKPressed(profile);
             dismiss();
         });
