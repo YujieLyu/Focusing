@@ -83,7 +83,10 @@ public class NowClockFragment extends Fragment {
         long startTime = (long) tv_startTime.getTag();
         long endTime = (long) tv_endTime.getTag();
         LockService.startNow(getContext(), startTime, endTime);
-        getContext().unregisterReceiver(timeReceiver);
+        Context context = getContext();
+        if (context != null) {
+            context.unregisterReceiver(timeReceiver);
+        }
     }
 
     private void updateTime(long startTime) {

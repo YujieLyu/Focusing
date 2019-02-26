@@ -5,7 +5,6 @@ package com.example.jessie.focusing.View.Finish;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -14,7 +13,7 @@ import com.example.jessie.focusing.R;
 import com.example.jessie.focusing.Utils.StatusBarUtil;
 import com.example.jessie.focusing.View.Shared.BaseSingleTaskActivity;
 
-import static com.example.jessie.focusing.Utils.RenderScriptBlur.rsBlur;
+//import static com.example.jessie.focusing.Utils.RenderScriptBlur.rsBlur;
 
 
 /**
@@ -40,7 +39,7 @@ public class FinishActivity extends BaseSingleTaskActivity {
         tv_summary.setText(initData());
         StatusBarUtil.setStatusTransparent(this);
         StatusBarUtil.setDarkStatusIcon(this, true);
-        initLayoutBackground();
+//        initLayoutBackground();
 
     }
 
@@ -68,8 +67,8 @@ public class FinishActivity extends BaseSingleTaskActivity {
 
         final Resources resources = this.getResources();
         Bitmap bmp = BitmapFactory.decodeResource(resources, R.drawable.bg_aurora);
-        Bitmap b = rsBlur(FinishActivity.this, bmp, 25);
-        finishLayout.setBackground(new BitmapDrawable(b));
+//        Bitmap b = rsBlur(FinishActivity.this, bmp, 25);
+//        finishLayout.setBackground(new BitmapDrawable(b));
 
     }
 

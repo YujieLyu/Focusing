@@ -19,7 +19,7 @@ public class FocusingApp extends Application {
     public void onCreate() {
         super.onCreate();
         LitePal.initialize(this);
-//        LitePal.deleteDatabase("appDB");//todo: be careful
+//        LitePal.deleteDatabase("appDB");//be careful
         IntentFilter filter = new IntentFilter(Intent.ACTION_TIME_TICK);
         filter.addAction(Intent.ACTION_SCREEN_ON);
         filter.addAction(Intent.ACTION_SCREEN_OFF);
