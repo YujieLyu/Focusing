@@ -39,7 +39,7 @@ public class SeedData {
         a.saveAsync().listen(SeedData::onFinish);
         Profile b = new Profile();
         b.setProfileName("Meeting");
-        a.setTime(toMillis(10, 0), toMillis(12, 0));
+        b.setTime(toMillis(10, 0), toMillis(12, 0));
         b.setRepeatId(0x0000011);
         b.saveAsync().listen(SeedData::onFinish);
     }
