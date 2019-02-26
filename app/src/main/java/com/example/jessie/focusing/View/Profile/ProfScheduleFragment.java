@@ -17,6 +17,7 @@ import com.example.jessie.focusing.Interface.TimeCallBack;
 import com.example.jessie.focusing.Model.Profile;
 import com.example.jessie.focusing.Model.WeekDays;
 import com.example.jessie.focusing.R;
+import com.example.jessie.focusing.Service.LockService;
 import com.example.jessie.focusing.widget.TimePickerFragment;
 
 import static com.example.jessie.focusing.Utils.AppConstants.PROFILE_ID;
@@ -72,6 +73,7 @@ public class ProfScheduleFragment extends Fragment implements View.OnClickListen
     public void onStop() {
         super.onStop();
         updateData();
+        LockService.updateProfiles(getContext(), true);
     }
 
     private void initView() {

@@ -1,12 +1,16 @@
 package com.example.jessie.focusing.Model;
 
+import com.example.jessie.focusing.Utils.TimeHelper;
+
 import org.litepal.LitePal;
 import org.litepal.annotation.Column;
 import org.litepal.crud.LitePalSupport;
 
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import static com.example.jessie.focusing.Utils.TimeHelper.betweenRange;
 import static com.example.jessie.focusing.Utils.TimeHelper.toMillis;
@@ -83,8 +87,8 @@ public class Profile extends LitePalSupport implements Comparable<Profile> {
         if (!onSchedule(profile, dayOfWeek)) {
             return false;
         }
-        long start = toMillis(profile.getStartHour(), profile.getStartMin());
-        long end = toMillis(profile.getEndHour(), profile.getEndMin());
+        long start = profile.getStartTime();
+        long end = profile.getEndTime();
         long curr = System.currentTimeMillis();
         return betweenRange(start, end, curr);
     }
@@ -103,6 +107,27 @@ public class Profile extends LitePalSupport implements Comparable<Profile> {
         List<Profile> res = LitePal.where(where).find(Profile.class);
         res.sort(Profile::compareTo);
         return res;
+    }
+
+    /**
+     * Returns all profiles have started.
+     *
+     * @return
+     */
+    public static Set<Profile> findAllStarted() {
+        Calendar calendar = Calendar.getInstance();
+        long now = calendar.getTimeInMillis();
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        List<Profile> onGoing = findAllOnSchedule(dayOfWeek);
+        Set<Profile> profiles = new HashSet<>();
+        for (Profile profile : onGoing) {
+            long start = profile.getStartTime();
+            long end = profile.getEndTime();
+            if (betweenRange(start, end, now)) {
+                profiles.add(profile);
+            }
+        }
+        return profiles;
     }
 
     public static int count(int id) {
@@ -153,6 +178,15 @@ public class Profile extends LitePalSupport implements Comparable<Profile> {
         endMin = calendar.get(Calendar.MINUTE);
     }
 
+    public long getDuration() {
+        long startTime = getStartTime();
+        long endTime = getEndTime();
+        if (endTime < startTime) {
+            endTime += TimeHelper.DAY_IN_MILLIS;
+        }
+        return endTime - startTime;
+    }
+
     public int getEndHour() {
         return endHour;
     }
@@ -187,6 +221,11 @@ public class Profile extends LitePalSupport implements Comparable<Profile> {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Integer.hashCode(id);
     }
 
     @Override

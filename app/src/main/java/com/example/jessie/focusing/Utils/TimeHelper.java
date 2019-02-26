@@ -1,7 +1,5 @@
 package com.example.jessie.focusing.Utils;
 
-import android.util.Log;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -71,8 +69,9 @@ public class TimeHelper {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, hour);
         calendar.set(Calendar.MINUTE, min);
+        calendar.set(Calendar.SECOND, 0);
         long res = calendar.getTimeInMillis();
-        Log.i(TAG, "To Millis - Origin Time: " + toString(res, "MM/dd HH:mm:ss"));
+//        Log.i(TAG, "To Millis - Origin Time: " + toString(res, "MM/dd HH:mm:ss"));
         return res;
     }
 

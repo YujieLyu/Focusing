@@ -1,6 +1,7 @@
 package com.example.jessie.focusing.View.Finish;
 
 //import android.R;
+
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -23,9 +24,9 @@ import static com.example.jessie.focusing.Utils.RenderScriptBlur.rsBlur;
  */
 public class FinishActivity extends BaseSingleTaskActivity {
 
+    public static final String FOCUSED_TIME = "focused_time";
     private RelativeLayout finishLayout;
     private TextView tv_wellDone, tv_summary, tv_keepUp;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,7 +39,7 @@ public class FinishActivity extends BaseSingleTaskActivity {
         tv_summary = findViewById(R.id.tv_summary);
         tv_summary.setText(initData());
         StatusBarUtil.setStatusTransparent(this);
-        StatusBarUtil.setDarkStatusIcon(this,true);
+        StatusBarUtil.setDarkStatusIcon(this, true);
         initLayoutBackground();
 
     }
@@ -49,19 +50,20 @@ public class FinishActivity extends BaseSingleTaskActivity {
         long hours = (timeSummary % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
         long minutes = (timeSummary % (1000 * 60 * 60)) / (1000 * 60);
         long seconds = (timeSummary % (1000 * 60)) / 1000;
-        if(seconds>30){
-            minutes+=1;
+        if (seconds > 30) {
+            minutes += 1;
         }
         String displayTime;
-        if(hours==0){
-            displayTime= minutes+" minutes";
-        }else {
-            displayTime=hours + " hour " + minutes + " minutes";
+        if (hours == 0) {
+            displayTime = minutes + " minutes";
+        } else {
+            displayTime = hours + " hour " + minutes + " minutes";
         }
-        return displayTime ;
+        return displayTime;
 
 
     }
+
     private void initLayoutBackground() {
 
         final Resources resources = this.getResources();

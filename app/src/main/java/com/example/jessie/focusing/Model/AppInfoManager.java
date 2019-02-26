@@ -6,9 +6,13 @@ import android.util.Log;
 import org.litepal.LitePal;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static com.example.jessie.focusing.Utils.TimeHelper.toMillis;
 
@@ -100,6 +104,25 @@ public class AppInfoManager {
         return res;
     }
 
+    /**
+     * @param packageName
+     * @param startedProfiles
+     * @return
+     * @see #getToLockApps(String)
+     */
+    public synchronized List<AppInfo> getToLockApps(String packageName, Collection<Profile> startedProfiles) {
+        List<AppInfo> res = new ArrayList<>();
+        List<AppInfo> list = AppInfo.findAllLockApps(packageName);
+        Set<Integer> profIds = startedProfiles.stream().mapToInt(Profile::getId).boxed().collect(Collectors.toSet());
+        for (AppInfo appInfo : list) {
+            int profId = appInfo.getProfId();
+            if (appInfo.isLocked() &&
+                    (profId == Profile.START_NOW_PROFILE_ID || profIds.contains(profId))) {
+                res.add(appInfo);
+            }
+        }
+        return res;
+    }
 
     /**
      * update app status settings
@@ -129,6 +152,31 @@ public class AppInfoManager {
             int min = profile.getEndMin();
             long time = toMillis(hour, min);
             endTime = Math.max(endTime, time);
+        }
+        return endTime;
+    }
+
+    /**
+     * @param toLockApps
+     * @param startedProfiles
+     * @return
+     * @see #getLatestEndTime(List)
+     */
+    public long getLatestEndTime(List<AppInfo> toLockApps, Collection<Profile> startedProfiles) {
+        long endTime = -1;
+        for (AppInfo app : toLockApps) {
+            int profId = app.getProfId();
+            if (profId == Profile.START_NOW_PROFILE_ID) {
+                continue;
+            }
+            Optional<Profile> opt = startedProfiles.stream().filter(profile -> profId == profile.getId()).findAny();
+            if (opt.isPresent()) {
+                Profile profile = opt.get();
+                int hour = profile.getEndHour();
+                int min = profile.getEndMin();
+                long time = toMillis(hour, min);
+                endTime = Math.max(endTime, time);
+            }
         }
         return endTime;
     }

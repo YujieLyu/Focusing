@@ -10,7 +10,6 @@ import com.example.jessie.focusing.R;
 import com.example.jessie.focusing.Service.LockService;
 import com.example.jessie.focusing.Utils.LockUtil;
 import com.example.jessie.focusing.Utils.StatusBarUtil;
-import com.example.jessie.focusing.View.Finish.FinishActivity;
 import com.example.jessie.focusing.View.Main.MainActivity;
 import com.example.jessie.focusing.View.Shared.BaseSingleTaskActivity;
 
@@ -29,7 +28,6 @@ public class CountdownActivity extends BaseSingleTaskActivity implements Countdo
 
     public static final String IS_START_NOW = "is_start_now";
     private static final String TAG = CountdownActivity.class.getSimpleName();
-    private long countTime;
     private CountdownView cdv_count;
     private FocusTimeManager focusTimeManager;
     private boolean isStartNow;
@@ -73,6 +71,7 @@ public class CountdownActivity extends BaseSingleTaskActivity implements Countdo
         startTime = getIntent().getLongExtra(START_TIME, -1);
         long endTime = getIntent().getLongExtra(END_TIME, -1);
         long currTimeStart = System.currentTimeMillis();
+        long countTime;
         if (currTimeStart < endTime) {
             countTime = endTime - currTimeStart;
         } else {
@@ -90,12 +89,6 @@ public class CountdownActivity extends BaseSingleTaskActivity implements Countdo
     @Override
     public void onEnd(CountdownView cv) {
         cv.stop();
-//        moveTaskToBack(true);
-        Intent intent = new Intent(CountdownActivity.this, FinishActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.putExtra("countTime", countTime);
-        startActivity(intent);
-//        finishAndRemoveTask();//Kill the activity
         this.finish();
     }
 

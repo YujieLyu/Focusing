@@ -23,10 +23,14 @@ import com.example.jessie.focusing.R;
 import com.example.jessie.focusing.Utils.AppConstants;
 import com.example.jessie.focusing.Utils.TimeHelper;
 import com.example.jessie.focusing.View.Countdown.CountdownActivity;
+import com.example.jessie.focusing.View.Finish.FinishActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import androidx.annotation.Nullable;
 
@@ -43,7 +47,8 @@ import static com.example.jessie.focusing.Utils.AppConstants.START_TIME;
 public class LockService extends IntentService {
 
     public static final String INTERVAL = "interval";
-    public static final int DEF_INTERVAL = 100;//ms
+    public static final String TO_UPDATE = "to_update";
+    public static final int DEF_INTERVAL = 100; //ms
     private static final String TAG = LockService.class.getSimpleName();
     private final int SERVICE_ID;
     private String PACKAGE_NAME;
@@ -54,6 +59,8 @@ public class LockService extends IntentService {
     private boolean isLocked = false;
     private int interval = -1;
     private long startNowStartTime = -1, startNowEndTime = -1;
+    private Set<Profile> startedProfiles;
+    private boolean toUpdateProfiles = false;
 
     public LockService() {
         super("LockService");
@@ -63,6 +70,13 @@ public class LockService extends IntentService {
     public static void start(Context context, int interval) {
         Intent intent = new Intent(context, LockService.class);
         intent.putExtra(INTERVAL, interval);
+        start(context, intent);
+    }
+
+    public static void updateProfiles(Context context, boolean toUpdate) {
+        Intent intent = new Intent(context, LockService.class);
+        intent.putExtra(INTERVAL, DEF_INTERVAL);
+        intent.putExtra(TO_UPDATE, toUpdate);
         start(context, intent);
     }
 
@@ -111,6 +125,7 @@ public class LockService extends IntentService {
         usageManager = new UsageManager(this);
         setIntentRedelivery(true);
         PACKAGE_NAME = getPackageName();
+        updateProfiles();
         Log.i(TAG, "onCreate");
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O)
             startMyOwnForeground();
@@ -126,6 +141,7 @@ public class LockService extends IntentService {
             interval = intent.getIntExtra(INTERVAL, interval);
             startNowStartTime = intent.getLongExtra(START_TIME, startNowStartTime);
             startNowEndTime = intent.getLongExtra(END_TIME, startNowEndTime);
+            toUpdateProfiles = intent.getBooleanExtra(TO_UPDATE, false);
         }
         Log.i(TAG, "Interval is: " + interval);
         Log.i(TAG, "Start Time is: " +
@@ -145,13 +161,23 @@ public class LockService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         Log.i(TAG, "onHandleIntent, Interval is: " + interval);
         while (interval > 0) {
-            checkData();
+            checkToLock();
+            if (toUpdateProfiles) {
+                updateProfiles();
+                toUpdateProfiles = false;
+            }
+            checkIfFinished();
             try {
                 Thread.sleep(interval);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void updateProfiles() {
+        startedProfiles = Profile.findAllStarted();
+        Log.i(TAG, "Started Profiles updated - size:" + startedProfiles.size());
     }
 
     /**
@@ -163,26 +189,17 @@ public class LockService extends IntentService {
      * <p>
      * It also used to record app's screen time and open times when the app on top changes.
      */
-    private void checkData() {
+    private void checkToLock() {
         String packageName = getLauncherTopApp(LockService.this);
         if (LAUNCHER_PACKAGE_NAME.equals(packageName)) {
             recordScreenTime();
         }
-        if (startNowEndTime > -1 && startNowEndTime < System.currentTimeMillis()) {
-            // NOTE: update endTime if earlier than Now.
-            // i.e., start_now had finished.
-            FocusTimeStats focusTimeStats = new FocusTimeStats(startNowStartTime, startNowEndTime);
-            focusTimeStats.save();
-            startNowStartTime = -1;
-            startNowEndTime = -1;// reset start now end time
-            AppInfoManager.reset(Profile.START_NOW_PROFILE_ID);
-            Log.i(TAG, "Reset start now time");
-        }
         if (!inWhiteList(packageName)) {
-            List<AppInfo> toLockApps = appInfoManager.getToLockApps(packageName);
+            List<AppInfo> toLockApps = appInfoManager.getToLockApps(packageName, startedProfiles);
             boolean toLock = !toLockApps.isEmpty();
             if (toLock) {
-                boolean startNow = toLockApps.stream()
+                boolean startNow = toLockApps
+                        .stream()
                         .anyMatch(a -> a.getProfId() == Profile.START_NOW_PROFILE_ID);
                 long endTime;
                 boolean isStartNow;
@@ -190,15 +207,57 @@ public class LockService extends IntentService {
                     endTime = startNowEndTime;
                     isStartNow = true;
                 } else {
-                    endTime = appInfoManager.getLatestEndTime(toLockApps);
+                    endTime = appInfoManager.getLatestEndTime(toLockApps, startedProfiles);
                     isStartNow = false;
                 }
                 if (endTime > System.currentTimeMillis()) {
-                    lockScreen(packageName, endTime, isStartNow);
+                    lockApp(packageName, endTime, isStartNow);
                 } else toLock = false;
             }
             recordOpenTimes(packageName, toLock);
         }
+    }
+
+    /**
+     * Checks if should transfer to {@link FinishActivity}
+     */
+    private void checkIfFinished() {
+        long now = System.currentTimeMillis();
+        Collection<Profile> finishedProfs = startedProfiles.stream()
+                .filter(profile -> profile.getEndTime() <= now).collect(Collectors.toSet());
+        // refresh the profile set
+        startedProfiles.removeIf(profile -> profile.getEndTime() <= now);
+        long focusedTime = 0;
+        for (Profile prof : finishedProfs) {
+            focusedTime += prof.getDuration();
+        }
+        if (toResetStartNow()) {
+            focusedTime += Math.max(startNowEndTime - startNowStartTime, 0);
+            resetStartNow();
+        }
+        if (focusedTime > 0) {
+            toFinishActivity(focusedTime);
+        }
+    }
+
+    /**
+     * Checks if to reset start now setting
+     *
+     * @return
+     */
+    private boolean toResetStartNow() {
+        return startNowEndTime > -1 && startNowEndTime <= System.currentTimeMillis();
+    }
+
+    private void resetStartNow() {
+        // NOTE: update endTime if earlier than Now.
+        // i.e., start_now had finished.
+        FocusTimeStats focusTimeStats = new FocusTimeStats(startNowStartTime, startNowEndTime);
+        focusTimeStats.save();
+        startNowStartTime = -1;
+        startNowEndTime = -1;// reset start now end time
+        AppInfoManager.reset(Profile.START_NOW_PROFILE_ID);
+        Log.i(TAG, "Reset start now time");
     }
 
     /**
@@ -208,7 +267,7 @@ public class LockService extends IntentService {
      * @param endTime     the end time of locking.
      * @param isStartNow  specify if the app is in "Start Now" profile.
      */
-    private void lockScreen(String packageName, long endTime, boolean isStartNow) {
+    private void lockApp(String packageName, long endTime, boolean isStartNow) {
         Log.i(TAG, "Lock app: " + packageName);
         Log.i(TAG, "End Time:" + TimeHelper.toString(endTime));
         if (endTime < System.currentTimeMillis()) {
@@ -224,6 +283,18 @@ public class LockService extends IntentService {
         }
         intent.putExtra(END_TIME, endTime);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
+    /**
+     * Transfers to {@link FinishActivity}
+     *
+     * @param focusedTime the total time displayed on screen
+     */
+    private void toFinishActivity(long focusedTime) {
+        Intent intent = new Intent(this, FinishActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.putExtra(FinishActivity.FOCUSED_TIME, focusedTime);
         startActivity(intent);
     }
 
@@ -252,24 +323,50 @@ public class LockService extends IntentService {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private void startMyOwnForeground() {
+    private void createNotificationManager() {
         String NOTIFICATION_CHANNEL_ID = PACKAGE_NAME;
-        NotificationChannel chan = new NotificationChannel(NOTIFICATION_CHANNEL_ID, TAG, NotificationManager.IMPORTANCE_NONE);
+        NotificationChannel chan = new NotificationChannel(
+                NOTIFICATION_CHANNEL_ID,
+                TAG,
+                NotificationManager.IMPORTANCE_MIN);
         chan.setLightColor(Color.BLUE);
         chan.setLockscreenVisibility(Notification.VISIBILITY_SECRET);
 
-        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        assert manager != null;
-        manager.createNotificationChannel(chan);
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+    }
 
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
-        Notification notification = notificationBuilder.setOngoing(true)
-                .setContentTitle("App is running in background")
-                .setPriority(NotificationManager.IMPORTANCE_MIN)
+    private Notification notifyFinish(String title, String content) {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, PACKAGE_NAME);
+        builder.setOngoing(false)
+                .setAutoCancel(true)
+                .setContentTitle(title)
+                .setPriority(NotificationCompat.PRIORITY_MAX)
+                .setCategory(Notification.CATEGORY_SERVICE)
+                .setSmallIcon(R.drawable.ic_stat_name);
+        if (!isEmpty(content)) {
+            builder.setContentText(content);
+        }
+        return builder.build();
+    }
+
+    private Notification createPermanentNotification(String content) {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, PACKAGE_NAME);
+        builder.setOngoing(true)
+                .setContentTitle("Focusing is running")
+                .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setCategory(Notification.CATEGORY_SERVICE)
                 .setSmallIcon(R.drawable.ic_stat_name)
-                .build();
+                .setShowWhen(false);
+        if (!isEmpty(content)) {
+            builder.setContentText(content);
+        }
+        return builder.build();
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private void startMyOwnForeground() {
+        createNotificationManager();
+        Notification notification = createPermanentNotification(null);
         startForeground(SERVICE_ID, notification);
     }
 

@@ -21,8 +21,8 @@ public class SeedData {
 
     public static void initialize() {
         initializeProfile();
-//        initializeAppUsage(); //TODO: to be uncommented.
-//        initializeFocusTime();
+        initializeAppUsage();
+        initializeFocusTime();
     }
 
     private static void initializeProfile() {
