@@ -67,14 +67,30 @@ public class BlockService extends IntentService {
         SERVICE_ID = "BlockService".hashCode();
     }
 
+    /**
+     * Start using default interval
+     *
+     * @param context
+     */
     public static void start(Context context) {
         start(context, DEF_INTERVAL);
     }
 
+    /**
+     * Pause Service
+     *
+     * @param context
+     */
     public static void pause(Context context) {
         start(context, -1);
     }
 
+    /**
+     * Start using specific interval
+     *
+     * @param context
+     * @param interval
+     */
     public static void start(Context context, int interval) {
         Intent intent = new Intent(context, BlockService.class);
         intent.putExtra(INTERVAL, interval);
@@ -94,6 +110,12 @@ public class BlockService extends IntentService {
         start(context, intent);
     }
 
+    /**
+     * Start service
+     *
+     * @param context
+     * @param intent
+     */
     public static void start(Context context, Intent intent) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             context.startForegroundService(intent);
@@ -102,6 +124,12 @@ public class BlockService extends IntentService {
         }
     }
 
+    /**
+     * Set start now time pair
+     *
+     * @param startTime
+     * @param endTime
+     */
     public static void startNow(long startTime, long endTime) {
         ShredPreferenceUtils sp = ShredPreferenceUtils.getInstance();
         sp.putLong(START_TIME, startTime);
@@ -112,6 +140,9 @@ public class BlockService extends IntentService {
                 (endTime < 0 ? endTime : TimeHelper.toString(endTime)));
     }
 
+    /**
+     * Reset start now setting.
+     */
     public static void stopStartNow() {
         startNow(-1, -1);
         Log.i(TAG, "Stop start now.");
@@ -215,21 +246,21 @@ public class BlockService extends IntentService {
             List<AppInfo> toLockApps = appInfoManager.getToLockApps(packageName, startedProfiles);
             boolean toLock = !toLockApps.isEmpty();
             if (toLock) {
+                // check if there is any app in start now profile
                 boolean startNow = toLockApps
                         .stream()
                         .anyMatch(a -> a.getProfId() == Profile.START_NOW_PROFILE_ID);
                 long endTime;
-                boolean isStartNow;
                 long startNowEndTime = getStartNowEndTime();
-                if (startNow && startNowEndTime >= System.currentTimeMillis()) {
+                if (startNow && startNowEndTime > System.currentTimeMillis()) {
                     endTime = startNowEndTime;
-                    isStartNow = true;
+                    startNow = true;
                 } else {
                     endTime = appInfoManager.getLatestEndTime(toLockApps, startedProfiles);
-                    isStartNow = false;
+                    startNow = false;
                 }
                 if (endTime > System.currentTimeMillis()) {
-                    blockApp(packageName, endTime, isStartNow);
+                    blockApp(packageName, endTime, startNow);
                 } else toLock = false;
             }
             recordOpenTimes(packageName, toLock);
