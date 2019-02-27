@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.example.jessie.focusing.Controller.Adapter.ProfileListAdapter;
 import com.example.jessie.focusing.Model.Profile;
@@ -68,9 +69,13 @@ public class ProfileListActivity extends AppCompatActivity
 
     @Override
     public void onFragmentInteraction(Profile profile) {
-        profileListAdapter.addProfile(profile);
-        Intent intent = new Intent(this, ProfileDetailActivity.class);
-        intent.putExtra(PROFILE_ID, profile.getId());
-        startActivity(intent);
+        boolean res = profile.saveOrUpdate();
+        if (res) {
+            Intent intent = new Intent(this, ProfileDetailActivity.class);
+            intent.putExtra(PROFILE_ID, profile.getId());
+            startActivity(intent);
+        } else {
+            Toast.makeText(this, "Cannot save such Profile", Toast.LENGTH_LONG).show();
+        }
     }
 }

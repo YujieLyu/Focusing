@@ -232,8 +232,8 @@ public class Profile extends LitePalSupport implements Comparable<Profile> {
         return res == 0 ? Long.compare(endTime, o.endTime) : res;
     }
 
-    public void saveOrUpdate() {
-        saveOrUpdate("id = ?", String.valueOf(id));
+    public boolean saveOrUpdate() {
+        return saveOrUpdate("id = ?", String.valueOf(id));
     }
 
     public void deleteCascadeAsync() {
