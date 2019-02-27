@@ -248,8 +248,7 @@ public class BlockService extends IntentService {
             if (toLock) {
                 // check if there is any app in start now profile
                 boolean startNow = toLockApps
-                        .stream()
-                        .anyMatch(a -> a.getProfId() == Profile.START_NOW_PROFILE_ID);
+                        .stream().anyMatch(a -> a.getProfId() == Profile.START_NOW_PROFILE_ID);
                 long endTime;
                 long startNowEndTime = getStartNowEndTime();
                 if (startNow && startNowEndTime > System.currentTimeMillis()) {
