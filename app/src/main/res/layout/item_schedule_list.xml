@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="80dp"
-    >
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dp">
 
     <TextView
         android:id="@+id/profile_name"
         android:layout_width="200dp"
         android:layout_height="80dp"
         android:layout_marginStart="40dp"
+        android:fontFamily="@font/roboto"
         android:gravity="center_vertical"
         android:textAlignment="viewStart"
-        android:textSize="20sp"
-        android:fontFamily="@font/roboto"
         android:textColor="@color/black"
-        />
+        android:textSize="20sp" />
 
 
     <TextView
@@ -22,22 +20,21 @@
         android:layout_width="150dp"
         android:layout_height="40dp"
         android:layout_toEndOf="@id/profile_name"
-        android:textSize="15sp"
-        android:gravity="center_vertical"
         android:fontFamily="@font/roboto_light"
+        android:gravity="center_vertical"
         android:textColor="@color/black"
-        />
+        android:textSize="15sp" />
+
     <TextView
         android:id="@+id/repeat"
         android:layout_width="150dp"
         android:layout_height="40dp"
         android:layout_below="@id/timeSlot"
         android:layout_toEndOf="@id/profile_name"
-        android:textSize="15sp"
-        android:gravity="center_vertical"
         android:fontFamily="@font/roboto_light"
+        android:gravity="center_vertical"
         android:textColor="@color/black"
-        />
+        android:textSize="15sp" />
 
     <ImageButton
         android:layout_width="20dp"
@@ -46,7 +43,6 @@
         android:layout_centerVertical="true"
         android:layout_gravity="center"
         android:layout_marginEnd="8dp"
-        android:background="@drawable/arrow_forward"
-        />
+        android:background="@drawable/arrow_forward" />
 
 </RelativeLayout>

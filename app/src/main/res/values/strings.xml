@@ -2,20 +2,10 @@
     <string name="app_name">Focusing</string>
     <string name="ask_permission">
         Focusing need to get the system permission to access apps usage</string>
-
-    <!-- Strings related to Settings -->
-
-    <!-- Example General settings -->
     <string name="invalid_time_suggestion">Oops, I can\'t work with same time,\nPlease choose a later time :)</string>
-
-    <!-- Example settings for Data & Sync -->
-
-    <!-- Example settings for Notifications -->
-
     <string name="focusing_suggestion">Please keep focusing for</string>
     <string name="focus_summary">Well done!\nYou have focused for</string>
     <string name="keep_it_up">Keep it up</string>
-
     <string name="set_schedule">Set profile schedule</string>
     <string name="profile_name_non_empty">Profile name cannot be empty</string>
     <string name="my_schedule">My Schedule</string>

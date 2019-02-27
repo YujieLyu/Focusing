@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/finish_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/finish_layout">
+    android:layout_height="match_parent">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/ocean"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop"
+        android:src="@drawable/ocean" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/transparent_black"/>
+        android:background="@color/transparent_black" />
 
     <TextView
         android:id="@+id/tv_welldone"
@@ -21,20 +22,20 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="200dp"
         android:fontFamily="@font/roboto_light"
-        android:textStyle="bold"
         android:lineSpacingExtra="8sp"
         android:text="@string/focus_summary"
         android:textAlignment="center"
         android:textColor="@color/bg_blue_dark"
-        android:textSize="30sp" />
+        android:textSize="30sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tv_summary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_welldone"
-        android:layout_marginTop="10dp"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
         android:textColor="@color/yellow"
         android:textSize="32sp" />
 
@@ -47,12 +48,12 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:fontFamily="@font/roboto_light"
-        android:textStyle="bold"
         android:lineSpacingExtra="8sp"
         android:text="@string/keep_it_up"
         android:textAlignment="center"
         android:textColor="@color/bg_blue_dark"
-        android:textSize="30sp" />
+        android:textSize="30sp"
+        android:textStyle="bold" />
 
 
 </RelativeLayout>

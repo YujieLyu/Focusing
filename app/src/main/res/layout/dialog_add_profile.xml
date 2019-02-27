@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/transparent_white">
@@ -9,22 +8,23 @@
         android:id="@+id/tv_addName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:layout_marginStart="20dp"
-        android:text="New Profile Name:"
+        android:layout_marginTop="20dp"
         android:fontFamily="@font/roboto_light"
+        android:text="New Profile Name:"
         android:textColor="@color/bg_blue_dark"
         android:textSize="20dp"
 
         />
+
     <EditText
         android:id="@+id/ev_name"
-        
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_addName"
-        android:layout_marginTop="10dp"
         android:layout_marginLeft="20dip"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="20dip"
         android:gravity="fill_horizontal"
         android:inputType="text"
@@ -35,23 +35,24 @@
         android:id="@+id/btn_ok"
         android:layout_width="100dp"
         android:layout_height="35dp"
-        android:layout_toRightOf="@id/btn_cancel"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="50dip"
-        android:layout_marginBottom="10dp"
-        android:background="@color/colorPrimary"
         android:layout_below="@id/ev_name"
+        android:layout_marginStart="50dip"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:layout_toRightOf="@id/btn_cancel"
+        android:background="@color/colorPrimary"
         android:text="OK"
-        android:textColor="@color/text_white"/>
+        android:textColor="@color/text_white" />
+
     <Button
         android:id="@+id/btn_cancel"
         android:layout_width="100dp"
         android:layout_height="35dp"
-        android:layout_marginTop="20dp"
+        android:layout_below="@id/ev_name"
         android:layout_marginLeft="20dip"
+        android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"
         android:background="@color/transparent_white"
-        android:layout_below="@id/ev_name"
         android:text="Cancel" />
 
 </RelativeLayout>

@@ -1,50 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/schedulelayout">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/schedulelayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-   <CalendarView
-       android:id="@+id/calendar"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:layout_below="@id/titleLine"
-       >
+    <CalendarView
+        android:id="@+id/calendar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/titleLine">
 
-   </CalendarView>
+    </CalendarView>
 
     <View
         android:id="@+id/titleLine"
+        android:layout_width="fill_parent"
+        android:layout_height="2px"
         android:layout_below="@id/title"
         android:layout_marginTop="10dp"
-        android:layout_height="2px"
-        android:background="#000000"
-        android:layout_width="fill_parent" />
+        android:background="#000000" />
 
     <TextView
-    android:id="@+id/title"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="50dp"
-    android:text="@string/my_schedule"
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:fontFamily="@font/roboto_light"
         android:gravity="center"
-    android:textSize="30sp"
-    android:fontFamily="@font/roboto_light"
-    android:textColor="@color/black"
-    />
+        android:text="@string/my_schedule"
+        android:textColor="@color/black"
+        android:textSize="30sp" />
+
     <LinearLayout
         android:id="@+id/scheduleList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimaryTrans"
         android:layout_below="@id/calendar"
-        >
+        android:background="@color/colorPrimaryTrans">
+
         <ListView
             android:id="@+id/lv_prof_list"
             android:layout_width="match_parent"
-            android:overScrollMode="never"
             android:layout_height="match_parent"
-            />
+            android:overScrollMode="never" />
     </LinearLayout>
 
 </RelativeLayout>

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/tv_addName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:layout_marginStart="20dp"
-        android:text="Are you sure to delete it?"
+        android:layout_marginTop="20dp"
         android:fontFamily="@font/roboto_light"
+        android:text="Are you sure to delete it?"
         android:textColor="@color/bg_blue_dark"
         android:textSize="20dp"
 
@@ -20,22 +20,23 @@
         android:id="@+id/btn_delete_confirm"
         android:layout_width="100dp"
         android:layout_height="35dp"
+        android:layout_below="@id/tv_addName"
         android:layout_marginStart="150dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"
         android:background="@color/red"
-        android:layout_below="@id/tv_addName"
         android:text="Delete"
-        android:textColor="@color/text_white"/>
+        android:textColor="@color/text_white" />
+
     <Button
         android:id="@+id/btn_cancel_confirm"
         android:layout_width="100dp"
         android:layout_height="35dp"
-        android:layout_marginTop="20dp"
+        android:layout_below="@id/tv_addName"
         android:layout_marginLeft="20dip"
+        android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"
         android:background="@color/light_grey"
-        android:layout_below="@id/tv_addName"
         android:text="Cancel" />
 
 </RelativeLayout>

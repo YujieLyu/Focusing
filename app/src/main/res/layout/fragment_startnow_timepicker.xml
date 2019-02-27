@@ -3,21 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--<ImageView-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:scaleType="fitXY"-->
-    <!--android:adjustViewBounds="true"-->
-    <!--android:src="@drawable/galaxy2"-->
-    <!--/>-->
-
     <com.example.jessie.focusing.widget.CirclePicker
         android:id="@+id/timer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scaleX="1.05"
-        android:scaleY="1.05"
-        />
+        android:scaleY="1.05" />
 
     <TextView
         android:id="@+id/tv_title"
@@ -79,8 +70,8 @@
         android:id="@+id/btn_start"
         android:layout_width="140dp"
         android:layout_height="45dp"
-        android:layout_centerHorizontal="true"
         android:layout_below="@id/tv_end_time"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="130dp"
         android:background="@color/colorPrimary"
         android:fontFamily="@font/roboto"

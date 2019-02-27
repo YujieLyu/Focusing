@@ -8,34 +8,34 @@
     android:paddingRight="16dp">
 
     <ImageView
-        android:layout_margin="50dp"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="50dp"
         android:layout_marginTop="10dp"
         android:adjustViewBounds="true"
-        android:layout_gravity="center_horizontal"
         android:contentDescription="The logo of this app"
         android:src="@drawable/icon" />
 
     <TextView
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
         android:layout_margin="30dp"
-        android:textSize="20sp"
-        android:text="@string/ask_permission"/>
+        android:adjustViewBounds="true"
+        android:text="@string/ask_permission"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/btn_permission"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:layout_marginBottom="20dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
         android:background="@color/colorPrimary"
         android:gravity="center"
         android:text="Get Permission"
-        android:textSize="15sp"
-        android:textColor="@color/text_white"/>
+        android:textColor="@color/text_white"
+        android:textSize="15sp" />
 </LinearLayout>

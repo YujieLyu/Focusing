@@ -5,8 +5,6 @@
     android:layout_height="match_parent"
     tools:context=".View.Main.MainActivity">
 
-    <!--<include layout="@layout/layout_toolbar"/>-->
-
     <include layout="@layout/activity_startnow" />
 
 </android.support.design.widget.CoordinatorLayout>

@@ -2,17 +2,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="80dp"
-    android:orientation="horizontal"
-    >
+    android:orientation="horizontal">
 
     <TextView
         android:id="@+id/prof_name"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:gravity="center"
         android:fontFamily="@font/roboto"
-        android:textSize="20sp"
-        android:textColor="@color/black"/>
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="20sp" />
 
 
 </RelativeLayout>

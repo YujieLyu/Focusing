@@ -1,26 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/prof_list"
-    >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
     <LinearLayout
+        android:id="@+id/head"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/head"
         android:orientation="horizontal">
+
         <TextView
             android:id="@+id/tv_suggest_profile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="65dp"
-            android:gravity="center"
             android:layout_marginTop="45dp"
+            android:layout_weight="8"
             android:fontFamily="@font/roboto_light"
+            android:gravity="center"
             android:text="My Profiles"
             android:textColor="@color/black"
-            android:textSize="27sp"
-            android:layout_weight="8"/>
+            android:textSize="27sp" />
+
         <ImageButton
             android:id="@+id/ibtn_add"
             android:layout_width="45dp"
@@ -28,22 +30,21 @@
             android:layout_marginTop="40dp"
             android:layout_marginEnd="20dp"
             android:background="@drawable/sign_add"
-            android:scaleType="center"
-            />
+            android:scaleType="center" />
     </LinearLayout>
-
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/head">
+
         <ListView
             android:id="@+id/lv_prof_list"
             android:layout_width="match_parent"
-            android:layout_marginTop="20dp"
-            android:overScrollMode="never"
             android:layout_height="match_parent"
-            android:background="@color/half_white"/>
+            android:layout_marginTop="20dp"
+            android:background="@color/half_white"
+            android:overScrollMode="never" />
     </LinearLayout>
 </RelativeLayout>
