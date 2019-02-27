@@ -6,21 +6,22 @@ Focusing is an Android application for self-control of smartphone application us
 
 #### **Prerequisites**
 
-1. A computer installed with Android studio version 3.3.1
-2. Google Pixel 2 XL with Oreo+ (other android phones may have user interface display issues)
+1. Android studio version: 3.3.1+
+2. The minimal SDK version : API 26
+3. Gradle version: 3.3.1
 
-#### **Installing**
+#### **Compiling and Installing**
 
-1. Download the source code
-2. Open it through Android studio
-3. Select connected devices (your testing phone)
-4. Run the program
+1. Download the source code.
+2. Open it through Android studio.
+3. Select connected devices (your testing phone).
+4. Run the program.
 
 ## Running tests
 
 #### **Preparation:**
 
-Preset a "Reading" profile for test the concurrency process of instant focus task and profile:
+Pre-set a "**Reading**" profile for testing the concurrency process of instant focus task and profile:
 
 - Apps to block: Instagram
 - Start time: 6:00
@@ -29,29 +30,30 @@ Preset a "Reading" profile for test the concurrency process of instant focus tas
 
 #### **Part A: Focus Now**
 
-1. Click "Focus Now" on the homepage.
+1. Click "**Focus Now**" on the homepage.
 
-2. Select "Instagram", "Facebook" to block
+2. Select "Instagram", "Facebook" to block.
 
-3. Set 1 hour for this focusing task
+3. Set 1 hour for this focusing task.
 
-4. Click "Start"
+4. Click "**Start**"
 
-   Check:
+   Check if:
 
-   - Instagram and Facebook are both blocked 
-   - The countdown views of Instagram and Facebook both show1 hour
+   - Instagram and Facebook are both blocked.
+   - The countdown views of Instagram and Facebook both show 1 hour.
 
-5. Kill Foucsing:
+5. Kill **Focusing**(remove this running app from system recent task list):
 
-   - Both of them can be blocked
+   - Both of them can still be blocked.
 
-6. After 1 hour, a finish view will show up
+6. After 1 hour, a finish view will show up.
 
 7. Then try to open Instagram and Facebook:
 
-   - Facebook can be open as usual
-   - Instagram is blocked because of the "Reading" profile and the countdown time is the interval from now to 23:50
+   - Facebook can be open as usual.
+   - Instagram is blocked because of the "**Reading**" profile.
+   -  The countdown time is the interval from now to 23:50.
 
 8. Cancel focusing task:
 
@@ -61,62 +63,62 @@ Preset a "Reading" profile for test the concurrency process of instant focus tas
 
 #### **Part B: My Profiles**
 
-1. Click "My profiles", add new profile：
+1. Click "**My profiles**", add new profile：
 
    - Name: testing
-   - Block: Facebook, spotify
-   - Start time: current time-1hour
-   - End time: current time+1hour
-   - Repeat:everyday
-   - Check:
-     - New profile is listed in profile list
+   - Block: Facebook, Spotify
+   - Start time: current time - 1hour
+   - End time: current time + 1hour
+   - Repeat: Sun. Mon. and today.
+   - Check if:
+     - New profile is listed in profile list.
 
 2. Open Facebook，Spotify
 
-   Check:
+   Check if:
 
-   - All blocked with showing correct countdown time
+   - All blocked with showing correct countdown time.
 
-3. Kill Focusing:
+3. Kill **Focusing**:
 
-   Check:
+   Check if:
 
-   - All blocked with showing correct countdown time
+   - All blocked with showing correct countdown time.
 
 4. After the profile end time:
 
-   Check:
+   Check if:
 
-   - Facebook and spotify can be open as usual
+   - Facebook and Spotify can be open as usual.
 
      
 
 #### **Part C: My schedule**
 
-1. Click on the calendar for the day, yesterday and tomorrow:
+1. Click on the calendar for the day, Sunday and Monday:
 
-   Check:
+   Check if:
 
-   - The profiles listed match the profile Settings for the selected date
+   - The profiles listed match the profile Settings for the selected date.
 
-   - Be able to open certain profile item to look through or modify
+   - Be able to open certain profile item to look through or modify when clicking certain items.
 
      #### 
 
 #### **Part D: Time statistic**
 
-1. Open "Time statistics":
+1. Open "**Time statistics**":
 
-   Check:
+   Check if:
 
-   - Focusing time is increased
+   - Focusing time is increased.
 
-1. Open Instagram and running for 10 minutes
+1. Open Instagram and running 10 minutes
 
-   Check：
+   Check if：
 
-   - Instagram's screen time is increased by 10 minutes
-   - Instagram's open times out focus time adds 1
+   - Instagram's screen time is increased by 10 minutes.
+   - Instagram's open times out focus time add 1.
 
 
 
