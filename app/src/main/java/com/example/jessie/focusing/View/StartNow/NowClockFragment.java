@@ -17,7 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.jessie.focusing.R;
-import com.example.jessie.focusing.Service.LockService;
+import com.example.jessie.focusing.Service.BlockService;
 import com.example.jessie.focusing.Utils.BaseTimeChangeListener;
 import com.example.jessie.focusing.Utils.TimeHelper;
 import com.example.jessie.focusing.View.Countdown.CountdownActivity;
@@ -82,7 +82,7 @@ public class NowClockFragment extends Fragment {
         super.onStop();
         long startTime = (long) tv_startTime.getTag();
         long endTime = (long) tv_endTime.getTag();
-        LockService.startNow(getContext(), startTime, endTime);
+        BlockService.startNow(startTime, endTime);
         Context context = getContext();
         if (context != null) {
             context.unregisterReceiver(timeReceiver);

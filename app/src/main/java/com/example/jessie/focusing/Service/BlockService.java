@@ -21,6 +21,7 @@ import com.example.jessie.focusing.Model.Profile;
 import com.example.jessie.focusing.Model.UsageManager;
 import com.example.jessie.focusing.R;
 import com.example.jessie.focusing.Utils.AppConstants;
+import com.example.jessie.focusing.Utils.ShredPreferenceUtils;
 import com.example.jessie.focusing.Utils.TimeHelper;
 import com.example.jessie.focusing.View.Countdown.CountdownActivity;
 import com.example.jessie.focusing.View.Finish.FinishActivity;
@@ -44,12 +45,12 @@ import static com.example.jessie.focusing.Utils.AppConstants.START_TIME;
  * @date : 12-12-2018
  * @time : 23:42
  */
-public class LockService extends IntentService {
+public class BlockService extends IntentService {
 
     public static final String INTERVAL = "interval";
     public static final String TO_UPDATE = "to_update";
     public static final int DEF_INTERVAL = 100; //ms
-    private static final String TAG = LockService.class.getSimpleName();
+    private static final String TAG = BlockService.class.getSimpleName();
     private final int SERVICE_ID;
     private String PACKAGE_NAME;
     private AppInfoManager appInfoManager;
@@ -58,46 +59,38 @@ public class LockService extends IntentService {
     private long appStartTime = 0;
     private boolean isLocked = false;
     private int interval = -1;
-    private long startNowStartTime = -1, startNowEndTime = -1, startNowFocusedTime = 0;
     private Set<Profile> startedProfiles;
     private boolean toUpdateProfiles = false;
 
-    public LockService() {
-        super("LockService");
-        SERVICE_ID = "LockService".hashCode();
+    public BlockService() {
+        super("BlockService");
+        SERVICE_ID = "BlockService".hashCode();
+    }
+
+    public static void start(Context context) {
+        start(context, DEF_INTERVAL);
+    }
+
+    public static void pause(Context context) {
+        start(context, -1);
     }
 
     public static void start(Context context, int interval) {
-        Intent intent = new Intent(context, LockService.class);
+        Intent intent = new Intent(context, BlockService.class);
         intent.putExtra(INTERVAL, interval);
         start(context, intent);
     }
 
     /**
-     * Restarts {@link LockService} and specify if to update profile settings.
+     * Restarts {@link BlockService} and specify if to update profile settings.
      *
      * @param context
      * @param toUpdate if to update profile settings
      */
     public static void updateProfiles(Context context, boolean toUpdate) {
-        Intent intent = new Intent(context, LockService.class);
+        Intent intent = new Intent(context, BlockService.class);
         intent.putExtra(INTERVAL, DEF_INTERVAL);
         intent.putExtra(TO_UPDATE, toUpdate);
-        start(context, intent);
-    }
-
-    /**
-     * Used for Start Now
-     *
-     * @param context
-     * @param startTime the start time of start now
-     * @param endTime   the end time of start now
-     */
-    public static void startNow(Context context, long startTime, long endTime) {
-        Intent intent = new Intent(context, LockService.class);
-        intent.putExtra(INTERVAL, DEF_INTERVAL);
-        intent.putExtra(START_TIME, startTime);
-        intent.putExtra(END_TIME, endTime);
         start(context, intent);
     }
 
@@ -109,10 +102,30 @@ public class LockService extends IntentService {
         }
     }
 
-    public static void stopStartNow(Context context) {
+    public static void startNow(long startTime, long endTime) {
+        ShredPreferenceUtils sp = ShredPreferenceUtils.getInstance();
+        sp.putLong(START_TIME, startTime);
+        sp.putLong(END_TIME, endTime);
+        Log.i(TAG, "Start Time is: " +
+                (startTime < 0 ? startTime : TimeHelper.toString(startTime)));
+        Log.i(TAG, "End Time is: " +
+                (endTime < 0 ? endTime : TimeHelper.toString(endTime)));
+    }
+
+    public static void stopStartNow() {
+        startNow(-1, -1);
         Log.i(TAG, "Stop start now.");
         AppInfoManager.reset(Profile.START_NOW_PROFILE_ID);
-        startNow(context, -1, -1);
+    }
+
+    public static long getStartNowStartTime() {
+        ShredPreferenceUtils sp = ShredPreferenceUtils.getInstance();
+        return sp.getLong(START_TIME, -1);
+    }
+
+    public static long getStartNowEndTime() {
+        ShredPreferenceUtils sp = ShredPreferenceUtils.getInstance();
+        return sp.getLong(END_TIME, -1);
     }
 
     @Override
@@ -145,15 +158,9 @@ public class LockService extends IntentService {
         if (intent != null) {
             // Keep the original value if did not specified.
             interval = intent.getIntExtra(INTERVAL, interval);
-            startNowStartTime = intent.getLongExtra(START_TIME, startNowStartTime);
-            startNowEndTime = intent.getLongExtra(END_TIME, startNowEndTime);
             toUpdateProfiles = intent.getBooleanExtra(TO_UPDATE, false);
         }
         Log.i(TAG, "Interval is: " + interval);
-        Log.i(TAG, "Start Time is: " +
-                (startNowStartTime < 0 ? startNowStartTime : TimeHelper.toString(startNowStartTime)));
-        Log.i(TAG, "End Time is: " +
-                (startNowEndTime < 0 ? startNowEndTime : TimeHelper.toString(startNowEndTime)));
         Log.i(TAG, "To update profile settings: " + toUpdateProfiles);
         super.onStart(intent, startId);
     }
@@ -168,7 +175,7 @@ public class LockService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         Log.i(TAG, "onHandleIntent, Interval is: " + interval);
         while (interval > 0) {
-            checkToLock();
+            checkToBlock();
             if (toUpdateProfiles) {
                 updateProfiles();
                 toUpdateProfiles = false;
@@ -199,8 +206,8 @@ public class LockService extends IntentService {
      * <p>
      * It also used to record app's screen time and open times when the app on top changes.
      */
-    private void checkToLock() {
-        String packageName = getLauncherTopApp(LockService.this);
+    private void checkToBlock() {
+        String packageName = getLauncherTopApp(BlockService.this);
         if (LAUNCHER_PACKAGE_NAME.equals(packageName)) {
             recordScreenTime();
         }
@@ -213,6 +220,7 @@ public class LockService extends IntentService {
                         .anyMatch(a -> a.getProfId() == Profile.START_NOW_PROFILE_ID);
                 long endTime;
                 boolean isStartNow;
+                long startNowEndTime = getStartNowEndTime();
                 if (startNow && startNowEndTime >= System.currentTimeMillis()) {
                     endTime = startNowEndTime;
                     isStartNow = true;
@@ -221,7 +229,7 @@ public class LockService extends IntentService {
                     isStartNow = false;
                 }
                 if (endTime > System.currentTimeMillis()) {
-                    lockApp(packageName, endTime, isStartNow);
+                    blockApp(packageName, endTime, isStartNow);
                 } else toLock = false;
             }
             recordOpenTimes(packageName, toLock);
@@ -242,7 +250,8 @@ public class LockService extends IntentService {
         // refresh the profile set
         startedProfiles.removeIf(profile -> profile.getEndTime() <= now);
         if (toResetStartNow()) {
-            focusedTime += Math.max(startNowEndTime - startNowStartTime, 0);
+            long duration = getStartNowEndTime() - getStartNowStartTime();
+            focusedTime += Math.max(duration, 0);
             resetStartNow();
         }
         if (focusedTime > 0) {
@@ -256,7 +265,7 @@ public class LockService extends IntentService {
      * @return
      */
     private boolean toResetStartNow() {
-        return startNowEndTime > -1 && startNowEndTime <= System.currentTimeMillis();
+        return getStartNowStartTime() > -1 && getStartNowEndTime() <= System.currentTimeMillis();
     }
 
     /**
@@ -267,12 +276,12 @@ public class LockService extends IntentService {
     private void resetStartNow() {
         // NOTE: update endTime if earlier than Now.
         // i.e., start_now had finished.
+        long startNowStartTime = getStartNowStartTime();
+        long startNowEndTime = getStartNowEndTime();
         FocusTimeStats focusTimeStats = new FocusTimeStats(startNowStartTime, startNowEndTime);
         focusTimeStats.save();
-        startNowStartTime = -1;
-        startNowEndTime = -1;// reset start now end time
-        AppInfoManager.reset(Profile.START_NOW_PROFILE_ID);
-        Log.i(TAG, "Reset start now time");
+        // reset start now end time
+        stopStartNow();
     }
 
     /**
@@ -282,8 +291,8 @@ public class LockService extends IntentService {
      * @param endTime     the end time of locking.
      * @param isStartNow  specify if the app is in "Start Now" profile.
      */
-    private void lockApp(String packageName, long endTime, boolean isStartNow) {
-        Log.i(TAG, "Lock app: " + packageName);
+    private void blockApp(String packageName, long endTime, boolean isStartNow) {
+        Log.i(TAG, "Block app: " + packageName);
         Log.i(TAG, "End Time:" + TimeHelper.toString(endTime));
         if (endTime < System.currentTimeMillis()) {
             Log.e(TAG, "End Time has been reached:" + TimeHelper.toString(endTime));
@@ -292,9 +301,6 @@ public class LockService extends IntentService {
         Intent intent = new Intent(this, CountdownActivity.class);
         intent.putExtra(AppConstants.LOCK_PACKAGE_NAME, packageName);
         intent.putExtra(CountdownActivity.IS_START_NOW, isStartNow);
-        if (isStartNow) {
-            intent.putExtra(START_TIME, startNowStartTime);
-        }
         intent.putExtra(END_TIME, endTime);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);

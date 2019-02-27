@@ -32,10 +32,10 @@ public class RebootBroadcastReceiver extends BroadcastReceiver {
             return;
         }
         switch (action) {
-            case ACTION_BOOT_COMPLETED:
             case REBOOT_ACTION:
+            case ACTION_BOOT_COMPLETED:
             case ACTION_SCREEN_ON:
-                LockService.start(context, 100);
+                BlockService.start(context);
                 break;
             case Intent.ACTION_TIME_TICK:
                 Calendar calendar = Calendar.getInstance();
@@ -59,12 +59,12 @@ public class RebootBroadcastReceiver extends BroadcastReceiver {
                     }
                     Log.i(TAG, "Save Profile to FocusTimeStats");
                 }
-                if (!isMyServiceRunning(LockService.class, context)) {
-                    LockService.start(context, 100);
+                if (!isMyServiceRunning(BlockService.class, context)) {
+                    BlockService.start(context);
                 }
                 break;
             case ACTION_SCREEN_OFF:
-                LockService.start(context, -1);
+                BlockService.pause(context);
                 break;
         }
     }

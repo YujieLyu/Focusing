@@ -6,7 +6,7 @@ import android.widget.Button;
 
 import com.example.jessie.focusing.Model.FocusTimeStats;
 import com.example.jessie.focusing.R;
-import com.example.jessie.focusing.Service.LockService;
+import com.example.jessie.focusing.Service.BlockService;
 import com.example.jessie.focusing.Utils.LockUtil;
 import com.example.jessie.focusing.Utils.StatusBarUtil;
 import com.example.jessie.focusing.View.Main.MainActivity;
@@ -15,7 +15,6 @@ import com.example.jessie.focusing.View.Shared.BaseSingleTaskActivity;
 import cn.iwgang.countdownview.CountdownView;
 
 import static com.example.jessie.focusing.Utils.AppConstants.END_TIME;
-import static com.example.jessie.focusing.Utils.AppConstants.START_TIME;
 import static com.example.jessie.focusing.Utils.TimeHelper.DAY_IN_MILLIS;
 
 /**
@@ -29,7 +28,6 @@ public class CountdownActivity extends BaseSingleTaskActivity implements Countdo
     private static final String TAG = CountdownActivity.class.getSimpleName();
     private CountdownView cdv_count;
     private boolean isStartNow;
-    private long startTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +42,10 @@ public class CountdownActivity extends BaseSingleTaskActivity implements Countdo
             Intent intent = new Intent(CountdownActivity.this, MainActivity.class);
             startActivity(intent);
             if (isStartNow) {
+                long startTime = BlockService.getStartNowStartTime();
                 FocusTimeStats focusTimeStats = new FocusTimeStats(startTime, System.currentTimeMillis());
                 focusTimeStats.save();
-                LockService.stopStartNow(this);
+                BlockService.stopStartNow();
             }
         });
         StatusBarUtil.setStatusTransparent(this);
@@ -65,14 +64,12 @@ public class CountdownActivity extends BaseSingleTaskActivity implements Countdo
 
     protected void initData() {
         isStartNow = getIntent().getBooleanExtra(IS_START_NOW, false);
-        startTime = getIntent().getLongExtra(START_TIME, -1);
         long endTime = getIntent().getLongExtra(END_TIME, -1);
-        long currTimeStart = System.currentTimeMillis();
-        long countTime;
-        if (currTimeStart < endTime) {
-            countTime = endTime - currTimeStart;
-        } else {
-            countTime = endTime - currTimeStart + DAY_IN_MILLIS;
+        long now = System.currentTimeMillis();
+
+        long countTime = endTime - now;
+        if (countTime < 0) {
+            countTime += DAY_IN_MILLIS;
         }
         cdv_count.start(countTime);
     }

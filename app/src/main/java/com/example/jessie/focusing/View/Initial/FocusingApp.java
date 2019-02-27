@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 
-import com.example.jessie.focusing.Service.LockService;
+import com.example.jessie.focusing.Service.BlockService;
 import com.example.jessie.focusing.Service.RebootBroadcastReceiver;
 
 import org.litepal.LitePal;
@@ -25,7 +25,7 @@ public class FocusingApp extends Application {
         filter.addAction(Intent.ACTION_SCREEN_OFF);
         RebootBroadcastReceiver receiver = new RebootBroadcastReceiver();
         registerReceiver(receiver, filter);
-        LockService.start(this, 100);
+        BlockService.start(this);
         ComponentName cpt = new ComponentName(this, RebootBroadcastReceiver.class);
         PackageManager pm = getPackageManager();
 
