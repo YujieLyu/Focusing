@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
-import com.example.jessie.focusing.Model.FocusTimeManager;
 import com.example.jessie.focusing.Model.FocusTimeStats;
 import com.example.jessie.focusing.R;
 import com.example.jessie.focusing.Service.LockService;
@@ -29,7 +28,6 @@ public class CountdownActivity extends BaseSingleTaskActivity implements Countdo
     public static final String IS_START_NOW = "is_start_now";
     private static final String TAG = CountdownActivity.class.getSimpleName();
     private CountdownView cdv_count;
-    private FocusTimeManager focusTimeManager;
     private boolean isStartNow;
     private long startTime;
 
@@ -51,7 +49,6 @@ public class CountdownActivity extends BaseSingleTaskActivity implements Countdo
                 LockService.stopStartNow(this);
             }
         });
-        focusTimeManager = new FocusTimeManager();
         StatusBarUtil.setStatusTransparent(this);
     }
 

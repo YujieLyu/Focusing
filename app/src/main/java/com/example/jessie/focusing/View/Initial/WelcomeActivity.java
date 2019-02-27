@@ -61,7 +61,7 @@ public class WelcomeActivity extends BaseSingleTaskActivity {
     }
 
     private void toMainActivity() {
-//        SeedData.initialize();
+//        SeedData.initialize(); // dummy data for experiment
         AppInfoUtils appInfoUtils = new AppInfoUtils(this);
         appInfoUtils.scanAppsList();
         Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
@@ -84,7 +84,6 @@ public class WelcomeActivity extends BaseSingleTaskActivity {
                 if (hasUsagePermission(WelcomeActivity.this)) {
                     toMainActivity();
                 } else {
-                    // mcl: better to prompt msg to users
                     finish();
                 }
                 break;

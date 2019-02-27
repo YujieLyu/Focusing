@@ -1,12 +1,10 @@
 package com.example.jessie.focusing.View.Schedule;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.CalendarView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 
 import com.example.jessie.focusing.Controller.Adapter.ScheduleListAdapter;
 import com.example.jessie.focusing.R;
@@ -22,31 +20,22 @@ import java.util.Calendar;
  */
 public class ScheduleActivity extends AppCompatActivity {
     private ScheduleListAdapter scheduleListAdapter;
-    private ListView lv_profInSchedule;
-    private RelativeLayout scheduleLayout;
-    private CalendarView calendarView;
-    private long chosenDay;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule);
-        lv_profInSchedule = findViewById(R.id.lv_prof_list);
+        ListView lv_profInSchedule = findViewById(R.id.lv_prof_list);
         scheduleListAdapter = new ScheduleListAdapter(this);
         lv_profInSchedule.setAdapter(scheduleListAdapter);
-        calendarView = findViewById(R.id.calendar);
-        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-            @Override
-            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                Calendar calendar = Calendar.getInstance();
-                calendar.set(year, month, dayOfMonth);
-                initData(calendar);
-            }
+        CalendarView calendarView = findViewById(R.id.calendar);
+        calendarView.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(year, month, dayOfMonth);
+            initData(calendar);
         });
-        scheduleLayout = findViewById(R.id.schedulelayout);
         initData(Calendar.getInstance());
-//        initLayoutBackground();
         StatusBarUtil.setStatusTransparent(this);
         StatusBarUtil.setDarkStatusIcon(this, true);
     }
@@ -54,16 +43,6 @@ public class ScheduleActivity extends AppCompatActivity {
     private void initData(Calendar calendar) {
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
         scheduleListAdapter.setData(dayOfWeek);
-
     }
-
-//    private void initLayoutBackground() {
-//
-//        final Resources resources = this.getResources();
-//        Bitmap bmp = BitmapFactory.decodeResource(resources, R.drawable.fruitclock);
-//        Bitmap b = rsBlur(ScheduleActivity.this, bmp, 25);
-//        scheduleLayout.setBackground(new BitmapDrawable(b));
-//
-//    }
 
 }

@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.example.jessie.focusing.Model.AppInfoManager;
 import com.example.jessie.focusing.Model.Profile;
 import com.example.jessie.focusing.R;
 import com.example.jessie.focusing.Utils.BaseOnSwipeStatusListener;
@@ -33,11 +32,9 @@ public class ProfileListAdapter extends BaseAdapter {
     private final Set<SwipeItemLayout> tempItemSet;
     private List<Profile> profiles = new ArrayList<>();
     private Context context;
-    private AppInfoManager appInfoManager;
 
     public ProfileListAdapter(Context context) {
         this.context = context;
-        appInfoManager = new AppInfoManager();
         tempItemSet = new HashSet<>();
     }
 
