@@ -1,6 +1,6 @@
 # Focusing
 
-Focusing is an Android application for self-control of smartphone application usage.  
+Focusing is an Android application for self-control of smartphone application usage for my graduation computing project.  
 
 ## Getting Started
 
