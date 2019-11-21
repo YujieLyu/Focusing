@@ -58,8 +58,10 @@ Pre-set a "**Reading**" profile for testing the concurrency process of instant f
 8. Cancel focusing task:
 
    - Instagram and Facebook can be open
+   
+Demo:
 
-     
+     <video src="https://github.com/YujieLyu/Focusing/blob/master/focusnow.mp4" controls="controls" width="640" height="320" autoplay="autoplay"></video>
 
 #### **Part B: My Profiles**
 
@@ -91,7 +93,10 @@ Pre-set a "**Reading**" profile for testing the concurrency process of instant f
 
    - Facebook and Spotify can be open as usual.
 
-     
+ Demo:
+
+     <video src="https://github.com/YujieLyu/Focusing/blob/master/profile.mp4" controls="controls" width="640" height="320" autoplay="autoplay"></video>
+    
 
 #### **Part C: My schedule**
 
@@ -102,8 +107,12 @@ Pre-set a "**Reading**" profile for testing the concurrency process of instant f
    - The profiles listed match the profile Settings for the selected date.
 
    - Be able to open certain profile item to look through or modify when clicking certain items.
+   
+ Demo:
 
-     #### 
+     <video src="https://github.com/YujieLyu/Focusing/blob/master/schedule.mp4" controls="controls" width="640" height="320" autoplay="autoplay"></video>
+
+  #### 
 
 #### **Part D: Time statistic**
 
@@ -120,6 +129,9 @@ Pre-set a "**Reading**" profile for testing the concurrency process of instant f
    - Instagram's screen time is increased by 10 minutes.
    - Instagram's open times out focus time add 1.
 
+ Demo:
+
+     <video src="https://github.com/YujieLyu/Focusing/blob/master/statistic.mp4" controls="controls" width="640" height="320" autoplay="autoplay"></video>
 
 
 ## Built With
