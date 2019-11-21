@@ -60,9 +60,9 @@ Pre-set a "**Reading**" profile for testing the concurrency process of instant f
    - Instagram and Facebook can be open
    
 Demo:
-<video id="video" controls="" preload="none">
-<source id="mp4" src="https://github.com/YujieLyu/Focusing/blob/master/focusnow.mp4" type="video/mp4">
-</video>
+	<video id="video" controls="" preload="none">
+	<source id="mp4" src="https://github.com/YujieLyu/Focusing/blob/master/focusnow.mp4" type="video/mp4">
+	</video>
 
 #### **Part B: My Profiles**
 
