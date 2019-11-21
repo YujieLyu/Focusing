@@ -96,7 +96,7 @@ Demo:
 
  Demo:
 
-     <video src="https://github.com/YujieLyu/Focusing/blob/master/profile.mp4" controls="controls" width="640" height="320" autoplay="autoplay"></video>
+   ![](https://s23.aconvert.com/convert/p3r68-cdx67/gnure-wkgzt.gif)
     
 
 #### **Part C: My schedule**
