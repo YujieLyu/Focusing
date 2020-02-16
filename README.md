@@ -17,7 +17,7 @@ Focusing is an Android application for self-control of smartphone application us
 3. Select connected devices (your testing phone).
 4. Run the program.
 
-## Running tests
+## Running tests with Demos
 
 #### **Preparation:**
 
