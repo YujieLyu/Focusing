@@ -7,8 +7,9 @@ Focusing is an Android application for self-control of smartphone application us
 #### **Prerequisites**
 
 1. Android studio version: 3.3.1+
-2. The minimal SDK version : API 26
-3. Gradle version: 3.3.1
+2. The target SDK version: API 28 
+3. The minimal SDK version: API 26
+4. Gradle version: 3.3.1
 
 #### **Compiling and Installing**
 
