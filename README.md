@@ -12,7 +12,7 @@ Focusing is an Android application for self-control of smartphone application us
 
 #### **Compiling and Installing**
 
-1. Download the source code.
+1. Clone the source code.
 2. Open it through Android studio.
 3. Select connected devices (your testing phone).
 4. Run the program.
