@@ -32,7 +32,7 @@
         android:fontFamily="@font/roboto_light"
         android:gravity="start"
         android:padding="10dp"
-        android:text="You have saved "
+        android:text="You've been focused "
         android:textColor="@color/colorPrimary"
         android:textSize="18sp"
         android:textStyle="bold" />
@@ -45,7 +45,7 @@
         android:fontFamily="@font/roboto_light"
         android:gravity="center"
         android:padding="10dp"
-        android:text="Weekly Use Time (Mins)"
+        android:text="Weekly Focusing Time (Mins)"
         android:textColor="@color/colorPrimary"
         android:textSize="15sp" />
 
