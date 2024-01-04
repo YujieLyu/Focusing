@@ -1,64 +1,6 @@
 # Focusing
 
 Focusing is an Android application for self-control of smartphone application usage for my graduation computing project.  
-
-## Getting Started
-
-#### **Prerequisites**
-
-1. Android studio version: 3.3.1+
-2. The target SDK version: API 28 
-3. The minimal SDK version: API 26
-4. Gradle version: 3.3.1
-
-#### **Compiling and Installing**
-
-1. Clone the source code.
-2. Open it through Android studio.
-3. Select connected devices (your testing phone).
-4. Run the program.
-
-## Running tests with Demos
-
-#### **Preparation:**
-
-Pre-set a "**Reading**" profile for testing the concurrency process of instant focus task and profile:
-
-- Apps to block: Instagram
-- Start time: 6:00
-- End time: 23:50
-- Repeat: Select the current day of week
-
-#### **Part A: Focus Now**
-
-1. Click "**Focus Now**" on the homepage.
-
-2. Select "Instagram", "Facebook" to block.
-
-3. Set 1 hour for this focusing task.
-
-4. Click "**Start**"
-
-   Check if:
-
-   - Instagram and Facebook are both blocked.
-   - The countdown views of Instagram and Facebook both show 1 hour.
-
-5. Kill **Focusing**(remove this running app from system recent task list):
-
-   - Both of them can still be blocked.
-
-6. After 1 hour, a finish view will show up.
-
-7. Then try to open Instagram and Facebook:
-
-   - Facebook can be open as usual.
-   - Instagram is blocked because of the "**Reading**" profile.
-   -  The countdown time is the interval from now to 23:50.
-
-8. Cancel focusing task:
-
-   - Instagram and Facebook can be open
    
 Demo:
 
@@ -132,6 +74,64 @@ Demo:
 Demo:
 
 ![](https://github.com/YujieLyu/Focusing/blob/master/stats.gif)
+
+## Getting Started
+
+#### **Prerequisites**
+
+1. Android studio version: 3.3.1+
+2. The target SDK version: API 28 
+3. The minimal SDK version: API 26
+4. Gradle version: 3.3.1
+
+#### **Compiling and Installing**
+
+1. Clone the source code.
+2. Open it through Android studio.
+3. Select connected devices (your testing phone).
+4. Run the program.
+
+## Running tests with Demos
+
+#### **Preparation:**
+
+Pre-set a "**Reading**" profile for testing the concurrency process of instant focus task and profile:
+
+- Apps to block: Instagram
+- Start time: 6:00
+- End time: 23:50
+- Repeat: Select the current day of week
+
+#### **Part A: Focus Now**
+
+1. Click "**Focus Now**" on the homepage.
+
+2. Select "Instagram", "Facebook" to block.
+
+3. Set 1 hour for this focusing task.
+
+4. Click "**Start**"
+
+   Check if:
+
+   - Instagram and Facebook are both blocked.
+   - The countdown views of Instagram and Facebook both show 1 hour.
+
+5. Kill **Focusing**(remove this running app from system recent task list):
+
+   - Both of them can still be blocked.
+
+6. After 1 hour, a finish view will show up.
+
+7. Then try to open Instagram and Facebook:
+
+   - Facebook can be open as usual.
+   - Instagram is blocked because of the "**Reading**" profile.
+   -  The countdown time is the interval from now to 23:50.
+
+8. Cancel focusing task:
+
+   - Instagram and Facebook can be open
 
 ## Built With
 
